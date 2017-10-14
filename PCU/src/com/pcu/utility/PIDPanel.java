@@ -1,0 +1,1 @@
+package com.pcu.utility;import java.awt.*;import javax.swing.*;import java.awt.event.*;import com.hospital_os.utility.*;/** * <p>Title: </p> * <p>Description: </p> * <p>Copyright: Copyright (c) 2003</p> * <p>Company: </p> * @author neng * @version 1.0 */public class PIDPanel extends com.hospital_os.utility.PIDPanel{}

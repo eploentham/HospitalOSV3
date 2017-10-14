@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="rp_09_02"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="842"
+		 pageHeight="595"
+		 columnWidth="782"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="date_to" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date_from" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="time" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="date_report" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="site_name" isForPrompting="false" class="java.lang.String"/>
+	<queryString><![CDATA[SELECT
+q1.name as "ชื่อ-สกุล"
+,q1.bt as วันเกิด
+,case when q1.year is not null and q1.month is not null and q1.day is null then q1.year ||'/'||q1.month ||'/'||'0' 
+      when q1.year is not null and q1.month is  null and q1.day is not null then q1.year ||'/'||'0'||'/'||q1.day 
+      when q1.year is not null and q1.month is  null and q1.day is null then q1.year ||'/'||'0'||'/'||'0'  
+      when q1.year is not null and q1.month is not null and q1.day is not null then q1.year ||'/'||q1.month ||'/'||q1.day 
+      when q1.year is  null and q1.month is not null and q1.day is not null then '0'||'/'||q1.month ||'/'||q1.day 
+      when q1.year is  null and q1.month is  null and q1.day is not null then '0' ||'/'||'0'||'/'||q1.day else '' 
+end as อายุปัจจุบัน
+,q1.visit as วันตรวจ
+,case when q1.y2 is not null and q1.m2 is not null and q1.d2 is null then q1.y2 ||'/'||q1.m2 ||'/'||'0' 
+      when q1.y2 is not null and q1.m2 is  null and q1.d2 is not null then q1.y2 ||'/'||'0'||'/'||q1.d2 
+      when q1.y2 is not null and q1.m2 is  null and q1.d2 is null then q1.y2 ||'/'||'0'||'/'||'0'  
+      when q1.y2 is not null and q1.m2 is not null and q1.d2 is not null then q1.y2 ||'/'||q1.m2 ||'/'||q1.d2 
+      when q1.y2 is  null and q1.m2 is not null and q1.d2 is not null then '0'||'/'||q1.m2 ||'/'||q1.d2 
+      when q1.y2 is  null and q1.m2 is  null and q1.d2 is not null then '0' ||'/'||'0'||'/'||q1.d2 else '' 
+end as อายุวันตรวจ
+,q1.address as บ้านเลขที่
+,q1.address2 as หมู่
+,q1.breast as เต้านม
+,q1.cervix as ปากมดลูก
+,q1.plans as สิทธิ
+,q1.cardNumber as เลขที่บัตร
+,q1.id as "เลขที่บัตร ปปช."
+FROM
+(select 
+f_patient_prefix.patient_prefix_description ||' '|| t_health_family.patient_name ||' '|| t_health_family.patient_last_name AS name
+,t_health_family.patient_birthday as bt
+,substring(t_visit.visit_begin_visit_time,1,10) as visit
+,contract_plans_description as plans
+,t_visit_payment.visit_payment_card_number as cardNumber
+
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(CURRENT_DATE, to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)year'), '999') end as year
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(CURRENT_DATE, to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)mons'), '999') end as month
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(CURRENT_DATE, to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)days'), '999') end as day
+
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(to_date(((to_number(substring(t_visit.visit_begin_visit_time, 1, 4), '9999') -543) || substring(t_visit.visit_begin_visit_time, 5, 6)), 'YYYY-MM-DD'), to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)year'), '999') end as y2
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(to_date(((to_number(substring(t_visit.visit_begin_visit_time, 1, 4), '9999') -543) || substring(t_visit.visit_begin_visit_time, 5, 6)), 'YYYY-MM-DD'), to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)mons'), '999') end as m2
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(to_date(((to_number(substring(t_visit.visit_begin_visit_time, 1, 4), '9999') -543) || substring(t_visit.visit_begin_visit_time, 5, 6)), 'YYYY-MM-DD'), to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)days'), '999') end as d2
+
+,t_visit.visit_patient_age  AS age
+,t_health_home.health_home_house as address
+,t_health_home.health_home_moo AS  address2
+,t_health_family.patient_pid  AS id
+,case when health_family_planing_breast_exam <> '' AND health_family_planing_breast_exam = '0' then 'ไม่ตรวจ' 
+when health_family_planing_breast_exam <> '' AND health_family_planing_breast_exam = '1' then 'ปกติ'
+when health_family_planing_breast_exam <> '' AND health_family_planing_breast_exam = '2' then 'ไม่ปกติ'
+when health_family_planing_breast_exam <> '' AND health_family_planing_breast_exam = '3' then 'รอฟังผล'
+ else '' end as breast
+
+,case when health_family_planing_cervix_exam <> '' AND health_family_planing_cervix_exam = '0' then 'ไม่ตรวจ' 
+when health_family_planing_cervix_exam <> '' AND health_family_planing_cervix_exam = '1' then 'ปกติ'
+when health_family_planing_cervix_exam <> '' AND health_family_planing_cervix_exam = '2' then 'ไม่ปกติ'
+when health_family_planing_cervix_exam <> '' AND health_family_planing_cervix_exam = '3' then 'รอฟังผล' else '' end as cervix
+
+from 
+t_health_family_planing
+    INNER JOIN t_health_family
+    ON t_health_family_planing.t_health_family_id=t_health_family.t_health_family_id
+    INNER JOIN f_patient_prefix
+    ON t_health_family.f_prefix_id=f_patient_prefix.f_patient_prefix_id
+    INNER JOIN t_visit
+    ON t_health_family_planing.t_visit_id=t_visit.t_visit_id
+    INNER JOIN t_health_home
+    ON t_health_family.t_health_home_id=t_health_home.t_health_home_id
+    INNER JOIN t_patient ON t_patient.t_patient_id = t_visit.t_patient_id
+    INNER JOIN t_visit_payment ON t_visit_payment.t_visit_id = t_visit.t_visit_id
+    INNER JOIN b_contract_plans ON t_visit_payment.b_contract_plans_id = b_contract_plans.b_contract_plans_id
+
+
+
+where
+    t_visit.f_visit_status_id <> '4'
+AND t_visit_payment.visit_payment_active = '1'
+AND t_visit_payment.visit_payment_priority = '0'
+AND t_health_family_planing.health_family_planing_active = '1'
+
+
+AND substring(t_health_family_planing.record_date_time,1,10) Between substring($P{date_from},1,10) and substring($P{date_to},1,10) ) as q1
+ORDER BY
+q1.visit]]></queryString>
+
+	<field name="ชื่อ-สกุล" class="java.lang.String"/>
+	<field name="วันเกิด" class="java.lang.String"/>
+	<field name="อายุปัจจุบัน" class="java.lang.String"/>
+	<field name="วันตรวจ" class="java.lang.String"/>
+	<field name="อายุวันตรวจ" class="java.lang.String"/>
+	<field name="บ้านเลขที่" class="java.lang.String"/>
+	<field name="หมู่" class="java.lang.String"/>
+	<field name="เต้านม" class="java.lang.String"/>
+	<field name="ปากมดลูก" class="java.lang.String"/>
+	<field name="สิทธิ" class="java.lang.String"/>
+	<field name="เลขที่บัตร" class="java.lang.String"/>
+	<field name="เลขที่บัตร ปปช." class="java.lang.String"/>
+
+	<variable name="record_no" class="java.lang.Integer" resetType="Report" calculation="Count">
+		<variableExpression><![CDATA[$F{ชื่อ-สกุล}]]></variableExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="50"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="782"
+						height="50"
+						key="textField-1"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="AngsanaUPC" size="18"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["รายชื่อผู้ที่ได้รับการตรวจมะเร็ง ในระหว่างวันที่ "+ $P{time}+"                    วันที่ออกรายงาน: "+ $P{date_report}+
+"\nสถานพยาบาล(สถานีอนามัย) "+ $P{site_name}]]></textFieldExpression>
+				</textField>
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="32"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="0"
+						width="131"
+						height="32"
+						key="textField-4"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ชื่อ-สกุล"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="160"
+						y="0"
+						width="22"
+						height="32"
+						key="textField-5"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["บ้านเลขที่"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="182"
+						y="0"
+						width="22"
+						height="32"
+						key="textField-6"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["หมู่ที่"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="204"
+						y="0"
+						width="52"
+						height="32"
+						key="textField-7"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ว/ด/ป เกิด"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="256"
+						y="0"
+						width="41"
+						height="32"
+						key="textField-8"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["อายุปัจจุบัน(ป/ด/ว)"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="297"
+						y="0"
+						width="58"
+						height="32"
+						key="textField-9"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ว/ด/ป ตรวจ"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="355"
+						y="0"
+						width="47"
+						height="32"
+						key="textField-10"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["อายุถึงวันตรวจ(ป/ด/ว)"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="402"
+						y="0"
+						width="54"
+						height="32"
+						key="textField-11"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["มะเร็งเต้านม"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="456"
+						y="0"
+						width="51"
+						height="32"
+						key="textField-12"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["มะเร็งปากมดลูก"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="507"
+						y="0"
+						width="116"
+						height="32"
+						key="textField-13"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["สิทธิ"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="623"
+						y="0"
+						width="68"
+						height="32"
+						key="textField-14"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["เลขที่บัตรฯ"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="691"
+						y="0"
+						width="83"
+						height="32"
+						key="textField-15"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["เลขที่บัตร ปปช."]]></textFieldExpression>
+				</textField>
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="21"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="0"
+						width="131"
+						height="21"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{ชื่อ-สกุล}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="160"
+						y="0"
+						width="22"
+						height="21"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{บ้านเลขที่}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="182"
+						y="0"
+						width="22"
+						height="21"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{หมู่}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="204"
+						y="0"
+						width="52"
+						height="21"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{วันเกิด}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="256"
+						y="0"
+						width="41"
+						height="21"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{อายุปัจจุบัน}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="297"
+						y="0"
+						width="58"
+						height="21"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{วันตรวจ}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="355"
+						y="0"
+						width="47"
+						height="21"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{อายุวันตรวจ}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="402"
+						y="0"
+						width="54"
+						height="21"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{เต้านม}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="456"
+						y="0"
+						width="51"
+						height="21"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{ปากมดลูก}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="507"
+						y="0"
+						width="116"
+						height="21"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{สิทธิ}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="623"
+						y="0"
+						width="68"
+						height="21"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{เลขที่บัตร}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="691"
+						y="0"
+						width="83"
+						height="21"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{เลขที่บัตร ปปช.}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="7"
+						y="0"
+						width="22"
+						height="21"
+						key="textField-3"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{record_no}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="37"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="782"
+						height="37"
+						key="textField-2"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["รายชื่อผู้ที่ได้รับการตรวจมะเร็งในระหว่างวันที่ " + $P{time} + " หน้า" + $V{PAGE_NUMBER}+ "\n"+
+"สถานพยาบาล(สถานีอนามัย)"+ $P{site_name}]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

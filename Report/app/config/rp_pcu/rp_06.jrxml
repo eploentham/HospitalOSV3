@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="rp_06"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="date_to" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date_from" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="time" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["กันยาคม-สิงหาคม 2552"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="site_name" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["บ้านหนองบัว อ.เมือง จ.ตรัง"]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT
+q1.moo as หมู่
+,q1.village as หมู่บ้าน
+,q1.name as ชื่อสกุล
+,q1.address as ที่อยู่
+,q1.bt as วันเกิด
+,case when (q1.y1 is not null) and (q1.m1 is not null) and (q1.d1 is null) then q1.y1 ||'/'||q1.m1 
+      when (q1.y1 is not null) and (q1.m1 is  null) and (q1.d1 is not null) then q1.y1 ||'/'||'0'||'/'||q1.d1 
+      when (q1.y1 is not null) and (q1.m1 is  null) and (q1.d1 is null) then q1.y1 ||'/'||'0'||'/'||'0'  
+      when (q1.y1 is not null) and (q1.m1 is not null) and (q1.d1 is not null) then q1.y1 ||'/'||q1.m1 ||'/'||q1.d1 
+      when (q1.y1 is  null) and (q1.m1 is not null) and (q1.d1 is not null) then '0' ||'/'||q1.m1 ||'/'||q1.d1  
+      when (q1.y1 is  null) and (q1.m1 is  null) and (q1.d1 is not null) then '0' ||'/'||'0' ||'/'||q1.d1  else '' end as อายุปัจจุบัน
+
+,q1.date_visit as วันตรวจ
+,case when (q1.y2 is not null) and (q1.m2 is not null) and (q1.d2 is null) then q1.y2 ||'/'||q1.m2 
+      when (q1.y2 is not null) and (q1.m2 is  null) and (q1.d2 is not null) then q1.y2 ||'/'||'0'||'/'||q1.d2 
+      when (q1.y2 is not null) and (q1.m2 is  null) and (q1.d2 is null) then q1.y2 ||'/'||'0'||'/'||'0'  
+      when (q1.y2 is not null) and (q1.m2 is not null) and (q1.d2 is not null) then q1.y2 ||'/'||q1.m2 ||'/'||q1.d2
+      when (q1.y2 is  null) and (q1.m2 is not null) and (q1.d2 is not null) then '0' ||'/'||q1.m2 ||'/'||q1.d2  
+      when (q1.y2 is  null) and (q1.m2 is null) and (q1.d2 is not null) then '0' ||'/'||'0' ||'/'||q1.d2  else '' end as อายุวันตรวจ
+,q1.weight as น้ำหนัก
+,q1.high as ส่วนสูง
+,q1.level as ภาวะโภชนาการ
+FROM
+
+(SELECT Distinct
+ CASE WHEN length(t_health_village.village_moo) = 1 
+      THEN '0' || t_health_village.village_moo
+      ELSE t_health_village.village_moo  
+      END AS moo
+,  t_health_village.village_name as village
+,  f_patient_prefix.patient_prefix_description ||' ' || t_health_family.patient_name ||' ' || t_health_family.patient_last_name as name
+,  t_health_home.health_home_house || ' หมู่ที่' || t_health_home.health_home_house || ' ต.' || tambol.address_description || ' อ.' || amphur.address_description || ' จ.' || f_address.address_description     as address
+,  t_health_family.patient_birthday as bt
+,  substring(t_health_nutrition.record_date_time,1,10) as date_visit
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(CURRENT_DATE, to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)year'), '999') end as y1
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(CURRENT_DATE, to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)mons'), '999') end as m1
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(CURRENT_DATE, to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)days'), '999') end as d1
+
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(to_date(((to_number(substring(t_visit.visit_begin_visit_time, 1, 4), '9999') -543) || substring(t_visit.visit_begin_visit_time, 5, 6)), 'YYYY-MM-DD'), to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)year'), '999') end as y2
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(to_date(((to_number(substring(t_visit.visit_begin_visit_time, 1, 4), '9999') -543) || substring(t_visit.visit_begin_visit_time, 5, 6)), 'YYYY-MM-DD'), to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)mons'), '999') end as m2
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(to_date(((to_number(substring(t_visit.visit_begin_visit_time, 1, 4), '9999') -543) || substring(t_visit.visit_begin_visit_time, 5, 6)), 'YYYY-MM-DD'), to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)days'), '999') end as d2
+,  t_health_nutrition.health_nutrition_weight as weight
+,  t_health_nutrition.health_nutrition_high as high
+,case when (t_health_nutrition.f_health_nutrition_level_id)='08' then  'มากเกินเกณฑ์' 
+ when (t_health_nutrition.f_health_nutrition_level_id)='09'  then 'ค่อนข้างมาก' 
+ when (t_health_nutrition.f_health_nutrition_level_id)='10'  then 'ตามเกณฑ์'
+ when (t_health_nutrition.f_health_nutrition_level_id)='11'  then 'ค่อนข้างน้อย' 
+ when (t_health_nutrition.f_health_nutrition_level_id)='12'  then 'น้อยเกินเกณฑ์' else '' end  AS Level
+FROM
+t_health_village 
+    INNER JOIN t_health_home ON t_health_village.t_health_village_id = t_health_home.t_health_village_id
+    INNER JOIN t_health_family ON t_health_home.t_health_home_id = t_health_family.t_health_home_id
+    INNER JOIN f_patient_prefix ON t_health_family.f_prefix_id = f_patient_prefix.f_patient_prefix_id
+    INNER JOIN t_patient ON t_health_family.t_health_family_id = t_patient.t_health_family_id
+    INNER JOIN t_visit ON t_visit.t_patient_id = t_patient.t_patient_id
+    INNER JOIN t_health_nutrition ON t_health_nutrition.t_visit_id = t_visit.t_visit_id
+         LEFT JOIN f_address as tambol ON t_health_home.health_home_tambon = tambol.f_address_id  
+         LEFT JOIN f_address as amphur ON t_health_home.health_home_amphur = amphur.f_address_id  
+         LEFT JOIN f_address ON t_health_home.health_home_changwat  = f_address.f_address_id  
+
+WHERE
+ (cast(substring(' ' || age(to_date(t_health_family.patient_birthday,'YYYY-MM-DD') - interval '543 year') from '(...)year') as numeric) * 12)
++ (case when ((cast(substring(' ' || age(to_date(t_health_family.patient_birthday,'YYYY-MM-DD') 
+                - interval '543 year') from '(...)mon')as numeric )) IS NULL)
+      then 0
+      else (cast(substring(' ' || age(to_date(t_health_family.patient_birthday,'YYYY-MM-DD') 
+                - interval '543 year') from '(...)mon')as numeric ))
+end )>=0
+and (cast(substring(' ' || age(to_date(t_health_family.patient_birthday,'YYYY-MM-DD') - interval '543 year') from '(...)year') as numeric) * 12)
++ (case when ((cast(substring(' ' || age(to_date(t_health_family.patient_birthday,'YYYY-MM-DD') 
+                - interval '543 year') from '(...)mon')as numeric )) IS NULL)
+      then 0
+      else (cast(substring(' ' || age(to_date(t_health_family.patient_birthday,'YYYY-MM-DD') 
+                - interval '543 year') from '(...)mon')as numeric ))
+end )<=60
+
+AND health_family_active = '1'
+AND home_active = '1'
+AND village_active = '1'
+AND health_nutrition_active = '1'
+
+
+Order by
+moo ) AS q1
+
+UNION
+SELECT
+q2.moo as หมู่
+,q2.name_moo as หมู่บ้าน
+,q2.name as ชื่อสกุล
+,q2.address as ที่อยู่
+,q2.bt as วันเกิด
+,case when (q2.y1 is not null) and (q2.m1 is not null) and (q2.d1 is null) then q2.y1 ||'/'||q2.m1 
+      when (q2.y1 is not null) and (q2.m1 is  null) and (q2.d1 is not null) then q2.y1 ||'/'||'0'||'/'||q2.d1 
+      when (q2.y1 is not null) and (q2.m1 is  null) and (q2.d1 is null) then q2.y1 ||'/'||'0'||'/'||'0'  
+      when (q2.y1 is not null) and (q2.m1 is not null) and (q2.d1 is not null) then q2.y1 ||'/'||q2.m1 ||'/'||q2.d1 
+      when (q2.y1 is  null) and (q2.m1 is not null) and (q2.d1 is not null) then '0' ||'/'||q2.m1 ||'/'||q2.d1  
+      when (q2.y1 is  null) and (q2.m1 is  null) and (q2.d1 is not null) then '0' ||'/'||'0' ||'/'||q2.d1  else '' end as อายุปัจจุบัน
+
+,q2.date_visit as วันตรวจ
+,case when (q2.y2 is not null) and (q2.m2 is not null) and (q2.d2 is null) then q2.y2 ||'/'||q2.m2 
+      when (q2.y2 is not null) and (q2.m2 is  null) and (q2.d2 is not null) then q2.y2 ||'/'||'0'||'/'||q2.d2 
+      when (q2.y2 is not null) and (q2.m2 is  null) and (q2.d2 is null) then q2.y2 ||'/'||'0'||'/'||'0'  
+      when (q2.y2 is not null) and (q2.m2 is not null) and (q2.d2 is not null) then q2.y2 ||'/'||q2.m2 ||'/'||q2.d2
+      when (q2.y2 is  null) and (q2.m2 is not null) and (q2.d2 is not null) then '0' ||'/'||q2.m2 ||'/'||q2.d2  
+      when (q2.y2 is  null) and (q2.m2 is null) and (q2.d2 is not null) then '0' ||'/'||'0' ||'/'||q2.d2  else '' end as อายุวันตรวจ
+,q2.weight as น้ำหนัก
+,q2.height as ส่วนสูง
+,case when q2.more_over = 1 then 'มากกว่าเกินฑ์' 
+      when q2.more_rather = 1 then 'ค่อนข้างมาก'
+      when q2.normal = 1 then 'ตามเกณฑ์'
+      when q2.less_rather = 1 then 'ค่อนข้างน้อย'
+      when q2.slighted_less = 1 then 'น้อยเกินเกณฑ์'
+else '' end  as ภาวะโภชนาการ
+
+FROM
+
+
+(SELECT
+ CASE WHEN length(t_health_village.village_moo) = 1 
+      THEN '0' || t_health_village.village_moo
+      ELSE t_health_village.village_moo  
+      END AS moo
+,t_health_village.village_name as name_moo
+,  f_patient_prefix.patient_prefix_description ||' ' || t_health_family.patient_name ||' ' || t_health_family.patient_last_name as name
+,  t_health_home.health_home_house || ' หมู่ที่' || t_health_home.health_home_house || ' ต.' || tambol.address_description || ' อ.' || amphur.address_description || ' จ.' || f_address.address_description     as address
+,  t_health_family.patient_birthday as bt
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(CURRENT_DATE, to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)year'), '999') end as y1
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(CURRENT_DATE, to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)mons'), '999') end as m1
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(CURRENT_DATE, to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)days'), '999') end as d1
+
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(to_date(((to_number(substring(t_visit.visit_begin_visit_time, 1, 4), '9999') -543) || substring(t_visit.visit_begin_visit_time, 5, 6)), 'YYYY-MM-DD'), to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)year'), '999') end as y2
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(to_date(((to_number(substring(t_visit.visit_begin_visit_time, 1, 4), '9999') -543) || substring(t_visit.visit_begin_visit_time, 5, 6)), 'YYYY-MM-DD'), to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)mons'), '999') end as m2
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(to_date(((to_number(substring(t_visit.visit_begin_visit_time, 1, 4), '9999') -543) || substring(t_visit.visit_begin_visit_time, 5, 6)), 'YYYY-MM-DD'), to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)days'), '999') end as d2
+,substring(t_visit.visit_begin_visit_time,1,10) as date_visit
+,t_visit_vital_sign.visit_vital_sign_weight  as weight
+,t_visit_vital_sign.visit_vital_sign_height AS height
+,CASE WHEN ((t_visit_vital_sign.f_visit_nutrition_level_id IN 
+(SELECT b_nutrition_map.f_visit_nutrition_level_old   FROM b_nutrition_map  
+WHERE b_nutrition_map.f_visit_nutrition_level_new ='08'))  OR t_visit_vital_sign.f_visit_nutrition_level_id = '08')  THEN 1  ELSE 0 END AS  more_over  
+,CASE WHEN ((t_visit_vital_sign.f_visit_nutrition_level_id IN (SELECT b_nutrition_map.f_visit_nutrition_level_old  FROM b_nutrition_map  
+WHERE b_nutrition_map.f_visit_nutrition_level_new ='09'))  OR t_visit_vital_sign.f_visit_nutrition_level_id = '09')  THEN 1  ELSE 0 END AS  more_rather  
+,CASE WHEN ((t_visit_vital_sign.f_visit_nutrition_level_id IN (SELECT b_nutrition_map.f_visit_nutrition_level_old  FROM b_nutrition_map  
+WHERE b_nutrition_map.f_visit_nutrition_level_new ='10'))OR t_visit_vital_sign.f_visit_nutrition_level_id = '10')  THEN 1  ELSE 0 END AS normal  
+,CASE WHEN ((t_visit_vital_sign.f_visit_nutrition_level_id IN (SELECT b_nutrition_map.f_visit_nutrition_level_old  FROM b_nutrition_map  
+WHERE b_nutrition_map.f_visit_nutrition_level_new ='11'))  OR t_visit_vital_sign.f_visit_nutrition_level_id = '11')  THEN 1  ELSE 0 END AS  less_rather  
+,CASE WHEN ((t_visit_vital_sign.f_visit_nutrition_level_id IN (SELECT b_nutrition_map.f_visit_nutrition_level_old  FROM b_nutrition_map  
+WHERE b_nutrition_map.f_visit_nutrition_level_new ='12'))  OR t_visit_vital_sign.f_visit_nutrition_level_id = '12')  THEN 1 ELSE 0 END AS  slighted_less 
+ 
+
+FROM  t_visit 
+        INNER JOIN t_visit_vital_sign  ON (t_visit.t_visit_id = t_visit_vital_sign.t_visit_id  AND t_visit_vital_sign.visit_vital_sign_weight <> ''  
+              AND t_visit_vital_sign.visit_vital_sign_bmi <> ''  AND t_visit_vital_sign.visit_vital_sign_active = '1')  
+        INNER JOIN (SELECT t_visit_vital_sign.t_patient_id,max(t_visit_vital_sign.visit_vital_sign_check_date || t_visit_vital_sign.visit_vital_sign_check_time) as date_max  
+                    FROM t_visit_vital_sign  WHERE t_visit_vital_sign.visit_vital_sign_check_date BETWEEN '' AND '' 
+                    AND t_visit_vital_sign.visit_vital_sign_active = '1'  
+                    GROUP BY t_visit_vital_sign.t_patient_id  ) AS query  
+
+        ON ( t_visit_vital_sign.t_patient_id= query.t_patient_id  AND (t_visit_vital_sign.visit_vital_sign_check_date || t_visit_vital_sign.visit_vital_sign_check_time) = query.date_max)  
+        INNER JOIN t_patient  ON t_patient.t_patient_id = t_visit.t_patient_id  
+        INNER JOIN t_health_family  ON t_patient.t_health_family_id = t_health_family.t_health_family_id  
+        INNER JOIN f_patient_prefix ON t_health_family.f_prefix_id = f_patient_prefix.f_patient_prefix_id
+        INNER JOIN t_health_home  ON t_health_family.t_health_home_id = t_health_home.t_health_home_id  
+         LEFT JOIN f_address as tambol ON t_health_home.health_home_tambon = tambol.f_address_id  
+         LEFT JOIN f_address as amphur ON t_health_home.health_home_amphur = amphur.f_address_id  
+         LEFT JOIN f_address ON t_health_home.health_home_changwat  = f_address.f_address_id  
+        INNER JOIN t_health_village  ON (t_health_home.t_health_village_id = t_health_village.t_health_village_id  
+        AND t_health_village.village_moo <> '0')  WHERE (substring(' ' || age(to_date('','YYYY-MM-DD')
+        ,to_date(t_health_family.patient_birthday,'YYYY-MM-DD'))  from '(...)year')) IS NULL  
+        OR  to_number(substring(' ' || age(to_date('','YYYY-MM-DD')
+        ,to_date(t_health_family.patient_birthday,'YYYY-MM-DD')) from '(...)year'),'999') < 6  
+        OR (to_number(substring(' ' || age(to_date('','YYYY-MM-DD'),to_date(t_health_family.patient_birthday,'YYYY-MM-DD')) from '(...)year'),'999') = 6 
+        AND to_number(substring(' ' || age(to_date('','YYYY-MM-DD'),to_date(t_health_family.patient_birthday,'YYYY-MM-DD')) from '(...)mon'),'999') IS NULL )  
+        AND t_visit_vital_sign.visit_vital_sign_check_date between substring($P{date_from},1,10) and substring($P{date_to},1,10)
+        GROUP BY 
+
+        t_health_village.village_moo  
+        ,t_visit_vital_sign.f_visit_nutrition_level_id  
+        ,t_visit.visit_begin_visit_time,t_health_village.village_name
+        ,f_patient_prefix.patient_prefix_description
+        ,t_health_family.patient_name
+        ,t_health_family.patient_last_name
+        ,t_health_home.health_home_house
+        ,tambol.address_description
+        ,amphur.address_description
+        ,f_address.address_description
+        ,t_patient.patient_birthday
+        ,t_health_family.patient_birthday
+        ,t_visit_vital_sign.visit_vital_sign_weight  
+        ,t_visit_vital_sign.visit_vital_sign_height ) as q2]]></queryString>
+
+	<field name="หมู่" class="java.lang.String"/>
+	<field name="หมู่บ้าน" class="java.lang.String"/>
+	<field name="ชื่อสกุล" class="java.lang.String"/>
+	<field name="ที่อยู่" class="java.lang.String"/>
+	<field name="วันเกิด" class="java.lang.String"/>
+	<field name="อายุปัจจุบัน" class="java.lang.String"/>
+	<field name="วันตรวจ" class="java.lang.String"/>
+	<field name="อายุวันตรวจ" class="java.lang.String"/>
+	<field name="น้ำหนัก" class="java.lang.String"/>
+	<field name="ส่วนสูง" class="java.lang.String"/>
+	<field name="ภาวะโภชนาการ" class="java.lang.String"/>
+
+
+		<group  name="moo" >
+			<groupExpression><![CDATA[$F{หมู่}]]></groupExpression>
+			<groupHeader>
+			<band height="19"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="51"
+						height="19"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["หมู่ที่ "+$F{หมู่}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="51"
+						y="0"
+						width="479"
+						height="19"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["หมู่บ้าน "+$F{หมู่บ้าน}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="71"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="535"
+						height="71"
+						key="textField-1"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="18"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["รายชื่อเด์กที่รับการชั่งน้ำหนักและพบภาวะโภชนาการบกพร่อง ประจำงวดที่"+$P{time}
++"\nสถานบริการ(สอ./PCU):"+$P{site_name}
++"\nติดตามสูตร:นน./อายุ(เดือน)"]]></textFieldExpression>
+				</textField>
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="36"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="41"
+						y="0"
+						width="100"
+						height="36"
+						key="textField-2"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ชื่อ-สกุล"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="141"
+						y="0"
+						width="122"
+						height="36"
+						key="textField-3"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ที่อยู่"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="263"
+						y="0"
+						width="63"
+						height="36"
+						key="textField-4"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ตรวจล่าสุดงวดนั้นๆ"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="326"
+						y="0"
+						width="48"
+						height="36"
+						key="textField-5"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["อายุนับถึงวันตรวจฯ(เดือน)"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="374"
+						y="0"
+						width="48"
+						height="36"
+						key="textField-6"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["น้ำหนัก(กก.)"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="422"
+						y="0"
+						width="48"
+						height="36"
+						key="textField-7"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ส่วนสูง(ซม.)"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="470"
+						y="0"
+						width="65"
+						height="36"
+						key="textField-9"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ภาวะโภชนาการ"]]></textFieldExpression>
+				</textField>
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="19"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="41"
+						y="0"
+						width="100"
+						height="19"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{ชื่อสกุล}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="141"
+						y="0"
+						width="122"
+						height="19"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{ที่อยู่}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="263"
+						y="0"
+						width="63"
+						height="19"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{วันตรวจ}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="326"
+						y="0"
+						width="48"
+						height="19"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{อายุวันตรวจ}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="374"
+						y="0"
+						width="48"
+						height="19"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{น้ำหนัก}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="422"
+						y="0"
+						width="48"
+						height="19"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{ส่วนสูง}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="470"
+						y="0"
+						width="65"
+						height="19"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{ภาวะโภชนาการ}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="35"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="431"
+						height="35"
+						key="textField-8"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["รายชื่อเด็กที่รับการตรวจและพบภาวะโภชนาการบกพร่อง ประจำงวดที่"+$P{time}+
+"\nสถานบริการ:"+$P{site_name}+"                 "]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="433"
+						y="0"
+						width="102"
+						height="24"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of "+$V{PAGE_COUNT}]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

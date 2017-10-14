@@ -1,0 +1,84 @@
+-- ทั่วไป (ARIC)
+SELECT  
+	r_aric_subgroup.aric_subgroup_description as aric_name
+	,  CASE WHEN (sum(opd) > 0)     
+			THEN sum(opd)   
+			ELSE 0   
+	END AS OPD
+	,  CASE WHEN (sum(ipd) > 0)  
+			THEN sum(ipd)   
+			ELSE 0   
+	END AS IPD  
+FROM   
+	r_aric_subgroup 
+	LEFT JOIN  (SELECT   
+					query1.t_visit_id
+					,      CASE WHEN (query1.f_visit_type_id = '0')  
+							THEN 1 
+							ELSE 0 
+					END AS opd
+					,    CASE WHEN (query1.f_visit_type_id = '1') 
+							THEN 1    
+							ELSE 0   
+					END AS ipd
+					,     CASE WHEN ((r_aric_group.aric_group_number = '1') AND (query1.checkDrug = '1'))  
+							THEN  'ARIC01' 	
+							WHEN ((r_aric_group.aric_group_number = '1') AND (query1.checkDrug = '0'))  
+							THEN 'ARIC02' 	
+							WHEN ((r_aric_group.aric_group_number = '2') AND (query1.checkDrug = '1'))  
+							THEN 'ARIC03' 	
+							WHEN ((r_aric_group.aric_group_number = '2') AND (query1.checkDrug = '0')) 
+							THEN 'ARIC04'    
+					END AS aric_subgroup_number
+					,     query1.item_antibiotic  
+				FROM 
+					r_aric_group  
+						INNER JOIN  (SELECT    	t_visit.t_visit_id  AS t_visit_id
+						,  	t_diag_icd10.diag_icd10_number AS diag_icd10_number
+						,   	t_visit.f_visit_type_id  AS f_visit_type_id
+						,  	r_aric_disease_code.r_aric_group_id  AS r_aric_group_id
+						,  	max(r_aric_antibiotic.b_item_id) AS item_antibiotic
+						,   	CASE WHEN (max(r_aric_antibiotic.b_item_id) > 1)    	
+								THEN '1'    
+								ELSE '0' 
+						END AS checkDrug   
+						FROM  
+						( ( ( (t_visit INNER JOIN t_patient ON t_visit.t_patient_id = t_patient.t_patient_id    
+						AND t_patient.patient_birthday <> '')    
+						INNER JOIN t_diag_icd10 ON t_visit.t_visit_id = t_diag_icd10.diag_icd10_vn)    
+						LEFT JOIN t_order ON t_order.t_visit_id = t_visit.t_visit_id ) 
+						LEFT JOIN r_aric_antibiotic ON r_aric_antibiotic.b_item_id = t_order.b_item_id )
+						, 	r_aric_disease_code    
+						WHERE      
+						(t_visit.f_visit_status_id <> '4') 	
+						AND (t_diag_icd10.f_diag_icd10_type_id = '1')   
+						AND ( t_diag_icd10.diag_icd10_number 
+							between r_aric_disease_code.aric_disease_code_begin 	
+							and r_aric_disease_code.aric_disease_code_end)   
+						AND (t_visit.visit_financial_discharge_time <> '') 	
+						AND (substring(t_visit.visit_financial_discharge_time,0,11) 
+							Between '2549-01-01' And '2549-01-31')  	
+						AND (t_visit.visit_patient_age <> '' 
+						And t_visit.visit_patient_age <> 'null' 
+						And t_visit.visit_patient_age IS NOT NULL)     
+						AND t_diag_icd10.diag_icd10_active = '1'
+						AND ((substring(' ' || age(to_date(substring(t_visit.visit_financial_discharge_time,0,11)     
+							,'YYYY-MM-DD'), to_date(t_patient.patient_birthday,'YYYY-MM-DD')) from '(...)year')) IS NULL   
+							OR to_number(substring(' ' || age(to_date(substring(t_visit.visit_financial_discharge_time,0,11) 
+							,'YYYY-MM-DD'), to_date(t_patient.patient_birthday,'YYYY-MM-DD')) from '(...)year'),'999') < 6   )    
+						GROUP BY  
+						t_visit.t_visit_id,      
+						t_diag_icd10.diag_icd10_number, 
+						t_visit.f_visit_type_id,   
+						r_aric_disease_code.r_aric_group_id   
+						ORDER BY    
+						t_visit.t_visit_id    
+						) AS query1  
+						ON r_aric_group.r_aric_group_id = query1.r_aric_group_id  
+				) AS query2  
+	ON query2.aric_subgroup_number = r_aric_subgroup.aric_subgroup_number  
+GROUP BY    
+	r_aric_subgroup.aric_subgroup_description
+	,r_aric_subgroup.aric_subgroup_number  
+ORDER BY    
+	r_aric_subgroup.aric_subgroup_number 

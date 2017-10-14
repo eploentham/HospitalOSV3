@@ -1,0 +1,374 @@
+/*
+ * AncDB.java
+ *
+ * Created on 1 สิงหาคม 2548, 10:19 น.
+ *
+ * To change this template, choose Tools | Options and locate the template under
+ * the Source Creation and Management node. Right-click the template and choose
+ * Open. You can then make changes to the template in the Source Editor.
+ */
+
+package com.reportquery.objectdb;
+import com.hospital_os.utility.ConnectionDBMgr;
+import com.reportcenter.utility.Constant;
+import com.reportcenter.utility.IOStream;
+import java.sql.*;
+import java.util.Vector;
+//import com.report18file.usecase.connection.ConnectionInf;
+import com.hospital_os.usecase.connection.ConnectionInf;
+import com.linuxense.javadbf.*;
+import java.io.*;
+/**
+ *
+ * @author Noom
+ */
+public class File18DB {
+    public ConnectionInf theConnectionInf;
+    public DBFWriter writer;
+    public FileOutputStream fileOutput;
+    public DBFField fields[];
+    private Vector vc;
+    private ResultSet rs;
+    
+    
+    /** Creates a new instance of AncDB */
+    public File18DB() {
+    }
+    
+    public File18DB(ConnectionInf db) {
+        theConnectionInf=db;
+    }
+//    
+//    public Vector selectByDate(String startDate, String endDate) throws Exception {
+//        StringBuffer sqlBuffer = new StringBuffer();
+//        sqlBuffer.append("select ");
+//        sqlBuffer.append("t_health_pregnancy.b_visit_office_id AS PCUCODE  , ");
+//        sqlBuffer.append("CASE  WHEN (t_health_family.health_family_hn_hcis <> '' ");
+//        sqlBuffer.append("      AND UPPER(t_health_family.health_family_hn_hcis) <> 'NULL' ");        
+//        sqlBuffer.append("      AND t_health_family.health_family_hn_hcis IS NOT NULL ");        
+//        sqlBuffer.append("      AND length(t_health_family.health_family_hn_hcis) = 9) ");        
+//        sqlBuffer.append("      THEN substring(t_health_family.health_family_hn_hcis,4,6) ");        
+//        sqlBuffer.append("      WHEN(t_health_family.health_family_hn_hcis <> '' ");        
+//        sqlBuffer.append("      AND UPPER(t_health_family.health_family_hn_hcis) <> 'NULL' ");        
+//        sqlBuffer.append("      AND t_health_family.health_family_hn_hcis IS NOT NULL ");        
+//        sqlBuffer.append("      AND length(t_health_family.health_family_hn_hcis) = 8) ");        
+//        sqlBuffer.append("      THEN substring(t_health_family.health_family_hn_hcis,3,6) ");        
+//        sqlBuffer.append("      WHEN(t_health_family.health_family_hn_hcis <> '' ");        
+//        sqlBuffer.append("      AND UPPER(t_health_family.health_family_hn_hcis) <> 'NULL' ");        
+//        sqlBuffer.append("      AND t_health_family.health_family_hn_hcis IS NOT NULL ");        
+//        sqlBuffer.append("      AND length(t_health_family.health_family_hn_hcis) = 7) ");        
+//        sqlBuffer.append("      THEN substring(t_health_family.health_family_hn_hcis,2,6) ");        
+//        sqlBuffer.append("      WHEN(t_health_family.health_family_hn_hcis <> '' ");        
+//        sqlBuffer.append("      AND UPPER(t_health_family.health_family_hn_hcis) <> 'NULL' ");        
+//        sqlBuffer.append("      AND t_health_family.health_family_hn_hcis IS NOT NULL ");        
+//        sqlBuffer.append("      AND length(t_health_family.health_family_hn_hcis) = 6) ");        
+//        sqlBuffer.append("      THEN t_health_family.health_family_hn_hcis ");        
+//        sqlBuffer.append("      ELSE ''   END AS PID, ");        
+//        sqlBuffer.append("CASE  WHEN (t_visit.f_visit_type_id IS NOT NULL  ");
+//        sqlBuffer.append("      AND t_visit.f_visit_type_id <> ''");            
+//        sqlBuffer.append("      AND t_visit.f_visit_type_id = '1' ");            
+//        sqlBuffer.append("      AND length(t_visit.visit_an) = 9) ");            
+//        sqlBuffer.append("      THEN substring(t_visit.visit_an,2,8) ");     
+//        sqlBuffer.append("      WHEN (t_visit.f_visit_type_id IS NOT NULL  ");     
+//        sqlBuffer.append("      AND t_visit.f_visit_type_id <> '' ");            
+//        sqlBuffer.append("      AND t_visit.f_visit_type_id = '0' ");            
+//        sqlBuffer.append("      AND length(t_visit.visit_vn) = 9) ");            
+//        sqlBuffer.append("      THEN substring(t_visit.visit_vn,2,8)  ");     
+//        sqlBuffer.append("      ELSE ''  END AS SEQ , "); 
+//        sqlBuffer.append("CASE  WHEN (t_health_anc.record_date_time <> '' and t_health_anc.record_date_time <> 'null') ");
+//        sqlBuffer.append("      THEN   (to_number(substring(t_health_anc.record_date_time,0,5),9999)-543)  ");
+//        sqlBuffer.append("      || substring(t_health_anc.record_date_time,6,2) ");          
+//        sqlBuffer.append("      || substring(t_health_anc.record_date_time,9,2) ");        
+//        sqlBuffer.append("      ELSE ''  END  AS DATE_SERV  ,  ");        
+//        sqlBuffer.append("t_health_pregnancy.b_visit_office_id AS APLACE,  ");
+//        sqlBuffer.append("t_health_pregnancy.health_pregnancy_gravida_number AS GRAVIDA,  ");
+//        sqlBuffer.append("t_health_anc.f_health_anc_section AS ANCNO  ,");  
+//        sqlBuffer.append("t_health_anc.health_anc_gravida_week AS  GA,");
+//        sqlBuffer.append("CASE  WHEN (t_health_anc.health_anc_exam = '1' ");
+//        sqlBuffer.append("      OR t_health_anc.health_anc_exam = '2')");     
+//        sqlBuffer.append("      THEN t_health_anc.health_anc_exam   ELSE ''  END AS ANCRES ");     
+//
+//        sqlBuffer.append("FROM t_health_pregnancy INNER JOIN t_health_anc ON t_health_anc.t_health_pregnancy_id = t_health_pregnancy.t_health_pregnancy_id  ");
+//        sqlBuffer.append("      INNER JOIN t_health_family ON t_health_anc.t_health_family_id = t_health_family.t_health_family_id ");     
+//        sqlBuffer.append("      INNER JOIN t_visit ON t_health_anc.t_visit_id = t_visit.t_visit_id ");     
+//
+//        sqlBuffer.append("WHERE t_health_pregnancy.health_pregnancy_active = '1' ");
+//        sqlBuffer.append("      AND t_health_anc.health_anc_active = '1' ");  
+//        sqlBuffer.append("      AND t_health_anc.health_anc_survey = '' ");  
+//        sqlBuffer.append("      AND (substring( t_health_anc.record_date_time,0,11)>= '"+startDate+"' ");
+//        sqlBuffer.append("      AND substring( t_health_anc.record_date_time,0,11) <= '"+endDate+"') ");
+//        
+//        sqlBuffer.append("UNION ");
+//
+//        sqlBuffer.append("select ");
+//        sqlBuffer.append("t_health_pregnancy.b_visit_office_id AS PCUCODE  ,");
+//        sqlBuffer.append("CASE  WHEN (t_health_family.health_family_hn_hcis <> '' ");
+//        sqlBuffer.append("      AND UPPER(t_health_family.health_family_hn_hcis) <> 'NULL' ");        
+//        sqlBuffer.append("      AND t_health_family.health_family_hn_hcis IS NOT NULL ");        
+//        sqlBuffer.append("      AND length(t_health_family.health_family_hn_hcis) = 9) ");        
+//        sqlBuffer.append("      THEN substring(t_health_family.health_family_hn_hcis,4,6) ");        
+//        sqlBuffer.append("      WHEN(t_health_family.health_family_hn_hcis <> '' ");        
+//        sqlBuffer.append("      AND UPPER(t_health_family.health_family_hn_hcis) <> 'NULL' ");        
+//        sqlBuffer.append("      AND t_health_family.health_family_hn_hcis IS NOT NULL ");        
+//        sqlBuffer.append("      AND length(t_health_family.health_family_hn_hcis) = 8) ");        
+//        sqlBuffer.append("      THEN substring(t_health_family.health_family_hn_hcis,3,6) ");        
+//        sqlBuffer.append("      WHEN(t_health_family.health_family_hn_hcis <> '' ");        
+//        sqlBuffer.append("      AND UPPER(t_health_family.health_family_hn_hcis) <> 'NULL' ");        
+//        sqlBuffer.append("      AND t_health_family.health_family_hn_hcis IS NOT NULL ");        
+//        sqlBuffer.append("      AND length(t_health_family.health_family_hn_hcis) = 7) ");        
+//        sqlBuffer.append("      THEN substring(t_health_family.health_family_hn_hcis,2,6) ");        
+//        sqlBuffer.append("      WHEN(t_health_family.health_family_hn_hcis <> '' ");        
+//        sqlBuffer.append("      AND UPPER(t_health_family.health_family_hn_hcis) <> 'NULL' ");        
+//        sqlBuffer.append("      AND t_health_family.health_family_hn_hcis IS NOT NULL ");        
+//        sqlBuffer.append("      AND length(t_health_family.health_family_hn_hcis) = 6) ");        
+//        sqlBuffer.append("      THEN t_health_family.health_family_hn_hcis ");        
+//        sqlBuffer.append("      ELSE ''   END AS PID, ");        
+//        sqlBuffer.append("      ''AS SEQ  , ");
+//        sqlBuffer.append("CASE  WHEN (t_health_anc.health_anc_survey <> '' ");
+//        sqlBuffer.append("      AND t_health_anc.health_anc_survey <> 'null') ");     
+//        sqlBuffer.append("      THEN   (to_number(substring(t_health_anc.health_anc_survey,0,5),9999)-543) ");     
+//        sqlBuffer.append("      ||substring(t_health_anc.health_anc_survey,6,2) ");             
+//        sqlBuffer.append("      ||substring(t_health_anc.health_anc_survey,9,2) ");             
+//        sqlBuffer.append("      ELSE ''  END  AS DATE_SERV  ,  ");     
+//        sqlBuffer.append("t_health_pregnancy.b_visit_office_id AS APLACE  ,  ");
+//        sqlBuffer.append("t_health_pregnancy.health_pregnancy_gravida_number AS GRAVIDA  ,  ");
+//        sqlBuffer.append("t_health_anc.f_health_anc_section AS ANCNO, ");
+//        sqlBuffer.append("t_health_anc.health_anc_gravida_week AS  GA  , ");
+//        sqlBuffer.append("CASE  WHEN (t_health_anc.health_anc_exam = '1' OR t_health_anc.health_anc_exam = '2')  ");
+//        sqlBuffer.append("      THEN t_health_anc.health_anc_exam ");     
+//        sqlBuffer.append("      ELSE ''  END AS health_anc_exam  ");     
+//        sqlBuffer.append("FROM  t_health_pregnancy,t_health_anc,t_health_family  ");
+//        sqlBuffer.append("WHERE   t_health_pregnancy.health_pregnancy_active = '1' ");
+//        sqlBuffer.append("      AND t_health_anc.health_anc_active = '1' ");
+//        sqlBuffer.append("      AND t_health_anc.health_anc_survey <> '' ");
+//        sqlBuffer.append("      AND t_health_anc.t_health_pregnancy_id = t_health_pregnancy.t_health_pregnancy_id  ");
+//        sqlBuffer.append("      AND t_health_anc.t_health_family_id = t_health_family.t_health_family_id  ");
+//        sqlBuffer.append("      AND (substring( t_health_anc.health_anc_survey,0,11) >= '"+startDate+"' ");
+//        sqlBuffer.append("      AND substring( t_health_anc.health_anc_survey,0,11) <= '"+endDate+"') ");
+//        System.out.println("SQL ANC : " + sqlBuffer.toString());
+//        vc = eQuery(sqlBuffer.toString());
+//        sqlBuffer = null;
+//        return vc;
+//       
+//    }
+        /**ใช้ในการ query ข้อมูลจากฐานข้อมูล และเก็บข้อมูลลง Vector 
+     *  ของ Pat 
+     * @param sql เป็น String ของ sql
+     * @return Vector ของ Object Pat
+     */
+    public Vector selectByDate(String startDate, String endDate) throws Exception {
+        
+        //String sql = get12file();
+        String sql = IOStream.readInputDefault("config/rp_18file/18file_anc.sql");
+        PreparedStatement pm = theConnectionInf.getConnection().prepareStatement(sql);
+        pm.setString(1,startDate);
+        pm.setString(2,endDate);
+        return eQuery(pm.executeQuery());
+    }
+
+    
+    public java.util.Vector eQuery(String sql) throws Exception {
+        rs =theConnectionInf.eQuery(sql);
+        return eQuery(rs);
+    }
+    public java.util.Vector eQuery(ResultSet rs) throws Exception {
+        Vector vc = new Vector();
+        while(rs.next()) {
+            String[] data = new String[rs.getMetaData().getColumnCount()];
+            for(int i=0;i<rs.getMetaData().getColumnCount();i++)
+                data[i] = rs.getString(i+1);
+            vc.add(data);
+        }
+        rs.close();
+        return vc;
+    }
+    
+    
+    
+
+    public void createTable(String[] data,int[] length) throws Exception{
+        System.out.println("data is " + data.length);
+        if(writer == null)
+        {
+            fields = new DBFField[data.length];
+            for(int i=0;i<data.length;i++){
+                System.out.println("data is " + data[i]);
+                int index = data[i].length();
+                if(index>10)  index -= 10;
+                else index = 0;
+                fields[i] = new DBFField();
+                fields[i].setName(data[i].substring(index));
+                fields[i].setDataType( DBFField.FIELD_TYPE_C);
+                if(length!=null)
+                    fields[i].setFieldLength(length[i]);
+                else
+                    fields[i].setFieldLength(255);
+            }
+            writer = new DBFWriter();
+            writer.setFields( fields);
+        }
+    }
+    
+    public void insertData(String[] hcol,int[] len,Vector vObject) throws Exception{
+        createTable(hcol,len);
+        if(vObject != null) {
+            Object rowData[];
+            if(writer == null){
+                writer = new DBFWriter();
+            }
+            for(int i=0;i<vObject.size();i++) {
+                String[] data = (String[])vObject.get(i);
+                //LionHeart 02092553 เพิ่มเพื่อแก้ไขปัญหาภาษาไทย
+//                for(int i2=0;i2<data.length;i2++)
+//                {
+//                    if(data[i2]!=null)
+//                    {
+//                        System.err.println("before "+data[i2]);
+////                        data[i2] = new String(data[i2].getBytes("ISO8859_1"), "x-windows-874");
+////                        data[i2] = new String(data[i2].getBytes("ISO8859_1"), "tis-620");
+//                        data[i2] = new String(data[i2].getBytes("x-windows-874"), "tis-620");
+//                        System.err.println("after "+data[i2]);
+//                    }
+//                    else
+//                    {
+//                        System.err.println("data[i2] == null");
+//                        data[i2] = "";
+//                    }
+//                }
+                
+                writer.addRecord(data);
+            }
+            writer.write(fileOutput);
+        }
+        writer = null;
+    }
+    
+    public void setDBFPathFile(String path) throws FileNotFoundException{
+        System.out.println("Path is = "+path);
+        fileOutput = new FileOutputStream(path);
+        
+    }
+    
+    public void closeFile() throws Exception{
+        if(fileOutput != null){
+            fileOutput.close();
+            System.out.println("---------------Close file OK");
+        }
+        
+    }
+    
+    public static void main(String args[]) throws Exception{
+        StringBuffer sqlBuffer = new StringBuffer();
+        sqlBuffer.append("select ");
+        sqlBuffer.append("t_health_pregnancy.b_visit_office_id AS PCUCODE  , ");
+        sqlBuffer.append("CASE  WHEN (t_health_family.health_family_hn_hcis <> '' ");
+        sqlBuffer.append("      AND UPPER(t_health_family.health_family_hn_hcis) <> 'NULL' ");        
+        sqlBuffer.append("      AND t_health_family.health_family_hn_hcis IS NOT NULL ");        
+        sqlBuffer.append("      AND length(t_health_family.health_family_hn_hcis) = 9) ");        
+        sqlBuffer.append("      THEN substring(t_health_family.health_family_hn_hcis,4,6) ");        
+        sqlBuffer.append("      WHEN(t_health_family.health_family_hn_hcis <> '' ");        
+        sqlBuffer.append("      AND UPPER(t_health_family.health_family_hn_hcis) <> 'NULL' ");        
+        sqlBuffer.append("      AND t_health_family.health_family_hn_hcis IS NOT NULL ");        
+        sqlBuffer.append("      AND length(t_health_family.health_family_hn_hcis) = 8) ");        
+        sqlBuffer.append("      THEN substring(t_health_family.health_family_hn_hcis,3,6) ");        
+        sqlBuffer.append("      WHEN(t_health_family.health_family_hn_hcis <> '' ");        
+        sqlBuffer.append("      AND UPPER(t_health_family.health_family_hn_hcis) <> 'NULL' ");        
+        sqlBuffer.append("      AND t_health_family.health_family_hn_hcis IS NOT NULL ");        
+        sqlBuffer.append("      AND length(t_health_family.health_family_hn_hcis) = 7) ");        
+        sqlBuffer.append("      THEN substring(t_health_family.health_family_hn_hcis,2,6) ");        
+        sqlBuffer.append("      WHEN(t_health_family.health_family_hn_hcis <> '' ");        
+        sqlBuffer.append("      AND UPPER(t_health_family.health_family_hn_hcis) <> 'NULL' ");        
+        sqlBuffer.append("      AND t_health_family.health_family_hn_hcis IS NOT NULL ");        
+        sqlBuffer.append("      AND length(t_health_family.health_family_hn_hcis) = 6) ");        
+        sqlBuffer.append("      THEN t_health_family.health_family_hn_hcis ");        
+        sqlBuffer.append("      ELSE ''   END AS PID, ");        
+        sqlBuffer.append("CASE  WHEN (t_visit.f_visit_type_id IS NOT NULL  ");
+        sqlBuffer.append("      AND t_visit.f_visit_type_id <> ''");            
+        sqlBuffer.append("      AND t_visit.f_visit_type_id = '1' ");            
+        sqlBuffer.append("      AND length(t_visit.visit_an) = 9) ");            
+        sqlBuffer.append("      THEN substring(t_visit.visit_an,2,8) ");     
+        sqlBuffer.append("      WHEN (t_visit.f_visit_type_id IS NOT NULL  ");     
+        sqlBuffer.append("      AND t_visit.f_visit_type_id <> '' ");            
+        sqlBuffer.append("      AND t_visit.f_visit_type_id = '0' ");            
+        sqlBuffer.append("      AND length(t_visit.visit_vn) = 9) ");            
+        sqlBuffer.append("      THEN substring(t_visit.visit_vn,2,8)  ");     
+        sqlBuffer.append("      ELSE ''  END AS SEQ , "); 
+        sqlBuffer.append("CASE  WHEN (t_health_anc.record_date_time <> '' and t_health_anc.record_date_time <> 'null') ");
+        sqlBuffer.append("      THEN   (to_number(substring(t_health_anc.record_date_time,0,5),9999)-543)  ");
+        sqlBuffer.append("      || substring(t_health_anc.record_date_time,6,2) ");          
+        sqlBuffer.append("      || substring(t_health_anc.record_date_time,9,2) ");        
+        sqlBuffer.append("      ELSE ''  END  AS DATE_SERV  ,  ");        
+        sqlBuffer.append("t_health_pregnancy.b_visit_office_id AS APLACE,  ");
+        sqlBuffer.append("t_health_pregnancy.health_pregnancy_gravida_number AS GRAVIDA,  ");
+        sqlBuffer.append("t_health_anc.f_health_anc_section AS ANCNO  ,");  
+        sqlBuffer.append("t_health_anc.health_anc_gravida_week AS  GA,");
+        sqlBuffer.append("CASE  WHEN (t_health_anc.health_anc_exam = '1' ");
+        sqlBuffer.append("      OR t_health_anc.health_anc_exam = '2')");     
+        sqlBuffer.append("      THEN t_health_anc.health_anc_exam   ELSE ''  END AS ANCRES ");     
+
+        sqlBuffer.append("FROM t_health_pregnancy INNER JOIN t_health_anc ON t_health_anc.t_health_pregnancy_id = t_health_pregnancy.t_health_pregnancy_id  ");
+        sqlBuffer.append("      INNER JOIN t_health_family ON t_health_anc.t_health_family_id = t_health_family.t_health_family_id ");     
+        sqlBuffer.append("      INNER JOIN t_visit ON t_health_anc.t_visit_id = t_visit.t_visit_id ");     
+
+        sqlBuffer.append("WHERE t_health_pregnancy.health_pregnancy_active = '1' ");
+        sqlBuffer.append("      AND t_health_anc.health_anc_active = '1' ");  
+        sqlBuffer.append("      AND t_health_anc.health_anc_survey = '' ");  
+        sqlBuffer.append("      AND (substring( t_health_anc.record_date_time,0,11)>= ? ");
+        sqlBuffer.append("      AND substring( t_health_anc.record_date_time,0,11) <= ?) ");
+        
+        sqlBuffer.append("UNION ");
+
+        sqlBuffer.append("select ");
+        sqlBuffer.append("t_health_pregnancy.b_visit_office_id AS PCUCODE  ,");
+        sqlBuffer.append("CASE  WHEN (t_health_family.health_family_hn_hcis <> '' ");
+        sqlBuffer.append("      AND UPPER(t_health_family.health_family_hn_hcis) <> 'NULL' ");        
+        sqlBuffer.append("      AND t_health_family.health_family_hn_hcis IS NOT NULL ");        
+        sqlBuffer.append("      AND length(t_health_family.health_family_hn_hcis) = 9) ");        
+        sqlBuffer.append("      THEN substring(t_health_family.health_family_hn_hcis,4,6) ");        
+        sqlBuffer.append("      WHEN(t_health_family.health_family_hn_hcis <> '' ");        
+        sqlBuffer.append("      AND UPPER(t_health_family.health_family_hn_hcis) <> 'NULL' ");        
+        sqlBuffer.append("      AND t_health_family.health_family_hn_hcis IS NOT NULL ");        
+        sqlBuffer.append("      AND length(t_health_family.health_family_hn_hcis) = 8) ");        
+        sqlBuffer.append("      THEN substring(t_health_family.health_family_hn_hcis,3,6) ");        
+        sqlBuffer.append("      WHEN(t_health_family.health_family_hn_hcis <> '' ");        
+        sqlBuffer.append("      AND UPPER(t_health_family.health_family_hn_hcis) <> 'NULL' ");        
+        sqlBuffer.append("      AND t_health_family.health_family_hn_hcis IS NOT NULL ");        
+        sqlBuffer.append("      AND length(t_health_family.health_family_hn_hcis) = 7) ");        
+        sqlBuffer.append("      THEN substring(t_health_family.health_family_hn_hcis,2,6) ");        
+        sqlBuffer.append("      WHEN(t_health_family.health_family_hn_hcis <> '' ");        
+        sqlBuffer.append("      AND UPPER(t_health_family.health_family_hn_hcis) <> 'NULL' ");        
+        sqlBuffer.append("      AND t_health_family.health_family_hn_hcis IS NOT NULL ");        
+        sqlBuffer.append("      AND length(t_health_family.health_family_hn_hcis) = 6) ");        
+        sqlBuffer.append("      THEN t_health_family.health_family_hn_hcis ");        
+        sqlBuffer.append("      ELSE ''   END AS PID, ");        
+        sqlBuffer.append("      ''AS SEQ  , ");
+        sqlBuffer.append("CASE  WHEN (t_health_anc.health_anc_survey <> '' ");
+        sqlBuffer.append("      AND t_health_anc.health_anc_survey <> 'null') ");     
+        sqlBuffer.append("      THEN   (to_number(substring(t_health_anc.health_anc_survey,0,5),9999)-543) ");     
+        sqlBuffer.append("      ||substring(t_health_anc.health_anc_survey,6,2) ");             
+        sqlBuffer.append("      ||substring(t_health_anc.health_anc_survey,9,2) ");             
+        sqlBuffer.append("      ELSE ''  END  AS DATE_SERV  ,  ");     
+        sqlBuffer.append("t_health_pregnancy.b_visit_office_id AS APLACE  ,  ");
+        sqlBuffer.append("t_health_pregnancy.health_pregnancy_gravida_number AS GRAVIDA  ,  ");
+        sqlBuffer.append("t_health_anc.f_health_anc_section AS ANCNO, ");
+        sqlBuffer.append("t_health_anc.health_anc_gravida_week AS  GA  , ");
+        sqlBuffer.append("CASE  WHEN (t_health_anc.health_anc_exam = '1' OR t_health_anc.health_anc_exam = '2')  ");
+        sqlBuffer.append("      THEN t_health_anc.health_anc_exam ");     
+        sqlBuffer.append("      ELSE ''  END AS health_anc_exam  ");     
+        sqlBuffer.append("FROM  t_health_pregnancy,t_health_anc,t_health_family  ");
+        sqlBuffer.append("WHERE   t_health_pregnancy.health_pregnancy_active = '1' ");
+        sqlBuffer.append("      AND t_health_anc.health_anc_active = '1' ");
+        sqlBuffer.append("      AND t_health_anc.health_anc_survey <> '' ");
+        sqlBuffer.append("      AND t_health_anc.t_health_pregnancy_id = t_health_pregnancy.t_health_pregnancy_id  ");
+        sqlBuffer.append("      AND t_health_anc.t_health_family_id = t_health_family.t_health_family_id  ");
+        sqlBuffer.append("      AND (substring( t_health_anc.health_anc_survey,0,11) >= ? ");
+        sqlBuffer.append("      AND substring( t_health_anc.health_anc_survey,0,11) <= ?) ");
+        System.out.println("SQL ANC : " + sqlBuffer.toString());
+    }
+
+
+    public String getFileName() {
+        return "Anc";
+    }
+    
+}

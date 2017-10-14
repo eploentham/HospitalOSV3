@@ -1,0 +1,178 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.hospital_os.objdb;
+
+import com.hospital_os.object.LisLn;
+import com.hospital_os.usecase.connection.ConnectionInf;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Vector;
+
+/**
+ *
+ * @author Somprasong
+ */
+public class LisLnDB {
+
+    private ConnectionInf theConnectionInf;
+    private LisLn dbObj;
+    final public String idtable = "lis1";/*"178";*/
+
+    OrderItemDrugDB theOrderItemDrugDB;
+
+    /**
+     * @param ConnectionInf db
+     * @roseuid 3F65897F0326
+     */
+    public LisLnDB(ConnectionInf db) {
+        theConnectionInf = db;
+        dbObj = new LisLn();
+        this.initConfig();
+    }
+
+    public LisLn initConfig() {
+        dbObj.table = "t_lis_ln";
+        dbObj.pk_field = "t_lis_ln_id";
+        dbObj.ln = "lab_number";
+        dbObj.visit_id = "t_visit_id";
+        dbObj.exec_datetime = "exec_datetime";
+        return dbObj;
+    }
+
+    public int insert(LisLn p) throws Exception {
+        p.generateOID(idtable);
+        StringBuilder sql = new StringBuilder("insert into ");
+        sql.append(dbObj.table);
+        sql.append(" (");
+        sql.append(dbObj.pk_field);
+        sql.append(" ,");
+        sql.append(dbObj.ln);
+        sql.append(" ,");
+        sql.append(dbObj.visit_id);
+        sql.append(" ,");
+        sql.append(dbObj.exec_datetime);
+        sql.append(" ) values ('");
+        sql.append(p.getObjectId());
+        sql.append("','");
+        sql.append(p.ln);
+        sql.append("','");
+        sql.append(p.visit_id);
+        sql.append("','");
+        sql.append(p.exec_datetime);
+        sql.append("')");
+        return theConnectionInf.eUpdate(sql.toString());
+    }
+
+    /**
+     *
+     * @author Somprasong
+     * ค้นหาค่า t_lab_order_number_map_visit_id ตัวสุดท้าย แล้วเพิ่มค่าไปอีก 1 แล้วจัดให้อยู่ในรูป yyMMddxxxx
+     * @param c2
+     * @param visitId
+     * @param str_verify
+     * @param executeDate
+     * @return
+     * @throws SQLException
+     * @throws Exception
+     */
+    public String getLabNumber(String visitId, String executeDate) throws Exception {
+        Timestamp date_time = null;
+        java.sql.ResultSet rs = theConnectionInf.eQuery("select CURRENT_TIMESTAMP");
+        if (rs.next()) {
+            date_time = rs.getTimestamp(1);
+        }
+        rs.close();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd", new Locale("th", "TH"));
+
+        String str_date = sdf.format(new Date(date_time.getTime()));
+        String sql = "SELECT lab_number "
+                + "FROM t_lis_ln "
+                + "Where t_lis_ln.t_visit_id = '" + visitId + "' "
+                + "and t_lis_ln.exec_datetime = '" + executeDate + "'";
+        rs = theConnectionInf.eQuery(sql.toString());
+        String labnumber = "";
+        if (rs.next()) {
+            labnumber = rs.getString("lab_number");
+        }
+        rs.close();
+        if (!labnumber.isEmpty()) {
+            return labnumber;
+        }
+        // ถ้าตรวจสอบแล้วว่าไม่เคยส่ง ให้ running no. ไปเรื่อยๆ
+        sql = "select t_lis_ln.lab_number from t_lis_ln order by t_lis_ln.exec_datetime desc";
+
+        rs = theConnectionInf.eQuery(sql.toString());
+        if (rs.next()) {
+            labnumber = rs.getString("lab_number");
+        }
+        rs.close();
+        System.out.println("labnumber = " + labnumber);
+        if (labnumber.isEmpty()) {
+            labnumber = str_date + "0001";
+            LisLn lisLn = new LisLn();
+            lisLn.ln = labnumber;
+            lisLn.visit_id = visitId;
+            lisLn.exec_datetime = executeDate;
+            this.insert(lisLn);
+            return labnumber;
+        }
+
+        String str_id_date = labnumber.substring(0, 6);
+        int i_id_order = Integer.parseInt(labnumber.substring(6));
+        // วันเดียวกัน เพิ่มไปอีก1
+        if (str_date.equals(str_id_date)) {
+            String str_id_order = String.valueOf(i_id_order + 1);
+            switch (str_id_order.length()) {
+                case 1:
+                    labnumber = str_date + "000" + str_id_order;
+                    break;
+                case 2:
+                    labnumber = str_date + "00" + str_id_order;
+                    break;
+                case 3:
+                    labnumber = str_date + "0" + str_id_order;
+                    break;
+                default:
+                    labnumber = str_date + str_id_order;
+                    break;
+            }
+            LisLn lisLn = new LisLn();
+            lisLn.ln = labnumber;
+            lisLn.visit_id = visitId;
+            lisLn.exec_datetime = executeDate;
+            this.insert(lisLn);
+            return labnumber;
+        }
+        // วันใหม่ ตัวแรก
+        labnumber = str_date + "0001";
+        LisLn lisLn = new LisLn();
+        lisLn.ln = labnumber;
+        lisLn.visit_id = visitId;
+        lisLn.exec_datetime = executeDate;
+        this.insert(lisLn);
+        return labnumber;
+    }
+
+    @SuppressWarnings("UseOfObsoleteCollectionType")
+    public Vector eQuery(String sql) throws Exception {
+        LisLn p;
+        Vector list = new Vector();
+        ResultSet rs = theConnectionInf.eQuery(sql.toString());
+        int i = 0;
+        while (rs.next()) {
+            p = new LisLn();
+            p.setObjectId(rs.getString(dbObj.pk_field));
+            p.visit_id = rs.getString(dbObj.visit_id);
+            p.ln = rs.getString(dbObj.ln);
+            p.exec_datetime = rs.getString(dbObj.exec_datetime);
+            p.rec_datetime = rs.getTimestamp("rec_datetime");
+        }
+        rs.close();
+        return list;
+    }
+}

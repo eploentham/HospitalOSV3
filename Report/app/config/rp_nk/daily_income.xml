@@ -1,0 +1,1155 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="daily_income"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="1047"
+		 pageHeight="842"
+		 columnWidth="987"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="date_start" isForPrompting="true" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2550-03-01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="time_start" isForPrompting="true" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["11:01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date_end" isForPrompting="true" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["2550-03-02"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="time_end" isForPrompting="true" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["11:00"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="datestart" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[$P{date_start} +","+ $P{time_start}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dateend" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[$P{date_end} +"," +$P{time_end}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" isForPrompting="true" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["./"]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[Select 
+	b_site.site_full_name                                         as hospital_name
+	,t_patient.patient_hn as hn
+	,substring(t_billing_invoice.t_billing_invoice_date_time,12,5) as receipt_time
+	,f_patient_prefix.patient_prefix_description || t_patient.patient_firstname || ' ' || t_patient.patient_lastname as fullname
+	,b_rpnk_map_plan.rpnk_map_plan_ref_id as debt
+	,t_billing_invoice.billing_invoice_total as paid
+	,b_rpnk_map_plan.rpnk_map_plan_ref_id as plan
+	,t_visit.f_visit_type_id as visit_type
+From 
+	t_visit 
+	inner join t_billing_invoice on (t_billing_invoice.t_visit_id = t_visit.t_visit_id
+		and t_billing_invoice.billing_invoice_active <> '0'
+		and substr(t_billing_invoice.t_billing_invoice_date_time,1,16) >= $P{datestart}
+            	and substr(t_billing_invoice.t_billing_invoice_date_time,1,16) <= $P{dateend}
+		and t_billing_invoice.billing_invoice_total <> '0'
+		and (t_visit.f_visit_status_id = '2' or t_visit.f_visit_status_id = '3')) 
+	inner join t_patient on t_visit.t_patient_id = t_patient.t_patient_id
+	left join f_patient_prefix on (f_patient_prefix.f_patient_prefix_id = t_patient.f_patient_prefix_id)
+	inner join t_visit_payment on (t_visit_payment.t_visit_payment_id = t_billing_invoice.t_payment_id  
+		and t_visit_payment.visit_payment_active <> '0'
+		and t_visit_payment.visit_payment_priority ='0'	)
+	inner join b_contract_plans on (b_contract_plans.b_contract_plans_id = t_visit_payment.b_contract_plans_id)
+	inner join b_rpnk_map_plan on (b_rpnk_map_plan.rpnk_map_plan_std_id = b_contract_plans.b_contract_plans_id)
+   	, b_site    
+    where
+        b_rpnk_map_plan.rpnk_map_plan_ref_id = '01'
+        or b_rpnk_map_plan.rpnk_map_plan_ref_id = '02'
+        or b_rpnk_map_plan.rpnk_map_plan_ref_id = '03'
+        or b_rpnk_map_plan.rpnk_map_plan_ref_id = '04'
+        or b_rpnk_map_plan.rpnk_map_plan_ref_id = '05'
+        or b_rpnk_map_plan.rpnk_map_plan_ref_id = '06'
+        or b_rpnk_map_plan.rpnk_map_plan_ref_id = '07'
+        or b_rpnk_map_plan.rpnk_map_plan_ref_id = '08'
+        or b_rpnk_map_plan.rpnk_map_plan_ref_id = '09'
+        or b_rpnk_map_plan.rpnk_map_plan_ref_id = '10'
+        or b_rpnk_map_plan.rpnk_map_plan_ref_id = '11'
+
+Order By t_billing_invoice.t_billing_invoice_date_time]]></queryString>
+
+	<field name="hospital_name" class="java.lang.String"/>
+	<field name="hn" class="java.lang.String"/>
+	<field name="receipt_time" class="java.lang.String"/>
+	<field name="fullname" class="java.lang.String"/>
+	<field name="debt" class="java.lang.String"/>
+	<field name="paid" class="java.lang.Double"/>
+	<field name="plan" class="java.lang.String"/>
+	<field name="visit_type" class="java.lang.String"/>
+
+	<variable name="total_officialdom" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{plan}.equals("01")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="total_locality" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{plan}.equals("02")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="total_outside" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{plan}.equals("03")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="total_social_insurance" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{plan}.equals("04")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="total_other1" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{plan}.equals("05")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="total_patient_remain" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{debt}.equals("06")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="total_cscd" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{debt}.equals("07")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="total_csmbs" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{debt}.equals("08")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="total_source_office" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{debt}.equals("09")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="total_nakorn" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{debt}.equals("10")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="total_other2" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{debt}.equals("11")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="cscd" class="java.lang.Double" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$F{debt}.equals("07")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0") ]]></initialValueExpression>
+	</variable>
+	<variable name="csmbs" class="java.lang.Double" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$F{debt}.equals("08")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="officialdom" class="java.lang.Double" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$F{plan}.equals("01")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="locality" class="java.lang.Double" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$F{plan}.equals("02")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="nakorn" class="java.lang.Double" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$F{debt}.equals("10")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="other1" class="java.lang.Double" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$F{plan}.equals("05")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="other2" class="java.lang.Double" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$F{debt}.equals("11")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="outside" class="java.lang.Double" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$F{plan}.equals("03")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="patient_remain" class="java.lang.Double" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$F{debt}.equals("06")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="social_insurance" class="java.lang.Double" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$F{plan}.equals("04")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0") ]]></initialValueExpression>
+	</variable>
+	<variable name="source_office" class="java.lang.Double" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$F{debt}.equals("09")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="total_debt_receipt" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{debt}.equals("06") || 
+$F{debt}.equals("07") ||  
+$F{debt}.equals("08") || 
+$F{debt}.equals("09") || 
+$F{debt}.equals("10") || 
+$F{debt}.equals("11")?
+$F{paid}:Double.valueOf("0") ]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="total_out_patient" class="java.lang.Integer" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{visit_type}.equals("0")?
+Integer.valueOf("1"):Integer.valueOf("0")]]></variableExpression>
+		<initialValueExpression><![CDATA[Integer.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="total_patient_receipt" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{plan}.equals("01") || 
+$F{plan}.equals("02") || 
+$F{plan}.equals("03") || 
+$F{plan}.equals("04") || 
+$F{plan}.equals("05")?
+$F{paid}:Double.valueOf("0")]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="total_receipt" class="java.lang.Double" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{paid}]]></variableExpression>
+		<initialValueExpression><![CDATA[Double.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="total_in_patient" class="java.lang.Integer" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{visit_type}.equals("1")?
+Integer.valueOf("1"):Integer.valueOf("0")]]></variableExpression>
+		<initialValueExpression><![CDATA[Integer.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="total_patient" class="java.lang.Integer" resetType="Report" calculation="Count">
+		<variableExpression><![CDATA[/*Integer.valueOf(
+Integer.toString($V{total_out_patient}.intValue() +
+ $V{total_in_patient}.intValue()))*/
+$F{hn}]]></variableExpression>
+		<initialValueExpression><![CDATA[Integer.valueOf("0")]]></initialValueExpression>
+	</variable>
+	<variable name="id" class="java.lang.Integer" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[Integer.valueOf("1")]]></variableExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="83"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="30"
+						width="986"
+						height="17"
+						key="staticText-19"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="13"/>
+					</textElement>
+				<text><![CDATA[รายงานรายได้ประจำวัน]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="1"
+						y="55"
+						width="985"
+						height="18"
+						key="textField-32"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" pdfFontName="Helvetica" size="12" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["วันที่ "+ com.hospital_os.utility.DateUtil.getDateToStringShort(
+com.hospital_os.utility.DateUtil.getDateFromText(
+$P{date_end}),false)
++ "  (เวลา "+ $P{time_start}
++ " น. วันที่ " + com.hospital_os.utility.DateUtil.getDateToStringShort(
+com.hospital_os.utility.DateUtil.getDateFromText(
+$P{date_start}),false)
++" - " + $P{time_end}
++" น. วันที่ " + com.hospital_os.utility.DateUtil.getDateToStringShort(
+com.hospital_os.utility.DateUtil.getDateFromText(
+$P{date_end}),false)
++")"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="6"
+						width="987"
+						height="19"
+						key="textField-33"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Tahoma" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["โรงพยาบาล"+$F{hospital_name}]]></textFieldExpression>
+				</textField>
+			</band>
+		</title>
+		<pageHeader>
+			<band height="20"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="886"
+						y="0"
+						width="100"
+						height="20"
+						key="textField-31"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="39"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="1"
+						y="23"
+						width="40"
+						height="16"
+						key="staticText-1"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="11"/>
+					</textElement>
+				<text><![CDATA[ลำดับ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="41"
+						y="23"
+						width="81"
+						height="16"
+						key="staticText-2"/>
+					<box topBorder="1Point" topBorderColor="#000000" topPadding="1" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" rightPadding="2" bottomBorder="1Point" bottomBorderColor="#000000" bottomPadding="1"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="11"/>
+					</textElement>
+				<text><![CDATA[HN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="122"
+						y="23"
+						width="70"
+						height="16"
+						key="staticText-3"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="11"/>
+					</textElement>
+				<text><![CDATA[เวลารับชำระ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="192"
+						y="23"
+						width="147"
+						height="16"
+						key="staticText-4"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="11"/>
+					</textElement>
+				<text><![CDATA[ชื่อ-สกุล]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="339"
+						y="23"
+						width="65"
+						height="16"
+						key="staticText-5"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="11"/>
+					</textElement>
+				<text><![CDATA[ขรก./รัฐวิสากิจ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="404"
+						y="23"
+						width="71"
+						height="16"
+						key="staticText-6"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="11"/>
+					</textElement>
+				<text><![CDATA[ขรก.ส่วนท้องถิ่น]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="475"
+						y="23"
+						width="43"
+						height="16"
+						key="staticText-7"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="11"/>
+					</textElement>
+				<text><![CDATA[นอกเขต]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="518"
+						y="23"
+						width="59"
+						height="16"
+						key="staticText-8"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="11"/>
+					</textElement>
+				<text><![CDATA[ประกันสังคม]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="577"
+						y="23"
+						width="50"
+						height="16"
+						key="staticText-9"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="11"/>
+					</textElement>
+				<text><![CDATA[อื่นๆ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="627"
+						y="23"
+						width="60"
+						height="16"
+						key="staticText-10"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="11"/>
+					</textElement>
+				<text><![CDATA[ผู้ป่วยค้าง]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="867"
+						y="23"
+						width="60"
+						height="16"
+						key="staticText-11"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="11"/>
+					</textElement>
+				<text><![CDATA[เทศบาลนคร]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="927"
+						y="23"
+						width="55"
+						height="16"
+						key="staticText-12"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="11"/>
+					</textElement>
+				<text><![CDATA[อื่นๆ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="687"
+						y="23"
+						width="60"
+						height="16"
+						key="staticText-13"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="11"/>
+					</textElement>
+				<text><![CDATA[CSCD]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="747"
+						y="23"
+						width="60"
+						height="16"
+						key="staticText-14"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="11"/>
+					</textElement>
+				<text><![CDATA[CSMBS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="807"
+						y="23"
+						width="60"
+						height="16"
+						key="staticText-15"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="11"/>
+					</textElement>
+				<text><![CDATA[ต้นสังกัด]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="338"
+						y="2"
+						width="289"
+						height="21"
+						key="staticText-16"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="12"/>
+					</textElement>
+				<text><![CDATA[รับชำระจากผู้ป่วย]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="627"
+						y="2"
+						width="355"
+						height="21"
+						key="staticText-17"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="12"/>
+					</textElement>
+				<text><![CDATA[รับชำระจากลูกหนี้]]></text>
+				</staticText>
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="16"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="41"
+						y="0"
+						width="81"
+						height="16"
+						key="textField-6"/>
+					<box topBorder="Thin" topBorderColor="#000000" topPadding="1" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="2" bottomBorder="Thin" bottomBorderColor="#000000" bottomPadding="1"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{hn}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="122"
+						y="0"
+						width="70"
+						height="16"
+						key="textField-7"/>
+					<box topBorder="Thin" topBorderColor="#000000" topPadding="1" leftBorder="Thin" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="3" bottomBorder="Thin" bottomBorderColor="#000000" bottomPadding="1"/>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{receipt_time}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="192"
+						y="0"
+						width="147"
+						height="16"
+						key="textField-8"/>
+					<box topBorder="Thin" topBorderColor="#000000" topPadding="1" leftBorder="Thin" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="3" bottomBorder="Thin" bottomBorderColor="#000000" bottomPadding="1"/>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{fullname}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="339"
+						y="0"
+						width="65"
+						height="16"
+						key="textField-9"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{officialdom}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="404"
+						y="0"
+						width="71"
+						height="16"
+						key="textField-10"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{locality}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="475"
+						y="0"
+						width="43"
+						height="16"
+						key="textField-11"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{outside}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="518"
+						y="0"
+						width="59"
+						height="16"
+						key="textField-12"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{social_insurance}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="577"
+						y="0"
+						width="50"
+						height="16"
+						key="textField-13"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{other1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="627"
+						y="0"
+						width="60"
+						height="16"
+						key="textField-14"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{patient_remain}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="687"
+						y="0"
+						width="60"
+						height="16"
+						key="textField-15"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{cscd}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="747"
+						y="0"
+						width="60"
+						height="16"
+						key="textField-16"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{csmbs}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="807"
+						y="0"
+						width="60"
+						height="16"
+						key="textField-17"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{source_office}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="867"
+						y="0"
+						width="60"
+						height="16"
+						key="textField-18"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{nakorn}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="927"
+						y="0"
+						width="55"
+						height="16"
+						key="textField-19"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{other2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="1"
+						y="0"
+						width="40"
+						height="16"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" topPadding="1" leftBorder="Thin" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="3" bottomBorder="Thin" bottomBorderColor="#000000" bottomPadding="1"/>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{id}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<lastPageFooter>
+			<band height="119"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="339"
+						y="0"
+						width="65"
+						height="16"
+						key="textField-20"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{total_officialdom}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="404"
+						y="0"
+						width="71"
+						height="16"
+						key="textField-21"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{total_locality}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="475"
+						y="0"
+						width="43"
+						height="16"
+						key="textField-22"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{total_outside}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="518"
+						y="0"
+						width="59"
+						height="16"
+						key="textField-23"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{total_social_insurance}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="577"
+						y="0"
+						width="50"
+						height="16"
+						key="textField-24"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{total_other1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="627"
+						y="0"
+						width="60"
+						height="16"
+						key="textField-25"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{total_patient_remain}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="687"
+						y="0"
+						width="60"
+						height="16"
+						key="textField-26"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{total_cscd}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="747"
+						y="0"
+						width="60"
+						height="16"
+						key="textField-27"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{total_csmbs}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="807"
+						y="0"
+						width="60"
+						height="16"
+						key="textField-28"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{total_source_office}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="867"
+						y="0"
+						width="60"
+						height="16"
+						key="textField-29"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{total_nakorn}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="927"
+						y="0"
+						width="55"
+						height="16"
+						key="textField-30"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{total_other2}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="1"
+						y="0"
+						width="338"
+						height="16"
+						key="staticText-24"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" leftPadding="2" rightBorder="Thin" rightBorderColor="#000000" rightPadding="3" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="12"/>
+					</textElement>
+				<text><![CDATA[รวม]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="394"
+						y="40"
+						width="87"
+						height="20"
+						key="staticText-25"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Tahoma" size="14"/>
+					</textElement>
+				<text><![CDATA[จำนวนผู้ป่วยนอก]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="394"
+						y="80"
+						width="87"
+						height="20"
+						key="staticText-26"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Tahoma" size="14"/>
+					</textElement>
+				<text><![CDATA[จำนวนรวมทั้งสิ้น]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="615"
+						y="60"
+						width="136"
+						height="20"
+						key="staticText-27"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Tahoma" size="14"/>
+					</textElement>
+				<text><![CDATA[จำนวนรับชำระหนี้]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="615"
+						y="40"
+						width="136"
+						height="20"
+						key="staticText-28"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Tahoma" size="14"/>
+					</textElement>
+				<text><![CDATA[จำนวนเงินรับจากผู้ป่วย]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="562"
+						y="40"
+						width="41"
+						height="20"
+						key="staticText-29"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Tahoma" size="14"/>
+					</textElement>
+				<text><![CDATA[คน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="615"
+						y="80"
+						width="136"
+						height="20"
+						key="staticText-30"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Tahoma" size="14"/>
+					</textElement>
+				<text><![CDATA[รวมเงินทั้งสิ้น]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="394"
+						y="60"
+						width="87"
+						height="20"
+						key="staticText-31"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Tahoma" size="14"/>
+					</textElement>
+				<text><![CDATA[จำนวนผู้ป่วยใน ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="886"
+						y="80"
+						width="41"
+						height="20"
+						key="staticText-33"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Tahoma" size="14"/>
+					</textElement>
+				<text><![CDATA[บาท]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="886"
+						y="60"
+						width="41"
+						height="20"
+						key="staticText-34"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Tahoma" size="14"/>
+					</textElement>
+				<text><![CDATA[บาท]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="886"
+						y="40"
+						width="41"
+						height="20"
+						key="staticText-35"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Tahoma" size="14"/>
+					</textElement>
+				<text><![CDATA[บาท]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="562"
+						y="80"
+						width="41"
+						height="20"
+						key="staticText-36"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Tahoma" size="14"/>
+					</textElement>
+				<text><![CDATA[คน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="562"
+						y="60"
+						width="41"
+						height="20"
+						key="staticText-37"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Tahoma" size="14"/>
+					</textElement>
+				<text><![CDATA[คน]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="482"
+						y="60"
+						width="76"
+						height="20"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" topPadding="1" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000" bottomPadding="1"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Tahoma" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{total_in_patient}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="482"
+						y="40"
+						width="76"
+						height="20"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" topPadding="1" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000" bottomPadding="1"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Tahoma" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{total_out_patient}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="482"
+						y="80"
+						width="76"
+						height="20"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" topPadding="1" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000" bottomPadding="1"/>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Tahoma" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{total_patient}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="754"
+						y="40"
+						width="129"
+						height="20"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" topPadding="1" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000" bottomPadding="1"/>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{total_patient_receipt}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="754"
+						y="80"
+						width="129"
+						height="20"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" topPadding="1" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000" bottomPadding="1"/>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{total_receipt}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="754"
+						y="60"
+						width="129"
+						height="20"
+						key="textField"
+						isPrintInFirstWholeBand="true"/>
+					<box topBorder="None" topBorderColor="#000000" topPadding="1" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000" bottomPadding="1"/>
+					<textElement textAlignment="Right">
+						<font fontName="Tahoma" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$V{total_debt_receipt}]]></textFieldExpression>
+				</textField>
+			</band>
+		</lastPageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

@@ -1,0 +1,27 @@
+D
+/BillingGroup.java/1.1/Thu Dec 20 09:14:33 2007//
+/BillingGroupItem.java/1.1/Thu Dec 20 09:14:33 2007//
+/BillingInvoice.java/1.1/Thu Dec 20 09:14:33 2007//
+/CashInFlow.java/1.1/Thu Dec 20 09:14:33 2007//
+/CategoryGroupItem.java/1.1/Thu Dec 20 09:14:33 2007//
+/Chronic.java/1.1/Thu Dec 20 09:14:33 2007//
+/Clinic.java/1.1/Thu Dec 20 09:14:33 2007//
+/DiagIcd10.java/1.1/Thu Dec 20 09:14:33 2007//
+/Drug.java/1.1/Thu Dec 20 09:14:33 2007//
+/Employee.java/1.1/Thu Dec 20 09:14:33 2007//
+/EyeDisease.java/1.1/Thu Dec 20 09:14:33 2007//
+/EyeGroup.java/1.1/Thu Dec 20 09:14:33 2007//
+/FixObject.java/1.1/Thu Dec 20 09:14:33 2007//
+/ICD10.java/1.1/Thu Dec 20 09:14:33 2007//
+/Item.java/1.1/Thu Dec 20 09:14:33 2007//
+/OrderItem.java/1.1/Thu Dec 20 09:14:33 2007//
+/OrderItemDrug.java/1.1/Thu Dec 20 09:14:33 2007//
+/Patient.java/1.1/Thu Dec 20 09:14:33 2007//
+/Payment.java/1.1/Thu Dec 20 09:14:33 2007//
+/Persist.java/1.1/Thu Dec 20 09:14:33 2007//
+/Plan.java/1.1/Thu Dec 20 09:14:33 2007//
+/Prefix.java/1.1/Thu Dec 20 09:14:33 2007//
+/ServicePoint.java/1.1/Thu Dec 20 09:14:33 2007//
+/ServicePointDoctor.java/1.1/Thu Dec 20 09:14:33 2007//
+/Uom.java/1.1/Thu Dec 20 09:14:33 2007//
+/Visit.java/1.1/Thu Dec 20 09:14:33 2007//

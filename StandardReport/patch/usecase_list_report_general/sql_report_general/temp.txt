@@ -1,0 +1,145 @@
+-- ทั่วไป (จำนวนผู้ป่วยนอกแยกแผนก เช่น อายุรกรรม)
+SELECT 
+	b_visit_clinic.visit_clinic_description as clinic
+	,   CASE WHEN ((sum(patient_incup)) > 0)    
+			THEN sum(patient_incup)  
+			ELSE 0  
+	END AS patient_incup
+	,   CASE WHEN ((sum(visit_incup)) > 0 )  
+			THEN sum(visit_incup) 
+			ELSE  0   
+	END  AS visit_incup
+	,   CASE WHEN ((sum(patient_outcup)) > 0)   
+			THEN  sum(patient_outcup)  
+			ELSE 0   
+	END AS patient_outcup
+	,   CASE WHEN ((sum(visit_outcup)) > 0 )  
+			THEN sum(visit_outcup)  
+			ELSE  0    
+	END AS visit_outcup 
+FROM 
+	b_visit_clinic 
+	LEFT JOIN  (  SELECT 
+					t_diag_icd10.b_visit_clinic_id AS b_visit_clinic_id
+					,t_visit.t_patient_id AS t_patient_id
+					, CASE WHEN ((visit_payment_main_hospital IN (Select  hospital_incup_code
+								from r_hospital_incup))    
+								OR (visit_payment_sub_hospital IN (Select  hospital_incup_code 
+								from r_hospital_incup))) 
+							THEN 1  
+							ELSE 0 
+					END AS patient_incup
+					, sum(CASE WHEN ((visit_payment_main_hospital IN (Select  hospital_incup_code 
+								from r_hospital_incup))  
+								OR (visit_payment_sub_hospital IN (Select  hospital_incup_code 
+								from r_hospital_incup)))  
+							THEN 1 
+							ELSE 0   
+							END) AS visit_incup
+					, CASE WHEN ((visit_payment_main_hospital NOT IN (Select  hospital_incup_code 
+								from r_hospital_incup)) 
+								AND (visit_payment_sub_hospital NOT IN (Select  hospital_incup_code 
+								from r_hospital_incup))) 
+							THEN 1 
+							ELSE 0  
+					END AS patient_outcup
+					, sum(CASE WHEN ((visit_payment_main_hospital NOT IN (Select  hospital_incup_code 
+								from r_hospital_incup)) 
+								AND (visit_payment_sub_hospital NOT IN (Select  hospital_incup_code 
+								from r_hospital_incup))) 
+							THEN 1 
+							ELSE 0   
+					END) AS visit_outcup 
+				FROM 
+					( t_visit INNER JOIN t_visit_payment 
+						ON t_visit.t_visit_id = t_visit_payment.t_visit_id )   
+					INNER JOIN t_diag_icd10 
+						ON t_visit.t_visit_id = t_diag_icd10.diag_icd10_vn 
+				WHERE 
+					( t_visit.f_visit_status_id = '3' OR t_visit.f_visit_status_id = '2')  
+					AND ( t_diag_icd10.f_diag_icd10_type_id = '1')  
+					AND ( t_visit_payment.visit_payment_priority = '0') 
+					AND ( substring(t_visit.visit_financial_discharge_time,0,11) 
+						Between '2549-01-01'  And '2549-01-31')  
+				GROUP BY   
+					t_diag_icd10.b_visit_clinic_id
+					, t_visit.t_patient_id
+					, patient_incup
+					, patient_outcup   
+				) AS query1    
+	ON query1.b_visit_clinic_id = b_visit_clinic.b_visit_clinic_id  
+GROUP BY 
+	b_visit_clinic.visit_clinic_description
+
+
+-- ทั่วไป (รายงานจำนวนผู้ป่วยนอก(คน/ครั้ง)
+SELECT 
+	b_contract_plans.contract_plans_description as Payment 
+	, CASE WHEN ((sum(patient_incup)) > 0) 
+			THEN sum(patient_incup) 
+			ELSE 0 
+	END AS patient_incup 
+	, CASE WHEN ((sum(visit_incup)) > 0 ) 	
+			THEN sum(visit_incup) 
+			ELSE  0 	
+	END  AS visit_incup 
+	, CASE WHEN ((sum(patient_outcup)) > 0) 	
+			THEN  sum(patient_outcup) 
+			ELSE 0 	
+	END AS patient_outcup 
+	, CASE WHEN ((sum(visit_outcup)) > 0 )  
+			THEN sum(visit_outcup) 
+			ELSE  0 
+	END AS visit_outcup 
+FROM 
+	b_contract_plans 
+	LEFT JOIN  (SELECT  
+					t_visit_payment.b_contract_plans_id AS b_contract_plans_id 
+					,  t_visit.t_patient_id  AS t_patient_id 
+					,CASE WHEN ((t_visit_payment.visit_payment_main_hospital IN (Select  hospital_incup_code 
+								from r_hospital_incup))   
+								OR ( t_visit_payment.visit_payment_sub_hospital IN (Select  hospital_incup_code 
+								from r_hospital_incup))) 
+							THEN 1 
+							ELSE 0 	
+					END AS patient_incup 
+					,sum(CASE WHEN ((t_visit_payment.visit_payment_main_hospital IN (Select  hospital_incup_code 
+								from r_hospital_incup))  
+								OR (t_visit_payment.visit_payment_sub_hospital IN (Select  hospital_incup_code 
+								from r_hospital_incup))) 
+							THEN 1 
+							ELSE 0 
+					END) AS visit_incup 
+					,CASE WHEN ((t_visit_payment.visit_payment_main_hospital NOT IN (Select  hospital_incup_code 
+								from r_hospital_incup))  
+								AND (t_visit_payment.visit_payment_sub_hospital NOT IN (Select  hospital_incup_code 
+								from r_hospital_incup))) 
+							THEN 1 
+							ELSE 0 
+					END AS patient_outcup
+					,sum(CASE WHEN ((t_visit_payment.visit_payment_main_hospital NOT IN (Select  hospital_incup_code 
+								from r_hospital_incup)) 
+								AND (t_visit_payment.visit_payment_sub_hospital NOT IN (Select  hospital_incup_code 
+								from r_hospital_incup))) 
+							THEN 1 
+							ELSE 0 	
+					END) AS visit_outcup 
+				FROM  	
+					t_visit INNER JOIN t_visit_payment 
+						ON t_visit.t_visit_id = t_visit_payment.t_visit_id 
+				WHERE
+ 					( t_visit.f_visit_status_id <> '4')  	
+					AND ( t_visit_payment.visit_payment_priority = '0' )  
+					AND ( t_visit.f_visit_type_id = '0') 
+					AND (substring(t_visit.visit_financial_discharge_time,0,11) 
+						Between '2549-01-01' And '2549-01-31')  
+						AND (t_visit.visit_financial_discharge_time <> '') 
+				GROUP BY 	
+					b_contract_plans_id 	
+					,t_patient_id  
+					,patient_incup 
+					,patient_outcup
+				) AS query1 
+	ON b_contract_plans.b_contract_plans_id = query1.b_contract_plans_id 
+GROUP BY  	
+	b_contract_plans.contract_plans_description  

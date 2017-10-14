@@ -1,0 +1,41 @@
+-- ทั่วไป (ค่าใช้จ่ายที่เกิดขึ้นจริง)
+SELECT 
+	b_item_subgroup.item_subgroup_description AS item_subgroup
+	, sum(to_number(query1.price,'99999.99') + to_number(0.00,'9.99')) AS price 
+	, CASE WHEN ((sum(query1.cost)) > 0) 
+			THEN to_number((to_number(sum(query1.cost),99999.99) + to_number('0.00',99999.99)),99999.99) 
+			ELSE to_number(0.00,'9.99') 
+	END AS cost 
+FROM 
+	b_item_subgroup 
+	INNER JOIN (SELECT t_order.b_item_subgroup_id AS b_item_subgroup_id
+					, t_order.t_order_id
+					, t_order.order_common_name
+					, t_order.order_price
+					, t_order.order_qty
+					, ceil((CASE WHEN (t_order.order_price > 0)  
+							THEN t_order.order_price 
+							ELSE 0  
+					END) * t_order.order_qty) AS price 
+					, ((CASE WHEN ((t_order.order_cost <> '') AND (t_order.order_cost <> 'null')) 
+							THEN to_number(t_order.order_cost,99999.99) 
+							ELSE 0 
+					END) * t_order.order_qty) AS cost 
+				FROM 
+					t_order 
+				WHERE
+					((t_order.f_order_status_id = '2'))  
+					AND (substring(t_order.order_date_time,0,11) 
+						Between '2549-01-01' And '2549-01-31') 
+				ORDER BY 
+					t_order.b_item_subgroup_id, t_order.t_order_id
+				) AS query1 
+	ON query1.b_item_subgroup_id = b_item_subgroup.b_item_subgroup_id 
+WHERE 
+	b_item_subgroup.item_subgroup_active = '1' 
+GROUP BY 
+	b_item_subgroup.b_item_subgroup_id
+	, b_item_subgroup.item_subgroup_description 
+ORDER BY 
+	b_item_subgroup.b_item_subgroup_id
+	, b_item_subgroup.item_subgroup_description

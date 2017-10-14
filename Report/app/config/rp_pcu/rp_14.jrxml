@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="rp_14"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="date_to" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date_from" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="site_name" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="time" isForPrompting="false" class="java.lang.String"/>
+	<queryString><![CDATA[SELECT r_accident_group.accident_group_number ||'. ' ||r_accident_group.accident_group_description AS "อุบัติเหตุ 19 สาเหตุ"
+
+        ,case when (sum(query1.male)  > 0 ) then (sum(query1.male)) else 0 end AS ชาย 
+
+        ,case when (sum(query1.female) > 0) then (sum(query1.female)) else 0 end AS หญิง 
+
+        ,case when (sum(query1.nonspecify) > 0) then (sum(query1.nonspecify) ) else 0 end AS ไม่ระบุ
+
+        ,case when (sum(query1.all) > 0) then (sum(query1.all) ) else 0 end AS รวม 
+
+        ,case when (sum(query1.male_refer) > 0) then (sum(query1.male_refer) ) else 0 end AS "ส่งต่อ(ชาย)" 
+
+        ,case when (sum(query1.female_refer) > 0) then (sum(query1.female_refer) ) else 0 end AS "ส่งต่อ(หญิง)" 
+
+        ,case when (sum(query1.all_refer) > 0) then (sum(query1.all_refer) ) else 0 end AS "ส่งต่อ(รวม)" 
+
+FROM r_accident_group
+
+        LEFT JOIN  (SELECT distinct t_visit.visit_vn 
+
+        ,r_accident_group_code.r_accident_group_id AS r_accident_group_id
+
+,diag_icd10_diagnosis_date as date_diag
+
+         ,(CASE  WHEN ((t_patient.f_sex_id = '1') AND (t_visit.f_visit_type_id = '0')) THEN  1 ELSE 0 END)  AS male 
+
+        ,(CASE  WHEN ((t_patient.f_sex_id = '2') AND (t_visit.f_visit_type_id = '0')) THEN  1 ELSE 0 END)  AS female 
+
+        ,(CASE  WHEN ((t_patient.f_sex_id <> '2' ) AND (t_patient.f_sex_id <> '1' ) AND (t_visit.f_visit_type_id = '0')) THEN  1 ELSE 0 END)  AS  nonspecify 
+
+        ,(CASE WHEN (t_visit.f_visit_type_id = '0') THEN 1 ELSE 0 END)  AS all 
+
+
+
+        ,(CASE  WHEN ((t_visit.f_visit_type_id = '0') AND (t_patient.f_sex_id = '1') AND   ((t_visit.f_visit_opd_discharge_status_id = '54') )) THEN  1 ELSE 0 END)  AS male_refer
+
+
+
+        ,(CASE  WHEN ((t_visit.f_visit_type_id = '0') AND (t_patient.f_sex_id = '2') AND   ((t_visit.f_visit_opd_discharge_status_id = '54') )) THEN  1 ELSE 0 END)  AS female_refer
+
+        ,(CASE  WHEN ((t_visit.f_visit_type_id = '0')  AND   ((t_visit.f_visit_opd_discharge_status_id = '54') )) THEN  1 ELSE 0 END)  AS all_refer
+
+
+
+
+
+        ,(CASE  WHEN ((t_visit.f_visit_type_id = '0') AND (t_patient.f_sex_id = '1') AND   ((t_visit.f_visit_opd_discharge_status_id = '55')
+
+        OR (t_visit.f_visit_opd_discharge_status_id = '52')  )) THEN  1 ELSE 0 END)  AS male_death 
+
+        ,(CASE  WHEN ((t_patient.f_sex_id = '2') AND (t_visit.f_visit_type_id = '0') AND ((t_visit.f_visit_opd_discharge_status_id = '55') 
+
+        OR (t_visit.f_visit_opd_discharge_status_id = '52')   )) THEN  1 ELSE 0 END)  AS female_death 
+
+        ,(CASE  WHEN ((t_patient.f_sex_id <> '2' ) AND (t_patient.f_sex_id <> '1' ) AND (t_visit.f_visit_type_id = '0') 
+
+        AND   ((t_visit.f_visit_opd_discharge_status_id = '55') OR (t_visit.f_visit_opd_discharge_status_id = '52')  )) THEN  1 ELSE 0 END) AS  nonspecify_death 
+        FROM r_accident_group_code, ( t_patient INNER JOIN  ( t_visit INNER JOIN t_diag_icd10 ON t_visit.t_visit_id = t_diag_icd10.diag_icd10_vn ) ON t_patient.t_patient_id =t_visit.t_patient_id )
+        WHERE ((  ( substring(t_visit.visit_financial_discharge_time,1,10))  
+between  substring('2551',1,10) AND substring('2552',1,10)) 
+        AND (   ( t_diag_icd10.diag_icd10_number) Between  r_accident_group_code.accident_group_code_begin 
+        And   r_accident_group_code.accident_group_code_end ) 
+        AND (( t_visit.f_visit_status_id) <> '4') AND (t_diag_icd10.diag_icd10_active = '1')) 
+        ORDER BY  r_accident_group_id ) AS query1 
+ON r_accident_group.r_accident_group_id = query1.r_accident_group_id 
+GROUP BY r_accident_group.accident_group_description , r_accident_group.accident_group_number 
+ORDER BY to_number(r_accident_group.accident_group_number,'99.99')
+]]></queryString>
+
+	<field name="อุบัติเหตุ 19 สาเหตุ" class="java.lang.String"/>
+	<field name="ชาย" class="java.lang.Long"/>
+	<field name="หญิง" class="java.lang.Long"/>
+	<field name="ไม่ระบุ" class="java.lang.Long"/>
+	<field name="รวม" class="java.lang.Long"/>
+	<field name="ส่งต่อ(ชาย)" class="java.lang.Long"/>
+	<field name="ส่งต่อ(หญิง)" class="java.lang.Long"/>
+	<field name="ส่งต่อ(รวม)" class="java.lang.Long"/>
+
+	<variable name="ชาย" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{ชาย}]]></variableExpression>
+	</variable>
+	<variable name="หญิง" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{หญิง}]]></variableExpression>
+	</variable>
+	<variable name="รวม" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{รวม}]]></variableExpression>
+	</variable>
+	<variable name="ส่งต่อ(ชาย)" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{ส่งต่อ(ชาย)}]]></variableExpression>
+	</variable>
+	<variable name="ส่งต่อ(หญิง)" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{ส่งต่อ(หญิง)}]]></variableExpression>
+	</variable>
+	<variable name="ส่งต่อ(รวม)" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{ส่งต่อ(รวม)}]]></variableExpression>
+	</variable>
+
+		<group  name="cause" >
+			<groupExpression><![CDATA[$F{อุบัติเหตุ 19 สาเหตุ}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="63"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="535"
+						height="63"
+						key="textField-1"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="18"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["รายงานอุบัติเหตุ"+
+"\nสถานพยาบาล(สถานีอนามัย):"+$P{site_name}+
+"\nประจำวันที่ "+$P{time}]]></textFieldExpression>
+				</textField>
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="35"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="240"
+						y="0"
+						width="49"
+						height="35"
+						key="textField-2"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ชาย"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="289"
+						y="0"
+						width="49"
+						height="35"
+						key="textField-3"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["หญิง"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="338"
+						y="0"
+						width="49"
+						height="35"
+						key="textField-4"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["รวม"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="387"
+						y="17"
+						width="49"
+						height="18"
+						key="textField-5"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ชาย"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="436"
+						y="17"
+						width="49"
+						height="18"
+						key="textField-6"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["หญิง"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="485"
+						y="17"
+						width="49"
+						height="18"
+						key="textField-7"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["รวม"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="387"
+						y="0"
+						width="147"
+						height="17"
+						key="textField-8"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ส่งต่อ"]]></textFieldExpression>
+				</textField>
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="22"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="8"
+						y="0"
+						width="232"
+						height="22"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{อุบัติเหตุ 19 สาเหตุ}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="240"
+						y="0"
+						width="49"
+						height="22"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{ชาย}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="289"
+						y="0"
+						width="49"
+						height="22"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{หญิง}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="338"
+						y="0"
+						width="49"
+						height="22"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{รวม}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="387"
+						y="0"
+						width="49"
+						height="22"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{ส่งต่อ(ชาย)}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="436"
+						y="0"
+						width="49"
+						height="22"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{ส่งต่อ(หญิง)}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="485"
+						y="0"
+						width="49"
+						height="22"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{ส่งต่อ(รวม)}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="20"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="240"
+						y="0"
+						width="49"
+						height="20"
+						key="textField-9"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{ชาย}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="289"
+						y="0"
+						width="49"
+						height="20"
+						key="textField-10"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{หญิง}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="338"
+						y="0"
+						width="49"
+						height="20"
+						key="textField-11"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{รวม}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="387"
+						y="0"
+						width="49"
+						height="20"
+						key="textField-12"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{ส่งต่อ(ชาย)}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="436"
+						y="0"
+						width="49"
+						height="20"
+						key="textField-13"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{ส่งต่อ(หญิง)}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="485"
+						y="0"
+						width="49"
+						height="20"
+						key="textField-14"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{ส่งต่อ(รวม)}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="8"
+						y="0"
+						width="232"
+						height="20"
+						key="textField-15"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["รวมทั้งหมด"]]></textFieldExpression>
+				</textField>
+			</band>
+		</summary>
+</jasperReport>

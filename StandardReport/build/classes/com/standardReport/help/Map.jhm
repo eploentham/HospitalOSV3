@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE map
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/map_1_0.dtd">
+
+<map version="1.0">
+	<mapID target="toplevelfolder" url="images/toplevel.gif" />
+	<mapID target="top" url="helpstandardReport/index.htm" />
+        <mapID target="intro" url="helpstandardReport/index.htm" />
+	<mapID target="start" url="helpstandardReport/index.htm" />
+
+
+        <mapID target="overview" url="helpstandardReport/index.htm" />
+                <mapID target="overview-1-1" url="helpstandardReport/Chapter01Connection.htm" />
+                <mapID target="overview-1-2" url="helpstandardReport/Chapter02SelectReport.htm" />
+                <mapID target="overview-1-3" url="helpstandardReport/Chapter03SelectDate.htm" />            
+                <mapID target="overview-1-4" url="helpstandardReport/Chapter04SaveToFile.htm" />	
+                <mapID target="overview-1-5" url="helpstandardReport/Chapter05SaveToFolder.htm" />        
+                <mapID target="overview-1-6" url="helpstandardReport/Chapter06Exam.htm" />	
+                    <mapID target="overview-1-6-01" url="helpstandardReport/Chapter06Exam.htm" />
+                        <mapID target="overview-1-6-01-01" url="helpstandardReport/Chapter06Exam_Report504_01.htm" />
+                        <mapID target="overview-1-6-01-02" url="helpstandardReport/Chapter06Exam_Report504_02.htm" />
+                    <mapID target="overview-1-6-02" url="helpstandardReport/Chapter06Exam.htm" />
+                        <mapID target="overview-1-6-02-01" url="helpstandardReport/Chapter06Exam_Report505_01.htm" />
+                        <mapID target="overview-1-6-02-02" url="helpstandardReport/Chapter06Exam_Report505_02.htm" />
+                    <mapID target="overview-1-6-03" url="helpstandardReport/Chapter06Exam.htm" />
+                        <mapID target="overview-1-6-03-01" url="helpstandardReport/Chapter06Exam_Report506_01.htm" />
+                        <mapID target="overview-1-6-03-02" url="helpstandardReport/Chapter06Exam_Report506_02.htm" />
+                        <mapID target="overview-1-6-03-03" url="helpstandardReport/Chapter06Exam_Report506_03.htm" />
+                    <mapID target="overview-1-6-04" url="helpstandardReport/Chapter06Exam.htm" />
+                        <mapID target="overview-1-6-04-01" url="helpstandardReport/Chapter06Exam_Report11R5_01.htm" />
+                        <mapID target="overview-1-6-04-02" url="helpstandardReport/Chapter06Exam_Report11R5_02.htm" />
+                        <mapID target="overview-1-6-04-04" url="helpstandardReport/Chapter06Exam_Report11R5_04.htm" />
+</map>

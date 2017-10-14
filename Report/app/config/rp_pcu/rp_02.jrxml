@@ -1,0 +1,1027 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="rp_02"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="842"
+		 pageHeight="595"
+		 columnWidth="782"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="date_to" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date_from" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="site_name" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["บ้านหม่านิก อ.ถลาง จ.ภูเก็ต"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="time" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["1/10/2552-31/10/2552"]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[select main1.moo as หมู่
+,main1.village_name as ชื่อหมู่บ้าน
+,main1.patient_child  as จำนวนเด็กในหมู่บ้าน
+,main2.child_weight as จำนวนเด็กชั่งน้ำหนัก
+,case when ((sum(main1.patient_child )  > 0 )and (sum(main2.child_weight)  > 0 )) 
+then ROUND((sum(main2.child_weight*100))/(sum(main1.patient_child )),2) else 0 end AS ร้อยละที่ชั่งน้ำหนัก
+,main2.normal as "นน.ตามเกณฑ์"
+,case when ((sum(main1.patient_child )  > 0 )and (sum(main2.normal)  > 0 )) 
+then ROUND((sum(main2.normal*100))/(sum(main1.patient_child )),2) else 0 end AS ร้อยละตามเกณฑ์
+,main2.less_rather as "ค่อนข้างน้อย"
+,case when ((sum(main1.patient_child )  > 0 )and (sum(main2.less_rather)  > 0 )) 
+then ROUND((sum(main2.less_rather*100))/(sum(main1.patient_child )),2) else 0 end AS ร้อยละค่อนข้างน้อย
+,main2.slighted_less as "น้อยกว่าเกณฑ์"
+,case when ((sum(main1.patient_child )  > 0 )and (sum(main2.slighted_less)  > 0 )) 
+then ROUND((sum(main2.slighted_less*100))/(sum(main1.patient_child )),2) else 0 end AS ร้อยละน้อยกว่าเกณฑ์
+,main2.more_rather as "ค่อนข้างมาก"
+,case when ((sum(main1.patient_child )  > 0 )and (sum(main2.more_rather)  > 0 )) 
+then ROUND((sum(main2.more_rather*100))/(sum(main1.patient_child )),2) else 0 end AS ร้อยละค่อนข้างมาก
+,main2.more_over as "มากเกินเกณฑ์"
+,case when ((sum(main1.patient_child )  > 0 )and (sum(main2.more_over)  > 0 )) 
+then ROUND((sum(main2.more_over*100))/(sum(main1.patient_child )),2) else 0 end AS ร้อยละมากเกินเกณฑ์
+from
+
+(SELECT  case when length(t_health_village.village_moo) = 1 
+then '0' || t_health_village.village_moo
+                       else t_health_village.village_moo  end AS moo 
+--t_health_village.village_moo AS moo  
+,t_health_village.village_name AS village_name  
+,COUNT(t_health_family.t_health_family_id ) AS patient_child  
+FROM  t_health_home  
+INNER JOIN  t_health_family  ON t_health_family.t_health_home_id = t_health_home.t_health_home_id  
+INNER JOIN t_health_village  ON(t_health_home.t_health_village_id = t_health_village.t_health_village_id  
+AND t_health_village.village_moo <> '0')  
+WHERE  (substring(' ' || age(to_date('2552-02-01','YYYY-MM-DD')  ,to_date(t_health_family.patient_birthday,'YYYY-MM-DD'))from '(...)year')) IS NULL  
+OR  to_number(substring(' ' || age(to_date('2552-02-01'  ,'YYYY-MM-DD'), to_date(t_health_family.patient_birthday,'YYYY-MM-DD')) from '(...)year'),'999') < 6  
+OR ( to_number(substring(' ' || age(to_date('2552-02-01','YYYY-MM-DD'),  to_date(t_health_family.patient_birthday,'YYYY-MM-DD')) from '(...)year'),'999') = 6  
+AND  to_number(substring(' ' || age(to_date('2552-02-01','YYYY-MM-DD'),  to_date(t_health_family.patient_birthday,'YYYY-MM-DD')) from'(...)mon'),'999') IS NULL )  
+GROUP BY  t_health_village.village_moo  ,t_health_village.village_name  
+ORDER BY  t_health_village.village_moo)  as main1
+
+LEFT JOIN
+
+(SELECT 
+ case when length(t_health_village.village_moo) = 1 
+then '0' || t_health_village.village_moo
+                        else t_health_village.village_moo  end AS moo 
+,t_health_village.village_name AS ชื่อหมู่บ้าน
+--,t_health_village.village_moo AS moo  
+,COUNT(query1.t_health_family_id) AS child_weight  
+,CASE WHEN (SUM(query1.more_over) >0 )  
+then SUM(query1.more_over)  ELSE 0  END AS more_over  
+,CASE WHEN (SUM(query1.more_rather) >0 )  
+then SUM(query1.more_rather)  ELSE 0  END AS more_rather  
+,CASE WHEN (SUM(query1.normal) >0 )  
+then SUM(query1.normal)  ELSE 0  END AS normal  
+,CASE WHEN (SUM(query1.less_rather) >0 )  
+then SUM(query1.less_rather)  ELSE 0  END AS less_rather  
+,CASE WHEN (SUM(query1.slighted_less) >0 )  
+then SUM(query1.slighted_less)  ELSE 0  END AS slighted_less  
+
+
+FROM  t_health_village LEFT JOIN  
+
+(SELECT t_health_family.t_health_family_id  
+,t_health_village.t_health_village_id  
+,t_health_village.village_moo  
+,CASE WHEN ((t_visit_vital_sign.f_visit_nutrition_level_id IN 
+(SELECT b_nutrition_map.f_visit_nutrition_level_old   FROM b_nutrition_map  
+WHERE b_nutrition_map.f_visit_nutrition_level_new ='08'))  OR t_visit_vital_sign.f_visit_nutrition_level_id = '08')  
+then 1  ELSE 0 END AS  more_over  
+,CASE WHEN ((t_visit_vital_sign.f_visit_nutrition_level_id IN (SELECT b_nutrition_map.f_visit_nutrition_level_old  FROM b_nutrition_map  
+WHERE b_nutrition_map.f_visit_nutrition_level_new ='09'))  OR t_visit_vital_sign.f_visit_nutrition_level_id = '09')  
+then 1  ELSE 0 END AS  more_rather  
+,CASE WHEN ((t_visit_vital_sign.f_visit_nutrition_level_id IN (SELECT b_nutrition_map.f_visit_nutrition_level_old  FROM b_nutrition_map  
+WHERE b_nutrition_map.f_visit_nutrition_level_new ='10'))OR t_visit_vital_sign.f_visit_nutrition_level_id = '10')  
+then 1  ELSE 0 END AS normal  
+,CASE WHEN ((t_visit_vital_sign.f_visit_nutrition_level_id IN (SELECT b_nutrition_map.f_visit_nutrition_level_old  FROM b_nutrition_map  
+WHERE b_nutrition_map.f_visit_nutrition_level_new ='11'))  OR t_visit_vital_sign.f_visit_nutrition_level_id = '11')  
+then 1  ELSE 0 END AS  less_rather  
+,CASE WHEN ((t_visit_vital_sign.f_visit_nutrition_level_id IN (SELECT b_nutrition_map.f_visit_nutrition_level_old  FROM b_nutrition_map  
+WHERE b_nutrition_map.f_visit_nutrition_level_new ='12'))  OR t_visit_vital_sign.f_visit_nutrition_level_id = '12')  
+then 1 ELSE 0 END AS  slighted_less 
+ 
+
+FROM  t_visit 
+        INNER JOIN t_visit_vital_sign  ON (t_visit.t_visit_id = t_visit_vital_sign.t_visit_id  AND t_visit_vital_sign.visit_vital_sign_weight <> ''  
+              AND t_visit_vital_sign.visit_vital_sign_bmi <> ''  AND t_visit_vital_sign.visit_vital_sign_active = '1')  
+        INNER JOIN (SELECT t_visit_vital_sign.t_patient_id,max(t_visit_vital_sign.visit_vital_sign_check_date || t_visit_vital_sign.visit_vital_sign_check_time) as date_max  
+                    FROM t_visit_vital_sign  WHERE t_visit_vital_sign.visit_vital_sign_check_date BETWEEN '' AND ''  
+                    AND t_visit_vital_sign.visit_vital_sign_active = '1'  
+                    GROUP BY t_visit_vital_sign.t_patient_id  ) AS query  
+
+        ON ( t_visit_vital_sign.t_patient_id= query.t_patient_id  
+	AND (t_visit_vital_sign.visit_vital_sign_check_date || t_visit_vital_sign.visit_vital_sign_check_time) = query.date_max)  
+        INNER JOIN t_patient  ON t_patient.t_patient_id = t_visit.t_patient_id  
+        INNER JOIN t_health_family  ON t_patient.t_health_family_id = t_health_family.t_health_family_id  
+        INNER JOIN t_health_home  ON t_health_family.t_health_home_id = t_health_home.t_health_home_id  
+        INNER JOIN t_health_village  ON (t_health_home.t_health_village_id = t_health_village.t_health_village_id  
+        AND t_health_village.village_moo <> '0')  WHERE (substring(' ' || age(to_date('','YYYY-MM-DD')
+        ,to_date(t_health_family.patient_birthday,'YYYY-MM-DD'))  from '(...)year')) IS NULL  
+        OR  to_number(substring(' ' || age(to_date('','YYYY-MM-DD')
+        ,to_date(t_health_family.patient_birthday,'YYYY-MM-DD')) from '(...)year'),'999') < 6  
+        OR (to_number(substring(' ' || age(to_date('','YYYY-MM-DD'),to_date(t_health_family.patient_birthday,'YYYY-MM-DD')) from '(...)year'),'999') = 6 
+        AND to_number(substring(' ' || age(to_date('','YYYY-MM-DD'),to_date(t_health_family.patient_birthday,'YYYY-MM-DD')) from '(...)mon'),'999') IS NULL )  
+        AND t_visit_vital_sign.visit_vital_sign_check_date BETWEEN '' AND ''  
+        GROUP BY t_health_family.t_health_family_id  ,t_health_village.t_health_village_id  
+        ,t_health_village.village_moo  
+        ,t_visit_vital_sign.f_visit_nutrition_level_id  
+
+UNION
+
+SELECT   t_health_family.t_health_family_id  
+        ,t_health_village.t_health_village_id
+        ,t_health_village.village_moo  
+        ,CASE WHEN ((t_health_nutrition.f_health_nutrition_level_id 
+                IN (SELECT b_nutrition_map.f_visit_nutrition_level_old  FROM b_nutrition_map  
+              WHERE b_nutrition_map.f_visit_nutrition_level_new ='08'))  OR t_health_nutrition.f_health_nutrition_level_id = '08')  
+then 1  ELSE 0 END AS  more_over  
+        ,CASE WHEN ((t_health_nutrition.f_health_nutrition_level_id IN (SELECT b_nutrition_map.f_visit_nutrition_level_old  FROM b_nutrition_map  
+              WHERE b_nutrition_map.f_visit_nutrition_level_new ='09'))  
+                OR t_health_nutrition.f_health_nutrition_level_id = '09')  
+then 1  ELSE 0 END AS  more_rather  
+        ,CASE WHEN ((t_health_nutrition.f_health_nutrition_level_id IN (SELECT b_nutrition_map.f_visit_nutrition_level_old  FROM b_nutrition_map  
+WHERE b_nutrition_map.f_visit_nutrition_level_new ='10'))  OR t_health_nutrition.f_health_nutrition_level_id = '10')  
+then 1  ELSE 0 END AS  normal  
+        ,CASE WHEN ((t_health_nutrition.f_health_nutrition_level_id IN (SELECT b_nutrition_map.f_visit_nutrition_level_old  
+                    FROM b_nutrition_map WHERE b_nutrition_map.f_visit_nutrition_level_new ='11'))  OR t_health_nutrition.f_health_nutrition_level_id = '11')  
+then 1  ELSE 0 END AS  less_rather  
+        ,CASE WHEN ((t_health_nutrition.f_health_nutrition_level_id IN (SELECT b_nutrition_map.f_visit_nutrition_level_old  FROM b_nutrition_map  
+WHERE b_nutrition_map.f_visit_nutrition_level_new ='12')) 
+               OR t_health_nutrition.f_health_nutrition_level_id = '12')  
+then 1  ELSE 0 END AS  slighted_less  
+FROM  t_health_nutrition  
+        INNER JOIN t_health_family  ON (t_health_nutrition.t_health_family_id = t_health_family.t_health_family_id  
+            AND t_health_nutrition.health_nutrition_weight <> ''  AND t_health_nutrition.health_nutrition_bmi <> ''  
+            AND t_health_nutrition.health_nutrition_active = '1')  
+        INNER JOIN (SELECT t_health_nutrition.t_health_family_id,max(t_health_nutrition.nutrition_survey_date) AS survey_date 
+                        FROM t_health_nutrition  WHERE t_health_nutrition.nutrition_survey_date 
+                        BETWEEN '' AND ''  AND t_health_nutrition.health_nutrition_active = '1' 
+                        GROUP BY t_health_nutrition.t_health_family_id) AS query2  
+             ON (t_health_nutrition.t_health_family_id = query2.t_health_family_id  
+            AND t_health_nutrition.nutrition_survey_date = survey_date )  
+        INNER JOIN t_health_home  ON t_health_family.t_health_home_id= t_health_home.t_health_home_id  
+        INNER JOIN t_health_village  ON (t_health_home.t_health_village_id = t_health_village.t_health_village_id  
+            AND t_health_village.village_moo <> '0')  
+WHERE (substring(' ' || age(to_date('','YYYY-MM-DD'),to_date(t_health_family.patient_birthday,'YYYY-MM-DD')) from '(...)year')) IS NULL  
+        OR  to_number(substring(' ' || age(to_date('','YYYY-MM-DD'),to_date(t_health_family.patient_birthday,'YYYY-MM-DD')) from '(...)year'),'999') < 6  
+        OR (to_number(substring(' ' || age(to_date('','YYYY-MM-DD'),to_date(t_health_family.patient_birthday,'YYYY-MM-DD')) from '(...)year'),'999') = 6  
+        AND to_number(substring(' ' || age(to_date('','YYYY-MM-DD'),to_date(t_health_family.patient_birthday,'YYYY-MM-DD')) from '(...)mon'),'999') IS NULL)  
+    AND t_health_nutrition.nutrition_survey_date BETWEEN '' AND ''  
+    GROUP BY  t_health_family.t_health_family_id  ,t_health_village.t_health_village_id ,t_health_village.village_moo  
+,t_health_nutrition.f_health_nutrition_level_id  )  
+AS query1  
+
+ON t_health_village.t_health_village_id = query1.t_health_village_id  
+
+WHERE t_health_village.village_moo <> '0'  
+GROUP BY  t_health_village.village_moo  ,t_health_village.village_name
+ORDER BY  to_number(t_health_village.village_moo,'99') ) as main2
+
+ON main1.moo = main2.moo
+
+GROUP BY 
+main1.moo
+,main1.village_name
+,main1.patient_child  
+,main2.child_weight
+,main2.normal
+,main2.less_rather
+,main2.slighted_less
+,main2.more_rather
+,main2.more_over
+
+ORDER BY main1.moo]]></queryString>
+
+	<field name="หมู่" class="java.lang.String"/>
+	<field name="ชื่อหมู่บ้าน" class="java.lang.String"/>
+	<field name="จำนวนเด็กในหมู่บ้าน" class="java.lang.Long"/>
+	<field name="จำนวนเด็กชั่งน้ำหนัก" class="java.lang.Long"/>
+	<field name="ร้อยละที่ชั่งน้ำหนัก" class="java.math.BigDecimal"/>
+	<field name="นน.ตามเกณฑ์" class="java.lang.Long"/>
+	<field name="ร้อยละตามเกณฑ์" class="java.math.BigDecimal"/>
+	<field name="ค่อนข้างน้อย" class="java.lang.Long"/>
+	<field name="ร้อยละค่อนข้างน้อย" class="java.math.BigDecimal"/>
+	<field name="น้อยกว่าเกณฑ์" class="java.lang.Long"/>
+	<field name="ร้อยละน้อยกว่าเกณฑ์" class="java.math.BigDecimal"/>
+	<field name="ค่อนข้างมาก" class="java.lang.Long"/>
+	<field name="ร้อยละค่อนข้างมาก" class="java.math.BigDecimal"/>
+	<field name="มากเกินเกณฑ์" class="java.lang.Long"/>
+	<field name="ร้อยละมากเกินเกณฑ์" class="java.math.BigDecimal"/>
+
+	<variable name="ค่อนข้างน้อย" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{ค่อนข้างน้อย}]]></variableExpression>
+	</variable>
+	<variable name="ค่อนข้างมาก" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{ค่อนข้างมาก}]]></variableExpression>
+	</variable>
+	<variable name="มากเกินเกณฑ์" class="java.lang.Long" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$F{มากเกินเกณฑ์}]]></variableExpression>
+	</variable>
+	<variable name="น้อยกว่าเกณฑ์" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{น้อยกว่าเกณฑ์}]]></variableExpression>
+	</variable>
+	<variable name="จำนวนเด็กชั่งน้ำหนัก" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{จำนวนเด็กชั่งน้ำหนัก}]]></variableExpression>
+	</variable>
+	<variable name="จำนวนเด็กในหมู่บ้าน" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{จำนวนเด็กในหมู่บ้าน}]]></variableExpression>
+	</variable>
+	<variable name="นน.ตามเกณฑ์" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{นน.ตามเกณฑ์}]]></variableExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="52"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="782"
+						height="52"
+						key="textField-1"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="AngsanaUPC" pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["รายงานการติดตามภาวะโภชนาการเด็กอายุ 0-10 เดือน:อายุ(เดือน)/นน.(กก.)"+
+"\nสถานพยาบาล(สถานีอนามัย) "+ $P{site_name}+
+"\nประจำงวดเดือน "+ $P{time}]]></textFieldExpression>
+				</textField>
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="80"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="23"
+						height="80"
+						key="staticText-1"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[หมู่ที่]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="23"
+						y="0"
+						width="168"
+						height="80"
+						key="staticText-2"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[ชื่อหมู่บ้าน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="191"
+						y="0"
+						width="40"
+						height="80"
+						key="staticText-3"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[จำนวนเด็กทั้งหมดในหมู่บ้าน(คน)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="231"
+						y="0"
+						width="77"
+						height="61"
+						key="staticText-4"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[เด์กที่ชั่ง นน.(คน)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="231"
+						y="61"
+						width="33"
+						height="19"
+						key="staticText-5"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[จำนวน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="264"
+						y="61"
+						width="44"
+						height="19"
+						key="staticText-6"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[ร้อยละ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="308"
+						y="0"
+						width="385"
+						height="24"
+						key="staticText-7"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[ภาวะโภชนาการของเด็กที่รับการชั่งน้ำหนัก (อายุ 0-72 เดือน)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="693"
+						y="0"
+						width="89"
+						height="80"
+						key="staticText-8"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[หมายเหตุ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="308"
+						y="24"
+						width="77"
+						height="37"
+						key="staticText-9"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[นน.ตามเกณฑ์]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="385"
+						y="24"
+						width="77"
+						height="37"
+						key="staticText-10"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[นน.ค่อนข้างตำ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="462"
+						y="24"
+						width="77"
+						height="37"
+						key="staticText-11"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[นน.ต่ำกว่าเกณฑ์]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="539"
+						y="24"
+						width="77"
+						height="37"
+						key="staticText-12"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[นน.ค่อนข้างสูง]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="616"
+						y="24"
+						width="77"
+						height="37"
+						key="staticText-13"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[นน.สูงกว่าเกณฑ์]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="308"
+						y="61"
+						width="33"
+						height="19"
+						key="staticText-14"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[จำนวน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="341"
+						y="61"
+						width="44"
+						height="19"
+						key="staticText-15"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[ร้อยละ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="385"
+						y="61"
+						width="33"
+						height="19"
+						key="staticText-16"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[จำนวน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="418"
+						y="61"
+						width="44"
+						height="19"
+						key="staticText-17"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[ร้อยละ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="462"
+						y="61"
+						width="33"
+						height="19"
+						key="staticText-18"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[จำนวน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="495"
+						y="61"
+						width="44"
+						height="19"
+						key="staticText-19"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[ร้อยละ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="539"
+						y="61"
+						width="33"
+						height="19"
+						key="staticText-20"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[จำนวน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="572"
+						y="61"
+						width="44"
+						height="19"
+						key="staticText-21"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[ร้อยละ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="616"
+						y="61"
+						width="33"
+						height="19"
+						key="staticText-22"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[จำนวน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="649"
+						y="61"
+						width="44"
+						height="19"
+						key="staticText-23"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[ร้อยละ]]></text>
+				</staticText>
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="20"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="23"
+						height="20"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{หมู่}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="23"
+						y="0"
+						width="168"
+						height="20"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{ชื่อหมู่บ้าน}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="191"
+						y="0"
+						width="40"
+						height="20"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{จำนวนเด็กในหมู่บ้าน}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="231"
+						y="0"
+						width="33"
+						height="20"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{จำนวนเด็กชั่งน้ำหนัก}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="308"
+						y="0"
+						width="33"
+						height="20"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{นน.ตามเกณฑ์}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="385"
+						y="0"
+						width="33"
+						height="20"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{ค่อนข้างน้อย}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="462"
+						y="0"
+						width="33"
+						height="20"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{น้อยกว่าเกณฑ์}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="264"
+						y="0"
+						width="44"
+						height="20"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{ร้อยละที่ชั่งน้ำหนัก}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="539"
+						y="0"
+						width="33"
+						height="20"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{ค่อนข้างมาก}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="616"
+						y="0"
+						width="33"
+						height="20"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{มากเกินเกณฑ์}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="341"
+						y="0"
+						width="44"
+						height="20"
+						key="textField-2"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{ร้อยละตามเกณฑ์}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="418"
+						y="0"
+						width="44"
+						height="20"
+						key="textField-3"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{ร้อยละค่อนข้างน้อย}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="495"
+						y="0"
+						width="44"
+						height="20"
+						key="textField-4"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{ร้อยละน้อยกว่าเกณฑ์}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="572"
+						y="0"
+						width="44"
+						height="20"
+						key="textField-5"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{ร้อยละค่อนข้างมาก}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="649"
+						y="0"
+						width="44"
+						height="20"
+						key="textField-6"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{ร้อยละมากเกินเกณฑ์}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="693"
+						y="0"
+						width="89"
+						height="20"
+						key="textField-7"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[""]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="74"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="24"
+						width="782"
+						height="50"
+						key="staticText-24"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[หมายเหตุ:   1.จำนวนคิดจากคนที่มีชื่อและอยู่จริง และคนที่ไม่มีชื่อแต่อยู่จริง(ประเภทการอยู่อาศัย-1 และ 3 หรือช่องว่าง)
+                  2.ร้อยละของจำนวนที่ชั่งน้ำหนัก (หรือวัดส่วนสูง) คิดเทียบกับจำนวนเด็กทั้งหมดในหมู่บ้าน นั้นๆ
+                  3.ร้อยละของจำนวนที่มีภาวะโภชนาการระดับต่างๆ คิดเทียบกับจำนวนเด็กที่ชั่งน้ำหนักในหมู่บ้านนั้นๆ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="23"
+						height="20"
+						key="textField-8"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="23"
+						y="0"
+						width="168"
+						height="20"
+						key="textField-9"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["รวม"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="191"
+						y="0"
+						width="40"
+						height="20"
+						key="textField-10"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{จำนวนเด็กในหมู่บ้าน}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="231"
+						y="0"
+						width="33"
+						height="20"
+						key="textField-11"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{จำนวนเด็กชั่งน้ำหนัก}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="308"
+						y="0"
+						width="33"
+						height="20"
+						key="textField-12"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{นน.ตามเกณฑ์}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="385"
+						y="0"
+						width="33"
+						height="20"
+						key="textField-13"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{ค่อนข้างน้อย}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="462"
+						y="0"
+						width="33"
+						height="20"
+						key="textField-14"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{น้อยกว่าเกณฑ์}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="264"
+						y="0"
+						width="44"
+						height="20"
+						key="textField-15"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="539"
+						y="0"
+						width="33"
+						height="20"
+						key="textField-16"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{ค่อนข้างมาก}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="616"
+						y="0"
+						width="33"
+						height="20"
+						key="textField-17"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{มากเกินเกณฑ์}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="341"
+						y="0"
+						width="44"
+						height="20"
+						key="textField-18"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="418"
+						y="0"
+						width="44"
+						height="20"
+						key="textField-19"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="495"
+						y="0"
+						width="44"
+						height="20"
+						key="textField-20"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="572"
+						y="0"
+						width="44"
+						height="20"
+						key="textField-21"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="649"
+						y="0"
+						width="44"
+						height="20"
+						key="textField-22"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="693"
+						y="0"
+						width="89"
+						height="20"
+						key="textField-23"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[]]></textFieldExpression>
+				</textField>
+			</band>
+		</summary>
+</jasperReport>

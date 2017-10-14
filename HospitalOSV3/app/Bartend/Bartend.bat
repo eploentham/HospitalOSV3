@@ -1,0 +1,1 @@
+c:\bartend\bartend.exe /f=c:\bartend\barcode.txt c:\bartend\cobas.btw /p/x

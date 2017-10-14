@@ -1,0 +1,2293 @@
+
+/*
+ * JPanelFp.java
+ *
+ * Created on 13 มิถุนายน 2548, 18:24 น.
+ */
+/*
+ * ตรวจสอบวันที่สำรวจแล้ว
+ * kingland
+ */
+
+package com.pcu.gui.panelpcu;
+import com.pcu.gui.dialog.DialogSetupSearchPcu;
+import com.pcu.gui.dialog.HosDialog;
+import javax.swing.*;
+import java.util.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import com.hosv3.utility.connection.UpdateStatus;
+import com.hospital_os.utility.*;
+import com.pcu.utility.*;
+import com.pcu.object.*;
+import com.pcu.control.*;
+import com.pcu.utility.DateComboBox; /*ต้องมี ถ้าไม่มีจะerror*/
+import com.pcu.subject.*;
+import com.hospital_os.utility.DateUtil;
+
+import com.hospital_os.object.Office;
+import com.hospital_os.object.Appointment;
+import com.hospital_os.object.Dischar;
+
+import com.hosv3.usecase.transaction.*;
+/**
+ *
+ * @author  jao
+ */
+public class PanelEpi extends javax.swing.JPanel implements 
+ManageEpiSetReq,
+ManagePatientResp{ 
+     
+   private HosManage theHosManage;
+   private DefaultTableCellRenderer rendererCenter; 
+   private HealthServiceControl theHealthServiceControl;
+   private AllComboBoxControl theAllComboBoxControl;    
+   private FamilyPlaningControl theFamilyPlaningControl;
+   private HealthSchoolServiceControl theHealthSchoolServiceControl;
+   private Epi theEpi;
+   private EpiDetail theEpiDetail;
+   private Office theOffice;
+   private EpiOutSite theEpiOutSite = new EpiOutSite(); 
+   private Grow theGrow;
+   private GrowPcu theGrowPcu;
+   private GrowHistory theGrowHistory;
+   private SetupPcuControl theSetupPcuControl;
+   private SetupSubjectPcu theSetupSubjectPcu;
+   private Vector vEpi = new Vector();
+   private Vector vEpiDetail = new Vector();
+   private Vector vEpiOutSite = new Vector();
+   private Vector vEpiHistoryInSite = new Vector();
+   private Vector vEpiHistoryOutSite = new Vector();
+   private DateComboBox theDateComboBoxExp ;
+   private DateComboBox theDateComboBoxStart ;   
+   private Vector vGrow = new Vector();
+   private Vector vGrowHistory = new Vector();
+   private Vector vGrowPcu = new Vector();     
+
+   private HosDialog theHosDialog;
+   private PCUObject pcuobject;
+   private String age;
+   private String office_id;
+   private String office_name;
+   private String servicepoint_id;
+   
+   private boolean checkdate = true;
+   private boolean comple = true;
+   private boolean modifyoutsite = false;
+   private boolean modifygrow = false;
+   private boolean checkoutsite = false;
+   private boolean checksurvey , checksurvey1 ;
+   private int currage;
+   private int num = 0;
+   private int rowGrowHistory;
+   private int rowEpi;
+   private int rowEpiOutSite;
+   private Appointment theAppointment;   
+   private int receiveNotify = 6;
+
+    private UpdateStatus theUS;
+    private EpiSetGroup epiSetGroup;
+   
+    /** Creates new form JPanelFp */
+    public PanelEpi(){
+        initComponents();
+    }
+    public void setControl(HosManage hm,HosDialog hd,UpdateStatus us)
+    {
+        theUS = us;
+        theHosManage = hm;
+        theHealthServiceControl = hm.theHosControl.theHealthServiceControl;
+        theAllComboBoxControl = hm.theHosControl.theAllComboBoxControl;
+        theSetupPcuControl = hm.theHosControl.theSetupPcuControl;
+        theFamilyPlaningControl = hm.theHosControl.theFamilyPlaningControl;
+        theHealthSchoolServiceControl = hm.theHosControl.theHealthSchoolServiceControl;
+        theSetupSubjectPcu = hm.theHosSubject.theSetupSubjectPcu; 
+        theHosDialog = hd;     
+        pcuobject = hm.thePO;    
+        theSetupSubjectPcu.attachManageEpiSet(this);  
+        rendererCenter = new DefaultTableCellRenderer();
+        rendererCenter.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+        setLanguage();
+    }
+    
+    /** 
+     *ไปจัดการต่อเรื่องของข้อมูลที่จะรับ ถ้าเมื่อไรไม่มีข้อมูล นั้นจะทำอย่างไรบนหน้า GUI 
+     *@param pcuobject
+     *@return void
+     *@author jao
+     *@modify kingland
+     *@05/09/2549
+     */
+    public void setObject(PCUObject pcuobject)
+    {   
+        System.out.println("_henbe_______________________" + getClass().toString());
+        this.pcuobject = pcuobject;
+        if(pcuobject.getFamily()!=null)
+        {   /* add by jao สำหรับการรับบริการที่ไม่ต้องVisit */
+            jButtonAdd.setEnabled(true);
+            jButtonAdd1.setEnabled(true);
+            setFromEnable(true);
+            setEpiOutsideEnable(true);
+        }
+        office_id = pcuobject.getSite().off_id ;
+        office_name = pcuobject.getSite().off_name ;
+        
+        if(!checkPatientAndFamily() || checkDead())
+           setEnabled(false);
+        
+        setEpiV();
+        setEpiOutSiteV();
+        setEpiHistoryV(false);
+        servicepoint_id = null;
+        if(pcuobject.getServicePoint() != null)
+            servicepoint_id = pcuobject.getServicePoint().getObjectId();
+    }
+   
+    
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
+     */
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        defaultFont1 = new com.hospital_os.gui.font.DefaultFont();
+        jTabbedEpiHistory = new javax.swing.JTabbedPane();
+        jPanel6 = new javax.swing.JPanel();
+        jPanelEpiList = new javax.swing.JPanel();
+        jScrollPaneEpiList = new javax.swing.JScrollPane();
+        jTableListVisit = new javax.swing.JTable();
+        jPanelEpiControl = new javax.swing.JPanel();
+        jPanelEpiDetail = new javax.swing.JPanel();
+        jPanel16 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        dateComboBoxCheck = new com.hospital_os.utility.DateComboBox();
+        jLabel6 = new javax.swing.JLabel();
+        timeTextFieldCheck = new com.hospital_os.utility.TimeTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabelVN = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        jScrollPaneEpiReceive = new javax.swing.JScrollPane();
+        jTableVaccine = new javax.swing.JTable();
+        jPanel10 = new javax.swing.JPanel();
+        jLabelNextAppDate = new javax.swing.JLabel();
+        jLabelAppointment = new javax.swing.JLabel();
+        jButtonAppointment = new javax.swing.JButton();
+        dateComboBoxSurvey = new com.pcu.utility.DateComboBox();
+        jButtonEpiAdd = new javax.swing.JButton();
+        jButtonEpiDel = new javax.swing.JButton();
+        jLabelSurveyDate = new javax.swing.JCheckBox();
+        jLabelRemark = new javax.swing.JLabel();
+        jTextFieldRemark = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jButtonSave = new javax.swing.JButton();
+        jButtonAdd = new javax.swing.JButton();
+        jButtonDel = new javax.swing.JButton();
+        jPanel7 = new javax.swing.JPanel();
+        jPanelEpiOutSite = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTableEpiOutSite = new javax.swing.JTable();
+        jPanel14 = new javax.swing.JPanel();
+        jPanelDetail = new javax.swing.JPanel();
+        jPanelEpiName = new javax.swing.JPanel();
+        jLabelEpiName = new javax.swing.JLabel();
+        jTextFieldEpiName = new javax.swing.JTextField();
+        jButtonSearchEpi = new javax.swing.JButton();
+        jPanelHealthCenterName = new javax.swing.JPanel();
+        jLableEpiPlance = new javax.swing.JLabel();
+        integerTextFieldEpiOutSite = new com.pcu.utility.IntegerTextField();
+        jTextFieldEpiOutSite = new javax.swing.JTextField();
+        jButtonEpiOutSite = new javax.swing.JButton();
+        jPanelDate = new javax.swing.JPanel();
+        dateComboBoxEpiDate = new com.pcu.utility.DateComboBox();
+        jLabelEpiDate = new javax.swing.JLabel();
+        jLabelRemark1 = new javax.swing.JLabel();
+        jTextFieldRemark1 = new javax.swing.JTextField();
+        jPanel12 = new javax.swing.JPanel();
+        jButtonSaveEpiOutSite = new javax.swing.JButton();
+        jButtonAdd1 = new javax.swing.JButton();
+        jButtonDel1 = new javax.swing.JButton();
+        jPanel8 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTableEpiHistory = new javax.swing.JTable();
+        jPanel9 = new javax.swing.JPanel();
+        jButtonRefresh = new javax.swing.JButton();
+        jButtonPrintEpi = new javax.swing.JButton();
+
+        setMinimumSize(new java.awt.Dimension(700, 400));
+        setPreferredSize(new java.awt.Dimension(700, 400));
+        setRequestFocusEnabled(false);
+        setLayout(new java.awt.GridBagLayout());
+
+        jTabbedEpiHistory.setMinimumSize(new java.awt.Dimension(240, 120));
+
+        jPanel6.setLayout(new java.awt.GridBagLayout());
+
+        jPanelEpiList.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Epi_Data", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, defaultFont1));
+        jPanelEpiList.setMinimumSize(new java.awt.Dimension(240, 120));
+        jPanelEpiList.setPreferredSize(new java.awt.Dimension(240, 120));
+        jPanelEpiList.setLayout(new java.awt.GridBagLayout());
+
+        jScrollPaneEpiList.setEnabled(false);
+        jScrollPaneEpiList.setMinimumSize(new java.awt.Dimension(260, 23));
+        jScrollPaneEpiList.setPreferredSize(new java.awt.Dimension(269, 100));
+
+        jTableListVisit.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jTableListVisit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTableListVisitMouseReleased(evt);
+            }
+        });
+        jScrollPaneEpiList.setViewportView(jTableListVisit);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
+        jPanelEpiList.add(jScrollPaneEpiList, gridBagConstraints);
+
+        jPanelEpiControl.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        jPanelEpiList.add(jPanelEpiControl, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
+        jPanel6.add(jPanelEpiList, gridBagConstraints);
+
+        jPanelEpiDetail.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Epi_Detail", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, defaultFont1));
+        jPanelEpiDetail.setMinimumSize(new java.awt.Dimension(300, 120));
+        jPanelEpiDetail.setPreferredSize(new java.awt.Dimension(300, 120));
+        jPanelEpiDetail.setLayout(new java.awt.GridBagLayout());
+
+        jPanel16.setLayout(new java.awt.GridBagLayout());
+
+        jLabel5.setText("วันที่บันทึก");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 1, 0, 3);
+        jPanel16.add(jLabel5, gridBagConstraints);
+
+        dateComboBoxCheck.setBackground(new java.awt.Color(204, 255, 255));
+        dateComboBoxCheck.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                dateComboBoxCheckKeyReleased(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 1, 0, 3);
+        jPanel16.add(dateComboBoxCheck, gridBagConstraints);
+
+        jLabel6.setText("น.");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 1, 0, 1);
+        jPanel16.add(jLabel6, gridBagConstraints);
+
+        timeTextFieldCheck.setBackground(new java.awt.Color(204, 255, 255));
+        timeTextFieldCheck.setMinimumSize(new java.awt.Dimension(45, 23));
+        timeTextFieldCheck.setPreferredSize(new java.awt.Dimension(45, 23));
+        timeTextFieldCheck.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                timeTextFieldCheckKeyReleased(evt);
+            }
+        });
+        timeTextFieldCheck.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                timeTextFieldCheckMouseClicked(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 1, 0, 3);
+        jPanel16.add(timeTextFieldCheck, gridBagConstraints);
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hospital_os/images/clock.gif"))); // NOI18N
+        jLabel9.setToolTipText("เวลาที่ตรวจ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 1, 0, 3);
+        jPanel16.add(jLabel9, gridBagConstraints);
+
+        jLabelVN.setText("VN");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel16.add(jLabelVN, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
+        jPanelEpiDetail.add(jPanel16, gridBagConstraints);
+
+        jPanel11.setLayout(new java.awt.GridBagLayout());
+
+        jScrollPaneEpiReceive.setMinimumSize(new java.awt.Dimension(400, 120));
+        jScrollPaneEpiReceive.setPreferredSize(new java.awt.Dimension(400, 200));
+
+        jTableVaccine.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jTableVaccine.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTableVaccineMouseReleased(evt);
+            }
+        });
+        jScrollPaneEpiReceive.setViewportView(jTableVaccine);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel11.add(jScrollPaneEpiReceive, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
+        jPanelEpiDetail.add(jPanel11, gridBagConstraints);
+
+        jPanel10.setLayout(new java.awt.GridBagLayout());
+
+        jLabelNextAppDate.setText("นัดครั้งต่อไป");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 0);
+        jPanel10.add(jLabelNextAppDate, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 0);
+        jPanel10.add(jLabelAppointment, gridBagConstraints);
+
+        jButtonAppointment.setText("นัด");
+        jButtonAppointment.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        jButtonAppointment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAppointmentActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 0);
+        jPanel10.add(jButtonAppointment, gridBagConstraints);
+
+        dateComboBoxSurvey.setEnabled(false);
+        dateComboBoxSurvey.setText("");
+        dateComboBoxSurvey.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dateComboBoxSurveyActionPerformed(evt);
+            }
+        });
+        dateComboBoxSurvey.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                dateComboBoxSurveyFocusLost(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 0);
+        jPanel10.add(dateComboBoxSurvey, gridBagConstraints);
+
+        jButtonEpiAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hosv3/gui/images/plus16.gif"))); // NOI18N
+        jButtonEpiAdd.setMaximumSize(new java.awt.Dimension(26, 26));
+        jButtonEpiAdd.setMinimumSize(new java.awt.Dimension(26, 26));
+        jButtonEpiAdd.setPreferredSize(new java.awt.Dimension(26, 26));
+        jButtonEpiAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEpiAddActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        jPanel10.add(jButtonEpiAdd, gridBagConstraints);
+
+        jButtonEpiDel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hosv3/gui/images/minus16.gif"))); // NOI18N
+        jButtonEpiDel.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jButtonEpiDel.setMaximumSize(new java.awt.Dimension(26, 26));
+        jButtonEpiDel.setMinimumSize(new java.awt.Dimension(26, 26));
+        jButtonEpiDel.setPreferredSize(new java.awt.Dimension(26, 26));
+        jButtonEpiDel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEpiDelActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        jPanel10.add(jButtonEpiDel, gridBagConstraints);
+
+        jLabelSurveyDate.setText("SurveyDate");
+        jLabelSurveyDate.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jLabelSurveyDate.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jLabelSurveyDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jLabelSurveyDateActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel10.add(jLabelSurveyDate, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
+        jPanelEpiDetail.add(jPanel10, gridBagConstraints);
+
+        jLabelRemark.setText("Remark");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 0);
+        jPanelEpiDetail.add(jLabelRemark, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 10);
+        jPanelEpiDetail.add(jTextFieldRemark, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
+        jPanel6.add(jPanelEpiDetail, gridBagConstraints);
+
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        jButtonSave.setText("Save");
+        jButtonSave.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jButtonSave.setMaximumSize(new java.awt.Dimension(67, 24));
+        jButtonSave.setMinimumSize(new java.awt.Dimension(67, 24));
+        jButtonSave.setPreferredSize(new java.awt.Dimension(67, 26));
+        jButtonSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSaveActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        jPanel1.add(jButtonSave, gridBagConstraints);
+
+        jButtonAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hosv3/gui/images/plus16.gif"))); // NOI18N
+        jButtonAdd.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jButtonAdd.setMaximumSize(new java.awt.Dimension(24, 24));
+        jButtonAdd.setMinimumSize(new java.awt.Dimension(24, 24));
+        jButtonAdd.setPreferredSize(new java.awt.Dimension(26, 26));
+        jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        jPanel1.add(jButtonAdd, gridBagConstraints);
+
+        jButtonDel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hosv3/gui/images/minus16.gif"))); // NOI18N
+        jButtonDel.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jButtonDel.setMaximumSize(new java.awt.Dimension(26, 26));
+        jButtonDel.setMinimumSize(new java.awt.Dimension(26, 26));
+        jButtonDel.setPreferredSize(new java.awt.Dimension(26, 26));
+        jButtonDel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDelActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 0);
+        jPanel1.add(jButtonDel, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 5, 5);
+        jPanel6.add(jPanel1, gridBagConstraints);
+
+        jTabbedEpiHistory.addTab("Epi", jPanel6);
+
+        jPanel7.setLayout(new java.awt.GridBagLayout());
+
+        jPanelEpiOutSite.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "EpiOutSite", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, defaultFont1));
+        jPanelEpiOutSite.setMinimumSize(new java.awt.Dimension(240, 350));
+        jPanelEpiOutSite.setPreferredSize(new java.awt.Dimension(300, 350));
+        jPanelEpiOutSite.setLayout(new java.awt.GridBagLayout());
+
+        jTableEpiOutSite.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jTableEpiOutSite.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTableEpiOutSiteMouseReleased(evt);
+            }
+        });
+        jTableEpiOutSite.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTableEpiOutSiteKeyReleased(evt);
+            }
+        });
+        jScrollPane4.setViewportView(jTableEpiOutSite);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(11, 11, 11, 11);
+        jPanelEpiOutSite.add(jScrollPane4, gridBagConstraints);
+
+        jPanel14.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 11, 11, 11);
+        jPanelEpiOutSite.add(jPanel14, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(11, 11, 11, 0);
+        jPanel7.add(jPanelEpiOutSite, gridBagConstraints);
+
+        jPanelDetail.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Detail", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, defaultFont1));
+        jPanelDetail.setLayout(new java.awt.GridBagLayout());
+
+        jPanelEpiName.setFocusCycleRoot(true);
+        jPanelEpiName.setMinimumSize(new java.awt.Dimension(200, 21));
+        jPanelEpiName.setPreferredSize(new java.awt.Dimension(350, 21));
+        jPanelEpiName.setLayout(new java.awt.GridBagLayout());
+
+        jLabelEpiName.setText("EpiName");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanelEpiName.add(jLabelEpiName, gridBagConstraints);
+
+        jTextFieldEpiName.setBackground(new java.awt.Color(204, 255, 255));
+        jTextFieldEpiName.setEditable(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 15, 0, 0);
+        jPanelEpiName.add(jTextFieldEpiName, gridBagConstraints);
+
+        jButtonSearchEpi.setText("...");
+        jButtonSearchEpi.setMaximumSize(new java.awt.Dimension(21, 21));
+        jButtonSearchEpi.setMinimumSize(new java.awt.Dimension(21, 21));
+        jButtonSearchEpi.setPreferredSize(new java.awt.Dimension(20, 20));
+        jButtonSearchEpi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSearchEpiActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 0);
+        jPanelEpiName.add(jButtonSearchEpi, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        jPanelDetail.add(jPanelEpiName, gridBagConstraints);
+
+        jPanelHealthCenterName.setLayout(new java.awt.GridBagLayout());
+
+        jLableEpiPlance.setText("EpiPlance");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        jPanelHealthCenterName.add(jLableEpiPlance, gridBagConstraints);
+
+        integerTextFieldEpiOutSite.setBackground(new java.awt.Color(204, 255, 255));
+        integerTextFieldEpiOutSite.setColumns(5);
+        integerTextFieldEpiOutSite.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        integerTextFieldEpiOutSite.setMinimumSize(new java.awt.Dimension(40, 21));
+        integerTextFieldEpiOutSite.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                integerTextFieldEpiOutSiteKeyReleased(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 0);
+        jPanelHealthCenterName.add(integerTextFieldEpiOutSite, gridBagConstraints);
+
+        jTextFieldEpiOutSite.setBackground(new java.awt.Color(204, 255, 255));
+        jTextFieldEpiOutSite.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        jTextFieldEpiOutSite.setMinimumSize(new java.awt.Dimension(140, 21));
+        jTextFieldEpiOutSite.setPreferredSize(new java.awt.Dimension(140, 21));
+        jTextFieldEpiOutSite.setRequestFocusEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        jPanelHealthCenterName.add(jTextFieldEpiOutSite, gridBagConstraints);
+
+        jButtonEpiOutSite.setText("...");
+        jButtonEpiOutSite.setMaximumSize(new java.awt.Dimension(21, 21));
+        jButtonEpiOutSite.setMinimumSize(new java.awt.Dimension(21, 21));
+        jButtonEpiOutSite.setPreferredSize(new java.awt.Dimension(20, 20));
+        jButtonEpiOutSite.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEpiOutSiteActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 4, 0, 0);
+        jPanelHealthCenterName.add(jButtonEpiOutSite, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        jPanelDetail.add(jPanelHealthCenterName, gridBagConstraints);
+
+        jPanelDate.setLayout(new java.awt.GridBagLayout());
+
+        dateComboBoxEpiDate.setMinimumSize(new java.awt.Dimension(100, 21));
+        dateComboBoxEpiDate.setPreferredSize(new java.awt.Dimension(100, 21));
+        dateComboBoxEpiDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dateComboBoxEpiDateActionPerformed(evt);
+            }
+        });
+        dateComboBoxEpiDate.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                dateComboBoxEpiDateFocusLost(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
+        jPanelDate.add(dateComboBoxEpiDate, gridBagConstraints);
+
+        jLabelEpiDate.setText("EpiDate");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanelDate.add(jLabelEpiDate, gridBagConstraints);
+
+        jLabelRemark1.setText("Remark");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        jPanelDate.add(jLabelRemark1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 0);
+        jPanelDate.add(jTextFieldRemark1, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 0);
+        jPanelDetail.add(jPanelDate, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridheight = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(11, 5, 11, 11);
+        jPanel7.add(jPanelDetail, gridBagConstraints);
+
+        jPanel12.setLayout(new java.awt.GridBagLayout());
+
+        jButtonSaveEpiOutSite.setText("Save");
+        jButtonSaveEpiOutSite.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jButtonSaveEpiOutSite.setMaximumSize(new java.awt.Dimension(67, 24));
+        jButtonSaveEpiOutSite.setMinimumSize(new java.awt.Dimension(67, 24));
+        jButtonSaveEpiOutSite.setPreferredSize(new java.awt.Dimension(67, 26));
+        jButtonSaveEpiOutSite.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSaveEpiOutSiteActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHEAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel12.add(jButtonSaveEpiOutSite, gridBagConstraints);
+
+        jButtonAdd1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hosv3/gui/images/plus16.gif"))); // NOI18N
+        jButtonAdd1.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jButtonAdd1.setMaximumSize(new java.awt.Dimension(26, 26));
+        jButtonAdd1.setMinimumSize(new java.awt.Dimension(26, 26));
+        jButtonAdd1.setPreferredSize(new java.awt.Dimension(26, 26));
+        jButtonAdd1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAdd1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
+        jPanel12.add(jButtonAdd1, gridBagConstraints);
+
+        jButtonDel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hosv3/gui/images/minus16.gif"))); // NOI18N
+        jButtonDel1.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jButtonDel1.setMaximumSize(new java.awt.Dimension(24, 24));
+        jButtonDel1.setMinimumSize(new java.awt.Dimension(26, 26));
+        jButtonDel1.setPreferredSize(new java.awt.Dimension(26, 26));
+        jButtonDel1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDel1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 1, 0, 0);
+        jPanel12.add(jButtonDel1, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(6, 5, 11, 11);
+        jPanel7.add(jPanel12, gridBagConstraints);
+
+        jTabbedEpiHistory.addTab("EpiOutSite", jPanel7);
+
+        jPanel8.setLayout(new java.awt.GridBagLayout());
+
+        jTableEpiHistory.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jTableEpiHistory.setEnabled(false);
+        jScrollPane5.setViewportView(jTableEpiHistory);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(11, 11, 0, 11);
+        jPanel8.add(jScrollPane5, gridBagConstraints);
+
+        jPanel9.setLayout(new java.awt.GridBagLayout());
+
+        jButtonRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hospital_os/images/Refresh16.gif"))); // NOI18N
+        jButtonRefresh.setToolTipText("เรียกดูข้อมูลใหม่");
+        jButtonRefresh.setMaximumSize(new java.awt.Dimension(26, 26));
+        jButtonRefresh.setMinimumSize(new java.awt.Dimension(26, 26));
+        jButtonRefresh.setPreferredSize(new java.awt.Dimension(26, 26));
+        jButtonRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRefreshActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        jPanel9.add(jButtonRefresh, gridBagConstraints);
+
+        jButtonPrintEpi.setText("Print");
+        jButtonPrintEpi.setMaximumSize(new java.awt.Dimension(67, 26));
+        jButtonPrintEpi.setMinimumSize(new java.awt.Dimension(67, 26));
+        jButtonPrintEpi.setPreferredSize(new java.awt.Dimension(67, 26));
+        jButtonPrintEpi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPrintEpiActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 0);
+        jPanel9.add(jButtonPrintEpi, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 11, 11, 11);
+        jPanel8.add(jPanel9, gridBagConstraints);
+
+        jTabbedEpiHistory.addTab("EpiHistory", jPanel8);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(jTabbedEpiHistory, gridBagConstraints);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jLabelSurveyDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jLabelSurveyDateActionPerformed
+        this.dateComboBoxSurvey.setEnabled(jLabelSurveyDate.isSelected());
+        if(!jLabelSurveyDate.isSelected())
+            dateComboBoxSurvey.setText("");
+    }//GEN-LAST:event_jLabelSurveyDateActionPerformed
+
+    private void timeTextFieldCheckMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_timeTextFieldCheckMouseClicked
+        timeTextFieldCheck.selectAll();
+    }//GEN-LAST:event_timeTextFieldCheckMouseClicked
+
+    private void timeTextFieldCheckKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_timeTextFieldCheckKeyReleased
+        
+    }//GEN-LAST:event_timeTextFieldCheckKeyReleased
+
+    private void dateComboBoxCheckKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dateComboBoxCheckKeyReleased
+        
+    }//GEN-LAST:event_dateComboBoxCheckKeyReleased
+
+    private void jTableVaccineMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jTableVaccineMouseReleased
+    {//GEN-HEADEREND:event_jTableVaccineMouseReleased
+        clickDate(jTableVaccine.getSelectedRow());
+        EpiDetail  epidetail = (EpiDetail)vEpiDetail.get(jTableVaccine.getSelectedRow());
+        jTableListVisit.clearSelection();
+    }//GEN-LAST:event_jTableVaccineMouseReleased
+
+    private void jButtonEpiAddActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonEpiAddActionPerformed
+    {//GEN-HEADEREND:event_jButtonEpiAddActionPerformed
+// TODO add your handling code here:
+        
+        addEpi();
+    }//GEN-LAST:event_jButtonEpiAddActionPerformed
+
+    private void jButtonEpiDelActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonEpiDelActionPerformed
+    {//GEN-HEADEREND:event_jButtonEpiDelActionPerformed
+        int row[] = jTableVaccine.getSelectedRows();
+        if(row.length != 0)
+        {
+            if(!theUS.confirmBox(GutilPCU.getTextBundle("ConfirmDeleteEpi"),UpdateStatus.WARNING))
+                return;
+            deleteDataToObjectEpiDetail(row);
+        }
+    }//GEN-LAST:event_jButtonEpiDelActionPerformed
+
+    private void jButtonPrintEpiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPrintEpiActionPerformed
+        printEpi();
+    }//GEN-LAST:event_jButtonPrintEpiActionPerformed
+
+    private void dateComboBoxSurveyFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_dateComboBoxSurveyFocusLost
+        checksurvey = false;
+        checkDateSurveyEpi();
+    }//GEN-LAST:event_dateComboBoxSurveyFocusLost
+
+    private void dateComboBoxSurveyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateComboBoxSurveyActionPerformed
+        checkDateSurveyEpi();
+        checksurvey = false;
+    }//GEN-LAST:event_dateComboBoxSurveyActionPerformed
+
+
+
+    private void jButtonRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefreshActionPerformed
+        setEpiHistoryV(true);
+    }//GEN-LAST:event_jButtonRefreshActionPerformed
+
+
+    private void jButtonAppointmentActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonAppointmentActionPerformed
+    {//GEN-HEADEREND:event_jButtonAppointmentActionPerformed
+        if(pcuobject.getPatient()==null){
+           theUS.setStatus(GutilPCU.getTextBundle("No_Patient_Appointment"),UpdateStatus.WARNING);
+           return;
+        }
+        theHosDialog.showDialogAppointment(theHosManage,pcuobject);
+        receiveNotify = 7;
+    }//GEN-LAST:event_jButtonAppointmentActionPerformed
+
+    private void jTableEpiOutSiteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableEpiOutSiteKeyReleased
+        if(evt.getKeyCode()==evt.VK_UP
+        || evt.getKeyCode()==evt.VK_DOWN)
+            setEpiOutSite((EpiOutSite)vEpiOutSite.get(jTableEpiOutSite.getSelectedRow()));
+    }//GEN-LAST:event_jTableEpiOutSiteKeyReleased
+
+    private void dateComboBoxEpiDateFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_dateComboBoxEpiDateFocusLost
+        checkoutsite = false;
+    }//GEN-LAST:event_dateComboBoxEpiDateFocusLost
+
+    private void dateComboBoxEpiDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateComboBoxEpiDateActionPerformed
+        checkDateEpioutSite();
+    }//GEN-LAST:event_dateComboBoxEpiDateActionPerformed
+
+    private void jTableEpiOutSiteMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableEpiOutSiteMouseReleased
+        setEpiOutSite((EpiOutSite)vEpiOutSite.get(jTableEpiOutSite.getSelectedRow()));
+    }//GEN-LAST:event_jTableEpiOutSiteMouseReleased
+
+    private void jButtonSaveEpiOutSiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveEpiOutSiteActionPerformed
+        
+        savEpiOutSite();   
+    }//GEN-LAST:event_jButtonSaveEpiOutSiteActionPerformed
+
+    private void jButtonDel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDel1ActionPerformed
+        
+        
+        deleteEpiOutSite();  
+    }//GEN-LAST:event_jButtonDel1ActionPerformed
+
+    private void jButtonAdd1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdd1ActionPerformed
+        setEpiOutSite(null);
+    }//GEN-LAST:event_jButtonAdd1ActionPerformed
+
+    private void jButtonEpiOutSiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEpiOutSiteActionPerformed
+        showDialogBirthPlace(evt);
+    }//GEN-LAST:event_jButtonEpiOutSiteActionPerformed
+
+    private void integerTextFieldEpiOutSiteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_integerTextFieldEpiOutSiteKeyReleased
+        showDescriptionHosp();
+    }//GEN-LAST:event_integerTextFieldEpiOutSiteKeyReleased
+
+    private void jButtonDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDelActionPerformed
+        
+        deleteEpi();
+    }//GEN-LAST:event_jButtonDelActionPerformed
+
+    private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
+        saveEpi();
+    }//GEN-LAST:event_jButtonSaveActionPerformed
+
+    private void jTableListVisitMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableListVisitMouseReleased
+        // TODO add your handling code here:        
+        selectTableListVisit();
+    }//GEN-LAST:event_jTableListVisitMouseReleased
+
+    private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
+        // TODO add your handling code here:
+        addEpiDatail();
+    }//GEN-LAST:event_jButtonAddActionPerformed
+
+    private void jButtonSearchEpiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchEpiActionPerformed
+        searchEpi();
+    }//GEN-LAST:event_jButtonSearchEpiActionPerformed
+    
+      public void setLanguage() 
+    {
+        GutilPCU.setLanguage(jLabel5);
+        GutilPCU.setLanguage(jLabel6);
+          jLabelNextAppDate.setText(GutilPCU.getTextBundle(jLabelNextAppDate.getText()));
+          jLabelRemark.setText(GutilPCU.getTextBundle(jLabelRemark.getText()));
+          jLabelRemark1.setText(GutilPCU.getTextBundle(jLabelRemark1.getText()));
+          jLableEpiPlance.setText(GutilPCU.getTextBundle(jLableEpiPlance.getText()));
+          jLabelEpiDate.setText(GutilPCU.getTextBundle(jLabelEpiDate.getText()));
+          jLabelEpiName.setText(GutilPCU.getTextBundle(jLabelEpiName.getText()));
+          jLabelSurveyDate.setText(GutilPCU.getTextBundle(jLabelSurveyDate.getText()));   
+          
+          /*jButton*/
+          jButtonAdd.setText(GutilPCU.getTextBundle(jButtonAdd.getText()));
+          jButtonDel.setText(GutilPCU.getTextBundle(jButtonDel.getText()));
+          jButtonSave.setText(GutilPCU.getTextBundle(jButtonSave.getText()));  
+          jButtonEpiAdd.setText(GutilPCU.getTextBundle(jButtonEpiAdd.getText()));
+          jButtonEpiDel.setText(GutilPCU.getTextBundle(jButtonEpiDel.getText()));  
+          jButtonAdd1.setText(GutilPCU.getTextBundle(jButtonAdd1.getText()));
+          jButtonDel1.setText(GutilPCU.getTextBundle(jButtonDel1.getText()));
+          jButtonSaveEpiOutSite.setText(GutilPCU.getTextBundle(jButtonSaveEpiOutSite.getText()));
+          jButtonAppointment.setText(GutilPCU.getTextBundle(jButtonAppointment.getText()));
+          jButtonPrintEpi.setText(GutilPCU.getTextBundle(jButtonPrintEpi.getText()));
+    
+          /*TitledBorder*/        
+          GutilPCU.JPanelLabler(jPanelEpiList);
+          GutilPCU.JPanelLabler(jPanelEpiDetail);
+          //GutilPCU.JPanelLabler(jPanelEpiService2);
+          GutilPCU.JPanelLabler(jPanelEpiOutSite);
+          GutilPCU.JPanelLabler(jPanelEpiName);
+          GutilPCU.JPanelLabler(jPanelHealthCenterName);
+          GutilPCU.JPanelLabler(jPanelDate);
+          GutilPCU.JPanelLabler(jPanelDetail);
+                  
+          /*Tab*/
+          GutilPCU.getTextBundleTab(0,jTabbedEpiHistory);
+          GutilPCU.getTextBundleTab(1,jTabbedEpiHistory);
+          GutilPCU.getTextBundleTab(2,jTabbedEpiHistory);
+    }
+    
+    
+    
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.hospital_os.utility.DateComboBox dateComboBoxCheck;
+    private com.pcu.utility.DateComboBox dateComboBoxEpiDate;
+    private com.pcu.utility.DateComboBox dateComboBoxSurvey;
+    private com.hospital_os.gui.font.DefaultFont defaultFont1;
+    private com.pcu.utility.IntegerTextField integerTextFieldEpiOutSite;
+    private javax.swing.JButton jButtonAdd;
+    private javax.swing.JButton jButtonAdd1;
+    private javax.swing.JButton jButtonAppointment;
+    private javax.swing.JButton jButtonDel;
+    private javax.swing.JButton jButtonDel1;
+    private javax.swing.JButton jButtonEpiAdd;
+    private javax.swing.JButton jButtonEpiDel;
+    private javax.swing.JButton jButtonEpiOutSite;
+    private javax.swing.JButton jButtonPrintEpi;
+    private javax.swing.JButton jButtonRefresh;
+    private javax.swing.JButton jButtonSave;
+    private javax.swing.JButton jButtonSaveEpiOutSite;
+    private javax.swing.JButton jButtonSearchEpi;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelAppointment;
+    private javax.swing.JLabel jLabelEpiDate;
+    private javax.swing.JLabel jLabelEpiName;
+    private javax.swing.JLabel jLabelNextAppDate;
+    private javax.swing.JLabel jLabelRemark;
+    private javax.swing.JLabel jLabelRemark1;
+    private javax.swing.JCheckBox jLabelSurveyDate;
+    private javax.swing.JLabel jLabelVN;
+    private javax.swing.JLabel jLableEpiPlance;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JPanel jPanelDate;
+    private javax.swing.JPanel jPanelDetail;
+    private javax.swing.JPanel jPanelEpiControl;
+    private javax.swing.JPanel jPanelEpiDetail;
+    private javax.swing.JPanel jPanelEpiList;
+    private javax.swing.JPanel jPanelEpiName;
+    private javax.swing.JPanel jPanelEpiOutSite;
+    private javax.swing.JPanel jPanelHealthCenterName;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPaneEpiList;
+    private javax.swing.JScrollPane jScrollPaneEpiReceive;
+    private javax.swing.JTabbedPane jTabbedEpiHistory;
+    private javax.swing.JTable jTableEpiHistory;
+    private javax.swing.JTable jTableEpiOutSite;
+    private javax.swing.JTable jTableListVisit;
+    private javax.swing.JTable jTableVaccine;
+    private javax.swing.JTextField jTextFieldEpiName;
+    private javax.swing.JTextField jTextFieldEpiOutSite;
+    private javax.swing.JTextField jTextFieldRemark;
+    private javax.swing.JTextField jTextFieldRemark1;
+    private com.hospital_os.utility.TimeTextField timeTextFieldCheck;
+    // End of variables declaration//GEN-END:variables
+
+    
+    DialogSetupSearchPcu theDialogSetupSearchPcu;
+    JFrame theJFrame;
+    public void setJFrame(JFrame jf){
+        theJFrame = jf;
+    }
+    private void addEpi()
+    { 
+        if(theDialogSetupSearchPcu == null)
+        {
+            theDialogSetupSearchPcu = new DialogSetupSearchPcu(theJFrame, true,theHosManage);            
+        }        
+        theDialogSetupSearchPcu.showSearch(11);             
+    }
+
+    private void searchEpi()
+    {
+        if(theDialogSetupSearchPcu == null)
+        {
+            theDialogSetupSearchPcu = new DialogSetupSearchPcu(theJFrame, true,theHosManage);
+        }
+        theDialogSetupSearchPcu.showSearch(1);
+        epiSetGroup = theDialogSetupSearchPcu.getEpiSetGroup();
+        jTextFieldEpiName.setText(epiSetGroup.description);
+    }
+    
+    private void deleteEpi()
+    {        
+        int row = jTableListVisit.getSelectedRow();
+        if(row==-1)
+        {  
+            theUS.setStatus("กรุณาเลือกรายการที่ต้องการยกเลิก",UpdateStatus.WARNING);
+            return;
+        }
+        if(vEpiDetail!=null && !vEpiDetail.isEmpty())
+        {
+            theUS.setStatus(GutilPCU.getTextBundle("CheckEpiDetail"),UpdateStatus.WARNING);
+            return;
+        }
+        if(!theUS.confirmBox(GutilPCU.getTextBundle("ConfirmDeleteEpi"),UpdateStatus.WARNING))
+            return;
+        
+        theEpi.staff_cancel = pcuobject.getEmployee().getObjectId();//theSystemControl.theEmployee.getObjectId(); 
+        theEpi.cancel_date_time = pcuobject.getCurrentDateTime();
+        theEpi.epi_notice = Gutil.CheckReservedWords(jTextFieldRemark.getText()); 
+        theEpi.active = "0";
+        
+        int result = theFamilyPlaningControl.saveEpi(theEpi,null,servicepoint_id); 
+        if(result == 0)
+            return;
+        
+        jLabelAppointment.setText("");
+        dateComboBoxSurvey.setText("");
+        jLabelSurveyDate.setSelected(!dateComboBoxSurvey.getText().equals(""));
+        dateComboBoxSurvey.setEnabled(!dateComboBoxSurvey.getText().equals(""));
+        jTextFieldRemark.setText("");
+        setEpiV();
+        setEpiDetailV(null);
+        setEpiHistoryV(true);
+    }
+    
+    
+    private void deleteDataToObjectEpiDetail(int[] row)
+    {
+        for(int i=row.length-1;i>=0;i--){ 
+            EpiDetail  epidetail = (EpiDetail)vEpiDetail.remove(row[i]);
+            if(epidetail.getObjectId() != null)
+            {               
+
+                theHealthServiceControl.deleteEpiDetail(epidetail);
+            }
+        }
+        
+        setEpiDetailV(vEpiDetail);
+        setEpiHistoryV(true);
+        
+    }
+    
+    private boolean addEpiDatail()
+    {
+        
+        boolean addepi = true; // boolean ไว้สำหรับเพิ่มข้อมูลโดยไม่ต้องกดบวก        
+        theEpi = new Epi();
+        vEpiDetail = new Vector();                
+        setFromEnable(true);
+        setEpiDetailV(null);                        
+        jTextFieldRemark.setText("");
+        dateComboBoxSurvey.setText(Gutil.convertFieldDate(""));
+        jLabelSurveyDate.setSelected(!dateComboBoxSurvey.getText().equals(""));
+        dateComboBoxSurvey.setEnabled(!dateComboBoxSurvey.getText().equals(""));
+        jTableListVisit.clearSelection();
+        jTableVaccine.clearSelection();
+        return true;
+    }
+    
+    
+    /**
+     *ตรวจสอบว่ามี Visit ที่ซ้ำกันหรือไม่
+     *@param -
+     *@return boolean false=ไม่ซ้ำ   true=ซ้ำ
+     *@author Tong
+     *@date 01/09/2549
+     */
+    private boolean isVisitSame() 
+    {
+        if(pcuobject.getVisit()==null) 
+            return false;        
+        
+        if(this.vEpi == null) 
+            return false;
+        
+        for(int i=0;i<vEpi.size();i++) 
+        {
+            Epi obj = (Epi)vEpi.get(i);
+            if(pcuobject.getVisit().getObjectId().equals(obj.visit_id)) {
+                theUS.setStatus(GutilPCU.getTextBundle("VisitAlready"),UpdateStatus.WARNING);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
+    private void setEpiDetailV(Vector vc)    
+    {
+        this.vEpiDetail = vc;
+        String[] col = {GutilPCU.getTextBundle("Epi"),
+                        GutilPCU.getTextBundle("EpiDate"),
+                        GutilPCU.getTextBundle("Lot"),
+                        GutilPCU.getTextBundle("EpiExpireDate")}; 
+        TaBleModel tm ;
+        EpiDetail epiDetail = null;
+        if(vc != null)
+        {   
+            tm= new TaBleModel(col,vc.size());            
+            int error = 0;
+            EpiSetGroup esg = new EpiSetGroup();
+            //นอกLoop
+            for(int i = 0 ; i < vc.size() ; i++)
+            {
+                epiDetail = (EpiDetail)vc.get(i);                
+                esg = theHealthServiceControl.readEpiSetGroup(epiDetail.epi_set_id); 
+                if(esg!= null)
+                {   
+                   
+                    tm.setValueAt(esg.description,i,0);
+                    //ในLoop
+                    theDateComboBoxExp = new DateComboBox();                    
+                    theDateComboBoxExp.setEditable(true);
+                    tm.setEditingCol(1,2,3);                                      
+                    theDateComboBoxExp.setText(Gutil.convertFieldDate(epiDetail.epi_exp));
+                    
+                    /** add by jao สำหรับการรับบริการที่ไม่ต้องVisit 28/12/48 **/
+                    theDateComboBoxStart = new DateComboBox();
+                    //henbe comment 21/03/07 เพราะว่าต้องการใช้ component เดี่ยวทั้งระบบ
+//                    theDateComboBoxStart.setWarningFuture(true);
+//                    theDateComboBoxStart.setConnection(theHosManage.theHosControl.theConnectionInf);
+//                    theDateComboBoxStart.setParentComponent(this);
+//                    theDateComboBoxStart.setTable(jTableVaccine);
+                    theDateComboBoxStart.setEditable(true);                                                          
+                    theDateComboBoxStart.setText(Gutil.convertFieldDate(epiDetail.epi_start)); 
+                    //tm.setValueAt(GutilPCU.changDateToString(epiDetail.epi_start,false),i,1); 
+                    tm.setValueAt(theDateComboBoxStart,i,1);
+                    tm.setValueAt(epiDetail.lot,i,2);                    
+                    tm.setValueAt(theDateComboBoxExp,i,3);
+                }
+                else
+                {   
+                    tm.setValueAt(GutilPCU.getTextBundle("Epiisdeleted"),i,0);                    
+                }
+                epiDetail = null;
+                esg = null;
+            }    
+        }
+        else
+        {   tm= new TaBleModel(col,0);
+        }
+        
+        jTableVaccine.setModel(tm);
+        jTableVaccine.setRowHeight(20);
+        
+        /***SetTableDefault***/
+        jTableVaccine.getColumnModel().getColumn(0).setPreferredWidth(130);        
+        //jTableVaccine.getColumnModel().getColumn(1).setPreferredWidth(90);
+        /** add by jao สำหรับการรับบริการที่ไม่ต้องVisit 28/12/48**/
+        jTableVaccine.getColumnModel().getColumn(1).setPreferredWidth(80);        
+        jTableVaccine.getColumnModel().getColumn(1).setCellRenderer(new CellRendererComboBox());
+        jTableVaccine.getColumnModel().getColumn(1).setCellEditor(new ComBoBoxEditor(new DateComboBox()));
+        
+        jTableVaccine.getColumnModel().getColumn(2).setPreferredWidth(60);    
+        jTableVaccine.getColumnModel().getColumn(2).setCellRenderer(ColumnTableRenderer.getRendererRight());
+        jTableVaccine.getColumnModel().getColumn(3).setPreferredWidth(80);        
+        jTableVaccine.getColumnModel().getColumn(3).setCellRenderer(new CellRendererComboBox());
+        jTableVaccine.getColumnModel().getColumn(3).setCellEditor(new ComBoBoxEditor(new DateComboBox()));
+    }
+    
+    private void clickDate(int row)
+    {   
+        if(row != -1)
+        {
+            theDateComboBoxExp = (DateComboBox)jTableVaccine.getValueAt(row,3);
+            /** add by jao สำหรับการรับบริการที่ไม่ต้องVisit 28/12/48 **/
+            theDateComboBoxStart = (DateComboBox)jTableVaccine.getValueAt(row,1);
+        }
+    }
+    
+    private void setEpiV()
+    {
+        vEpi = theHealthServiceControl.listEpiByFamilyID();
+        String[] col = {GutilPCU.getTextBundle("No"),
+                        GutilPCU.getTextBundle("DateRecord"),
+                        GutilPCU.getTextBundle("VN")}; 
+        TaBleModel tm = new TaBleModel(col,vEpi.size());           
+        String vn = "";
+        for(int i=0 ;i<vEpi.size(); i++)
+        {  
+            Epi epi = (Epi)vEpi.get(i);
+            tm.setValueAt(String.valueOf((i+1)),i,0);
+            /* add by jao สำหรับการรับบริการที่ไม่ต้องVisit 28/12/48 */
+            if(epi.epi_vn.equals("null")||epi.epi_vn.equals(""))
+                vn = GutilPCU.getTextBundle("NoVN");                
+            else 
+                vn = epi.epi_vn;
+            tm.setValueAt(GutilPCU.changDateToString(epi.modify_date_time,false),i,1);
+            tm.setValueAt(vn,i,2);                
+
+        }
+        jTableListVisit.setModel(tm);
+        //set column to center for table
+        jTableListVisit.getColumnModel().getColumn(0).setCellRenderer(rendererCenter);
+        jTableListVisit.getColumnModel().getColumn(1).setCellRenderer(rendererCenter);
+        jTableListVisit.getColumnModel().getColumn(2).setCellRenderer(rendererCenter);
+        /***SetTableDefault***/
+        jTableListVisit.getColumnModel().getColumn(0).setPreferredWidth(20);
+        jTableListVisit.getColumnModel().getColumn(1).setPreferredWidth(100);
+        jTableListVisit.getColumnModel().getColumn(2).setPreferredWidth(80);
+        setEpi(null);
+        setEpiDetailV(new Vector());
+        
+    }
+    
+        
+   public void refresh(String family_id){
+       theHealthServiceControl.lisEpiOutSiteByFamilyID(family_id);
+       theHealthServiceControl.listEpiByFamilyID(family_id);
+   }
+   private void setEpiOutSiteV()
+   {       
+        vEpiOutSite =  theHealthServiceControl.lisEpiOutSiteByFamilyID();
+        if(vEpiOutSite==null && pcuobject.getPatient()!=null)
+            vEpiOutSite =  theHealthServiceControl.lisEpiOutSiteByPatientID(pcuobject.getPatient().getObjectId()); 
+        /***SetTable***/
+        String[] col = {GutilPCU.getTextBundle("EpiDate"),
+                        GutilPCU.getTextBundle("EpiName")}; 
+                                     
+        TaBleModel tm = new TaBleModel(col,vEpiOutSite.size());
+        for(int i=0, size=vEpiOutSite.size(); i<size; i++)
+        {  
+            EpiOutSite epioutsiteTemp = (EpiOutSite)vEpiOutSite.get(i);
+            tm.setValueAt(GutilPCU.changDateToString(epioutsiteTemp.epi_outsite_date,false),i,0);
+            tm.setValueAt(epioutsiteTemp.epi_outsite_name,i,1);                                
+        }
+        
+        jTableEpiOutSite.setModel(tm);  
+        //set column to center for table
+        jTableEpiOutSite.getColumnModel().getColumn(0).setCellRenderer(rendererCenter);        
+        /***SetTableDefault***/
+        jTableEpiOutSite.getColumnModel().getColumn(0).setPreferredWidth(30);
+        jTableEpiOutSite.getColumnModel().getColumn(1).setPreferredWidth(80);         
+        setEpiOutSite(null);
+   } 
+   
+   
+   private void setEpiHistoryV(boolean again)
+   {
+       
+        if(pcuobject.getFamily()!=null)
+        {
+            if(again){
+                vEpiHistoryInSite =  theHealthServiceControl.lisEpiHistoryInSiteByFamilyID(pcuobject.getFamily().getObjectId());
+                vEpiHistoryOutSite =  theHealthServiceControl.lisEpiOutSiteByFamilyID(pcuobject.getFamily().getObjectId());
+            }
+            else{
+                vEpiHistoryInSite =  theHealthServiceControl.lisEpiHistoryInSiteByFamilyID();
+                vEpiHistoryOutSite =  theHealthServiceControl.lisEpiOutSiteByFamilyID();
+            }
+        }
+        else{
+            vEpiHistoryInSite = new Vector();
+            vEpiOutSite = new Vector();
+        }
+        String[] col = {GutilPCU.getTextBundle("EpiDate"),
+                        GutilPCU.getTextBundle("EpiName"),
+                        GutilPCU.getTextBundle("EpiPlance")}; 
+         
+        EpiDetail epidetailTemp = new EpiDetail();
+        EpiOutSite epioutsiteTemp = new EpiOutSite(); 
+        
+        TaBleModel tm = new TaBleModel(col,0);
+       
+        int totalSize,inSiteSize,outSiteSize;  
+        EpiSetGroup eset = new EpiSetGroup();
+        if(vEpiHistoryInSite != null && vEpiHistoryOutSite !=null)   
+        {
+            if(!vEpiHistoryInSite.isEmpty())
+                inSiteSize = vEpiHistoryInSite.size();
+            else
+                inSiteSize = 0;    
+            if(!vEpiHistoryOutSite.isEmpty())
+                outSiteSize = vEpiHistoryOutSite.size();
+            else
+                outSiteSize = 0;
+            totalSize = inSiteSize+outSiteSize;
+            
+            tm = new TaBleModel(col,totalSize);
+            
+            for(int i=0; i<inSiteSize; i++)
+            {  
+                epidetailTemp = (EpiDetail)vEpiHistoryInSite.get(i);
+                if(epidetailTemp.epi_set_id!= null)
+                {                    
+                    eset = theHealthServiceControl.readEpiSetGroup(epidetailTemp.epi_set_id);
+                }
+                if(eset!=null)                  
+                {    
+                    tm.setValueAt(GutilPCU.changDateToString(epidetailTemp.epi_start,false),i,0);
+                    //tm.setValueAt(theHealthServiceControl.readEpiSetGroup(epidetailTemp.epi_set_id).description,i,1);              
+                    tm.setValueAt(eset.description,i,1);  
+                    tm.setValueAt(office_name,i,2);
+                }
+                else
+                {
+                    tm.setValueAt("",i,0);
+                    tm.setValueAt(GutilPCU.getTextBundle("Epiisdeleted"),i,1);
+                    tm.setValueAt("",i,2);
+                }
+            }
+            
+            for(int i=inSiteSize; i<totalSize; i++)
+            {  
+                epioutsiteTemp = (EpiOutSite)vEpiHistoryOutSite.get(i-inSiteSize);
+                String outsite_name;
+                Office theOffice = theHealthSchoolServiceControl.selectOfficeByPK(epioutsiteTemp.epi_outsite_office);
+                if(theOffice!=null)
+                    outsite_name = theOffice.name;
+                else
+                    outsite_name = "";
+                
+                tm.setValueAt(GutilPCU.changDateToString(epioutsiteTemp.epi_outsite_date,false),i,0);
+                tm.setValueAt(epioutsiteTemp.epi_outsite_name,i,1);
+                tm.setValueAt(outsite_name,i,2);                
+                outsite_name = null;
+            }
+        }
+        else if(vEpiHistoryInSite != null)
+        {
+            
+            if(!vEpiHistoryInSite.isEmpty())
+                inSiteSize = vEpiHistoryInSite.size();
+            else
+                inSiteSize = 0;            
+            tm = new TaBleModel(col,inSiteSize);            
+            for(int i=0; i<inSiteSize; i++)
+            {  
+                epidetailTemp = (EpiDetail)vEpiHistoryInSite.get(i);
+                
+                if(epidetailTemp.epi_set_id!= null)
+                {                    
+                    eset = theHealthServiceControl.readEpiSetGroup(epidetailTemp.epi_set_id);
+                }
+                if(eset!=null)                  
+                {    
+                    tm.setValueAt(GutilPCU.changDateToString(epidetailTemp.epi_start,false),i,0);
+                    //tm.setValueAt(theHealthServiceControl.readEpiSetGroup(epidetailTemp.epi_set_id).description,i,1);              
+                    tm.setValueAt(eset.description,i,1);              
+                    tm.setValueAt(office_name,i,2);
+                }
+                else
+                {
+                    tm.setValueAt("",i,0);
+                    tm.setValueAt(GutilPCU.getTextBundle("Epiisdeleted"),i,1);
+                    tm.setValueAt("",i,2);
+                }
+            }
+            
+        }
+        else if((vEpiHistoryOutSite != null))
+        {
+            if(!vEpiHistoryOutSite.isEmpty())
+                outSiteSize = vEpiHistoryOutSite.size();
+            else
+                outSiteSize = 0;
+            tm = new TaBleModel(col,outSiteSize);
+            for(int i=0; i<outSiteSize; i++)
+            {  
+                epioutsiteTemp = (EpiOutSite)vEpiHistoryOutSite.get(i);
+                String outsite_name;
+                Office theOffice = theHealthSchoolServiceControl.selectOfficeByPK(epioutsiteTemp.epi_outsite_office);
+                if(theOffice!=null)
+                    outsite_name = theOffice.name;
+                else
+                    outsite_name = "";
+                tm.setValueAt(GutilPCU.changDateToString(epioutsiteTemp.epi_outsite_date,false),i,0);
+                tm.setValueAt(epioutsiteTemp.epi_outsite_name,i,1);
+                tm.setValueAt(outsite_name,i,2);
+                outsite_name = null;
+            }
+        }
+        
+        jTableEpiHistory.setModel(tm);  
+        
+        epidetailTemp = null;
+        epioutsiteTemp = null;
+        
+        if(rendererCenter == null)
+        {
+            rendererCenter = new DefaultTableCellRenderer();
+        } 
+        jTableEpiHistory.getColumnModel().getColumn(0).setCellRenderer(rendererCenter);        
+        jTableEpiHistory.getColumnModel().getColumn(0).setPreferredWidth(100);
+        jTableEpiHistory.getColumnModel().getColumn(1).setPreferredWidth(250); 
+        jTableEpiHistory.getColumnModel().getColumn(2).setPreferredWidth(350);        
+   }
+   public void setEnabled(boolean flag)
+   {    setFromEnable(flag);
+        setEpiOutsideEnable(flag);
+   }
+   private void setFromEnable(boolean b)
+   {    jButtonDel.setEnabled(b);
+        jButtonAppointment.setEnabled(b);
+        jTextFieldRemark.setEnabled(b);
+   }
+    
+   
+   private void setEpiOutsideEnable(boolean b)
+   {    jTextFieldEpiName.setEnabled(b);
+        integerTextFieldEpiOutSite.setEnabled(b);
+        jTextFieldEpiOutSite.setEnabled(b);
+        jButtonEpiOutSite.setEnabled(b);
+        dateComboBoxEpiDate.setEnabled(b);
+        jTextFieldRemark1.setEnabled(b);
+        jButtonSaveEpiOutSite.setEnabled(b);
+        jButtonDel1.setEnabled(b);
+        jButtonAdd1.setEnabled(b);
+        jButtonPrintEpi.setEnabled(b);
+   }
+   public Epi getEpi(){
+       
+       if(! checkRepeat())
+            return null;
+        
+        if (pcuobject.getFamily() == null){  
+            theUS.setStatus("กรุณาเลือกประชากรหรือบันทึกข้อมูลประชากรก่อน",UpdateStatus.WARNING);
+            return null;
+        }
+        if(theEpi == null)  
+            theEpi = new Epi();
+        
+       if(vEpiDetail == null)   
+           vEpiDetail = new Vector();   
+        
+       if(theEpi.getObjectId() == null)
+       {
+        
+           if(pcuobject.getPatient()!=null)
+           {    
+                theEpi.epi_hn = pcuobject.getPatient().hn;
+                theEpi.patient_id = pcuobject.getPatient().getObjectId();
+           }
+           if( pcuobject.getFamily()!=null)
+                theEpi.family_id = pcuobject.getFamily().getObjectId() ;
+           if( pcuobject.getVisit()!=null)
+                theEpi.visit_id = pcuobject.getVisit().getObjectId() ;
+    
+            theEpi.staff_record = pcuobject.getEmployee().getObjectId();
+            theEpi.record_date_time = pcuobject.getCurrentDateTime();
+       }
+        theEpi.staff_modify = pcuobject.getEmployee().getObjectId();
+        theEpi.survey_date = dateComboBoxSurvey.getText();
+//henbe comment 100253 kong เพิ่มทำไมรู้มั้ยจะแก้ก็ต้องแก้ทั้งระบบไม่ใช่มาทำบางหน้าอย่างนี้
+                //แล้วรายงานต้องแก้ด้วยรู้หรือเปล่า
+       theEpi.modify_date_time = dateComboBoxCheck.getText()+","+timeTextFieldCheck.getText();
+        
+       if(theAppointment!=null)
+            theEpi.epi_nextapp = theAppointment.appoint_date;
+       theEpi.office_id = office_id;
+       theEpi.epi_notice = Gutil.CheckReservedWords(jTextFieldRemark.getText());       
+       Vector tempVEpiDetail = new Vector();
+       EpiDetail epiDetail = new EpiDetail();
+       Date start = new Date();
+       Date exp = new Date();
+       EpiSetGroup esg = new EpiSetGroup();
+       for(int i=0 ;i<vEpiDetail.size(); i++)
+       {   epiDetail = (EpiDetail)vEpiDetail.elementAt(i);           
+           epiDetail.epi_exp = ((DateComboBox)jTableVaccine.getValueAt(i,3)).getText();
+           if(pcuobject.getPatient()!=null)
+           {    epiDetail.family_id = pcuobject.getPatient().family_id;
+           }
+           else if( pcuobject.getFamily()!=null)
+           {    epiDetail.family_id = pcuobject.getFamily().getObjectId() ;
+           }
+           epiDetail.epi_start = ((DateComboBox)jTableVaccine.getValueAt(i,1)).getText();
+           epiDetail.lot = Gutil.CheckReservedWords(((String)jTableVaccine.getValueAt(i,2)));
+           if(!epiDetail.epi_exp.equals(""))
+           {    start = com.pcu.utility.DateUtil.getDateFromText(epiDetail.epi_start);
+                exp = com.pcu.utility.DateUtil.getDateFromText(epiDetail.epi_exp);
+                checkdate = com.pcu.utility.DateUtil.beforeDate(start,exp);
+           }
+           esg = theHealthServiceControl.readEpiSetGroup(epiDetail.epi_set_id);
+           if(checkdate)
+           {    tempVEpiDetail.addElement(epiDetail);
+                comple=true;
+           }
+           else
+           {    theUS.setStatus(GutilPCU.getTextBundle("ExpVaccine")+ (" ")
+                    + esg.description +(" ")+ GutilPCU.getTextBundle("CheckEpiDate")
+                    ,UpdateStatus.WARNING);
+                comple = false;
+                break;
+           }
+       }
+        theEpi.active = "1";      
+        vEpiDetail = tempVEpiDetail;  
+        return theEpi;
+   }
+    private void saveEpi()
+    {   
+        
+       if(!comple)
+           return;   
+        int ret = theFamilyPlaningControl.saveEpi(getEpi(),vEpiDetail,servicepoint_id,theUS);
+        if(ret==0)
+            return;
+
+        theAppointment = null;           
+        setEpiHistoryV(true);
+        setEpiV();
+        for(int i=0;i<this.vEpi.size();i++){
+            Epi pp = (Epi)vEpi.get(i);
+            if(pp.getObjectId().equals(theEpi.getObjectId())){
+                this.jTableListVisit.setRowSelectionInterval(i,i);
+                this.jTableListVisitMouseReleased(null);
+                return ;
+            }
+        }
+    }
+    
+    private void setEpi(Epi epi)
+    {
+        theEpi = epi;
+        if(theEpi==null)
+        {
+            theEpi = new Epi();
+            theEpi.modify_date_time = this.pcuobject.getCurrentDateTime();
+        }
+        jLabelAppointment.setText(GutilPCU.changDateToString((theEpi.epi_nextapp),true));
+        dateComboBoxSurvey.setText(Gutil.convertFieldDate(theEpi.survey_date));
+        jLabelSurveyDate.setSelected(!dateComboBoxSurvey.getText().equals(""));
+        dateComboBoxSurvey.setEnabled(!dateComboBoxSurvey.getText().equals(""));
+        this.jLabelVN.setText("");
+        if(!theEpi.visit_id.equals("")){
+            String vn_id = this.theAllComboBoxControl.readVNbyVid(theEpi.visit_id);
+            theEpi.epi_vn = vn_id;
+            this.jLabelVN.setText("VN:"+theEpi.epi_vn);
+        }
+        dateComboBoxCheck.setText(Gutil.convertFieldDate(theEpi.modify_date_time));
+        jTextFieldRemark.setText(theEpi.epi_notice);
+        if(theEpi.modify_date_time.length()>11){
+            timeTextFieldCheck.setText(theEpi.modify_date_time.substring(11));
+        }
+        else{
+            this.timeTextFieldCheck.setText("");
+        }
+        
+        vEpiDetail = theHealthServiceControl.listEpiDetailByEpiID(theEpi.getObjectId());
+        if(vEpiDetail != null)
+        {   num = vEpiDetail.size();
+        }
+        setEpiDetailV(vEpiDetail);
+    }
+    /**
+     *แสดงค่า JFrame จาก FrameMain
+     *@param -
+     *@return JFrame
+     *@author kingland
+     *@date 05/09/2549
+     */
+    private JFrame getJFrame()
+    {   return theHosManage.theHosInf.getJFrame();
+    }
+    /**
+     *ตรวจสอบเพศของผู้รับบริการ
+     *@param -
+     *@return boolean true=ผ่าน false=ไม่ผ่าน
+     *@author kingland
+     *@date 04/09/2549
+     */
+    private boolean checkSex(boolean showWarningMessage)
+    {   boolean result = true;
+        //add code by noom สำหรับ check เพศ หญิงเท่านั้น
+        if(pcuobject.getPatient() != null && !("2").equals(pcuobject.getPatient().f_sex_id))
+        {   if(showWarningMessage)
+            {   
+                theUS.setStatus(GutilPCU.getTextBundle("ISSEXWOMAN"),UpdateStatus.WARNING); 
+                //ยังไม่ระบุเพศ หรือเป็นเพศชาย ไม่สามารถเข้ารับบริการส่วนนี้ได้
+            }
+            result = false;
+        }
+        //สำหรับ check เพศ หญิงเท่านั้น
+        else if(pcuobject.getFamily()!=null && !("2").equals(pcuobject.getFamily().f_sex_id))
+        {   if(showWarningMessage)
+            {   
+                theUS.setStatus(GutilPCU.getTextBundle("ISSEXWOMAN"),UpdateStatus.WARNING); 
+                //ยังไม่ระบุเพศ หรือเป็นเพศชาย ไม่สามารถเข้ารับบริการส่วนนี้ได้
+            }
+            result = false;
+        }
+        return result;
+    }
+    /**
+     *ตรวจสอบ Patient และ Family จาก PCUobject
+     *@param -
+     *@return boolean true=มีผู้ป่วยหรือประชากร false=ไม่มีผู้ป่วยและประชากร
+     *@author kingland
+     *@date 04/09/2549
+     */
+    private boolean checkPatientAndFamily()
+    {   boolean result = true;
+        if(pcuobject.getFamily() == null) result = false;
+        return result;
+    }
+    /**
+     *ตรวจสอบว่าผู้ป่วยหรือประชากรเสียชีวิตแล้วหรือไม่
+     *@param -
+     *@return boolean true=เสียชีวิต false=ไม่เสียชีวิต
+     *@author kingland
+     *@date 04/09/2549
+     */
+    private boolean checkDead()
+    {   boolean result = false;
+        if(pcuobject.getFamily() != null && Dischar.DEATH.equals(pcuobject.getFamily().discharge_status_id))
+        {   result = true;
+        }
+        else if(pcuobject.getPatient() != null && Dischar.DEATH.equals(pcuobject.getPatient().discharge_status_id))
+        {   result = true;
+        }
+        return false;//result;
+    }
+    /**
+     *คำนวนหาอายุของผู้เข้ารับบริการ
+     *@param -
+     *@return อายุเป็นปี
+     *@author jao
+     */
+    
+    private int getAge()
+    {   int currage = 0;
+        if(pcuobject.getPatient()!=null&&!pcuobject.getPatient().patient_birthday.equals(""))
+        {   age = DateUtil.calculateAge(pcuobject.getPatient().patient_birthday,pcuobject.getCurrentDateTime());
+            currage = Integer.parseInt(age);            
+        }
+        else if(pcuobject.getFamily()!=null&&!pcuobject.getFamily().patient_birthday.equals(""))
+        {   age = DateUtil.calculateAge(pcuobject.getFamily().patient_birthday,pcuobject.getCurrentDateTime());             
+            currage = Integer.parseInt(age);            
+        }
+        else 
+        {   theUS.setStatus(GutilPCU.getTextBundle("VisitNotHaveAge"),UpdateStatus.WARNING);
+        }
+        return currage;
+    }
+    
+    private void selectTableVaccine2()
+    {        
+        clickDate(jTableVaccine.getSelectedRow());
+    }
+     
+    private void selectTableListVisit()
+    {
+        
+        int row = jTableListVisit.getSelectedRow();
+        if(row != -1)
+        {
+            Epi epi = (Epi)vEpi.get(row);
+            setEpi(epi);
+
+        }         
+    }
+    /**
+     *ตรวจสอบว่ามีการซ้ำของรายการ วัคซีนหรือไม่
+     *@author kingland
+     *@return boolean true = ไม่ซ้ำ  false = ซ้ำ
+     *@date 1/06/2549
+     */
+    private boolean checkRepeat()
+    {
+        boolean result = true;
+        if(vEpiDetail != null)
+        {
+            first:for(int i=0;i<vEpiDetail.size();i++)
+            {
+                EpiDetail ed = (EpiDetail)vEpiDetail.get(i);                 
+                second:for(int j=(i+1);j<vEpiDetail.size();j++)
+                {
+                    EpiDetail ed_temp = (EpiDetail)vEpiDetail.get(j);                    
+                    if(ed.epi_set_id.equals(ed_temp.epi_set_id))
+                    {
+                        result = false;
+                        break first;                        
+                    }
+                    else
+                    {
+                        result = true;
+                    }
+                }
+            }
+        }
+        else
+        {
+            result = true;
+        }
+        if(result == false)
+        {
+           if(theUS.confirmBox(GutilPCU.getTextBundle("มีรายการวัคซีนที่ซ้ำกัน ต้องการบันทึกหรือไม่"),UpdateStatus.WARNING))
+           {
+               result = true;
+           }
+           else
+           {
+               result = false;
+           }
+        }        
+        return result;
+    }
+    
+    
+    private void savEpiOutSite()
+    {
+        if(jTextFieldEpiName.getText().equals("")){ 
+            theUS.setStatus(GutilPCU.getTextBundle("CheckEpiOutSiteName"),UpdateStatus.WARNING); 
+            return;
+        }                   
+        if (pcuobject.getFamily() == null){
+            theUS.setStatus("กรุณาเลือกประชากรหรือบันทึกข้อมูลประชากรก่อน",UpdateStatus.WARNING);
+            return;
+        }
+        boolean ret = theHealthServiceControl.saveEpiOutSite(getEpiOutSite());
+        if(!ret)
+            return;
+        
+        setEpiOutSiteV();
+        setEpiHistoryV(true);   
+        for(int i=0;i<this.vEpiOutSite.size();i++){
+            EpiOutSite pp = (EpiOutSite)vEpiOutSite.get(i);
+            if(pp.getObjectId().equals(this.theEpiOutSite.getObjectId())){
+                this.jTableEpiOutSite.setRowSelectionInterval(i,i);
+                return ;
+            }
+        }  
+    }
+    public EpiOutSite getEpiOutSite()
+    {
+        if(theEpiOutSite==null)
+            theEpiOutSite = new EpiOutSite();
+        theEpiOutSite.epi_outsite_name = Gutil.CheckReservedWords(jTextFieldEpiName.getText());
+        theEpiOutSite.epi_outsite_date = dateComboBoxEpiDate.getText();
+        theEpiOutSite.remark = Gutil.CheckReservedWords(jTextFieldRemark1.getText());        
+        theEpiOutSite.office = office_id;
+
+//henbe comment 100253 ball ตอนเลือกคนไข้ใหม่จะต้องเคลียร์ค่าทำไมไม่เห็นมี
+        theEpiOutSite.health_epi_group_id = epiSetGroup.getObjectId();
+        if(pcuobject.getPatient()!=null)
+        {
+            theEpiOutSite.hn = pcuobject.getPatient().hn;
+            theEpiOutSite.patient_id = pcuobject.getPatient().getObjectId() ;
+            theEpiOutSite.family_id = pcuobject.getPatient().family_id;
+        }
+        else if(pcuobject.getFamily()!=null)
+        {
+            theEpiOutSite.hn = "";
+            theEpiOutSite.patient_id = "";
+            theEpiOutSite.family_id = pcuobject.getFamily().getObjectId();
+        }
+        if(theEpiOutSite.getObjectId() != null)
+        {        
+            theEpiOutSite.staff_modify = pcuobject.getEmployee().getObjectId();//theSystemControl.theEmployee.getObjectId();
+            theEpiOutSite.modify_date = pcuobject.getCurrentDateTime();
+            modifyoutsite = true;
+        }
+        else
+        {
+            theEpiOutSite.staff_record= pcuobject.getEmployee().getObjectId();//theSystemControl.theEmployee.getObjectId();
+            theEpiOutSite.record_date = pcuobject.getCurrentDateTime();
+            modifyoutsite = false;
+        }
+        theEpiOutSite.active = "1";
+        return theEpiOutSite;
+    }
+    
+    public void setEpiOutSite(EpiOutSite epios)
+    {
+        theEpiOutSite = epios;
+        if(theEpiOutSite ==null){
+            jTableEpiOutSite.clearSelection();
+            theEpiOutSite = new EpiOutSite();
+            jTextFieldEpiName.setText("");
+            integerTextFieldEpiOutSite.setText("");
+            jTextFieldEpiOutSite.setText("");
+            jTextFieldRemark1.setText("");
+            String datetime = pcuobject.getCurrentDateTime();
+            String date = datetime.substring(0, 10);       
+            dateComboBoxEpiDate.setText(Gutil.convertFieldDate(date));
+            return;
+        }
+        jTextFieldEpiName.setText(theEpiOutSite.epi_outsite_name);
+        jTextFieldRemark1.setText(theEpiOutSite.remark);
+        dateComboBoxEpiDate.setText(Gutil.convertFieldDate(theEpiOutSite.epi_outsite_date));
+        if(theEpiOutSite.epi_outsite_office.equals("") || theEpiOutSite.epi_outsite_office == null ){
+            integerTextFieldEpiOutSite.setText("");
+            jTextFieldEpiOutSite.setText("");
+        }else{
+            Office theOffice = theHealthSchoolServiceControl.selectOfficeByPK(theEpiOutSite.epi_outsite_office);
+            if(theOffice != null){
+                integerTextFieldEpiOutSite.setText(theOffice.getCode());
+                jTextFieldEpiOutSite.setText(theOffice.getName());
+            }else{
+                integerTextFieldEpiOutSite.setText("");
+                jTextFieldEpiOutSite.setText("");
+            }
+        }
+    }
+    /**ใช้ในการแสดงข้อมูลที่ได้จากการค้นหารหัสสถานพยาบาล*/
+    private void showDialogBirthPlace(java.awt.event.ActionEvent evt)
+    {
+        Office theOffice = new Office();
+        JButton thePushButton = (JButton)evt.getSource();
+        if(theEpiOutSite==null)
+            theEpiOutSite = new EpiOutSite();
+
+        if(theHosDialog.showDialogOffice(theHosManage,theOffice))
+        {
+             jTextFieldEpiOutSite.setText(theOffice.getName());
+             integerTextFieldEpiOutSite.setText(theOffice.getCode());
+             theEpiOutSite.epi_outsite_office = theOffice.getCode();
+        }
+    }
+    
+    /**ใช้ในการแสดงข้อมูลที่ได้จากการค้นหารหัสสถานพยาบาล*/
+    private void showDescriptionHosp()
+    {        
+        if(integerTextFieldEpiOutSite.getText().length() == 0 || integerTextFieldEpiOutSite.getText().equals(""))
+        {
+            jTextFieldEpiOutSite.setText("");
+        }
+        else if(integerTextFieldEpiOutSite.getText().length() == 5)
+        {
+            Office theOffice = theHealthSchoolServiceControl.selectOfficeByPK(integerTextFieldEpiOutSite.getText());
+            if(theOffice!=null) 
+            {
+                if(!theOffice.getObjectId().equals("")) 
+                {
+                    jTextFieldEpiOutSite.setText(theOffice.name);
+                    theEpiOutSite.epi_outsite_office = theOffice.getObjectId(); 
+                }
+            }
+        }
+    }
+    
+    private void deleteEpiOutSite()
+    {        
+        int row = jTableEpiOutSite.getSelectedRow();
+        if(row==-1)
+        {  
+            theUS.setStatus("กรุณาเลือกรายการที่ต้องการยกเลิก",UpdateStatus.WARNING);
+            return;
+        }
+        if(!theUS.confirmBox(GutilPCU.getTextBundle("ConfirmDelete"),UpdateStatus.WARNING))
+            return;
+        
+        theEpiOutSite.staff_cancel = pcuobject.getEmployee().getObjectId();//theSystemControl.theEmployee.getObjectId();
+        theEpiOutSite.cancel_date = pcuobject.getCurrentDateTime();
+        theEpiOutSite.epi_outsite_name = Gutil.CheckReservedWords(jTextFieldEpiName.getText());        
+        theEpiOutSite.remark = Gutil.CheckReservedWords(jTextFieldRemark1.getText());
+        theEpiOutSite.active = "0";
+        boolean ret = theHealthServiceControl.saveEpiOutSite(theEpiOutSite);
+        if(!ret)
+            return;
+        setEpiOutSiteV();        
+        setEpiHistoryV(true);
+        setEpiOutSite(null);
+    }
+    
+    private void checkDateEpioutSite()
+    {
+        if(!dateComboBoxEpiDate.getText().equals("") 
+            && dateComboBoxEpiDate.getText().length()==10 
+            && com.pcu.utility.DateUtil.countDay(dateComboBoxEpiDate.getText(),theHosManage.theHosControl.theConnectionInf) == -1 
+            && com.pcu.utility.DateUtil.isToday(com.pcu.utility.DateUtil.getDateFromText(dateComboBoxEpiDate.getText()),theHosManage.theHosControl.theConnectionInf)==false)  
+        {            
+             if(checkoutsite == false)
+             {
+                 // ไม่สามารถกรอกวันที่เป็นวันในอนาคตได้
+                theUS.setStatus(GutilPCU.getTextBundle("NoDateFuture") , UpdateStatus.WARNING);
+                dateComboBoxEpiDate.setText("");                              
+                checkoutsite = true;
+             }
+
+        }  
+        if(checkoutsite)
+        {
+            dateComboBoxEpiDate.setText("");    
+        }
+    }
+    private void printGrowHistory()
+    {
+        if(vGrowHistory!=null)
+            theHosManage.theHosControl.thePrintControl.printGrowHistory(vGrowHistory);
+        else
+            theUS.setStatus(GutilPCU.getTextBundle("Data_Grow_NULL"),UpdateStatus.WARNING);
+    }
+    private void printEpi()
+    {
+        EpiSetGroup eset = null;
+        Vector v = new Vector();
+        if(vEpiHistoryInSite!=null)
+        {
+            for(int i=0;i<vEpiHistoryInSite.size();i++)
+            {
+                EpiOutSite ep = new EpiOutSite();
+                EpiDetail epidetailTemp = (EpiDetail)vEpiHistoryInSite.get(i);
+                if(epidetailTemp.epi_set_id!= null)
+                {                    
+                    eset = theHealthServiceControl.readEpiSetGroup(epidetailTemp.epi_set_id);
+                }
+                ep.record_date = epidetailTemp.epi_start;
+                if(eset != null)
+                {
+                    ep.epi_outsite_name = eset.description;
+                }
+                else
+                {
+                    ep.epi_outsite_name = "";
+                }
+                ep.epi_outsite_office = office_name;
+                v.add(ep);
+                ep = null;
+            }
+        }   
+        if(vEpiHistoryOutSite!=null)
+        {
+            for(int i=0;i<vEpiHistoryOutSite.size();i++)
+            {
+                EpiOutSite ep = new EpiOutSite();
+                EpiOutSite epioutsiteTemp = (EpiOutSite)vEpiHistoryOutSite.get(i);
+                Office theOffice = theHealthSchoolServiceControl.selectOfficeByPK(epioutsiteTemp.epi_outsite_office);
+                if(theOffice!=null)
+                    ep.epi_outsite_office = theOffice.name;
+                else
+                    ep.epi_outsite_office = ""; 
+                ep.record_date = epioutsiteTemp.epi_outsite_date;
+                ep.epi_outsite_name = epioutsiteTemp.epi_outsite_name;
+                v.add(ep);
+                ep = null;
+            }
+        }
+        if(v.size()>0)
+            theHosManage.theHosControl.thePrintControl.printEpi(v);
+        else
+            theUS.setStatus(GutilPCU.getTextBundle("Data_EPI_NULL"),UpdateStatus.WARNING);
+    }
+    public void notifylistEpiSetGroup(EpiSetGroup epiSetGroup) 
+   {  
+        boolean repeat = false;
+        //ตรวจสอบว่ามีการซ้ำของข้อมูลหรือไม่
+       for(int i=0; vEpiDetail != null && i<vEpiDetail.size();i++)
+       {
+            EpiDetail ed = (EpiDetail)vEpiDetail.get(i);
+            if(epiSetGroup.getObjectId().equals(ed.epi_set_id))
+            {
+                repeat = true;
+                break;
+            }
+       }
+        //ถ้าไม่ซ้ำ หรือ ซ้ำแต่ให้สั่ง
+       if((repeat == false )|| (repeat
+        && theUS.confirmBox(GutilPCU.getTextBundle("มีรายการวัคซีนซ้ำ ต้องการสั่งรายการวัคซีนหรือไม่"),UpdateStatus.WARNING)))
+       {
+           theEpiDetail = new EpiDetail();          
+           theEpiDetail.active = "1";
+           theEpiDetail.epi_id ="";
+           theEpiDetail.epi_set_id = epiSetGroup.getObjectId();
+           if(pcuobject.getPatient()!=null)
+           {
+                theEpiDetail.patient_id = pcuobject.getPatient().getObjectId();
+           }       
+           String date = pcuobject.getCurrentDateTime();
+           theEpiDetail.epi_start = date.substring(0,10);
+           theEpiDetail.staff_record = pcuobject.getEmployee().getObjectId();
+           theEpiDetail.record_date_time = date;
+           if(pcuobject.getVisit()!=null)
+               theEpiDetail.visit_id = pcuobject.getVisit().getObjectId();
+           /** add by jao สำหรับการรับบริการที่ไม่ต้องVisit 28/12/48 **/
+           if(theEpiDetail.visit_id == null)
+               theEpiDetail.visit_id = "";
+           if(vEpiDetail == null)
+               vEpiDetail = new Vector();
+           vEpiDetail.add(theEpiDetail);
+           setEpiDetailV(vEpiDetail); 
+       }
+   }
+    
+    /**
+     * เช็ควันที่สำรวจว่าเป็นวันในอนาคตหรือไม่
+     * @jao 
+     */
+    private void checkDateSurveyEpi()
+    {        
+        if(!dateComboBoxSurvey.getText().equals("") 
+            && dateComboBoxSurvey.getText().length()==10 
+            && com.pcu.utility.DateUtil.countDay(dateComboBoxSurvey.getText(),theHosManage.theHosControl.theConnectionInf) == -1 
+            && com.pcu.utility.DateUtil.isToday(com.pcu.utility.DateUtil.getDateFromText(dateComboBoxSurvey.getText()),theHosManage.theHosControl.theConnectionInf)==false)  
+        {            
+             if(checksurvey == false)
+             {
+                 // ไม่สามารถกรอกวันที่เป็นวันในอนาคตได้
+                theUS.setStatus(GutilPCU.getTextBundle("NoDateFuture") , UpdateStatus.WARNING);
+                checksurvey = true;
+             }
+        }  
+    }
+    
+    /**
+     * แสดงข้อความเตือน
+     * @param message = ข้อความที่ต้องการให้แสดง
+     *        status = สถานะที่แสดง
+     * @return void
+     * @author kingland
+     * @date 28/08/2549
+     */
+    public void notifylistItemByGroup(com.hospital_os.object.Item item,boolean flag) {
+        
+    }
+
+    public void notifyDeletePatient(String str, int param)
+    {
+    }
+
+    public void notifyDeletePatientPayment(String str, int param)
+    {
+    }
+
+    public void notifyManageDrugAllergy(String str, int param)
+    {
+    }
+
+    public void notifyReadPatient(String str, int param)
+    {
+    }
+
+    public void notifyResetPatient(String str, int param)
+    {
+    }
+
+    public void notifySaveAppointment(String str, int param)
+    {
+        if(receiveNotify==7)
+        {
+            theAppointment = new Appointment();
+            theAppointment = theHosDialog.theDialogAppointment.getAppointment();       
+            jLabelAppointment.setText(GutilPCU.changDateToString((theAppointment.appoint_date),true));
+        }
+    }
+
+    public void notifySavePatient(String str, int param)
+    {
+    }
+
+    public void notifySavePatientPayment(String str, int param)
+    {
+    }
+
+    public void notifylistItemByGroup(com.hospital_os.object.Item item)
+    {
+    }
+
+    public void notifyReadFamily(String str, int status) {
+    }
+}

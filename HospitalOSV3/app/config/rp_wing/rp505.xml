@@ -1,0 +1,989 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="rp505"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="date_start" isForPrompting="true" class="java.lang.String"/>
+	<parameter name="date_end" isForPrompting="true" class="java.lang.String"/>
+	<queryString><![CDATA[SELECT  
+    b_site.site_full_name AS sitename  
+         ,  f_group_rp505.group_rp505_number AS code
+         , f_group_rp505.group_rp505_description_th AS description_th
+         , f_group_rp505.group_rp505_description_en AS description_en
+,case when (sum(temp.c_comm)  > 0 ) then (sum(temp.c_comm)) else 0 end AS c_comm
+,case when (sum(temp.w_warr)  > 0 ) then (sum(temp.w_warr)) else 0 end AS w_warr
+,case when (sum(temp.s_std)  > 0 ) then (sum(temp.s_std)) else 0 end AS s_std
+,case when (sum(temp.s_sold)  > 0 ) then (sum(temp.s_sold)) else 0 end AS s_sold
+,case when (sum(temp.e_employ)  > 0 ) then (sum(temp.e_employ)) else 0 end AS e_employ
+,case when (sum(temp.f_fam)  > 0 ) then (sum(temp.f_fam)) else 0 end AS f_fam
+,case when (sum(temp.c_civil)  > 0 ) then (sum(temp.c_civil)) else 0 end AS c_civil
+
+,sum(temp.c_comm+temp.w_warr+temp.s_std+temp.s_sold+temp.e_employ+temp.f_fam+temp.c_civil) AS total
+,case when (f_group_rp505.group_rp505_number = '1')
+    then 'A01-A02.99'
+      when (f_group_rp505.group_rp505_number = '2')
+    then 'A03-A09.99'
+       when (f_group_rp505.group_rp505_number = '3')
+    then 'A15-A19.99'
+       when (f_group_rp505.group_rp505_number = '4')
+    then 'A30-A30.99'
+       when (f_group_rp505.group_rp505_number = '5')
+    then 'A83-A86.99'
+       when (f_group_rp505.group_rp505_number = '6')
+    then 'A91-A92.99'
+       when (f_group_rp505.group_rp505_number = '7')
+    then 'B15-B19.99'
+       when (f_group_rp505.group_rp505_number = '8')
+    then 'B20-B24.99'
+    when (f_group_rp505.group_rp505_number = '9')
+    then 'B50-B54.99'
+   when (f_group_rp505.group_rp505_number = '10')
+    then 'A20-A28.99  A31-A32.99  A87-A90.99  A38-A49.99  A50-A79.99  A80-A82.99  A93-A99.99  B00-B09.99  B25-B49.99  B55-B99.99  '
+    when (f_group_rp505.group_rp505_number = '11')
+    then 'C22-C22.99'
+    when (f_group_rp505.group_rp505_number = '12')
+    then 'C34-C34.99'
+    when (f_group_rp505.group_rp505_number = '13')
+    then 'C50-C50.99'
+    when (f_group_rp505.group_rp505_number = '14')
+    then 'C53-C53.99'
+    when (f_group_rp505.group_rp505_number = '15')
+    then 'D50-D53.99  D55-D55.99  D57-D77.99  D80-D84.99  D86-D86.99  D89-D89.99'
+    when (f_group_rp505.group_rp505_number = '16')
+    then 'D56-D56.99'
+    when (f_group_rp505.group_rp505_number = '17')
+    then 'E00-E07.99'
+     when (f_group_rp505.group_rp505_number = '18')
+    then 'E10-E14.99'
+     when (f_group_rp505.group_rp505_number = '19')
+    then 'E15-E16.99  E20-E32.99  E34-E35.99  E40-E46.99  E50-E56.99  E58-E61.99  E63-E68.99  E70-E80.99  E83-E90.99'
+     when (f_group_rp505.group_rp505_number = '20')
+    then 'F04-F07.99   F09-F09.99'
+     when (f_group_rp505.group_rp505_number = '21')
+    then 'F10-F19.99'
+     when (f_group_rp505.group_rp505_number = '22')
+    then 'F20-F29.99'
+     when (f_group_rp505.group_rp505_number = '23')
+    then 'F30-F39.99'
+     when (f_group_rp505.group_rp505_number = '24')
+    then 'F40-F45.99   F48-F48.99'
+     when (f_group_rp505.group_rp505_number = '25')
+    then 'F70-F73.99   F78-F79.99'
+     when (f_group_rp505.group_rp505_number = '26')
+    then 'G40-G41.99'
+     when (f_group_rp505.group_rp505_number = '27')
+    then 'G00-G13.99  G20-G26.99  G30-G32.99  G35-G37.99  G43-G47.99  G50-G64.99  G70-G73.99  G80-G83.99  G90-G99.99'
+     when (f_group_rp505.group_rp505_number = '28')
+    then 'H00-H59.99'
+     when (f_group_rp505.group_rp505_number = '29')
+    then 'H60-H95.99'
+     when (f_group_rp505.group_rp505_number = '30')
+    then 'I00-I02.99'
+     when (f_group_rp505.group_rp505_number = '31')
+    then 'I05-I09.99'
+     when (f_group_rp505.group_rp505_number = '32')
+    then 'I10-I15.99'
+     when (f_group_rp505.group_rp505_number = '33')
+    then 'I20-I25.99'
+     when (f_group_rp505.group_rp505_number = '34')
+    then 'I26-I52.99'
+     when (f_group_rp505.group_rp505_number = '35')
+    then 'I60-I69.99'
+       when (f_group_rp505.group_rp505_number = '36')
+    then 'I70-I99.99'
+       when (f_group_rp505.group_rp505_number = '37')
+    then 'J00-J06.99    J30-J39.99'
+       when (f_group_rp505.group_rp505_number = '38')
+    then 'J10-J11.99'
+       when (f_group_rp505.group_rp505_number = '39')
+    then 'J12-J18.99'
+       when (f_group_rp505.group_rp505_number = '40')
+    then 'J40-J44.99    J47-J47.99'
+       when (f_group_rp505.group_rp505_number = '41')
+    then 'J45-J46.99'
+       when (f_group_rp505.group_rp505_number = '42')
+    then 'J20-J22.99    J60-J99.99'
+       when (f_group_rp505.group_rp505_number = '43')
+    then 'K25-K27.99'
+       when (f_group_rp505.group_rp505_number = '44')
+    then 'K35-K38.99'
+       when (f_group_rp505.group_rp505_number = '45')
+    then 'K40-K46.99'
+       when (f_group_rp505.group_rp505_number = '46')
+    then 'K50-K52.99  K55-K55.99  K65-K67.99'
+     when (f_group_rp505.group_rp505_number = '47')
+    then 'K56-K56.99'
+     when (f_group_rp505.group_rp505_number = '48')
+    then 'K70-K70.99'
+     when (f_group_rp505.group_rp505_number = '49')
+    then 'K80-K81.99'
+     when (f_group_rp505.group_rp505_number = '50')
+    then 'K00-K14.99  K20-K23.99  K28-K31.99  K57-K63.99  K71-K77.99  K82-K83.99  K85-K87.99  K90-K93.99'
+     when (f_group_rp505.group_rp505_number = '51')
+    then 'L00-L99.99'
+     when (f_group_rp505.group_rp505_number = '52')
+    then 'M00-M03.99  M05-M25.99  M40-M43.99  M45-M51.99  M53-M54.99  M60-M63.99  M65-M68.99  M70-M73.99  M75-M77.99  M79-M96.99  M99-M99.99'
+     when (f_group_rp505.group_rp505_number = '53')
+    then 'M30-M36.99'
+     when (f_group_rp505.group_rp505_number = '54')
+    then 'N17-N17.99'
+     when (f_group_rp505.group_rp505_number = '55')
+    then 'N18-N19.99'
+     when (f_group_rp505.group_rp505_number = '56')
+    then 'N20-N23.99'
+     when (f_group_rp505.group_rp505_number = '57')
+    then 'N40-N51.99'
+     when (f_group_rp505.group_rp505_number = '58')
+    then 'N60-N64.99'
+     when (f_group_rp505.group_rp505_number = '59')
+    then 'N70-N77.99  N80-N97.99  N98-N98.99'
+     when (f_group_rp505.group_rp505_number = '60')
+    then 'N00-N08.99  N10-N16.99  N25-N37.99  N39-N39.99  N99-N99.99'
+     when (f_group_rp505.group_rp505_number = '61')
+    then 'O00-O08.99'
+     when (f_group_rp505.group_rp505_number = '62')
+    then 'O80-O80.99'
+     when (f_group_rp505.group_rp505_number = '63')
+    then 'O10-O16.99  O20-O26.99  O28-O36.99  O40-O48.99  O60-O75.99  O81-O92.99  O95-O99.99'
+     when (f_group_rp505.group_rp505_number = '64')
+    then 'P10-P15.99'
+     when (f_group_rp505.group_rp505_number = '65')
+    then 'P00-P05.99  P07-P08.99  P20-P29.99  P35-P39.99  P50-P61.99  P70-P72.99  P74-P78.99  P80-P81.99  P83-P83.99  P90-P96.99'
+     when (f_group_rp505.group_rp505_number = '66')
+    then 'Q00-Q99.99'
+     when (f_group_rp505.group_rp505_number = '67')
+    then 'R00-R07.99  R09-R23.99  R25-R27.99  R29-R36.99  R39-R64.99  R68-R87.99  R89-R96.99  R98-R99.99'
+     when (f_group_rp505.group_rp505_number = '68')
+    then 'V01-V19.99'
+     when (f_group_rp505.group_rp505_number = '69')
+    then 'V20-V29.99'
+     when (f_group_rp505.group_rp505_number = '70')
+    then 'Y85-Y85.99  V30-V99.99'
+     when (f_group_rp505.group_rp505_number = '71')
+    then 'X40-X49.99  X60-X69.99  Y10-Y19.99  X85-X90.99'
+     when (f_group_rp505.group_rp505_number = '72')
+    then 'W00-W99.99  X00-X39.99  X50-X59.99  Y86-Y86.99'
+     when (f_group_rp505.group_rp505_number = '73')
+    then 'X70-X84.99'
+     when (f_group_rp505.group_rp505_number = '74')
+    then 'X91-Y09.99'
+      when (f_group_rp505.group_rp505_number = '75')
+    then 'Y20-Y36.99  Y40-Y84.99  Y87-Y89.99'
+end AS ICD_ALL        
+
+FROM 
+	 ( f_group_rp505 LEFT JOIN
+	 ( SELECT 
+                	 f_group_rp505.group_rp505_number AS code
+                         , f_group_rp505.group_rp505_description_th AS des
+                         , f_group_rp505.group_rp505_description_en AS des_en
+ ,(CASE  WHEN ((substring(t_patient.f_patient_area_status_id,3,1)='1') 
+ AND ( t_patient.f_sex_id='1'OR  t_patient.f_sex_id='2')) 
+THEN  1 ELSE 0 END) AS c_comm
+
+
+,(CASE  WHEN (( substring(t_patient.f_patient_area_status_id,3,1)='2') 
+ AND ( t_patient.f_sex_id='1'OR  t_patient.f_sex_id='2'))
+THEN  1 ELSE 0 END)  AS w_warr
+
+,(CASE  WHEN (( substring(t_patient.f_patient_area_status_id,3,1)='3')
+ AND ( t_patient.f_sex_id='1'OR  t_patient.f_sex_id='2')) 
+THEN  1 ELSE 0 END)  AS s_std
+
+,(CASE  WHEN (( substring(t_patient.f_patient_area_status_id,3,1)='4')
+ AND ( t_patient.f_sex_id='1'OR  t_patient.f_sex_id='2')) 
+THEN  1 ELSE 0 END) AS s_sold
+,(CASE  WHEN (( substring(t_patient.f_patient_area_status_id,3,1)='5') 
+ AND ( t_patient.f_sex_id='1'OR  t_patient.f_sex_id='2'))
+THEN  1 ELSE 0 END) AS e_employ
+
+,(CASE  WHEN (( substring(t_patient.f_patient_area_status_id,3,1)='6') 
+AND (t_patient.f_sex_id='1'OR  t_patient.f_sex_id='2')) 
+THEN  1 ELSE 0 END)  AS f_fam
+
+,(CASE  WHEN (( substring(t_patient.f_patient_area_status_id,3,1)='7') 
+ AND ( t_patient.f_sex_id='1'OR  t_patient.f_sex_id='2')) 
+THEN  1 ELSE 0 END) AS c_civil
+                                 
+
+                       
+		 FROM 
+			 f_group_rp505
+                         , r_rp505_disease_code
+                         , t_patient
+                         , t_visit
+                         , t_diag_icd10
+		 WHERE 
+			 t_patient.patient_hn = t_visit.visit_hn
+                         AND t_visit.t_visit_id = t_diag_icd10.diag_icd10_vn
+			 AND t_visit.f_visit_type_id = '1'
+			 AND t_visit.f_visit_status_id <> '4' 
+                         AND t_diag_icd10.diag_icd10_active = '1' 			
+			 AND trim(f_group_rp505.f_group_rp505_id) = trim(r_rp505_disease_code.f_group_rp505_id)
+			 AND ( t_diag_icd10.diag_icd10_number between r_rp505_disease_code.rp505_disease_code_begin and r_rp505_disease_code.rp505_disease_code_end)
+			 AND (SUBSTRING(t_visit.visit_staff_doctor_discharge_date_time from 1 for 10)
+                 BETWEEN $P{date_start} and  $P{date_end})
+		 GROUP BY 
+			 f_group_rp505.group_rp505_number
+                         , f_group_rp505.group_rp505_description_th 
+                         , f_group_rp505.group_rp505_description_en
+                         ,t_patient.f_patient_area_status_id
+                         ,t_patient.f_patient_prefix_id
+                         ,t_patient.f_sex_id
+                        
+ ) AS temp ON temp.code = f_group_rp505.group_rp505_number)
+     WHERE 
+         f_group_rp505.group_rp505_number <> '99'  
+GROUP BY f_group_rp505.group_rp505_number
+,f_group_rp505.group_rp505_description_th
+,f_group_rp505.group_rp505_description_en
+,b_site.site_full_name
+
+     ORDER BY                 
+	 to_number(f_group_rp505.group_rp505_number,'99')]]></queryString>
+
+	<field name="sitename" class="java.lang.String"/>
+	<field name="code" class="java.lang.String"/>
+	<field name="description_th" class="java.lang.String"/>
+	<field name="description_en" class="java.lang.String"/>
+	<field name="c_comm" class="java.lang.Long"/>
+	<field name="w_warr" class="java.lang.Long"/>
+	<field name="s_std" class="java.lang.Long"/>
+	<field name="s_sold" class="java.lang.Long"/>
+	<field name="e_employ" class="java.lang.Long"/>
+	<field name="f_fam" class="java.lang.Long"/>
+	<field name="c_civil" class="java.lang.Long"/>
+	<field name="total" class="java.lang.Long"/>
+	<field name="icd_all" class="java.lang.String"/>
+
+	<variable name="totalcom" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{c_comm}]]></variableExpression>
+	</variable>
+	<variable name="totalwarr" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{w_warr}]]></variableExpression>
+	</variable>
+	<variable name="totalstd" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{s_std}]]></variableExpression>
+	</variable>
+	<variable name="totalsold" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{s_sold}]]></variableExpression>
+	</variable>
+	<variable name="totalem" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{e_employ}]]></variableExpression>
+	</variable>
+	<variable name="totalfam" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{f_fam}]]></variableExpression>
+	</variable>
+	<variable name="totalcivil" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{c_civil}]]></variableExpression>
+	</variable>
+	<variable name="totall" class="java.lang.Long" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[($F{total})==null?Long.valueOf("0"):$F{total}]]></variableExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="154"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="72"
+						y="97"
+						width="419"
+						height="19"
+						key="staticText-1"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="CordiaUPC" pdfFontName="Helvetica-Bold" size="16" isBold="true"/>
+					</textElement>
+				<text><![CDATA[รายงานภาวะการเจ็บป่วย (ผู้ป่วยใน) ของบริการสายการแพทย์ทหารอากาศ]]></text>
+				</staticText>
+				<image  vAlign="Middle" hAlign="Center" onErrorType="Blank" isUsingCache="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="211"
+						y="4"
+						width="95"
+						height="85"
+						key="image-1"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.lang.String"><![CDATA["C:\\Program Files\\HospitalOS\\HReport1.8\\icon\\210_small.jpg"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement
+						x="188"
+						y="118"
+						width="28"
+						height="17"
+						key="staticText-2"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="CordiaUPC" pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
+					</textElement>
+				<text><![CDATA[หน่วย]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="141"
+						y="137"
+						width="21"
+						height="17"
+						key="staticText-3"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="CordiaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[วันที่]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="433"
+						y="4"
+						width="100"
+						height="18"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="215"
+						y="118"
+						width="100"
+						height="17"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="CordiaUPC" pdfFontName="Helvetica" size="14" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{sitename}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="259"
+						y="137"
+						width="21"
+						height="17"
+						key="staticText-16"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="CordiaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[ถึง]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="161"
+						y="137"
+						width="92"
+						height="17"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="CordiaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[com.hospital_os.utility.DateUtil.getDateToString( com.hospital_os.utility.DateUtil.getDateFromText( $P{date_start}),false)]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="309"
+						y="137"
+						width="114"
+						height="17"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="CordiaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[com.hospital_os.utility.DateUtil.getDateToString( com.hospital_os.utility.DateUtil.getDateFromText( $P{date_end}),false)]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="289"
+						y="137"
+						width="21"
+						height="17"
+						key="staticText-17"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="CordiaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[วันที่]]></text>
+				</staticText>
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="39"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="23"
+						height="39"
+						key="staticText-4"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement rotation="Left">
+						<font fontName="CordiaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[กลุ่มโรค]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="23"
+						y="0"
+						width="79"
+						height="39"
+						key="staticText-5"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="CordiaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[รหัสโรค]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="101"
+						y="0"
+						width="185"
+						height="39"
+						key="staticText-6"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="CordiaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[สาเหตุการป่วย (ชื่อโรค 75 กลุ่มโรค)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="285"
+						y="0"
+						width="175"
+						height="19"
+						key="staticText-7"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<text><![CDATA[ก]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="285"
+						y="18"
+						width="35"
+						height="21"
+						key="staticText-8"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<text><![CDATA[1]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="319"
+						y="18"
+						width="36"
+						height="21"
+						key="staticText-9"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<text><![CDATA[2]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="355"
+						y="18"
+						width="35"
+						height="21"
+						key="staticText-10"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<text><![CDATA[3]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="389"
+						y="18"
+						width="36"
+						height="21"
+						key="staticText-11"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<text><![CDATA[4]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="425"
+						y="18"
+						width="35"
+						height="21"
+						key="staticText-12"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<text><![CDATA[5]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="459"
+						y="0"
+						width="23"
+						height="39"
+						key="staticText-13"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<text><![CDATA[ข]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="481"
+						y="0"
+						width="23"
+						height="39"
+						key="staticText-14"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<text><![CDATA[ค]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="503"
+						y="0"
+						width="27"
+						height="39"
+						key="staticText-15"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<text><![CDATA[รวม]]></text>
+				</staticText>
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="17"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="-1"
+						width="23"
+						height="18"
+						key="textField"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{code}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="23"
+						y="-1"
+						width="79"
+						height="18"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{icd_all}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="101"
+						y="-1"
+						width="185"
+						height="18"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Tahoma"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{description_en}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="285"
+						y="-1"
+						width="35"
+						height="18"
+						key="textField"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{c_comm}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="319"
+						y="-1"
+						width="36"
+						height="18"
+						key="textField"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{w_warr}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="355"
+						y="-1"
+						width="35"
+						height="18"
+						key="textField"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{s_std}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="389"
+						y="-1"
+						width="36"
+						height="18"
+						key="textField"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{s_sold}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="425"
+						y="-1"
+						width="35"
+						height="18"
+						key="textField"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{e_employ}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="459"
+						y="-1"
+						width="23"
+						height="18"
+						key="textField"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{f_fam}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="481"
+						y="-1"
+						width="23"
+						height="18"
+						key="textField"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{c_civil}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="503"
+						y="-1"
+						width="27"
+						height="18"
+						key="textField"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[($F{total})==null?Long.valueOf("0"):$F{total}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="18"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="285"
+						height="18"
+						key="staticText-18"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<text><![CDATA[รวม]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="285"
+						y="0"
+						width="35"
+						height="18"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{totalcom}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="320"
+						y="0"
+						width="35"
+						height="18"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{totalwarr}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="355"
+						y="0"
+						width="35"
+						height="18"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{totalstd}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="389"
+						y="0"
+						width="36"
+						height="18"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{totalsold}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="424"
+						y="0"
+						width="35"
+						height="18"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{totalem}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="460"
+						y="0"
+						width="22"
+						height="18"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{totalfam}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="482"
+						y="0"
+						width="21"
+						height="18"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{totalcivil}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="502"
+						y="0"
+						width="27"
+						height="18"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Cordia New" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$V{totall}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="0"
+						width="0"
+						height="18"
+						key="line-1"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="17"
+						width="530"
+						height="1"
+						key="line-2"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="530"
+						y="0"
+						width="0"
+						height="18"
+						key="line-3"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="285"
+						y="-1"
+						width="0"
+						height="18"
+						key="line-4"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="319"
+						y="0"
+						width="0"
+						height="18"
+						key="line-5"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="355"
+						y="0"
+						width="0"
+						height="18"
+						key="line-6"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="389"
+						y="0"
+						width="0"
+						height="18"
+						key="line-7"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="425"
+						y="0"
+						width="0"
+						height="18"
+						key="line-8"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="459"
+						y="-1"
+						width="0"
+						height="18"
+						key="line-9"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="481"
+						y="0"
+						width="0"
+						height="17"
+						key="line-10"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="503"
+						y="0"
+						width="0"
+						height="17"
+						key="line-11"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+			</band>
+		</summary>
+</jasperReport>

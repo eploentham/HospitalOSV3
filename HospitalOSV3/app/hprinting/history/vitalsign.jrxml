@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="vitalsign"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="255"
+		 pageHeight="421"
+		 columnWidth="255"
+		 columnSpacing="0"
+		 leftMargin="0"
+		 rightMargin="0"
+		 topMargin="0"
+		 bottomMargin="0"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="sql" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["select record_time"+
+" || visit_vital_sign_blood_presure"+
+"|| visit_vital_sign_heart_rate"+
+"||visit_vital_sign_respiratory_rate"+
+"||visit_vital_sign_temperature"+
+"||visit_vital_sign_bmi"+
+"||'('||employee_firstname || ' ' || employee_lastname"+
+//"||'บันทึก '|| record_date"+
+"||')' as name "+
+" from ("+
+"select record_time"+
+",case when visit_vital_sign_blood_presure<>'' then ' BP='|| visit_vital_sign_blood_presure ||' mm/Hg' else '' end as visit_vital_sign_blood_presure"+
+",case when visit_vital_sign_heart_rate<>'' then',HR='|| visit_vital_sign_heart_rate ||'/min'  else '' end as visit_vital_sign_heart_rate"+
+",case when visit_vital_sign_respiratory_rate<>'' then',R='||visit_vital_sign_respiratory_rate ||'/min' else '' end  as visit_vital_sign_respiratory_rate"+
+",case when visit_vital_sign_temperature<>'' then ',T='||visit_vital_sign_temperature ||' C'  else '' end as visit_vital_sign_temperature"+
+",case when visit_vital_sign_bmi<>'' then',BMI='||visit_vital_sign_bmi  else '' end as visit_vital_sign_bmi"+
+",employee_firstname,employee_lastname, record_date as name"+
+" from t_visit_vital_sign inner join t_visit on t_visit.t_visit_id = t_visit_vital_sign.t_visit_id "+
+" inner join b_employee on b_employee.b_employee_id = visit_vital_sign_staff_modify  where visit_vn = '') as q  "]]></defaultValueExpression>
+	</parameter>
+	<parameter name="topic" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["ชื่อผู้ใช้"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="vn" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["153000039"]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[select record_time
+ || visit_vital_sign_blood_presure
+ || visit_vital_sign_heart_rate
+||visit_vital_sign_respiratory_rate
+||visit_vital_sign_temperature
+||visit_vital_sign_bmi
+||'('||employee_firstname || ' ' || employee_lastname
+||'บันทึก '|| record_date
+||')' as name 
+ from (
+select record_time
+,case when visit_vital_sign_blood_presure<>'' then ' BP='|| visit_vital_sign_blood_presure ||' mm/Hg' else '' end as visit_vital_sign_blood_presure
+,case when visit_vital_sign_heart_rate<>'' then',HR='|| visit_vital_sign_heart_rate ||'/min'  else '' end as visit_vital_sign_heart_rate
+,case when visit_vital_sign_respiratory_rate<>'' then',R='||visit_vital_sign_respiratory_rate ||'/min' else '' end  as visit_vital_sign_respiratory_rate
+,case when visit_vital_sign_temperature<>'' then ',T='||visit_vital_sign_temperature ||' C'  else '' end as visit_vital_sign_temperature
+,case when visit_vital_sign_bmi<>'' then',BMI='||visit_vital_sign_bmi  else '' end as visit_vital_sign_bmi
+,case when employee_firstname is not null then employee_firstname else '' end as employee_firstname
+,case when employee_lastname is not null then employee_lastname else '' end as employee_lastname, record_date
+ from t_visit_vital_sign inner join t_visit on t_visit.t_visit_id = t_visit_vital_sign.t_visit_id 
+ left join b_employee on b_employee.b_employee_id = visit_vital_sign_staff_record  where visit_vn = $P{vn}) as q]]></queryString>
+
+	<field name="name" class="java.lang.String"/>
+
+	<variable name="sum" class="java.lang.String" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$V{sum}+" "+$F{name}]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{topic}+":"]]></initialValueExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="18"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="255"
+						height="18"
+						key="textField-1"
+						isPrintWhenDetailOverflows="true"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{sum}]]></textFieldExpression>
+				</textField>
+			</band>
+		</summary>
+</jasperReport>

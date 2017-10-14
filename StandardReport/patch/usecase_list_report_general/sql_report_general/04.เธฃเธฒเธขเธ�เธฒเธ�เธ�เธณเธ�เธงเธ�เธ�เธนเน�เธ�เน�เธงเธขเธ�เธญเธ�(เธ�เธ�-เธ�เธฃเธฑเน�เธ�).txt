@@ -1,0 +1,88 @@
+-- ทั่วไป (รายงานจำนวนผู้ป่วยนอก(คน/ครั้ง)
+SELECT 
+	b_contract_plans.contract_plans_description as Payment 
+	, sum(CASE WHEN (patient_incup <> '') 
+			THEN 1
+			ELSE 0 
+	END) AS patient_incup 
+	, CASE WHEN ((sum(visit_incup)) > 0 ) 	
+			THEN sum(visit_incup) 
+			ELSE  0 	
+	END  AS visit_incup 
+	, sum(CASE WHEN (patient_outcup <> '') 	
+			THEN  1
+			ELSE 0 	
+	END) AS patient_outcup 
+	, CASE WHEN ((sum(visit_outcup)) > 0 )  
+			THEN sum(visit_outcup) 
+			ELSE  0 
+	END AS visit_outcup 
+FROM 
+	b_contract_plans 
+	LEFT JOIN  (SELECT  
+				t_visit_payment.b_contract_plans_id AS b_contract_plans_id 
+                                ,t_visit.t_patient_id AS t_patient_id
+					,CASE WHEN (((t_visit_payment.visit_payment_main_hospital IN (Select  hospital_incup_code 
+								from r_hospital_incup))   
+								OR ( t_visit_payment.visit_payment_sub_hospital IN (Select  hospital_incup_code 
+								from r_hospital_incup)))
+                                                                AND (t_visit.t_patient_id  NOT IN (SELECT  distinct t_patient.t_patient_id 
+                                                                FROM t_visit INNER JOIN t_patient 
+                                                                ON t_visit.t_patient_id = t_patient.t_patient_id  
+                                                                where (t_visit.f_visit_status_id <> '4')  
+                                                                AND ((SUBSTRING(t_visit.visit_begin_visit_time,1,7) >= '2549-01') 
+                                                                AND (SUBSTRING(t_visit.visit_begin_visit_time,1,7) < '2549-05'))  
+                                                               Order by t_patient.t_patient_id))
+                                                                ) 
+							THEN t_visit.t_patient_id 
+							ELSE ''	
+					END AS patient_incup 
+					,sum(CASE WHEN ((t_visit_payment.visit_payment_main_hospital IN (Select  hospital_incup_code 
+								from r_hospital_incup))  
+								OR (t_visit_payment.visit_payment_sub_hospital IN (Select  hospital_incup_code 
+								from r_hospital_incup))) 
+							THEN 1 
+							ELSE 0 
+					END) AS visit_incup 
+					,CASE WHEN (((t_visit_payment.visit_payment_main_hospital NOT IN (Select  hospital_incup_code 
+								from r_hospital_incup)) 
+								OR (t_visit_payment.visit_payment_sub_hospital NOT IN (Select  hospital_incup_code 
+								from r_hospital_incup)))
+                                                                AND (t_visit.t_patient_id  NOT IN (SELECT  distinct t_patient.t_patient_id 
+                                                                FROM t_visit INNER JOIN t_patient 
+                                                                ON t_visit.t_patient_id = t_patient.t_patient_id  
+                                                                where (t_visit.f_visit_status_id <> '4')  
+                                                                AND ((SUBSTRING(t_visit.visit_begin_visit_time,1,7) >= '2549-01') 
+                                                                AND (SUBSTRING(t_visit.visit_begin_visit_time,1,7) < '2549-05'))  
+                                                               Order by t_patient.t_patient_id))
+                                                                ) 
+							THEN t_visit.t_patient_id
+							ELSE ''
+					END AS patient_outcup
+					,sum(CASE WHEN ((t_visit_payment.visit_payment_main_hospital NOT IN (Select  hospital_incup_code 
+								from r_hospital_incup)) 
+								AND (t_visit_payment.visit_payment_sub_hospital NOT IN (Select  hospital_incup_code 
+								from r_hospital_incup))) 
+							THEN 1 
+							ELSE 0 	
+					END) AS visit_outcup 
+				FROM  	
+					t_visit INNER JOIN t_visit_payment 
+						ON t_visit.t_visit_id = t_visit_payment.t_visit_id 
+				WHERE
+ 					(t_visit.f_visit_status_id <> '4')  	
+					AND ( t_visit_payment.visit_payment_priority = '0' )
+					AND ( t_visit_payment.visit_payment_active = '1') 
+                                        				AND ( t_visit.f_visit_type_id = '0') 
+					AND (substring(t_visit.visit_financial_discharge_time,0,11) 
+						Between '2549-05-01' And '2549-05-30')  
+						AND (t_visit.visit_financial_discharge_time <> '') 
+				GROUP BY 	
+					b_contract_plans_id 
+                                        ,t_patient_id
+					,patient_incup 
+					,patient_outcup
+				) AS query1 
+	ON b_contract_plans.b_contract_plans_id = query1.b_contract_plans_id 
+GROUP BY  	
+	b_contract_plans.contract_plans_description

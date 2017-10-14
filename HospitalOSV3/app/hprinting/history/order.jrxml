@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="order"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="283"
+		 pageHeight="141"
+		 columnWidth="283"
+		 columnSpacing="0"
+		 leftMargin="0"
+		 rightMargin="0"
+		 topMargin="0"
+		 bottomMargin="0"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="sql" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["select '' as code,record_time"+
+" || visit_vital_sign_blood_presure"+
+"|| visit_vital_sign_heart_rate"+
+"||visit_vital_sign_respiratory_rate"+
+"||visit_vital_sign_temperature"+
+"||visit_vital_sign_bmi"+
+"||'('||employee_firstname || ' ' || employee_lastname"+
+//"||'บันทึก '|| record_date"+
+"||')' as name "+
+" from ("+
+"select record_time"+
+",case when visit_vital_sign_blood_presure<>'' then ' BP='|| visit_vital_sign_blood_presure ||' mm/Hg' else '' end as visit_vital_sign_blood_presure"+
+",case when visit_vital_sign_heart_rate<>'' then',HR='|| visit_vital_sign_heart_rate ||'/min'  else '' end as visit_vital_sign_heart_rate"+
+",case when visit_vital_sign_respiratory_rate<>'' then',R='||visit_vital_sign_respiratory_rate ||'/min' else '' end  as visit_vital_sign_respiratory_rate"+
+",case when visit_vital_sign_temperature<>'' then ',T='||visit_vital_sign_temperature ||' C'  else '' end as visit_vital_sign_temperature"+
+",case when visit_vital_sign_bmi<>'' then',BMI='||visit_vital_sign_bmi  else '' end as visit_vital_sign_bmi"+
+",employee_firstname,employee_lastname, record_date as name"+
+" from t_visit_vital_sign inner join t_visit on t_visit.t_visit_id = t_visit_vital_sign.t_visit_id "+
+" inner join b_employee on b_employee.b_employee_id = visit_vital_sign_staff_modify  where visit_vn = '') as q  "]]></defaultValueExpression>
+	</parameter>
+	<parameter name="topic" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["ชื่อผู้ใช้"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="vn" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["149001394"]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[select item_group_description as code,order_common_name||' '||  sum( order_qty) ||' '|| case when item_drug_uom_description is not null then item_drug_uom_description else '' end as name from t_order
+ inner join t_visit on t_visit.t_visit_id = t_order.t_visit_id
+ inner join f_item_group on f_item_group.f_item_group_id = t_order.f_item_group_id
+ left join t_order_drug on t_order_drug.t_order_id = t_order.t_order_id
+ left join b_item_drug_uom on b_item_drug_uom.b_item_drug_uom_id = t_order_drug.b_item_drug_uom_id_purch
+ where visit_vn = $P{vn} 
+ group by order_common_name,item_drug_uom_description,t_order.f_item_group_id,item_group_description 
+ order by t_order.f_item_group_id,order_common_name]]></queryString>
+
+	<field name="name" class="java.lang.String"/>
+	<field name="code" class="java.lang.String"/>
+
+	<variable name="sum" class="java.lang.String" resetType="Group" resetGroup="code$F" calculation="Nothing">
+		<variableExpression><![CDATA[$V{sum}+$F{name}+", "]]></variableExpression>
+		<initialValueExpression><![CDATA["     "+$F{code}+": "]]></initialValueExpression>
+	</variable>
+
+		<group  name="code$F" >
+			<groupExpression><![CDATA[$F{code}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="18"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="283"
+						height="18"
+						key="textField"
+						isPrintWhenDetailOverflows="true"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{sum}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="17"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="283"
+						height="17"
+						forecolor="#3300CC"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="AngsanaUPC" pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{topic}]]></textFieldExpression>
+				</textField>
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

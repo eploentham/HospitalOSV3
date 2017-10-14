@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : ReportWing.xml
+    Created on : 28 พฤษภาคม 2550, 10.30 น.
+    Author     : Pu
+    Description:
+        Purpose of the document follows.
+-->
+
+<root>
+    <module-report>com.report_wing.ReportWing</module-report>
+    <module-index>11</module-index>
+</root>

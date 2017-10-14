@@ -1,0 +1,11 @@
+
+<all>
+<DatabaseLocation>
+<connection></connection>
+<driver>org.postgresql.Driver</driver>
+<url>jdbc:postgresql://192.168.1.124/aoluk_rename</url>
+<username>postgres</username>
+<password>grespost</password>
+</DatabaseLocation>
+<used_hosdb>1</used_hosdb>
+</all>

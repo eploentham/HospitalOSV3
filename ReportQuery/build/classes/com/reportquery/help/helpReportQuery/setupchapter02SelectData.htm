@@ -1,0 +1,91 @@
+<html >
+
+<head>
+
+<title>setupchapter02SelectData</title>
+
+<style type="text/css">
+<!--
+.style1 {font-family: Tahoma}
+.style2 {font-family: Tahoma; font-size: 20px; }
+-->
+</style>
+</head>
+
+<body lang=EN-US style='tab-interval:36.0pt'>
+
+<div class=Section1 style1>
+
+<h3 class="style2">2. <span lang=TH>การค้นหารายการ </span>SQL</h3>
+
+<p class=MsoNormal><span lang=TH><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>สำหรับการค้นหา
+รายการ </span>SQL <span lang=TH>หรือรายงาน </span>SQL <span lang=TH>นั้นสามารถค้นหาได้โดยใช้
+รหัส หรือ คำอธิบาย รูปแบบที่จะใช้ในการค้นหาจะเป็น ประกอบด้วย
+ตัวอย่างของการค้นหา ดังรูปที่ </span>5 <span lang=TH>เมื่อ กรอกคำที่จะค้นหา
+เสร็จแล้ว สามารถกด </span>Enter <span lang=TH>หรือ กดปุ่ม ค้นหาก็ได้
+โปรแกรมจะทำการค้นหา และนำมาแสดงให้ดังรูปที่ </span>5 <span lang=TH>แต่หากโปรแกรมค้นหาแล้วไม่เจอคำที่ผู้ใช้ต้องการโปรแกรมจะไม่แสดง
+ข้อมูลให้ ดังรูปที่ </span>6 <span lang=TH>นอกจากนั้น ผู้ใช้สามารถที่จะค้นหา
+ข้อมูลรายการ </span>SQL <span lang=TH>ที่ไม่แสดงได้โดยการ นำเครื่องหมายถูก หน้า
+</span>Active <span lang=TH>ออก (อยู่ใต้ค้นหา)โดยการคลิกที่เครื่องหมายถูก
+และกดปุ่มค้นหา โปรแกรมจะทำการค้นหารายการ </span>SQL <span lang=TH>ที่ไม่แสดงให้
+ดังรูปที่ </span>7</p>
+<p class=MsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img width=491 height=409
+   src="./setupchapter02SelectData.files/image002.jpg" v:shapes="_x0000_s1032">
+  <!--[if gte vml 1]><o:wrapblock><v:shapetype
+  id="_x0000_t75" coordsize="21600,21600" o:spt="75" o:preferrelative="t"
+  path="m@4@5l@4@11@9@11@9@5xe" filled="f" stroked="f">
+  <v:stroke joinstyle="miter"/>
+  <v:formulas>
+   <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+   <v:f eqn="sum @0 1 0"/>
+   <v:f eqn="sum 0 0 @1"/>
+   <v:f eqn="prod @2 1 2"/>
+   <v:f eqn="prod @3 21600 pixelWidth"/>
+   <v:f eqn="prod @3 21600 pixelHeight"/>
+   <v:f eqn="sum @0 0 1"/>
+   <v:f eqn="prod @6 1 2"/>
+   <v:f eqn="prod @7 21600 pixelWidth"/>
+   <v:f eqn="sum @8 21600 0"/>
+   <v:f eqn="prod @7 21600 pixelHeight"/>
+   <v:f eqn="sum @10 21600 0"/>
+  </v:formulas>
+  <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
+  <o:lock v:ext="edit" aspectratio="t"/>
+ </v:shapetype><v:shape id="_x0000_s1032" type="#_x0000_t75" style='position:absolute;
+  left:0;text-align:left;margin-left:14.55pt;margin-top:0;width:368.25pt;
+  height:306.75pt;z-index:1;mso-position-horizontal:absolute;
+  mso-position-vertical:top'>
+  <v:imagedata src="./setupchapter02SelectData.files/image001.png" o:title=""/>
+  <w:wrap type="topAndBottom"/>
+ </v:shape><![endif]-->
+  <![if !vml]>
+</p>
+ <![endif]>
+<!--[if gte vml 1]></o:wrapblock><![endif]-->
+
+
+<p class=MsoNormal><b><span lang=TH>รูปที่ </span>5</b> <span lang=TH>แสดงการค้นหา
+และการแสดงผลจากการค้นหา</span></p>
+<p class=MsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img width=492 height=410
+   src="./setupchapter02SelectData.files/image004.jpg" v:shapes="_x0000_s1033">
+    <!--[if gte vml 1]><o:wrapblock><v:shape
+  id="_x0000_s1033" type="#_x0000_t75" style='position:absolute;left:0;
+  text-align:left;margin-left:14.55pt;margin-top:0;width:369pt;height:307.5pt;
+  z-index:2;mso-position-horizontal:absolute;mso-position-vertical:top'>
+  <v:imagedata src="./setupchapter02SelectData.files/image003.png" o:title=""/>
+  <w:wrap type="topAndBottom"/>
+ </v:shape><![endif]-->
+    <![if !vml]>
+</p>
+ <![endif]><o:p></o:p></p>
+<b><span lang=TH>รูปที่ </span>6</b> <span lang=TH>แสดงการค้นหา
+  และแสดงผลที่ค้นหาไม่เจอ</span>
+<p><span class="MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><img width=503 height=419
+  src="./setupchapter02SelectData.files/image006.gif" v:shapes="_x0000_s1035 _x0000_s1034 _x0000_s1026 _x0000_s1027 _x0000_s1028 _x0000_s1029 _x0000_s1030 _x0000_s1031"></p>
+<p><b><span lang=TH>รูปที่ </span>7</b> <span lang=TH>แสดงการค้นหารายการที่
+  ไม่แสดง โดยการเอาเครื่องหมายถูกหน้า </span>Active <span lang=TH>ออก</span></p>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="Untitled_report_1"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="date_to" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date_from" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT *
+,ROUND((sum(query0.จำนวนผู้มีสิทธิ*100))/(sum(query0.จำนวนประชากร )),2) AS ร้อยละของผู้มีสิทธิ
+FROM
+
+(select main1.moo as หมู่
+,q1.ban as ชื่อหมู่บ้าน
+,to_number(main1.family_total,'99999.99') as จำนวนประชากร
+,sum(q1.A1) as "0-12ปี"
+,sum(q1.A2)as "สปร."
+,sum(q1.A3) as "นักเรียน"
+,sum(q1.A4) as "พิการ"
+,sum(q1.A5)as "ทหารผ่านศึก"
+,sum(q1.A6)as "พระ"
+,sum(q1.A7) as "ผู้สูงอายุ"
+,sum(q1.A8) as "ผู้นำชุมชน"
+,sum(q1.A9) as "อสม."
+,sum(q1.A10) as "UC"
+,sum(q1.A11) as "ข้าราชการ"
+,sum(q1.A12) as "ประกันสังคม"
+,sum(q1.A13) as "ต่างด้าว"
+,sum(q1.A14) as "จ่ายเงิน"
+,sum(q1.A15) as "อนุเคราะห์"
+,sum(q1.A16) as "พรบ."
+,sum(q1.A17) as "อื่นๆ"
+,to_number(count(distinct fm),'99999.99') as จำนวนผู้มีสิทธิ
+,to_number(main1.family_total,'99999.99')-to_number(count(distinct fm),'99999.99') as จำนวนผู้ไม่มีสิทธิ
+FROM
+(SELECT  case when length(t_health_village.village_moo) = 1 then '0' || t_health_village.village_moo
+                       else t_health_village.village_moo  end AS moo 
+,t_health_village.village_name AS village_name  
+,COUNT(t_health_family.t_health_family_id ) AS family_total
+FROM  t_health_home  
+INNER JOIN  t_health_family  ON t_health_family.t_health_home_id = t_health_home.t_health_home_id  
+INNER JOIN t_health_village  ON(t_health_home.t_health_village_id = t_health_village.t_health_village_id ) 
+GROUP BY  t_health_village.village_moo  ,t_health_village.village_name  
+ORDER BY  t_health_village.village_moo)  as main1
+
+LEFT JOIN
+(select 
+case when length(t_health_village.village_moo) = 1 then '0' || t_health_village.village_moo
+                       else t_health_village.village_moo  end AS moo 
+,t_health_village.village_name as ban
+,t_health_village.t_health_village_id as ban_id
+,t_patient_payment.t_health_family_id as fm
+,count(distinct case when b_contract_plans.contract_plans_pttype = 'AA' then 1 else null end) as A1
+,count(distinct case when b_contract_plans.contract_plans_pttype = 'AL' then 1 else null end) as A2
+,count(distinct case when b_contract_plans.contract_plans_pttype = 'AC' then 1 else null end) as A3
+,count(distinct case when b_contract_plans.contract_plans_pttype = 'AD' then 1 else null end) as A4
+,count(distinct case when b_contract_plans.contract_plans_pttype = 'AE' then 1 else null end) as A5
+,count(distinct case when b_contract_plans.contract_plans_pttype = 'AF' then 1 else null end) as A6
+,count(distinct case when b_contract_plans.contract_plans_pttype = 'AG' then 1 else null end) as A7
+,count(distinct case when b_contract_plans.contract_plans_pttype = 'AK' then 1 else null end) as A8
+,count(distinct case when b_contract_plans.contract_plans_pttype = 'AJ' then 1 else null end) as A9
+,count(distinct case when b_contract_plans.contract_plans_pttype = 'UC' then 1 else null end) as A10
+,count(distinct case when b_contract_plans.contract_plans_pttype = 'A2' then 1 else null end) as A11
+,count(distinct case when b_contract_plans.contract_plans_pttype = 'A7' then 1 else null end) as A12
+,count(distinct case when b_contract_plans.contract_plans_pttype = 'AR' then 1 else null end) as A13
+,count(distinct case when b_contract_plans.contract_plans_pttype = 'A1' then 1 else null end) as A14
+,count(distinct case when b_contract_plans.contract_plans_pttype = 'AN' then 1 else null end) as A15
+,count(distinct case when b_contract_plans.contract_plans_pttype = 'A9' then 1 else null end) as A16
+,count(distinct case when b_contract_plans.contract_plans_pttype NOT IN ('AA','AL','AC','AD','AE','AF','AG','AK','AJ','UC','A2','A7','AR','A1','AN','A9') then 1 else null end) as A17
+
+FROM t_patient_payment 
+INNER JOIN t_health_family ON t_health_family.t_health_family_id = t_patient_payment.t_health_family_id
+INNER JOIN b_contract_plans ON t_patient_payment.b_contact_plans_id = b_contract_plans.b_contract_plans_id
+INNER JOIN t_health_home ON t_health_home.t_health_home_id = t_health_family.t_health_home_id
+INNER JOIN t_health_village ON t_health_village.t_health_village_id = t_health_home.t_health_village_id
+
+WHERE
+t_patient_payment.patient_payment_priority = '0'
+and health_family_active = '1'
+and substring(patient_payment_record_date,1,10) between substring($P{date_from},1,10) and substring($P{date_to},1,10)
+GROUP BY
+t_patient_payment.t_health_family_id,
+t_health_village.village_name
+,t_health_village.t_health_village_id 
+,t_health_village.village_moo
+) as q1
+ON main1.moo = q1.moo
+GROUP BY q1.ban,main1.moo,main1.family_total
+ORDER BY main1.moo) AS query0
+
+GROUP BY
+query0.หมู่
+,query0.ชื่อหมู่บ้าน
+,query0.จำนวนประชากร
+,query0."0-12ปี"
+,query0."สปร."
+,query0."นักเรียน"
+,query0."พิการ"
+,query0."ทหารผ่านศึก"
+,query0."พระ"
+,query0."ผู้สูงอายุ"
+,query0."ผู้นำชุมชน"
+,query0."อสม."
+,query0."UC"
+,query0."ข้าราชการ"
+,query0."ประกันสังคม"
+,query0."ต่างด้าว"
+,query0."จ่ายเงิน"
+,query0."อนุเคราะห์"
+,query0."พรบ."
+,query0."อื่นๆ"
+,query0.จำนวนผู้มีสิทธิ
+,query0.จำนวนผู้ไม่มีสิทธิ]]></queryString>
+
+	<field name="ชื่อโรค" class="java.lang.String"/>
+	<field name="รหัสโรค" class="java.lang.String"/>
+	<field name="ชื่อสกุล" class="java.lang.String"/>
+	<field name="เพศ" class="java.lang.String"/>
+	<field name="อายุ(ปี)" class="java.math.BigDecimal"/>
+	<field name="อายุ(เดือน)" class="java.math.BigDecimal"/>
+	<field name="อายุ(วัน)" class="java.math.BigDecimal"/>
+	<field name="HN" class="java.lang.String"/>
+	<field name="สถานะภาพสมรส" class="java.lang.String"/>
+	<field name="เชื้อชาติ" class="java.lang.String"/>
+	<field name="ศาสนา" class="java.lang.String"/>
+	<field name="อาชีพ" class="java.lang.String"/>
+	<field name="ที่อยู่" class="java.lang.String"/>
+	<field name="เขตพื้นที่" class="java.lang.String"/>
+	<field name="วันที่เริ่มป่วย" class="java.lang.String"/>
+	<field name="วันที่พบ" class="java.lang.String"/>
+	<field name="สภาพผู้ป่วย" class="java.lang.String"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="30"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="100"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="30"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<lastPageFooter>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</lastPageFooter>
+		<summary>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

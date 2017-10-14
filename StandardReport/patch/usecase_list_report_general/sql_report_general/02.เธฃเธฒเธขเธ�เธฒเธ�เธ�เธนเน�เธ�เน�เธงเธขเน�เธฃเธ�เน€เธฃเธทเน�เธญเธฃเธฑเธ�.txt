@@ -1,0 +1,55 @@
+-- ทั่วไป (รายงานผู้ป่วยโรคเรื้อรัง)
+SELECT  
+	query1.chronic_icd10 AS ICD10_CODE ,
+	query1.icd10_description AS ICD_NAME ,
+	sum(query1.patient_incup) AS INCUP_PERSON ,
+	sum(query1.visit_incup) AS INCUP_TIME ,
+	sum(query1.patient_outcup) AS OUTCUP_PERSON ,
+	sum(query1.visit_outcup) AS OUTCUP_TIME
+FROM 
+	(SELECT t_visit.t_patient_id ,
+		t_chronic.chronic_icd10 AS chronic_icd10,
+		b_icd10.icd10_description AS icd10_description ,
+		CASE WHEN ((t_visit_payment.visit_payment_main_hospital 
+			IN (SELECT  hospital_incup_code FROM r_hospital_incup))  
+			OR (t_visit_payment.visit_payment_sub_hospital 
+			IN (SELECT  hospital_incup_code FROM r_hospital_incup))) THEN 1 else 0  END AS patient_incup ,
+		sum(CASE WHEN ((t_visit_payment.visit_payment_main_hospital 
+			IN (SELECT  hospital_incup_code FROM r_hospital_incup))  
+			OR (t_visit_payment.visit_payment_sub_hospital 
+			IN (SELECT  hospital_incup_code FROM r_hospital_incup))) THEN 1 else 0  END) AS visit_incup ,
+		CASE WHEN ((t_visit_payment.visit_payment_main_hospital 
+			NOT IN (SELECT  hospital_incup_code FROM r_hospital_incup))  
+			AND (t_visit_payment.visit_payment_sub_hospital 
+			NOT IN (SELECT  hospital_incup_code FROM r_hospital_incup))) THEN 1 else 0  END  AS patient_outcup ,
+		sum(CASE WHEN ((t_visit_payment.visit_payment_main_hospital 
+			NOT IN (SELECT  hospital_incup_code FROM r_hospital_incup))  
+			AND (t_visit_payment.visit_payment_sub_hospital 
+			NOT IN (SELECT  hospital_incup_code FROM r_hospital_incup))) THEN 1 else 0  END)  AS visit_outcup 
+	FROM 
+		t_chronic INNER JOIN t_visit 
+		ON (t_chronic.t_patient_id = t_visit.t_patient_id
+		AND t_visit.f_visit_status_id <> '4')
+		INNER JOIN t_diag_icd10
+		ON (t_visit.t_visit_id = t_diag_icd10.diag_icd10_vn
+		AND t_chronic.chronic_icd10 = t_diag_icd10.diag_icd10_number
+		AND t_diag_icd10.diag_icd10_active = '1')
+		INNER JOIN b_icd10 
+		ON t_chronic.chronic_icd10 = b_icd10.icd10_number
+		INNER JOIN t_visit_payment 
+		ON (t_visit.t_visit_id = t_visit_payment.t_visit_id
+		AND t_visit_payment.visit_payment_priority = '0')
+	WHERE 
+		(substring(t_visit.visit_financial_discharge_time,0,11) Between '2549-10-17' And '2549-10-17')  
+	GROUP BY 
+		t_visit.t_patient_id ,
+		t_chronic.chronic_icd10 ,
+		b_icd10.icd10_description ,
+		patient_incup  ,
+		patient_outcup) AS query1  
+Group BY  
+	query1.chronic_icd10 ,
+	query1.icd10_description
+ORDER BY 
+	query1.chronic_icd10
+

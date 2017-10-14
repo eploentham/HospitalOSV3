@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : ReportNakorn.xml
+    Created on : 28 พฤษภาคม 2550, 10.30 น.
+    Author     : Pu
+    Description:
+        Purpose of the document follows.
+-->
+
+<root>
+    <module-report>com.report_nk.ReportNK</module-report>
+    <module-index>8</module-index>
+</root>

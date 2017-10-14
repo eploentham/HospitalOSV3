@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="Untitled_report_1"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="445"
+		 pageHeight="123"
+		 columnWidth="445"
+		 columnSpacing="0"
+		 leftMargin="0"
+		 rightMargin="0"
+		 topMargin="0"
+		 bottomMargin="0"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="date_end" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="date_start" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="date_new_year" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="date_minus" isForPrompting="false" class="java.lang.String"/>
+	<queryString><![CDATA[select q2.f_dentalrp_government_part4_item_id || '.' || ' ' || q2.ประเภทงาน1 as description
+        , case when (q2.ข้าราชการ1 is not null)
+        then q2.ข้าราชการ1
+        else '0' end as bureaucracy
+        , case when (q2.ประกันสังคม1 is not null)
+        then q2.ประกันสังคม1
+        else '0' end as socia_security
+        , case when (q2.UCผู้สูงอายุ1 is not null)
+        then q2.UCผู้สูงอายุ1
+        else '0' end as uc_advanced_age
+        , case when (q2.สิทธิUCอื่น1 is not null)
+        then q2.สิทธิUCอื่น1
+        else '0' end as uc_other
+        , case when (q2.สิทธิอื่น1 is not null)
+        then q2.สิทธิอื่น1
+        else '0' end as other
+from
+    -- นำจากที่ได้ใน q1 มาแยกประเภท ว่าอยู่ใน ประเภทงานกลุ่ม 3,4 หรือไม่ ถ้าอยู่ก็ให้นับจำนวน patient ที่หาไว้แล้วใน q1
+    -- แต่ถ้าไม่ใช่ ให้นำ จำนวน qty ที่ได้จาก q1 มาแสดงด้วย
+(
+SELECT f_dentalrp_government_part4_item.f_dentalrp_government_part4_item_description as ประเภทงาน1
+        , f_dentalrp_government_part4_item.f_dentalrp_government_part4_item_id
+        , case when (q1.f_dentalrp_government_part4_item_id in ('3','4'))
+        then count(distinct q1.new_patient_plan1 )|| ''
+        else count(distinct q1.new_patient_plan1) ||'/'|| sum(q1.order_qty_plan1)
+        end as ข้าราชการ1
+        , case when (q1.f_dentalrp_government_part4_item_id in ('3','4'))
+        then count(distinct q1.new_patient_plan2) || ''
+        else count(distinct q1.new_patient_plan2) ||'/'|| sum(q1.order_qty_plan2)
+        end as ประกันสังคม1 
+        , case when (q1.f_dentalrp_government_part4_item_id in ('3','4'))
+        then count(distinct q1.new_patient_plan3) || ''
+        else count(distinct q1.new_patient_plan3) ||'/'|| sum(q1.order_qty_plan3)
+        end as UCผู้สูงอายุ1
+        , case when (q1.f_dentalrp_government_part4_item_id in ('3','4'))
+        then count(distinct q1.new_patient_plan4) || ''
+        else count(distinct q1.new_patient_plan4) ||'/'|| sum(q1.order_qty_plan4)
+        end as สิทธิUCอื่น1
+        , case when (q1.f_dentalrp_government_part4_item_id in ('3','4'))
+        then count(distinct q1.new_patient_plan5) || ''
+        else count(distinct q1.new_patient_plan5) ||'/'|| sum(q1.order_qty_plan5)
+        end as สิทธิอื่น1
+
+FROM f_dentalrp_government_part4_item
+left join
+    -- q1 เป็นการ query เพื่อบอกว่า visit ไหนเป็นคนใหมที่ใช้สิทธิ ตามตาราง f_dentalrp_government_part4_plan_id นี้หรือเปล่า โดยแยกตามประเภท 
+    --  1. ข้าราชการ  2. ประกันสังคม  3. UC ผู้สูงอายุ  4. สิทธิอื่น  ในช่วงเวลาที่กำหนด
+--     และสั่ง order ที่อยุ่ในตาราง f_dentalrp_government_part4_item_id ก็ให้ sum order_qty ตามสิทธิประจำตัวผู้ป่วย
+(SELECT t_visit.t_visit_id
+,b_dentalrp_government_part4_invent_item.f_dentalrp_government_part4_item_id
+,t_visit.t_patient_id
+, sum(case when(b_dentalrp_government_part4_invent_plan.f_dentalrp_government_part4_plan_id = '1')
+    then t_order.order_qty
+    else 0
+    end) as order_qty_plan1
+, sum(case when(b_dentalrp_government_part4_invent_plan.f_dentalrp_government_part4_plan_id = '2')
+    then t_order.order_qty
+    else 0
+    end) as order_qty_plan2
+, sum(case when(b_dentalrp_government_part4_invent_plan.f_dentalrp_government_part4_plan_id = '3')
+    then t_order.order_qty
+    else 0
+    end) as order_qty_plan3
+, sum(case when(b_dentalrp_government_part4_invent_plan.f_dentalrp_government_part4_plan_id = '4')
+    then t_order.order_qty
+    else 0
+    end) as order_qty_plan4
+, sum(case when(b_dentalrp_government_part4_invent_plan.f_dentalrp_government_part4_plan_id = '5')
+    then t_order.order_qty
+    else 0
+    end) as order_qty_plan5
+, case when (t_visit.t_patient_id not in(select distinct t_visit.t_patient_id
+        from t_order
+        inner join t_visit on t_order.t_visit_id = t_visit.t_visit_id
+        inner join b_dentalrp_government_part4_invent_item on b_dentalrp_government_part4_invent_item.b_item_id = t_order.b_item_id
+        where substr(visit_begin_visit_time,1,10) between $P{date_new_year} and $P{date_minus})
+and b_dentalrp_government_part4_invent_plan.f_dentalrp_government_part4_plan_id = '1')
+            then t_visit.t_patient_id
+            else NULL end as new_patient_plan1
+            ,case when (t_visit.t_patient_id not in(select distinct t_visit.t_patient_id
+        from t_order
+        inner join t_visit on t_order.t_visit_id = t_visit.t_visit_id
+        inner join b_dentalrp_government_part4_invent_item on b_dentalrp_government_part4_invent_item.b_item_id = t_order.b_item_id
+        where substr(visit_begin_visit_time,1,10) between $P{date_new_year} and $P{date_minus})
+and b_dentalrp_government_part4_invent_plan.f_dentalrp_government_part4_plan_id = '2')
+            then t_visit.t_patient_id
+            else NULL end as new_patient_plan2
+            ,  case when (t_visit.t_patient_id not in(select distinct t_visit.t_patient_id
+        from t_order
+        inner join t_visit on t_order.t_visit_id = t_visit.t_visit_id
+        inner join b_dentalrp_government_part4_invent_item on b_dentalrp_government_part4_invent_item.b_item_id = t_order.b_item_id
+        where substr(visit_begin_visit_time,1,10) between $P{date_new_year} and $P{date_minus})
+and b_dentalrp_government_part4_invent_plan.f_dentalrp_government_part4_plan_id = '3')
+            then t_visit.t_patient_id
+            else NULL end as new_patient_plan3
+            , case when (t_visit.t_patient_id not in(select distinct t_visit.t_patient_id
+        from t_order
+        inner join t_visit on t_order.t_visit_id = t_visit.t_visit_id
+        inner join b_dentalrp_government_part4_invent_item on b_dentalrp_government_part4_invent_item.b_item_id = t_order.b_item_id
+        where substr(visit_begin_visit_time,1,10) between $P{date_new_year} and $P{date_minus})
+and b_dentalrp_government_part4_invent_plan.f_dentalrp_government_part4_plan_id = '4')
+            then t_visit.t_patient_id
+            else NULL end as new_patient_plan4
+            , case when (t_visit.t_patient_id not in(select distinct t_visit.t_patient_id
+        from t_order
+        inner join t_visit on t_order.t_visit_id = t_visit.t_visit_id
+        inner join b_dentalrp_government_part4_invent_item on b_dentalrp_government_part4_invent_item.b_item_id = t_order.b_item_id
+        where substr(visit_begin_visit_time,1,10) between $P{date_new_year} and $P{date_minus})
+and b_dentalrp_government_part4_invent_plan.f_dentalrp_government_part4_plan_id = '5')
+            then t_visit.t_patient_id
+            else NULL end as new_patient_plan5
+FROM t_order
+        inner join t_visit 
+            on t_order.t_visit_id = t_visit.t_visit_id
+        inner join b_dentalrp_government_part4_invent_item 
+            on b_dentalrp_government_part4_invent_item.b_item_id = t_order.b_item_id
+        inner join t_patient_payment 
+            on (t_visit.t_patient_id = t_patient_payment.t_patient_id
+                and t_patient_payment.patient_payment_priority = '0')
+        inner join b_dentalrp_government_part4_invent_plan 
+            on b_dentalrp_government_part4_invent_plan.b_contract_plans_id = t_patient_payment.b_contact_plans_id
+WHERE substring(t_visit.visit_begin_visit_time,1,10) between $P{date_start} and $P{date_end}
+      and t_visit.visit_money_discharge_status = '1'
+      and t_visit.f_visit_status_id <> '4' 
+      and t_order.f_order_status_id <> '3' 
+GROUP BY b_dentalrp_government_part4_invent_plan.f_dentalrp_government_part4_plan_id,t_visit.t_patient_id
+,t_order.b_item_id,t_patient_payment.b_contact_plans_id,visit_hn,t_visit.t_visit_id
+,b_dentalrp_government_part4_invent_item.f_dentalrp_government_part4_item_id)
+AS q1
+
+on  f_dentalrp_government_part4_item.f_dentalrp_government_part4_item_id = q1.f_dentalrp_government_part4_item_id
+Group by 
+f_dentalrp_government_part4_item.f_dentalrp_government_part4_item_description
+,q1.f_dentalrp_government_part4_item_id
+,f_dentalrp_government_part4_item.f_dentalrp_government_part4_item_id
+order by f_dentalrp_government_part4_item.f_dentalrp_government_part4_item_id
+)
+as q2
+]]></queryString>
+
+	<field name="description" class="java.lang.String"/>
+	<field name="bureaucracy" class="java.lang.String"/>
+	<field name="socia_security" class="java.lang.String"/>
+	<field name="uc_advanced_age" class="java.lang.String"/>
+	<field name="uc_other" class="java.lang.String"/>
+	<field name="other" class="java.lang.String"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="20"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="445"
+						height="20"
+						key="staticText-2"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[   ส่วนที่ 4 ข้อมูลงานรักษาทางทันตกรรมประดิษฐ์]]></text>
+				</staticText>
+			</band>
+		</title>
+		<pageHeader>
+			<band height="40"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="543"
+						y="-22"
+						width="0"
+						height="0"
+						key="staticText-1"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Static Text]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="145"
+						height="40"
+						key="staticText-3"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" leftPadding="5" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[ประเภทงาน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="145"
+						y="0"
+						width="60"
+						height="40"
+						key="staticText-4"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" leftPadding="5" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[ข้าราชการ/รัฐวิสาหกิจ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="205"
+						y="0"
+						width="60"
+						height="40"
+						key="staticText-5"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" leftPadding="5" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[ประกันสังคม]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="265"
+						y="0"
+						width="60"
+						height="40"
+						key="staticText-7"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" leftPadding="5" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[UC ผู้สูงอายุ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="325"
+						y="0"
+						width="60"
+						height="40"
+						key="staticText-8"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" leftPadding="5" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[สิทธิ UC อื่น]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="385"
+						y="0"
+						width="60"
+						height="40"
+						key="staticText-9"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" leftPadding="5" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font/>
+					</textElement>
+				<text><![CDATA[สิทธิอื่น]]></text>
+				</staticText>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="15"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="145"
+						height="15"
+						key="textField-1"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" leftPadding="5" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{description}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="145"
+						y="0"
+						width="60"
+						height="15"
+						key="textField-2"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" leftPadding="5" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{bureaucracy}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="205"
+						y="0"
+						width="60"
+						height="15"
+						key="textField-3"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" leftPadding="5" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{socia_security}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="265"
+						y="0"
+						width="60"
+						height="15"
+						key="textField-4"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" leftPadding="5" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{uc_advanced_age}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="325"
+						y="0"
+						width="60"
+						height="15"
+						key="textField-5"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" leftPadding="5" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{uc_other}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="385"
+						y="0"
+						width="60"
+						height="15"
+						key="textField-6"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" leftPadding="5" rightBorder="Thin" rightBorderColor="#000000" rightPadding="5" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{other}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

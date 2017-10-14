@@ -1,0 +1,64 @@
+-- ทั่วไป (รายชื่อผู้ป่วยนอกที่เข้ารับบริการมากกว่าจำนวนครั้งที่ระบุ)
+SELECT   
+	CASE WHEN (f_patient_prefix.patient_prefix_description IS NOT NULL AND   
+				f_patient_prefix.patient_prefix_description <> '' AND 
+				f_patient_prefix.patient_prefix_description <> 'null' ) 
+			THEN (f_patient_prefix.patient_prefix_description || ' ' || t_patient.patient_firstname || ' ' || 	
+				t_patient.patient_lastname)   
+			ELSE (t_patient.patient_firstname || ' ' ||   t_patient.patient_lastname)  
+	END AS patient_name
+	,  CASE WHEN (t_patient.patient_house IS NOT NULL AND 
+				t_patient.patient_house <> '' AND  
+				t_patient.patient_house <> 'null' ) 
+			THEN t_patient.patient_house  
+			ELSE ''  
+	END AS house
+	,   CASE WHEN (t_patient.patient_moo IS NOT NULL AND 
+				t_patient.patient_moo <> '' AND 
+				t_patient.patient_moo <> 'null' )  
+			THEN t_patient.patient_moo  
+			ELSE '' 
+	END AS moo
+	,   CASE WHEN (f_address_1.address_description IS NOT NULL AND   
+				f_address_1.address_description <> '' AND   
+				f_address_1.address_description <> 'null' )
+			THEN f_address_1.address_description   
+			ELSE ''  
+	END AS tambon
+	,   CASE WHEN (f_address_2.address_description IS NOT NULL AND  
+				f_address_2.address_description <> '' AND 
+				f_address_2.address_description <> 'null' ) 
+			THEN f_address_2.address_description   
+			ELSE ''  
+	END AS amphur
+	,   CASE WHEN (f_address.address_description IS NOT NULL AND  
+				f_address.address_description <> '' AND 
+				f_address.address_description <> 'null' )  
+			THEN f_address.address_description 
+			ELSE ''  
+	END AS changwat
+	,   Count(t_visit.t_visit_id) AS count_visit  
+FROM   
+	(  (  (    (t_visit   INNER JOIN t_patient ON t_visit.t_patient_id = t_patient.t_patient_id)  
+	LEFT JOIN f_patient_prefix ON t_patient.f_patient_prefix_id = f_patient_prefix.f_patient_prefix_id)  
+	LEFT JOIN f_address ON t_patient.patient_changwat = f_address.f_address_id)  
+	LEFT JOIN f_address AS f_address_2 ON t_patient.patient_amphur = f_address_2.f_address_id)   
+	LEFT JOIN f_address AS f_address_1 ON t_patient.patient_tambon = f_address_1.f_address_id  
+WHERE 
+	(  (     (t_visit.f_visit_type_id)='0')    
+	AND ((t_visit.f_visit_status_id)<>'4')    
+	AND (SUBSTRING(t_visit.visit_financial_discharge_time,0,11) 
+		Between '2549-01-01' And '2549-01-31'  )  ) 
+GROUP BY  
+	f_patient_prefix.patient_prefix_description
+	,   t_patient.patient_firstname
+	,   t_patient.patient_lastname
+	,   t_patient.patient_house
+	,   t_patient.patient_moo
+	,   f_address_1.address_description
+	,   f_address_2.address_description
+	,   f_address.address_description  
+HAVING 
+	(Count(t_visit.t_visit_id) > 3 )  
+ORDER BY  
+	Count(t_visit.t_visit_id) DESC 

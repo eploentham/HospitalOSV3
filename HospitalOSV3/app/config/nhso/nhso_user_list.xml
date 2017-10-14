@@ -1,0 +1,1544 @@
+<ListUserData>
+  <UserData>
+    <userId>0</userId>
+    <username>0</username>
+    <description>Technical Support NHSO BKK</description>
+    <fixUserType>1</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>1</userId>
+    <username>11468</username>
+    <description>ทัณฑสถานโรงพยาบาลราชทัณฑ์</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>2</userId>
+    <username>11469</username>
+    <description>โรงพยาบาลเลิดสิน</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>3</userId>
+    <username>11470</username>
+    <description>โรงพยาบาลนพรัตนราชธานี</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>4</userId>
+    <username>11471</username>
+    <description>สงฆ์,รพ.</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>5</userId>
+    <username>11472</username>
+    <description>โรงพยาบาลราชวิถี</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>6</userId>
+    <username>11477</username>
+    <description>โรงพยาบาลทหารผ่านศึก</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>7</userId>
+    <username>11478</username>
+    <description>โรงพยาบาลสมเด็จพระปิ่นเกล้า</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>8</userId>
+    <username>11481</username>
+    <description>โรงพยาบาลพระมงกุฏเกล้า</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>9</userId>
+    <username>11482</username>
+    <description>โรงพยาบาลภูมิพลอดุลยเดช พอ.บนอ.</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>10</userId>
+    <username>11535</username>
+    <description>วิทยาลัยแพทยศาสตร์ กทม.และวชิรพยาบาล</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>11</userId>
+    <username>11536</username>
+    <description>โรงพยาบาลหนองจอก</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>12</userId>
+    <username>11537</username>
+    <description>โรงพยาบาลกลาง</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>13</userId>
+    <username>11538</username>
+    <description>โรงพยาบาลลาดกระบัง กรุงเทพมหานคร</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>14</userId>
+    <username>11539</username>
+    <description>โรงพยาบาลตากสิน</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>15</userId>
+    <username>11540</username>
+    <description>โรงพยาบาลหลวงพ่อทวีศักดิ์ ชุตินธิโร อุทิศ</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>16</userId>
+    <username>11541</username>
+    <description>โรงพยาบาลเจริญกรุงประชารักษ์</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>17</userId>
+    <username>11552</username>
+    <description>โรงพยาบาลมเหสักข์</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>18</userId>
+    <username>11583</username>
+    <description>โรงพยาบาลกล้วยน้ำไท</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>19</userId>
+    <username>11592</username>
+    <description>โรงพยาบาลบางนา 1 </description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>20</userId>
+    <username>11595</username>
+    <description>โรงพยาบาลนวมินทร์ 1</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>21</userId>
+    <username>11597</username>
+    <description>สถาบันกัลยาณ์ราชนครินทร์</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>22</userId>
+    <username>11621</username>
+    <description>โรงพยาบาลบางไผ่</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>23</userId>
+    <username>11626</username>
+    <description>โรงพยาบาลคลองตัน</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>24</userId>
+    <username>11629</username>
+    <description>โรงพยาบาลเพชรเวช</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>25</userId>
+    <username>11641</username>
+    <description>โรงพยาบาลศรีวิชัย 1</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>26</userId>
+    <username>11647</username>
+    <description>โรงพยาบาลพระราม 2</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>27</userId>
+    <username>11652</username>
+    <description>สถานพยาบาลเพชรเกษม-บางแค</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>28</userId>
+    <username>11656</username>
+    <description>โรงพยาบาลเกษมราษฎร์บางแค</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>29</userId>
+    <username>11661</username>
+    <description>โรงพยาบาลศรีวิชัย 2</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>30</userId>
+    <username>11667</username>
+    <description>โรงพยาบาลนวมินทร์ 2</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>31</userId>
+    <username>11668</username>
+    <description>โรงพยาบาลกรุงธน 2</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>32</userId>
+    <username>11687</username>
+    <description>โรงพยาบาลเกษมราษฎร์ประชาชื่น</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>33</userId>
+    <username>11703</username>
+    <description>โรงพยาบาลแพทย์ปัญญา</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>34</userId>
+    <username>11708</username>
+    <description>โรงพยาบาลบางมด </description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>35</userId>
+    <username>11750</username>
+    <description>โรงพยาบาลหัวเฉียว</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>36</userId>
+    <username>11770</username>
+    <description>โรงพยาบาลปิยะมินทร์</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>37</userId>
+    <username>11786</username>
+    <description>โรงพยาบาลอนันต์พัฒนา 2</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>38</userId>
+    <username>12243</username>
+    <description>โรงพยาบาลส่งเสริมสุขภาพ ศูนย์อนามัยที่ 1</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>39</userId>
+    <username>12244</username>
+    <description>สมเด็จเจ้าพระยา,รพ.</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>40</userId>
+    <username>12246</username>
+    <description>ราชานุกูล,รพ.</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>41</userId>
+    <username>12249</username>
+    <description>สถาบันโรคผิวหนัง</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>42</userId>
+    <username>12250</username>
+    <description>สถาบันมะเร็งแห่งชาติ</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>43</userId>
+    <username>12438</username>
+    <description>สถาบันสุขภาพเด็กแห่งชาติมหาราชินี</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>44</userId>
+    <username>12439</username>
+    <description>สถาบันประสาทวิทยา</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>45</userId>
+    <username>13756</username>
+    <description>จุฬาลงกรณ์ สภากาชาดไทย,รพ.</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>46</userId>
+    <username>13757</username>
+    <description>โรงพยาบาลเวชศาสตร์เขตร้อน มหิดล</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>47</userId>
+    <username>13781</username>
+    <description>โรงพยาบาลรามาธิบดี</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>48</userId>
+    <username>13814</username>
+    <description>ศิริราชพยาบาล  มหาวิทยาลัยมหิดล ,รพ.</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>49</userId>
+    <username>14173</username>
+    <description>โรงพยาบาลตำรวจ</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>50</userId>
+    <username>14641</username>
+    <description>โรงพยาบาลราชพิพัฒน์</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>51</userId>
+    <username>14908</username>
+    <description>โรงพยาบาลเกษมราษฎร์สุขาภิบาล 3</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>52</userId>
+    <username>15049</username>
+    <description>สิรินธร,รพ.</description>
+    <fixUserType>2</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>53</userId>
+    <username>11581</username>
+    <description>โรงพยาบาลกล้วยน้ำไท 2</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>54</userId>
+    <username>11675</username>
+    <description>คลินิกเวชกรรมอนันต์พัฒนา</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>55</userId>
+    <username>11706</username>
+    <description>สถานพยาบาลบางขุนเทียน</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>56</userId>
+    <username>14348</username>
+    <description>สถานพยาบาลบางประกอก 5             </description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>57</userId>
+    <username>15141</username>
+    <description>คลีนิกแพทย์ปัญญา 2</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>58</userId>
+    <username>15142</username>
+    <description>ศรีวิชัยฉิมพลีคลีนิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>59</userId>
+    <username>15143</username>
+    <description>นวมินทร์ 2  เวชกรรมคลีนิก</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>60</userId>
+    <username>15144</username>
+    <description>เทียนทะเลคลินิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>61</userId>
+    <username>15145</username>
+    <description>บางขุนเทียน ๒ คลินิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>62</userId>
+    <username>15146</username>
+    <description>บางบอนคลีนิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>63</userId>
+    <username>15148</username>
+    <description>คลีนิกแพทย์ศรีนครินทร์</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>64</userId>
+    <username>15149</username>
+    <description>บางประกอกคลีนิกเวชการ</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>65</userId>
+    <username>15150</username>
+    <description>นวมินทร์คลินิกเวชกรรม สาขาหน้านิคมอุตสาหกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>66</userId>
+    <username>15151</username>
+    <description>นวมินทร์คลินิกเวชกรรม (สาขาร่มเกล้า)</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>67</userId>
+    <username>15152</username>
+    <description>นวมินทร์คลินิกเวชกรรม (สาขาหัวตะเข้)</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>68</userId>
+    <username>15153</username>
+    <description>คลินิกแพทย์ฉัตรลดา 1</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>69</userId>
+    <username>15155</username>
+    <description>สหคลินิกกล้วยน้ำไท สาขาสาทร</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>70</userId>
+    <username>15156</username>
+    <description>คลินิกเวชกรรมกล้วยน้ำไท สาขาชุมชน ๗๐ ไร่</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>71</userId>
+    <username>15157</username>
+    <description>คลีนิกเวชกรรมคลองเตย                    </description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>72</userId>
+    <username>15158</username>
+    <description>คลินิกเวชกรรมเกษมราษฏร์ สาขาหทัยราษฎร์</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>73</userId>
+    <username>15160</username>
+    <description>คลินิกเวชกรรมเกษมราษฎร์ สาขาพุทธมณฑลสาย ๒</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>74</userId>
+    <username>15161</username>
+    <description>เรือพระร่วงคลีนิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>75</userId>
+    <username>15162</username>
+    <description>คลีนิกเวชกรรมลาซาล</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>76</userId>
+    <username>15163</username>
+    <description>สหคลินิกกล้วยน้ำไท สาขาราม ๒</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>77</userId>
+    <username>15164</username>
+    <description>คลินิกเวชกรรมกล้วยน้ำไท สาขาสุภาพงษ์ ๓</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>78</userId>
+    <username>15165</username>
+    <description>คลินิกเวชกรรมปิยะมินทร์ สาขาราม ๒</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>79</userId>
+    <username>15167</username>
+    <description>คลินิกเวชกรรมปิยะมินทร์ สาขาวัดตะกล่ำ</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>80</userId>
+    <username>15168</username>
+    <description>คลินิกเวชกรรมกล้วยน้ำไท สาขาสุขุมวิท ๕๖</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>81</userId>
+    <username>15169</username>
+    <description>สหคลินิกกล้วยน้ำไท สาขาสุขุมวิท ๑๐๑/๑</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>82</userId>
+    <username>15170</username>
+    <description>คลินิกเวชกรรมกล้วยน้ำไท สาขาสุขุมวิท ๙๓</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>83</userId>
+    <username>15171</username>
+    <description>คลินิกเวชกรรมปิยะมินทร์ อุดมสุข</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>84</userId>
+    <username>15172</username>
+    <description>เพชรเกษม ๕๔ คลินิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>85</userId>
+    <username>15173</username>
+    <description>คลินิกเวชกรรมเกษมราษฎร์ สาขาเคหะร่มเกล้า</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>86</userId>
+    <username>15174</username>
+    <description>สหคลินิกกล้วยน้ำไท สาขาทองหล่อ</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>87</userId>
+    <username>15176</username>
+    <description>นวมินทร์คลินิกเวชกรรม สาขา ม มหานคร</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>88</userId>
+    <username>15177</username>
+    <description>คลินิกเวชกรรมกล้วยน้ำไท สาขาทุ่งสองห้อง</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>89</userId>
+    <username>15178</username>
+    <description>สหคลินิกเกษมราษฎร์ สาขาทุ่งสองห้อง</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>90</userId>
+    <username>15181</username>
+    <description>เตาปูนสหแพทย์คลีนิก</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>91</userId>
+    <username>15182</username>
+    <description>สถานพยาบาลบางมด</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>92</userId>
+    <username>15184</username>
+    <description>คลีนิกแพทย์เวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>93</userId>
+    <username>15185</username>
+    <description>ธนารมณ์คลีนิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>94</userId>
+    <username>15187</username>
+    <description>สามย่านคลีนิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>95</userId>
+    <username>15188</username>
+    <description>คลีนิกเวชกรรมทุ่งครุ</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>96</userId>
+    <username>15189</username>
+    <description>คลินิกเวชกรรมแพทย์ปัญญา สาขาอ่อนนุช 39</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>97</userId>
+    <username>15190</username>
+    <description>คลินิกเวชกรรมแพทย์ปัญญา สาขารามคำแหง 37</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>98</userId>
+    <username>15191</username>
+    <description>คลีนิกเวชกรรมกรุงธน 2</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>99</userId>
+    <username>15195</username>
+    <description>คลินิกเวชกรรมเกษมราษฎร์ สาขาจตุจักร</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>100</userId>
+    <username>15196</username>
+    <description>เพชรทองคำคลินิกเวชกรรม (สาขาพระราม ๒ )</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>101</userId>
+    <username>15201</username>
+    <description>คลินิกเวชกรรมจันทร์สะพาน 4</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>102</userId>
+    <username>15203</username>
+    <description>สหคลินิกเกษมราษฎร์ สาขามหาวิทยาลัยธุรกิจบัณฑิตย์</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>103</userId>
+    <username>15526</username>
+    <description>วัชรพลเวชกรรมคลินิก</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>104</userId>
+    <username>15749</username>
+    <description>ยานนาวาคลีนิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>105</userId>
+    <username>16141</username>
+    <description>ดอกไม้เวชคลีนิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>106</userId>
+    <username>16142</username>
+    <description>รื่นฤดีคลีนิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>107</userId>
+    <username>16161</username>
+    <description>ธรรมสุนทรคลีนิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>108</userId>
+    <username>16391</username>
+    <description>วพ คลีนิกการแพทย์</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>109</userId>
+    <username>20448</username>
+    <description>คลีนิกเปรมประชาการแพทย์</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>110</userId>
+    <username>21336</username>
+    <description>คลินิกเวชกรรมบางไผ่</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>111</userId>
+    <username>21337</username>
+    <description>คลินิกเวชกรรมอนันต์พัฒนา สาขาทวีวัฒนา</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>112</userId>
+    <username>21338</username>
+    <description>คลินิกเวชกรรมอนันต์พัฒนา สาขาบางอ้อ</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>113</userId>
+    <username>21393</username>
+    <description>เมดิโปรการแพทย์ และสุขถาพ</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>114</userId>
+    <username>21422</username>
+    <description>คลีนิกเวชกรรมมหาชนสามแยกพระประแดง</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>115</userId>
+    <username>21444</username>
+    <description>สหคลินิกกล้วยน้ำไท สาขาห้วยขวาง</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>116</userId>
+    <username>21647</username>
+    <description>มิตรชุมชนคลินิกเวชกรรม (สาขาลาดพร้าว 111)</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>117</userId>
+    <username>21664</username>
+    <description>สหคลินิกกล้วยน้ำไท สาขาตลาดยิ่งเจริญ</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>118</userId>
+    <username>21710</username>
+    <description>นวมินทร์คลินิกเวชกรรม สาขารัตนบัณฑิต</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>119</userId>
+    <username>21716</username>
+    <description>คลีนิกเวชกรรมวิภาวดี  ซอย 2</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>120</userId>
+    <username>21722</username>
+    <description>คลีนิกเวชกรรมโชคชัย 4</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>121</userId>
+    <username>21820</username>
+    <description>สหคลินิกเกษมราษฎร์ สาขาบางซื่อ</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>122</userId>
+    <username>21833</username>
+    <description>คลีนิกเวชกรรมลาดพร้าว  122             </description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>123</userId>
+    <username>21839</username>
+    <description>คลินิกเวชกรรมเกษมราษฎร์ สาขาหลักสี่</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>124</userId>
+    <username>21967</username>
+    <description>คลีนิกนวมินทร์ 2 เวชกรรม สาขาราษฎร์บูรณะ</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>125</userId>
+    <username>22000</username>
+    <description>นวมินทร์คลินิกเวชกรรม สาขาเคซีรามอินทรา</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>126</userId>
+    <username>22001</username>
+    <description>คลินิกเวชกรรมเพชรเกษม ๑๐๒</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>127</userId>
+    <username>22005</username>
+    <description>คลินิกเวชกรรมเกษมราษฎร์ สาขาตลาดเตาปูน</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>128</userId>
+    <username>22006</username>
+    <description>เรือพระร่วงคลีนิกเวชกรรม สาขารามคำแหง 39</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>129</userId>
+    <username>22007</username>
+    <description>คลีนิกเวชกรรมพุทธบูชา</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>130</userId>
+    <username>22066</username>
+    <description>คลีนิกเวชกรรมสะพานใหม่</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>131</userId>
+    <username>22092</username>
+    <description>คลินิกเวชกรรมอนันต์พัฒนา สาขาบางซื่อ</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>132</userId>
+    <username>22094</username>
+    <description>ทับสุวรรณคลีนิกเวชกรรม                      </description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>133</userId>
+    <username>22159</username>
+    <description>ธรรมสุนทรคลีนิกเวชกรรม สาขาคลองสาน</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>134</userId>
+    <username>22160</username>
+    <description>คลินิกเวชกรรมบางไผ่-กระโจมทอง</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>135</userId>
+    <username>22161</username>
+    <description>นวมินทร์คลินิกเวชกรรม สาขาลำผักชี</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>136</userId>
+    <username>22163</username>
+    <description>พระยาสุเรนทร์เวชกรรมคลินิก</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>137</userId>
+    <username>22356</username>
+    <description>สุขาภิบาล 1 คลีนิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>138</userId>
+    <username>22548</username>
+    <description>บางขุนเทียน ๕ คลินิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>139</userId>
+    <username>22675</username>
+    <description>คลีนิกเวชกรรมห้าแยกวัชรพล</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>140</userId>
+    <username>22679</username>
+    <description>วิภาวดี 49  คลีนิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>141</userId>
+    <username>22682</username>
+    <description>คลีนิกเวชกรรมสรงประภา</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>142</userId>
+    <username>22684</username>
+    <description>ศิริพัฒน์คลีนิกเวชกรรม                       </description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>143</userId>
+    <username>22686</username>
+    <description>นวมินทร์คลินิกเวชกรรม สาขารามอินทรา กม 8</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>144</userId>
+    <username>22687</username>
+    <description>คลีนิกเวชกรรมวัดไผ่เขียว                     </description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>145</userId>
+    <username>22690</username>
+    <description>สายไหมคลินิกเวชกรรม สาขา ออเงิน</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>146</userId>
+    <username>22691</username>
+    <description>สุนทรีคลีนิกเวชกรรม                               </description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>147</userId>
+    <username>22693</username>
+    <description>มิตรชุมชนคลีนิก  สาขาจันทรุเบกษา</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>148</userId>
+    <username>22694</username>
+    <description>มิตรชุมชนคลินิกเวชกรรม (สาขา รามินทรา กม 2)</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>149</userId>
+    <username>22695</username>
+    <description>คลีนิกเวชกรรมตลาดบัว</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>150</userId>
+    <username>22696</username>
+    <description>คลีนิกเวชกรรมวิภาวดี 60</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>151</userId>
+    <username>22697</username>
+    <description>เกรียงศักดิ์คลีนิก</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>152</userId>
+    <username>22704</username>
+    <description>โพธิ์สุวรรณคลินิกเวชกรรม  สาขา ถนนลาดปลาเค้า</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>153</userId>
+    <username>22705</username>
+    <description>โพธ์สุวรรณ คลีนิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>154</userId>
+    <username>22706</username>
+    <description>พัฒนเวชคลีนิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>155</userId>
+    <username>22707</username>
+    <description>อินทัชเมดิแคร์คลินิกเวชกรรม สาขา บางเขน</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>156</userId>
+    <username>22708</username>
+    <description>ภานพคลีนิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>157</userId>
+    <username>22709</username>
+    <description>สายไหมคลินิกเวชกรรม สาขา ตลาดวงศกร</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>158</userId>
+    <username>22879</username>
+    <description>เสนานิเวศน์คลินิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>159</userId>
+    <username>22880</username>
+    <description>พหลโยธิน 65 คลีนิกเวชกรรม               </description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>160</userId>
+    <username>22881</username>
+    <description>คลีนิกเวชกรรมซอยสายหยุด</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>161</userId>
+    <username>22892</username>
+    <description>คลีนิกเวชกรรมเยนเนอรัลธนินทร            </description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>162</userId>
+    <username>22911</username>
+    <description>สหคลินิกเกษมราษฎร์ สาขาคลองขวาง</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>163</userId>
+    <username>22966</username>
+    <description>พหล ฯ 58 คลีนิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>164</userId>
+    <username>22995</username>
+    <description>สหคลินิกเกษมราษฎร์ สาขาเสรีไทย</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>165</userId>
+    <username>23437</username>
+    <description>คลินิกเวชกรรมทวิมาศ  สาขา รามคำแหง40</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>166</userId>
+    <username>23438</username>
+    <description>คลินิกเวชกรรมทวิมาศ  สาขา รามคำแหง 53</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>167</userId>
+    <username>23436</username>
+    <description>คลีนิกเวชกรรมเพชรบุรี 12</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>168</userId>
+    <username>23439</username>
+    <description>งามเจริญคลีนิกเวชกรรม                   </description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>169</userId>
+    <username>23555</username>
+    <description>มเหสักข์เวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>170</userId>
+    <username>23556</username>
+    <description>เจริญนครธนบุรีคลีนิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>171</userId>
+    <username>23557</username>
+    <description>สี่แยกประเวศคลีนิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>172</userId>
+    <username>23561</username>
+    <description>อินทัชเมดิแคร์คลินิกเวชกรรม สาขา บางแค</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>173</userId>
+    <username>23818</username>
+    <description>สถานพยาบาลซอยสวนเงิน</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>174</userId>
+    <username>23817</username>
+    <description>จรัญ  44 คลินิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>175</userId>
+    <username>23819</username>
+    <description>สหคลินิกเกษมราษฏร์ สาขาหน้านิคมอุตสาหกรรมลาดกระบัง</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>176</userId>
+    <username>23840</username>
+    <description>เมืองมีนบุรีคลินิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>177</userId>
+    <username>23841</username>
+    <description>คลินิกเวชกรรมซอยนวลจันทร์</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>178</userId>
+    <username>23842</username>
+    <description>พระราม 3 คลินิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>179</userId>
+    <username>23843</username>
+    <description>อิสรภาพคลินิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>180</userId>
+    <username>23845</username>
+    <description>คลินิกเกรรมแพทย์ศรีนครินทร์ สาขาแยกศรีนุช</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>181</userId>
+    <username>23847</username>
+    <description>พิบูลวัฒนาคลินิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>182</userId>
+    <username>23849</username>
+    <description>พระรามสาม 65 คลินิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>183</userId>
+    <username>23850</username>
+    <description>คลินิกเวชกรรมถนนนวมินทร์</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>184</userId>
+    <username>23851</username>
+    <description>อินทัชเมดิแคร์ สาขาดินแดง</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>185</userId>
+    <username>23852</username>
+    <description>คลินิกเวกรรมประชาสงเคราะห์ 38</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>186</userId>
+    <username>23853</username>
+    <description>เพชรคลินิกเวชกรรม</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>187</userId>
+    <username>23854</username>
+    <description>ศิริพัฒน์คลินิกเวชกรรม สาขาบางชัน</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>188</userId>
+    <username>23855</username>
+    <description>เรือพระร่วงคลินิกเวชกรรม สาขาปัฐวิกรณ์</description>
+    <fixUserType>3</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>189</userId>
+    <username>13646</username>
+    <description>ศูนย์บริการสาธารณสุข 1 สะพานมอญ</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>190</userId>
+    <username>13647</username>
+    <description>ศูนย์บริการสาธารณสุข 2 ราชปรารภ</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>191</userId>
+    <username>13648</username>
+    <description>ศูนย์บริการสาธารณสุข 3 บางซื่อ</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>192</userId>
+    <username>13649</username>
+    <description>ศูนย์บริการสาธารณสุข 4 ดินแดง  3</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>193</userId>
+    <username>13650</username>
+    <description>ศูนย์บริการสาธารณสุข 5 จุฬาลงกรณ์</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>194</userId>
+    <username>13651</username>
+    <description>ศูนย์บริการสาธารณสุข 6 สโมสรวัฒนธรรมหญิง</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>195</userId>
+    <username>13652</username>
+    <description>ศูนย์บริการสาธารณสุข 7 บุญมี ปุรุราชรังสรรค์</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>196</userId>
+    <username>13653</username>
+    <description>ศูนย์บริการสาธารณสุข 8 บุญรอด รุ่งเรือง</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>197</userId>
+    <username>13654</username>
+    <description>ศูนย์บริการสาธารณสุข 9 ประชาธิปไตย</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>198</userId>
+    <username>13655</username>
+    <description>ศูนย์บริการสาธารณสุข 10 สุขุมวิท</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>199</userId>
+    <username>13656</username>
+    <description>ศูนย์บริการสาธารณสุข 11 ประดิพัทธ์</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>200</userId>
+    <username>13657</username>
+    <description>ศูนย์บริการสาธารณสุข 12 จันทร์เที่ยง เนตรวิเศษ</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>201</userId>
+    <username>13658</username>
+    <description>ศูนย์บริการสาธารณสุข 13 ไมตรีวานิช</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>202</userId>
+    <username>13659</username>
+    <description>ศูนย์บริการสาธารณสุข 14 แก้ว สีบุญเรือง</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>203</userId>
+    <username>13660</username>
+    <description>ศูนย์บริการสาธารณสุข 15 ลาดพร้าว</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>204</userId>
+    <username>13661</username>
+    <description>ศูนย์บริการสาธารณสุข 16 ลุมพินี  3</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>205</userId>
+    <username>13662</username>
+    <description>ศูนย์บริการสาธารณสุข 17 ประชานิเวศน์</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>206</userId>
+    <username>13663</username>
+    <description>ศูนย์บริการสาธารณสุข 18 มงคล วอนวังตาล</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>207</userId>
+    <username>13664</username>
+    <description>ศูนย์บริการสาธารณสุข 19 วงศ์สว่าง</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>208</userId>
+    <username>13665</username>
+    <description>ศูนย์บริการสาธารณสุข 20 ธนาคารนครหลวงไทย</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>209</userId>
+    <username>13666</username>
+    <description>ศูนย์บริการสาธารณสุข 21 วัดธาตุทอง</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>210</userId>
+    <username>13667</username>
+    <description>ศูนย์บริการสาธารณสุข 22 วัดปากบ่อ</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>211</userId>
+    <username>13668</username>
+    <description>ศูนย์บริการสาธารณสุข 23 สี่พระยา</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>212</userId>
+    <username>13669</username>
+    <description>ศูนย์บริการสาธารณสุข 24 บางเขน</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>213</userId>
+    <username>13670</username>
+    <description>ศูนย์บริการสาธารณสุข 25 ห้วยขวาง</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>214</userId>
+    <username>13671</username>
+    <description>ศูนย์บริการสาธารณสุข 26 เจ้าคุณพระประยูรวงศ์</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>215</userId>
+    <username>13672</username>
+    <description>ศูนย์บริการสาธารณสุข 27 จันทร์ฉิมไพบูลย์</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>216</userId>
+    <username>13673</username>
+    <description>ศูนย์บริการสาธารณสุข 28 กรุงธนบุรี</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>217</userId>
+    <username>13674</username>
+    <description>ศูนย์บริการสาธารณสุข 29 ช่วง นุชเนตร  3</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>218</userId>
+    <username>13675</username>
+    <description>ศูนย์บริการสาธารณสุข 30 วัดเจ้าอาม</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>219</userId>
+    <username>13676</username>
+    <description>ศูนย์บริการสาธารณสุข 31 เอิบ - จิตร ทังสุบุตร</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>220</userId>
+    <username>13677</username>
+    <description>ศูนย์บริการสาธารณสุข 32 มาริษ ตินตมุสิก</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>221</userId>
+    <username>13678</username>
+    <description>ศูนย์บริการสาธารณสุข 33 วัดหงส์รัตนาราม</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>222</userId>
+    <username>13679</username>
+    <description>ศูนย์บริการสาธารณสุข 34 โพธิ์ศรี</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>223</userId>
+    <username>13680</username>
+    <description>ศูนย์บริการสาธารณสุข 35 หัวหมาก</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>224</userId>
+    <username>13681</username>
+    <description>ศูนย์บริการสาธารณสุข 36 บุคคโล</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>225</userId>
+    <username>13682</username>
+    <description>ศูนย์บริการสาธารณสุข 37 ประสงค์ -สุดสาคร</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>226</userId>
+    <username>13683</username>
+    <description>ศูนย์บริการสาธารณสุข 38 จี๊ด-ทองคำบำเพ็ญ</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>227</userId>
+    <username>13684</username>
+    <description>ศูนย์บริการสาธารณสุข 39 ราษฎร์บูรณะ</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>228</userId>
+    <username>13685</username>
+    <description>ศูนย์บริการสาธารณสุข 40 บางแค</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>229</userId>
+    <username>13686</username>
+    <description>ศูนย์บริการสาธารณสุข 41 คลองเตย</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>230</userId>
+    <username>13687</username>
+    <description>ศูนย์บริการสาธารณสุข 42 ถนอม ทองสิมา</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>231</userId>
+    <username>13688</username>
+    <description>ศูนย์บริการสาธารณสุข 43 มีนบุรี</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>232</userId>
+    <username>21526</username>
+    <description>ศูนย์บริการสาธารณสุข 44 ลำผักชี หนองจอก</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>233</userId>
+    <username>21755</username>
+    <description>ศูนย์บริการสาธารณสุข 45 ร่มเกล้า ลาดกระบัง</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>234</userId>
+    <username>13689</username>
+    <description>ศูนย์บริการสาธารณสุข 46 กันตารัติอุทิศ</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>235</userId>
+    <username>13690</username>
+    <description>ศูนย์บริการสาธารณสุข 47 คลองขวาง</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>236</userId>
+    <username>13691</username>
+    <description>ศูนย์บริการสาธารณสุข 48 นาควัชระ อุทิศ</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>237</userId>
+    <username>13692</username>
+    <description>ศูนย์บริการสาธารณสุข 49 วัดชัยพฤกษมาลา</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>238</userId>
+    <username>13693</username>
+    <description>ศูนย์บริการสาธารณสุข 50 บึงกุ่ม</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>239</userId>
+    <username>13694</username>
+    <description>ศูนย์บริการสาธารณสุข 51 วัดไผ่ตัน</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>240</userId>
+    <username>13695</username>
+    <description>ศูนย์บริการสาธารณสุข 52 สามเสนนอก</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>241</userId>
+    <username>13696</username>
+    <description>ศูนย์บริการสาธารณสุข 53 ทุ่งสองห้อง</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>242</userId>
+    <username>13697</username>
+    <description>ศูนย์บริการสาธารณสุข 54 ทัศน์เอี่ยม</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>243</userId>
+    <username>13698</username>
+    <description>ศูนย์บริการสาธารณสุข 55 เดชะสัมพันธ์</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>244</userId>
+    <username>13699</username>
+    <description>ศูนย์บริการสาธารณสุข 56 ทับเจริญ</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>245</userId>
+    <username>13700</username>
+    <description>ศูนย์บริการสาธารณสุข 57 บุญเรือง ล้ำเลิศ</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>246</userId>
+    <username>13701</username>
+    <description>ศูนย์บริการสาธารณสุข 58 ล้อม-พิมเสนฟักอุดม</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>247</userId>
+    <username>13702</username>
+    <description>ศูนย์บริการสาธารณสุข 59 ทุ่งครุ</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>248</userId>
+    <username>13703</username>
+    <description>ศูนย์บริการสาธารณสุข 60 รสสุคนธ์ มโนชญากร</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>249</userId>
+    <username>13704</username>
+    <description>ศูนย์บริการสาธารณสุข 61 สังวาลย์ ทัสนารมย์</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>250</userId>
+    <username>13705</username>
+    <description>ศูนย์บริการสาธารณสุข 62 ตวงรัชฎ์ ศศะนาวิน</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>251</userId>
+    <username>14818</username>
+    <description>ศูนย์บริการสาธารณสุข 63 สมาคมแต้จิ๋วแห่งประเทศไทย</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>252</userId>
+    <username>22455</username>
+    <description>ศูนย์บริการสาธารณสุข 64 คลองสามวา</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>253</userId>
+    <username>21486</username>
+    <description>ศูนย์บริการสาธารณสุข 65 รักษาศุข บางบอน</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>254</userId>
+    <username>21748</username>
+    <description>ศูนย์บริการสาธารณสุข 66 ตำหนักพระแม่กวนอิม</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>255</userId>
+    <username>23229</username>
+    <description>ศูนย์บริการสาธารณสุข 67 ทวีวัฒนา</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+  <UserData>
+    <userId>256</userId>
+    <username>23159</username>
+    <description>ศูนย์บริการสาธารณสุข 68 สะพานสูง</description>
+    <fixUserType>4</fixUserType>
+  </UserData>
+</ListUserData>

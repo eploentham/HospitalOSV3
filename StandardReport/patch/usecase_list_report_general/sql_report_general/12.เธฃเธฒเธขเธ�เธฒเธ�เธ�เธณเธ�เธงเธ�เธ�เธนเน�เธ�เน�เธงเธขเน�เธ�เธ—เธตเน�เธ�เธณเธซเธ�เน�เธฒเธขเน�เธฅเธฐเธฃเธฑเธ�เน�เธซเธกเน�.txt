@@ -1,0 +1,47 @@
+-- ทั่วไป (จำนวนผู้ป่วยในที่รับใหม่ และจำหน่าย)
+SELECT  
+	b_contract_plans.contract_plans_description as payment
+	,      SUM(CASE WHEN ((t_patient.f_sex_id ='1') and   (SubString(t_visit.visit_begin_admit_date_time,0,11) 
+				between '2549-01-01' and '2549-01-31')    )  
+			THEN 1  
+			ELSE 0  
+	END) as male_inservice
+	,  SUM(CASE WHEN ((t_patient.f_sex_id ='2') and   
+				(SubString(t_visit.visit_begin_admit_date_time,0,11) between '2549-01-01' and '2549-01-31')  	  )  	
+			THEN 1 
+			ELSE 0  
+	END) as female_inservice
+	,  SUM(CASE WHEN ((t_patient.f_sex_id ='3') and  
+				(SubString(t_visit.visit_begin_admit_date_time,0,11) between '2549-01-01' and '2549-01-31')  	  )  	
+			THEN 1 
+			ELSE 0  
+	END) as nospec_inservice
+	,  SUM(CASE WHEN ((t_patient.f_sex_id ='1') and   
+				(SubString(t_visit.visit_financial_discharge_time,0,11) between '2549-01-01' and '2549-01-31')  	  )  
+			THEN 1 
+			ELSE 0  
+	END) as male_discharge
+	,  SUM(CASE WHEN ((t_patient.f_sex_id ='2') and  
+				(SubString(t_visit.visit_financial_discharge_time,0,11) between '2549-01-01' and '2549-01-31')  	  ) 
+			THEN 1 
+			ELSE 0  
+	END) as female_discharge
+	,  SUM(CASE WHEN ((t_patient.f_sex_id ='3') and  
+				(SubString(t_visit.visit_financial_discharge_time,0,11) between '2549-01-01' and '2549-01-31')  	  )  
+			THEN 1  
+			ELSE 0  
+	END) as nospec_discharge 
+FROM  
+	t_patient   INNER JOIN ((t_visit_payment   INNER JOIN t_visit ON t_visit_payment.t_visit_id = t_visit.t_visit_id)   
+	INNER JOIN b_contract_plans ON t_visit_payment.b_contract_plans_id = b_contract_plans.b_contract_plans_id) 
+	ON t_patient.t_patient_id = t_visit.t_patient_id  
+WHERE  
+	(((t_visit.f_visit_type_id)='1')   
+	AND ((t_visit.f_visit_status_id)<>'4')  
+	AND ((t_visit_payment.visit_payment_priority)='0') 
+	AND ((SubString(t_visit.visit_begin_admit_date_time,0,11) between '2549-01-01' and '2549-01-31')   
+	OR (SubString(t_visit.visit_financial_discharge_time,0,11) between '2549-01-01' and '2549-01-31')    ))  
+GROUP BY  
+	b_contract_plans.contract_plans_description  
+ORDER BY  
+	b_contract_plans.contract_plans_description

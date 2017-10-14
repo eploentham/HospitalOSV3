@@ -1,0 +1,1 @@
+chk6313|Password|op/pppbkk|http://tempuri.org/|http://tempuri.org/GetDataOpPPP_byPid|http://webks.nhso.go.th/ws/sbkk_pid.asmx|

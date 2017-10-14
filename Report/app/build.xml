@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="Report" name="StartRun">
+	
+	<target name="Report">
+    <java classname="com.reportcenter.MainReport" fork="true">
+	<classpath>
+	  <pathelement location="./"/>
+	  <fileset dir="lib">
+	    <include name="**/*.jar"/>
+	  </fileset>
+	</classpath>
+        <arg value="-module_xml"/>
+        </java>
+    </target >
+
+
+</project>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : ReportQuery.xml
+    Created on : 27 กันยายน 2548, 10:04 น.
+    Author     : tong
+    Description:
+        Purpose of the document follows.
+-->
+
+<root>
+    <module-report>com.reportquery.QueryReport</module-report>
+    <module-index>6</module-index>
+</root>

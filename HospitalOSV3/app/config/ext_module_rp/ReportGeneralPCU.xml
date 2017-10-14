@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : ReportGeneral.xml
+    Created on : 27 เมษายน 2548, 13:40 น.
+    Author     : ojika
+    Description:
+        Purpose of the document follows.
+-->
+
+<root>
+    <module-report>com.generalpcu.GeneralPCU</module-report>
+    <module-index>5</module-index>
+</root>

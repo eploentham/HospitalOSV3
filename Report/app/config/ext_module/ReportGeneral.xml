@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : ReportGeneral.xml
+    Created on : 3 ตุลาคม 2548, 10:04 น.
+    Author     : tong
+    Description:
+        Purpose of the document follows.
+-->
+
+<root>
+    <module-report>com.generalreport.GeneralReport</module-report>
+    <module-index>4</module-index>
+</root>

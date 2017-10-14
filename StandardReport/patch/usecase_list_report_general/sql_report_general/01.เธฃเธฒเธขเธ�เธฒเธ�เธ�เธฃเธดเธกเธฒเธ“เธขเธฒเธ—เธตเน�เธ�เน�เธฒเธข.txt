@@ -1,0 +1,42 @@
+-- ทั่วไป (ปริมาณที่จ่ายยา)
+SELECT  
+	order_common_name AS DRUG_NAME ,
+	sum(order_qty) AS DRUG_QUANTITY ,
+	item_drug_uom_description AS DRUG_UOM ,
+	to_number((to_number(sum(price),999999.99) + to_number('0.00',999999.99)),999999.99) AS BAHT_QUANTITY ,
+	service_point_description AS SERVICE_POINT 
+FROM 
+	(SELECT t_order.t_order_id ,
+		t_order.order_common_name AS order_common_name,
+		t_order.order_qty AS order_qty,
+		b_item_drug_uom.item_drug_uom_description AS item_drug_uom_description, 
+		ceil(t_order.order_price * t_order.order_qty) AS price,
+		b_service_point.service_point_description AS service_point_description 
+	FROM 
+		b_item_drug_uom 
+		INNER JOIN  (t_order_drug INNER JOIN ((t_order 
+					INNER JOIN b_employee 
+						ON t_order.order_staff_dispense = b_employee.b_employee_id )  
+				INNER JOIN b_service_point ON b_employee.b_service_point_id = b_service_point.b_service_point_id)  
+					ON t_order_drug.t_order_id = t_order.t_order_id 
+					AND(t_order.f_item_group_id = '1' OR t_order.f_item_group_id = '4')
+					AND t_order.order_qty <> '0')  
+			ON b_item_drug_uom.b_item_drug_uom_id = t_order_drug.b_item_drug_uom_id_purch 
+	WHERE  
+		((t_order.f_order_status_id='2') 
+		OR (t_order.f_order_status_id='5'))  
+		AND ((substring(t_order.order_dispense_date_time,0,11)) Between '2549-10-09' And '2549-10-09') 
+	GROUP BY
+		t_order.t_order_id , 
+		t_order.order_common_name , 
+		t_order.order_qty, 
+		b_item_drug_uom.item_drug_uom_description , 
+		price  , 
+		b_service_point.service_point_description) AS query1  
+GROUP BY  
+	order_common_name  ,
+	item_drug_uom_description  ,
+	service_point_description  
+ORDER BY 
+	order_common_name
+

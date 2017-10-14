@@ -1,0 +1,1 @@
+package com.hosv3.object;import com.hospital_os.usecase.connection.CommonInf;import com.hospital_os.object.*;public class ICD92 extends ICD9 implements CommonInf{	static final long serialVersionUID = 0;   /**    * @roseuid 3F658BBB036E    */}

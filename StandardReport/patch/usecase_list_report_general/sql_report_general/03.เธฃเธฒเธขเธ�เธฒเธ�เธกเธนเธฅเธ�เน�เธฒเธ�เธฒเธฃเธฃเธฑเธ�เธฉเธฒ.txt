@@ -1,0 +1,79 @@
+-- ทั่วไป (รายงานมูลค่าการรักษา)
+SELECT 
+	query1.contract_plans_description AS CONTACT_PLAN 
+	,SUM(CASE WHEN TRIM(query1.f_item_billing_group_id) = '05' 
+			THEN to_number((to_number(query1.totalPrice,9999999.99) + to_number('0.00',9999999.99)),9999999.99)  
+			ELSE 0.00 
+	END) AS DRUG_SUPPLY
+	,SUM(CASE WHEN TRIM(query1.f_item_billing_group_id) = '00' 
+			THEN to_number((to_number(query1.totalPrice,9999999.99) + to_number('0.00',9999999.99)),9999999.99) 
+			ELSE 0.00 
+	END) AS LAB 
+	,SUM(CASE WHEN TRIM(query1.f_item_billing_group_id) = '01' 
+			THEN to_number((to_number(query1.totalPrice,9999999.99) + to_number('0.00',9999999.99)),9999999.99) 
+			ELSE 0.00 
+	END) AS XRAY 
+	,SUM(CASE WHEN TRIM(query1.f_item_billing_group_id) = '02' 
+			THEN to_number((to_number(query1.totalPrice,9999999.99) + to_number('0.00',9999999.99)),9999999.99) 
+			ELSE 0.00 
+	END) AS OTHER 
+	,SUM(CASE WHEN TRIM(query1.f_item_billing_group_id) = '03' 
+			THEN to_number((to_number(query1.totalPrice,9999999.99) + to_number('0.00',9999999.99)),9999999.99) 
+			ELSE 0.00 
+	END) AS OPERATING
+	,SUM(CASE WHEN TRIM(query1.f_item_billing_group_id) = '04' 
+			THEN to_number((to_number(query1.totalPrice,9999999.99) + to_number('0.00',9999999.99)),9999999.99) 
+			ELSE 0.00 
+	END) AS OTHER_TREAT 
+	,SUM(CASE WHEN TRIM(query1.f_item_billing_group_id) = '06' 
+			THEN to_number((to_number(query1.totalPrice,9999999.99) + to_number('0.00',9999999.99)),9999999.99) 
+			ELSE 0.00 
+	END) AS ICU 
+	,SUM(CASE WHEN TRIM(query1.f_item_billing_group_id) = '07' 
+			THEN to_number((to_number(query1.totalPrice,9999999.99) + to_number('0.00',9999999.99)),9999999.99) 
+			ELSE 0.00 
+	END) AS ROOM
+	,SUM(CASE WHEN TRIM(query1.f_item_billing_group_id) = '08' 
+			THEN to_number((to_number(query1.totalPrice,9999999.99) + to_number('0.00',9999999.99)),9999999.99) 
+			ELSE 0.00 
+	END) AS FOOD 
+	,SUM(CASE WHEN TRIM(query1.f_item_billing_group_id) = '09' 
+			THEN to_number((to_number(query1.totalPrice,9999999.99) + to_number('0.00',9999999.99)),9999999.99) 
+			ELSE 0.00 
+	END) AS OTHER_PAID 
+	,to_number((to_number(SUM(query1.totalPrice),9999999.99) + 
+		to_number('0.00',9999999.99)),9999999.99) AS TOTAL_PRICE
+FROM 
+	(SELECT t_visit.f_visit_status_id
+		, t_visit_payment.visit_payment_priority
+		, t_order.f_order_status_id
+		, t_visit.t_visit_id
+		, t_order.t_order_id
+		, t_order.order_price
+		, t_order.order_qty
+		,(t_order.order_price * t_order.order_qty) AS totalPrice 
+		, f_item_billing_group.f_item_billing_group_id AS f_item_billing_group_id
+		, b_contract_plans.contract_plans_description AS contract_plans_description
+		, SUBSTRING(t_visit.visit_financial_discharge_time,0,11) AS dateVisit 
+	FROM 
+		(((t_visit INNER JOIN (t_visit_payment INNER JOIN b_contract_plans 
+			ON t_visit_payment.b_contract_plans_id = b_contract_plans.b_contract_plans_id)  
+			ON t_visit.t_visit_id = t_visit_payment.t_visit_id)  
+		INNER JOIN t_order 
+			ON t_visit.t_visit_id = t_order.t_visit_id)  
+		INNER JOIN b_item_billing_subgroup 
+			ON t_order.b_item_billing_subgroup_id = b_item_billing_subgroup.b_item_billing_subgroup_id)  
+		INNER JOIN f_item_billing_group 
+			ON b_item_billing_subgroup.f_item_billing_group_id = f_item_billing_group.f_item_billing_group_id 
+	WHERE
+		((t_visit.f_visit_status_id <>'4') 
+		AND (t_visit_payment.visit_payment_priority = '0') 
+		AND ((t_order.f_order_status_id <>'0')  
+		AND (t_order.f_order_status_id <> '3') ) 
+		AND (SUBSTRING(t_visit.visit_financial_discharge_time,0,11) 
+			Between '2549-01-01' And '2549-01-31')) 
+	) AS query1 
+GROUP BY 
+	query1.contract_plans_description 
+ORDER BY 
+	query1.contract_plans_description 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!--
+Document   : connection.xml
+Created on : 28 มิถุนายน 2548, 13:19 น.
+Author     : tong
+Description:
+Purpose of the document follows.
+-->
+<root>
+<multi-connection></multi-connection>
+<user></user>
+<password></password>
+<url></url>
+</root>
+

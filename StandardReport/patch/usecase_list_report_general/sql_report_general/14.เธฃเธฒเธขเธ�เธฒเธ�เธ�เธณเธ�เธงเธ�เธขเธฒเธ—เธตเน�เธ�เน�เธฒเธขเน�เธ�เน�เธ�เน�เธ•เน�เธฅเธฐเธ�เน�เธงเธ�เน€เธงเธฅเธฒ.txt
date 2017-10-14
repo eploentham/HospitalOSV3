@@ -1,0 +1,41 @@
+-- ทั่วไป (จำนวนยาที่จ่ายไปในแต่ละช่วงเวลา)
+SELECT  
+	b_contract_plans.contract_plans_description AS contact_plan,  
+	t_visit.visit_vn AS vn_an_number, 
+	t_order.order_common_name AS common_name,  
+	ceil(to_number(t_order.order_price * t_order.order_qty,'99999.99')  +  to_number('0.00','99999.99')) AS TotalPrice, 
+	substr(b_service_point.service_point_description,4) AS order_staff_execute, 
+	substr(b_service_point1.service_point_description,4) AS order_staff_dispense  
+FROM 
+	(t_visit_payment 
+	INNER JOIN (t_visit 
+		INNER JOIN (((t_order 
+			INNER JOIN (b_employee INNER JOIN b_service_point 
+				ON b_employee.b_service_point_id=b_service_point.b_service_point_id) 
+				ON b_employee.b_employee_id = t_order.order_staff_execute
+				AND (t_order.f_item_group_id = '1')
+				AND (t_order.f_order_status_id = '2' 
+				OR t_order.f_order_status_id = '5')) 
+			INNER JOIN (b_employee AS b_employee1 
+		INNER JOIN b_service_point AS b_service_point1 
+			ON b_employee1.b_service_point_id = b_service_point1.b_service_point_id)            
+			ON b_employee1.b_employee_id = t_order.order_staff_dispense))  
+			ON t_visit.t_visit_id = t_order.t_visit_id)   
+			ON t_visit_payment.t_visit_id =t_visit.t_visit_id
+			AND (t_visit.f_visit_status_id <> '4'))   
+		INNER JOIN b_contract_plans ON t_visit_payment.b_contract_plans_id=b_contract_plans.b_contract_plans_id 
+			AND (t_visit_payment.visit_payment_priority='0')
+WHERE 
+	(((SubString(t_order.order_dispense_date_time,0,11) Between '2549-10-16' And '2549-10-16')
+	AND (SubString(t_order.order_dispense_date_time,11) Between '17:04' And '17:30')))  
+GROUP BY  
+	b_contract_plans.contract_plans_description,
+	t_visit.visit_vn,  
+	t_order.order_common_name,  
+	t_order.order_price,  
+	t_order.order_qty,  
+	b_service_point.service_point_description,  
+	b_service_point1.service_point_description  
+ORDER BY  
+	b_contract_plans.contract_plans_description
+

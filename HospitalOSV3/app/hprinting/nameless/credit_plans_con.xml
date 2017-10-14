@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="credit_plans_con"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="421"
+		 pageHeight="595"
+		 columnWidth="421"
+		 columnSpacing="0"
+		 leftMargin="0"
+		 rightMargin="0"
+		 topMargin="0"
+		 bottomMargin="0"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+	<reportFont name="AngsanaUPC14" isDefault="false" fontName="AngsanaUPC" size="14" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+	<reportFont name="AngsanaUPC16" isDefault="false" fontName="AngsanaUPC" size="16" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+	<reportFont name="AngsanaUPC12" isDefault="false" fontName="Angsana New" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+
+	<parameter name="disease_th" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="billing_id" isForPrompting="true" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["119232207960736555"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="credit_number_id" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="day" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="month" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="year" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="patient_name" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="bill_no" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="total" isForPrompting="false" class="java.lang.Double"/>
+	<parameter name="paid" isForPrompting="false" class="java.lang.Double"/>
+	<parameter name="total_txt" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="hn" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="cashier" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="plan_id" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="visit_id" isForPrompting="false" class="java.lang.String"/>
+	<queryString><![CDATA[select
+--//////////////////////////////////////////////////////////////
+ b_site.site_full_name as site_full_name
+,b_site.site_phone_number as site_phone_number
+
+,f_patient_prefix.patient_prefix_description as prefix_patient
+,t_patient.patient_firstname as firstname
+,t_patient.patient_lastname as lastname
+,f_sex.sex_description as sex
+,t_patient.patient_hn as hn
+,t_patient.patient_pid as pid
+,t_patient.patient_house as house
+,t_patient.patient_moo as moo
+,t_patient.patient_road as road
+,changwat.address_description as province
+,amphur.address_description as amphur
+,tambon.address_description as tambon
+
+,t_visit.visit_patient_age as patient_age
+,t_visit.visit_vn as an
+,b_contract_plans.contract_plans_description as plan
+,t_visit_payment.visit_payment_card_number as card_no
+,hos_main.visit_office_name as hos_main
+,hos_sub.visit_office_name as hos_sub
+,t_visit.visit_dx as diagnosis
+--///////////////////////////////////////////////////////////////////////
+,b_item_billing_subgroup.item_billing_subgroup_description  as billing_subgroup
+,to_number(t_billing_invoice_billing_subgroup.billing_invoice_billing_subgroup_payer_share_ceil,'99999.99') as payer_share
+,t_billing.billing_deduct as deduct
+,t_billing.billing_total as total
+,t_billing.billing_paid as paid
+,b_employee.employee_firstname || ' ' || b_employee.employee_lastname as staff_record
+,substring(t_billing_invoice.t_billing_invoice_date_time,9,2)as วัน
+,case when (substring(t_billing_invoice_date_time,6,2) = '01')
+                then 'มกราคม' 
+              when (substring(t_billing_invoice_date_time,6,2) = '02')
+                then 'กุมภาพันธ์'
+              when (substring(t_billing_invoice_date_time,6,2) = '03')
+                then 'มีนาคม'
+              when (substring(t_billing_invoice_date_time,6,2) = '04')
+                then 'เมษายน' 
+              when (substring(t_billing_invoice_date_time,6,2) = '05')
+                then 'พฤษภาคม' 
+              when (substring(t_billing_invoice_date_time,6,2) = '06')
+                then 'มิถุนายน' 
+              when (substring(t_billing_invoice_date_time,6,2) = '07')
+                then 'กรกฎาคม' 
+              when (substring(t_billing_invoice_date_time,6,2) = '08')
+                then 'สิงหาคม' 
+              when (substring(t_billing_invoice_date_time,6,2) = '09')
+                then 'กันยายน' 
+              when (substring(t_billing_invoice_date_time,6,2) = '10')
+                then 'ตุลาคม' 
+              when (substring(t_billing_invoice_date_time,6,2) = '11')
+                then 'พฤศจิกายน' 
+              when (substring(t_billing_invoice_date_time,6,2) = '12')
+                then 'ธันวาคม' 
+         else ''
+         end as เดือน
+,substring(t_billing_invoice.t_billing_invoice_date_time,3,2)as ปี
+
+--//////////////////////////////////////////////////////////////
+,t_sph_billing_credit_number.billing_credit_number as bcn
+from t_billing_invoice_billing_subgroup
+inner join t_billing_invoice on t_billing_invoice.t_billing_invoice_id = t_billing_invoice_billing_subgroup.t_billing_invoice_id
+inner join b_item_billing_subgroup on b_item_billing_subgroup.b_item_billing_subgroup_id = t_billing_invoice_billing_subgroup.b_item_billing_subgroup_id
+inner join t_visit_payment on t_visit_payment.t_visit_payment_id = t_billing_invoice_billing_subgroup.t_payment_id
+inner join t_visit on t_billing_invoice_billing_subgroup.t_visit_id = t_visit.t_visit_id
+inner join t_billing on t_billing.t_billing_id = t_billing_invoice_billing_subgroup.t_billing_id
+inner join t_patient on t_visit.t_patient_id = t_patient.t_patient_id
+inner join f_sex on t_patient.f_sex_id = f_sex.f_sex_id
+inner join b_contract_plans on b_contract_plans.b_contract_plans_id = t_visit_payment.b_contract_plans_id
+left join t_sph_billing_credit_number on t_billing.t_billing_id = t_sph_billing_credit_number.t_billing_id
+--///////////////////////
+ ----------------------------------------------------------------------------------
+left join f_patient_prefix on t_patient.f_patient_prefix_id = f_patient_prefix.f_patient_prefix_id
+left join (select * from f_address) as changwat on changwat.f_address_id = t_patient.patient_changwat
+left join (select * from f_address) as amphur on amphur.f_address_id = t_patient.patient_amphur
+left join (select * from f_address) as tambon on tambon.f_address_id = t_patient.patient_tambon
+left join (select * from b_visit_office) as hos_main on hos_main.b_visit_office_id = t_visit_payment.visit_payment_main_hospital
+left join (select * from b_visit_office) as hos_sub on hos_sub.b_visit_office_id = t_visit_payment.visit_payment_sub_hospital 
+left join b_employee on t_sph_billing_credit_number.billing_credit_number_modify_staff = b_employee.b_employee_id
+ ,b_site
+----------------------------------------------------------------------------------
+--///////////////////////
+where  t_visit.t_visit_id = $P{visit_id} and t_visit_payment.b_contract_plans_id = $P{plan_id}]]></queryString>
+
+	<field name="site_full_name" class="java.lang.String"/>
+	<field name="site_phone_number" class="java.lang.String"/>
+	<field name="prefix_patient" class="java.lang.String"/>
+	<field name="firstname" class="java.lang.String"/>
+	<field name="lastname" class="java.lang.String"/>
+	<field name="sex" class="java.lang.String"/>
+	<field name="hn" class="java.lang.String"/>
+	<field name="pid" class="java.lang.String"/>
+	<field name="house" class="java.lang.String"/>
+	<field name="moo" class="java.lang.String"/>
+	<field name="road" class="java.lang.String"/>
+	<field name="province" class="java.lang.String"/>
+	<field name="amphur" class="java.lang.String"/>
+	<field name="tambon" class="java.lang.String"/>
+	<field name="patient_age" class="java.lang.String"/>
+	<field name="an" class="java.lang.String"/>
+	<field name="plan" class="java.lang.String"/>
+	<field name="card_no" class="java.lang.String"/>
+	<field name="hos_main" class="java.lang.String"/>
+	<field name="hos_sub" class="java.lang.String"/>
+	<field name="diagnosis" class="java.lang.String"/>
+	<field name="billing_subgroup" class="java.lang.String"/>
+	<field name="payer_share" class="java.lang.Double"/>
+	<field name="deduct" class="java.lang.Double"/>
+	<field name="total" class="java.lang.Double"/>
+	<field name="paid" class="java.lang.Double"/>
+	<field name="staff_record" class="java.lang.String"/>
+	<field name="วัน" class="java.lang.String"/>
+	<field name="เดือน" class="java.lang.String"/>
+	<field name="ปี" class="java.lang.String"/>
+	<field name="bcn" class="java.lang.String"/>
+	<field name="item_name" class="java.lang.String"/>
+	<field name="item_price" class="java.lang.Double"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="146"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="35"
+						y="85"
+						width="22"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+						<font reportFont="AngsanaUPC14"/>
+					</textElement>
+				<text><![CDATA[HN :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="57"
+						y="85"
+						width="88"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+						<font reportFont="AngsanaUPC14" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{hn}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="74"
+						y="116"
+						width="177"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+						<font reportFont="AngsanaUPC14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{patient_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="183"
+						y="85"
+						width="39"
+						height="18"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{day}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="250"
+						y="85"
+						width="85"
+						height="18"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{month}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="343"
+						y="85"
+						width="63"
+						height="18"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{year}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="277"
+						y="116"
+						width="58"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-2"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+						<font reportFont="AngsanaUPC12" fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[Program No.]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="328"
+						y="116"
+						width="78"
+						height="20"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{bill_no}]]></textFieldExpression>
+				</textField>
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="20"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="13"
+						y="0"
+						width="324"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" lineSpacing="Single">
+						<font fontName="AngsanaUPC" pdfFontName="Helvetica" size="14" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="CP1252" isStrikeThrough="false" />
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{item_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="334"
+						y="0"
+						width="44"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-9"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" lineSpacing="Single">
+						<font fontName="AngsanaUPC" pdfFontName="Helvetica" size="14" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="CP1252" isStrikeThrough="false" />
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$P{total}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="130"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="35"
+						y="104"
+						width="194"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-11"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+						<font fontName="AngsanaUPC" pdfFontName="Helvetica" size="14" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="CP1252" isStrikeThrough="false" />
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{total_txt}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="283"
+						y="24"
+						width="35"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-4"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+						<font reportFont="AngsanaUPC12" fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[ยอดรวม]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="283"
+						y="45"
+						width="35"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-5"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+						<font reportFont="AngsanaUPC12" fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[ส่วนลด]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="283"
+						y="65"
+						width="36"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-6"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+						<font reportFont="AngsanaUPC12" fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[ยอดชำระ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="319"
+						y="24"
+						width="59"
+						height="20"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$P{total}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="319"
+						y="45"
+						width="59"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-7"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+						<font reportFont="AngsanaUPC12" fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[0.00]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="319"
+						y="65"
+						width="59"
+						height="20"
+						key="textField-12"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$P{total}]]></textFieldExpression>
+				</textField>
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<lastPageFooter>
+			<band height="80"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="35"
+						y="0"
+						width="142"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+						<font fontName="AngsanaUPC" pdfFontName="Helvetica" size="14" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="CP1252" isStrikeThrough="false" />
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{cashier}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="241"
+						y="41"
+						width="123"
+						height="20"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-3"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+						<font reportFont="AngsanaUPC12" fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<text><![CDATA[ผู้อำนวยการศูนย์วิจัยฯ]]></text>
+				</staticText>
+				<image  evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="241"
+						y="0"
+						width="148"
+						height="41"
+						key="image-1"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<graphicElement stretchType="NoStretch" pen="None"/>
+					<imageExpression class="java.lang.String"><![CDATA["icon/nameless/ThaiPraphan.JPG"]]></imageExpression>
+				</image>
+			</band>
+		</lastPageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

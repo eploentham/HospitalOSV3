@@ -1,0 +1,19 @@
+-- ทั่วไป (LAB ที่รับตรวจ)
+SELECT  
+	to_date(SUBSTRING(t_lab_refer_in_order.lab_refer_in_order_verify_date_time,0,11)
+	,'YYYY-MM-DD') AS ORDER_LAB_DATE 
+	, t_lab_refer_in_order.lab_refer_in_order_common_name AS ORDER_LAB_NAME 
+	, count(t_lab_refer_in_order.t_lab_refer_in_order_id) AS ORDER_LAB_COUNT  
+FROM   
+	t_lab_refer_in_order  
+WHERE   
+	( (t_lab_refer_in_order.f_order_status_id ='2') 
+	OR (t_lab_refer_in_order.f_order_status_id ='4') )   
+	AND (SUBSTRING(t_lab_refer_in_order.lab_refer_in_order_verify_date_time,0,11) 
+		Between '2549-01-01' And '2549-01-31')  
+GROUP BY   
+	ORDER_LAB_DATE  
+	, t_lab_refer_in_order.lab_refer_in_order_common_name  
+ORDER BY  
+	ORDER_LAB_DATE  
+	, t_lab_refer_in_order.lab_refer_in_order_common_name

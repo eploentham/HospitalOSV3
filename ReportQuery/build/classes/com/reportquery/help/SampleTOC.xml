@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'  ?>
+<!DOCTYPE toc
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 2.0//EN"
+         "../dtd/toc_2_0.dtd">
+<toc version="2.0">
+<tocitem text="วิธีการ ติดต่อฐานข้อมูล" image="toplevelfolder">
+
+   <!tocitem text="Report Center Help" target="intro"/>
+
+   <tocitem text="หัวข้อการใช้งาน" target="start" expand="true">
+       <tocitem text="Query Report" target="overview" expand="true">
+                <tocitem text="ส่วนที่ 1 การแก้ไขรายการ คำสั่ง SQL" target="overview-1">
+                    <tocitem text="การติดต่อฐานข้อมูล" target="overview-1-1"/>
+                    <tocitem text="การค้นหารายการ SQL" target="overview-1-2"/>
+                    <tocitem text="การเลือกรายงาน SQL ที่ต้องการ" target="overview-1-3"/>
+                    <tocitem text="การเพิ่ม และ ลบ รายการ" target="overview-1-4"/>
+                    <tocitem text="การ กรอก คำสั่ง SQL" target="overview-1-5"/>
+                    <tocitem text="การบันทึก รายงาน SQL" target="overview-1-6"/>
+                    <tocitem text="ตัวอย่างการใช้งาน" target="overview-1-7">
+                        <tocitem text="แบบระบุประเภทต้องการค้นหาด้วยวันที่" target="overview-1-7-1"/>
+                        <tocitem text="แบบระบุประเภทไม่ต้องการค้นหาด้วยวันที่" target="overview-1-7-2"/>
+                    </tocitem>
+                </tocitem>
+                    
+                <tocitem text="ส่วนที่ 2 การใช้งาน Query รายงาน" target="overview-2">
+                    <tocitem text="การติดต่อฐานข้อมูล" target="overview-2-1"/>
+                    <tocitem text="การเลือกรูปแบบของรายงาน" target="overview-2-2"/>
+                    <tocitem text="การเลือกช่วงวันที่ที่ต้องการ" target="overview-2-3"/>
+                    <tocitem text="การเลือกรูปแบบของไฟล์ที่ต้องการจะบันทึก" target="overview-2-4"/>
+                    <tocitem text="การเลือก Folder ที่ต้องการจะจัดเก็บไฟล์" target="overview-2-5"/>
+                   
+                    <tocitem text="ตัวอย่างการ Query รายงาน" target="overview-2-6">
+                        <tocitem text="กรณีที่ 1 ค้นหาโดยใช้วันที่" target="overview-2-6-1"/>
+                        <tocitem text="กรณีที่ 2 ค้นหาโดยไม่ใช้วันที่" target="overview-2-6-2"/>
+                    </tocitem>
+                
+                </tocitem>
+      </tocitem>
+   </tocitem>
+
+  
+</tocitem>
+</toc>

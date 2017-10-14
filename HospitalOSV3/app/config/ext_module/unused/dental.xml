@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : ReportSetup.xml
+    Created on : 21 ตุลาคม 2548, 17:59 น.
+    Author     : Administrator
+    Description:
+        Purpose of the document follows.
+value="-module=;;;;"/>
+-->
+
+<root>
+    <module-report>com.dental.module.DentalModule</module-report>
+    <module-index>-1</module-index>
+    
+</root>

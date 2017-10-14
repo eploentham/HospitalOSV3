@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Stock.xml
+    Created on : 11 มกราคม 2550, 17:59 น.
+    Author     : Pu
+    Description:
+        Purpose of the document follows.
+value="-module=;;;;"/>
+-->
+
+<root>
+    <module-report>com.stock.StockModule</module-report>
+    <module-index>-1</module-index>    
+</root>

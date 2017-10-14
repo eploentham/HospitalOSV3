@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="dental_teeth2"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="283"
+		 pageHeight="113"
+		 columnWidth="283"
+		 columnSpacing="0"
+		 leftMargin="0"
+		 rightMargin="0"
+		 topMargin="0"
+		 bottomMargin="0"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="patient_id" isForPrompting="true" class="java.lang.String"/>
+	<queryString><![CDATA[select 
+f_dental_treatment_plan.dental_treatment_plan as treatment_plan
+,q1.icd10
+,f_dental_teeth.dental_teeth as teeth
+,q1.side_m
+,q1.side_l
+,q1.side_d
+,q1.side_b
+,q1.side_o
+,q1.side_r
+,q1.order_name
+,q1.order_category
+from
+(select distinct
+case when (t_diag_icd10.diag_icd10_number='K05' OR t_diag_icd10.diag_icd10_number='K05.1' OR t_diag_icd10.diag_icd10_number='K03.6')
+    then '1'
+     when (t_diag_icd10.diag_icd10_number='K05.2' OR t_diag_icd10.diag_icd10_number='K05.3' OR t_diag_icd10.diag_icd10_number='K05.4'
+          OR t_diag_icd10.diag_icd10_number='K05.6' OR t_diag_icd10.diag_icd10_number='K06.0' OR t_diag_icd10.diag_icd10_number='K06.1')
+    then '2'
+      when (t_diag_icd10.diag_icd10_number like 'K02%' OR t_diag_icd10.diag_icd10_number='K03.0' OR t_diag_icd10.diag_icd10_number='K03.1'OR t_diag_icd10.diag_icd10_number='K03.2')
+    then '3'
+      when (t_diag_icd10.diag_icd10_number='K04.0' OR t_diag_icd10.diag_icd10_number='K04.1' OR t_diag_icd10.diag_icd10_number='K04.2'
+          OR t_diag_icd10.diag_icd10_number='K04.3' OR t_diag_icd10.diag_icd10_number='K04.4' OR t_diag_icd10.diag_icd10_number='K04.5'
+          OR t_diag_icd10.diag_icd10_number='K04.6' OR t_diag_icd10.diag_icd10_number='K04.7' OR t_diag_icd10.diag_icd10_number='K04.8')
+    then '4'
+      when (t_diag_icd10.diag_icd10_number='K04.9' OR t_diag_icd10.diag_icd10_number='K05.5' OR t_diag_icd10.diag_icd10_number='K07.3' OR t_diag_icd10.diag_icd10_number='K08.3')
+    then '5'
+      when  (t_diag_icd10.diag_icd10_number='K01.0' OR t_diag_icd10.diag_icd10_number='K01.1')
+    then '6'
+      when (t_diag_icd10.diag_icd10_number='K08.1')
+    then '7'
+      when (t_diag_icd10.diag_icd10_number='Z01.2')
+    then '10'
+      when  ((t_diag_icd10.diag_icd10_number between 'K00.0' and 'K00.9' OR t_diag_icd10.diag_icd10_number between 'K03.3' and 'K03.9')AND (t_diag_icd10.diag_icd10_number <> 'K03.6'))
+OR (t_diag_icd10.diag_icd10_number like 'K07%' AND t_diag_icd10.diag_icd10_number <> 'K07.3')
+OR (t_diag_icd10.diag_icd10_number like 'K08%' AND (t_diag_icd10.diag_icd10_number <> 'K08.1' OR t_diag_icd10.diag_icd10_number <> 'K08.3'))
+OR (t_diag_icd10.diag_icd10_number between 'K09' and 'K14')
+   then '9'
+      when t_order.b_item_subgroup_id='1300000000051'
+    then '8'
+     when t_order.b_item_subgroup_id IN ('13000000000151','13000000000152')
+    then '11'
+else '' end as treatment_plan 
+,b_icd10.icd10_description as icd10
+,t_dental_treat.dental_treat_tooth as teeth
+,case when t_dental_treat.dental_treat_side_m='1'
+    then 'M'
+else '' end as side_m
+,case when t_dental_treat.dental_treat_side_l='1'
+    then 'L'
+else '' end as side_l
+,case when t_dental_treat.dental_treat_side_d='1'
+    then 'D'
+else '' end as side_d
+,case when t_dental_treat.dental_treat_side_b='1'
+    then 'B'
+else '' end as side_b
+,case when t_dental_treat.dental_treat_side_o='1'
+    then 'O'
+else '' end as side_o
+,case when t_dental_treat.dental_treat_side_r='1'
+    then 'R'
+else '' end as side_r
+,t_order.order_common_name as order_name
+,t_order.b_item_subgroup_id as order_category
+from 
+t_patient inner join t_visit on  t_patient.t_patient_id = t_visit.t_patient_id
+inner join t_dental_treat on t_visit.t_visit_id = t_dental_treat.t_visit_id
+left join t_diag_icd10 on t_dental_treat.t_diag_icd_10_id = t_diag_icd10.t_diag_icd10_id 
+left join t_dental_order on t_dental_treat.t_order_id = t_dental_order.t_order_id
+left join t_order on t_dental_order.t_order_id = t_order.t_order_id
+left join b_icd10 on b_icd10.icd10_number = t_diag_icd10.diag_icd10_number
+
+where t_patient.t_patient_id=$P{patient_id}
+and t_dental_treat.dental_treat_tooth between '21' and '28'
+
+order by t_dental_treat.dental_treat_tooth asc
+) as q1
+right join f_dental_treatment_plan on q1.treatment_plan = f_dental_treatment_plan.dental_treatment_plan_id
+right join f_dental_teeth on q1.teeth = f_dental_teeth.dental_teeth_id
+where f_dental_teeth.dental_teeth_id between '21' and '28']]></queryString>
+
+	<field name="treatment_plan" class="java.lang.String"/>
+	<field name="icd10" class="java.lang.String"/>
+	<field name="teeth" class="java.lang.String"/>
+	<field name="side_m" class="java.lang.String"/>
+	<field name="side_l" class="java.lang.String"/>
+	<field name="side_d" class="java.lang.String"/>
+	<field name="side_b" class="java.lang.String"/>
+	<field name="side_o" class="java.lang.String"/>
+	<field name="side_r" class="java.lang.String"/>
+	<field name="order_name" class="java.lang.String"/>
+	<field name="order_category" class="java.lang.String"/>
+
+	<variable name="plan_a" class="java.lang.String" resetType="Group" resetGroup="plan" calculation="Nothing">
+		<variableExpression><![CDATA[$F{treatment_plan}==null?
+$V{plan_a}+""
+
+:($F{treatment_plan}.equals( "อุดฟัน" )&&
+(!$F{side_m}.equals( "" )||!$F{side_l}.equals( "" )||
+ !$F{side_d}.equals( "" )||!$F{side_b}.equals( "" )||
+ !$F{side_o}.equals( "" )||!$F{side_r}.equals( "" )))?
+$V{plan_a}+$F{icd10}+" ด้าน"+$F{side_m}+$F{side_l}+$F{side_d}+$F{side_b}+$F{side_o}+$F{side_r}+" "
+
+:($F{treatment_plan}.equals( "ถ่ายภาพรังสี" ) && 
+($F{order_name}!=null && !$F{order_name}.equals("")))?
+$V{plan_a}+" "+$F{order_name}+" "
+:($F{treatment_plan}.equals( "ถ่ายภาพรังสี" ) && 
+($F{order_name}==null || $F{order_name}.equals("")))?
+$V{plan_a}+""
+
+:($F{treatment_plan}.equals( "กลุ่มรักษาทันตกรรมจากที่อื่น" ) && 
+($F{order_name}!=null && !$F{order_name}.equals("")))?
+$V{plan_a}+" "+$F{order_name}+" "
+:($F{treatment_plan}.equals( "กลุ่มรักษาทันตกรรมจากที่อื่น" ) && 
+($F{order_name}==null || $F{order_name}.equals("")))?
+$V{plan_a}+""
+
+:($F{treatment_plan}.equals( "การรักษาอื่นๆ" ) && 
+($F{order_name}!=null && !$F{order_name}.equals("")))?
+$V{plan_a}+" "+$F{order_name}+" "
+:($F{treatment_plan}.equals( "การรักษาอื่นๆ" ) && 
+($F{order_name}==null || $F{order_name}.equals("")))?
+$V{plan_a}+""
+
+:$V{plan_a}+$F{icd10}+" "]]></variableExpression>
+		<initialValueExpression><![CDATA[""]]></initialValueExpression>
+	</variable>
+
+		<group  name="plan" >
+			<groupExpression><![CDATA[$F{teeth}==null?
+""
+:$F{teeth}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="15"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="37"
+						height="15"
+						key="textField-2"
+						isPrintRepeatedValues="false"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{teeth}+":"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="19"
+						y="0"
+						width="263"
+						height="15"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{plan_a}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

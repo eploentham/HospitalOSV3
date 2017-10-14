@@ -1,0 +1,596 @@
+/* package packageName;*/
+package com.hospital_os.utility;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import javax.swing.*;
+import javax.swing.event.PopupMenuListener;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.plaf.ComboBoxUI;
+import javax.swing.plaf.basic.ComboPopup;
+import javax.swing.plaf.metal.MetalComboBoxUI;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.EmptyBorder;
+/**
+ * @version 1.0 11/02/2000
+ */  
+/*////////////////////////////////////////////////////////////*/
+public class DateComboBoxOld1 extends JComboBox
+{
+    protected SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");/* new SimpleDateFormat("MMM d, yyyy");*/
+    /** จำนวนตัวอักษรที่จะมีได้ */
+      int columns = 8;
+      /** เมื่อ Reset จะได้ค่าของ Template */
+      String template = "วว/ดด/ปปปป";
+      Font defaultFont1;
+    /*  java.text.NumberFormat digit2Format = java.text.NumberFormat.getInstance();*/
+      /** ขอบเขตบนของค่าวันที่ที่จะไม่มีทางเกินกว่าค่านี้ */
+      java.util.Date dateUpperLimit = null;
+      /** ขอบเขตล่างของค่าวันที่ที่จะไม่มีทางน้อยกว่าค่านี้ */
+      java.util.Date dateLowerLimit = null;
+      public  String selectDate = null;
+      public boolean debug = false;
+    
+    public DateComboBoxOld1()
+    { 
+        defaultFont1 = super.getFont();
+        this.setText(this.getData("dd/MM/yyyy"));
+        this.setEditable(true);
+        super.setPreferredSize(new Dimension(100, 20)); // setPreferredSize ของ DateComboBox ให้มีขนาดเท่ากันหมดทั้งระบบ
+        
+    }
+    public void setFont(java.awt.Font font)
+    {
+        defaultFont1 = font;
+        super.setFont(font);
+    }
+    public void initCurrentDate()
+    {
+        this.setText(this.getData("dd/MM/yyyy"));
+    }
+    /** ให้ค่าเป็น today โดยการกำกนด pattern
+     */
+    protected  String getData(String pattern)
+    {       
+        String dateString = new String();
+        java.util.Date today = new java.util.Date();
+        
+        java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat(pattern);
+        try {
+            dateString = formatter.format(today);
+        } catch (IllegalArgumentException iae) {
+            iae.printStackTrace(Constant.getPrintStream());
+        }
+        if(debug)
+            Constant.println("dateString" + dateString);
+        return dateString;
+    }
+    /**ใช้มรการกำหรนดค่าตามรูปแบบ ที่กำหนด */
+    protected  String getData(String pattern,java.util.Date date)
+    {       
+        String dateString = new String();
+        /*java.util.Date today = new java.util.Date();*/
+        java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat(pattern);
+        try {
+            dateString = formatter.format(date);
+        } catch (IllegalArgumentException iae) {
+            iae.printStackTrace(Constant.getPrintStream());
+            dateString = null;
+        }
+        formatter = null;
+        return dateString;
+    }
+    
+    
+    public void setDateFormat(SimpleDateFormat dateFormat) {
+	this.dateFormat = dateFormat;
+    }
+    public void updateUI() 
+    {
+	ComboBoxUI cui = (ComboBoxUI) UIManager.getUI(this);
+	if (cui instanceof MetalComboBoxUI)
+            cui = new MetalDateComboBoxUI();	    
+        setUI(cui);
+    }
+    /**
+     * นำค่าจาก Combobox ออกไปยังตัวแปร
+     * ถ้ากรอกข้อมูลผิด หรือตัวอักษรน้อยการ 8 ตัว จะ return ค่าว่าง
+     * return date format yyyy-mm-dd
+     */
+    public String getText()
+    {
+        return readDate();
+    }
+    /**
+     *
+     * return date format yyyy-mm-dd
+     */        
+    private String readDate()   
+    {   
+        boolean change = false;
+        String date = (String)this.getSelectedItem();
+        int y=0,m=0,d=0;
+        if(date==null)
+        {
+            return "";
+        }
+        if(date.indexOf('-')!=-1)
+        {
+            date = date.replace('-', '/');
+            change = true;
+        }
+        if(date.length()==8 && date.indexOf('/')==-1)
+        {
+            String date1 = date.substring(0,2);
+            String date2 = date.substring(2,4);
+            String date3 = date.substring(4,date.length());
+            date = date1+"/"+date2+"/"+date3;
+            change = true;
+        }
+        /////////////////////////////////////////////////////////////////
+        String[] date_arr = date.split("/");
+        if(date_arr.length==3){
+            try{
+                d = Integer.parseInt(date_arr[0]);
+                m = Integer.parseInt(date_arr[1]);
+                y = Integer.parseInt(date_arr[2]);
+                String date1 = date_arr[0];
+                String date2 = date_arr[1];
+                String date3 = date_arr[2];
+                if(date1.length()==1) date1 = "0"+date1;
+                if(date2.length()==1) date2 = "0"+date2;
+                if(date3.length()!=4)
+                    return "";
+                
+                date = date1+"/"+date2+"/"+date3;                
+                change = true;
+                //ตรวจสอบหากผู้ใช้ระบุปีเป็น คศ จะให้ค่าคืนเป็นค่าว่าง
+                if(y<2400)
+                    date = "";
+            }
+            catch(Exception e){
+                e.printStackTrace(Constant.getPrintStream());
+                date = "";
+            }
+        }
+        //Constant.println("date_________" + date);
+        if(change && checkDateValid(y,m,d)) {
+            setSelectedItem(date);
+        }
+        else{
+            setSelectedItem("");
+            date = "";
+        }
+        return DateUtil.getGuiBDate(date);
+    }  
+    
+    public boolean checkDateValid(int y,int m,int d)
+    {
+        Calendar c = Calendar.getInstance();
+        c.set(y,m-1,d);
+        boolean check = c.get(c.DATE)==d
+                && c.get(c.MONTH)==m-1
+                && c.get(c.YEAR)==y;
+        return check;
+    }
+    public static String getTextCurrentYear(int ch)
+   {
+       java.util.Calendar c = java.util.Calendar.getInstance(java.util.Locale.US);
+        c.setTimeInMillis(System.currentTimeMillis());
+        String yyyy ="";
+        if(ch ==3)
+        {   yyyy ="0000" + String.valueOf(c.get(c.YEAR)+543);
+            yyyy= yyyy.substring(yyyy.length()-4,yyyy.length());
+        }
+        if(ch == 2)
+        {
+            yyyy = "00" + String.valueOf(c.get(c.MONTH) + 1);
+            yyyy=yyyy.substring(yyyy.length()-2,yyyy.length());
+        }
+        if(ch == 1)
+        {
+            yyyy = "00" + String.valueOf(c.get(c.DATE));
+            yyyy=yyyy.substring(yyyy.length()-2,yyyy.length());
+        }
+        /*return yyyy + "/" +  mm + "/" + dd;*/
+        return yyyy ;
+    }
+    
+   public void setUpperLimit(java.util.Date date)
+    {
+        dateUpperLimit = date;
+    }
+    public java.util.Date getUpperLimit()
+    {
+        return dateUpperLimit;
+    }
+    public void setLowerLimit(java.util.Date date)
+    {
+        dateLowerLimit = date;
+    }
+    public java.util.Date getLowerLimit()
+    {
+        return dateLowerLimit;
+    }
+    public void reset()
+    {
+        this.setText(this.getData("dd/MM/yyyy"));
+        /*this.setText(template);*/
+        /* setDate(null);*/
+    }
+        
+    /**กำหนดค่าให้กับ combobox*/
+    public void setText(String date)
+    {
+        if(date!=null && date.length()>10)
+            date = date.substring(0,10);
+        //this.removeAllItems();
+        if(this.getItemCount()==0)
+            this.addItem(date);
+        super.setSelectedItem(date);
+    }
+    /* Inner classes are used purely to keep DateComboBox component in one file*/
+    /*////////////////////////////////////////////////////////////*/
+    /* UI Inner classes -- one for each supported Look and Feel*/
+    /*////////////////////////////////////////////////////////////*/
+    class MetalDateComboBoxUI extends MetalComboBoxUI {
+	protected ComboPopup createPopup() {
+	    return new DatePopup( comboBox,defaultFont1);
+	}
+    }
+    
+    /*////////////////////////////////////////////////////////////*/
+    /* DatePopup inner class*/
+    /*////////////////////////////////////////////////////////////*/
+    class DatePopup implements ComboPopup, MouseMotionListener, 
+	MouseListener, KeyListener, PopupMenuListener {
+	
+	protected JComboBox comboBox;
+	protected Calendar calendar;
+	protected JPopupMenu popup;
+	protected JLabel monthLabel;
+	protected JPanel days = null;
+	protected SimpleDateFormat monthFormat = new SimpleDateFormat("MMM yyyy");
+	protected Color selectedBackground;
+	protected Color selectedForeground;
+	protected Color background;
+	protected Color foreground;
+//        Font df=new com.hospital_os.gui.font.DefaultFont();
+	public DatePopup(JComboBox comboBox,Font font) {
+	    this.comboBox = comboBox;
+	    calendar = Calendar.getInstance();
+//            df = font;
+	    /* check Look and Feel*/
+	    background = UIManager.getColor("ComboBox.background");
+	    foreground = UIManager.getColor("ComboBox.foreground");
+	    selectedBackground = UIManager.getColor("ComboBox.selectionBackground");
+	    selectedForeground = UIManager.getColor("ComboBox.selectionForeground");
+	    initializePopup();
+	}
+	/*========================================*/
+	/* begin ComboPopup method implementations*/
+	/**/
+        public void show() {
+	    try {
+		/* if setSelectedItem() was called with a valid date, adjust the calendar*/
+		calendar.setTime( dateFormat.parse( comboBox.getSelectedItem().toString() ) );
+	    } catch (Exception e) {
+                Constant.println("DateComboBox Exception:" + e.getMessage());
+            }
+	    updatePopup(); 
+	    popup.show(comboBox, 0, comboBox.getHeight());
+        }
+	
+	public void hide() {
+	    popup.setVisible(false);
+	}
+	protected JList list = new JList();
+	public JList getList() {
+	    return list;
+	}
+	public MouseListener getMouseListener() {
+	    return this;
+	}
+	public MouseMotionListener getMouseMotionListener() {
+	    return this;
+	}
+	public KeyListener getKeyListener() {
+	    return this;
+	}
+	public boolean isVisible() {
+	    return popup.isVisible();
+	}
+	public void uninstallingUI() {
+	    popup.removePopupMenuListener(this);
+	}
+	public void mousePressed( MouseEvent e ) {}
+        public void mouseReleased( MouseEvent e ) {}
+	/* something else registered for MousePressed*/
+	public void mouseClicked(MouseEvent e) {
+            if (!SwingUtilities.isLeftMouseButton(e))
+                return;
+            if (!comboBox.isEnabled())
+                return;
+	    if (comboBox.isEditable())
+		comboBox.getEditor().getEditorComponent().requestFocus();
+            else
+		comboBox.requestFocus();
+	    togglePopup();
+	}
+        protected boolean hideNext = false;
+	protected boolean mouseInside = false;
+	public void mouseEntered(MouseEvent e) {
+	    mouseInside = true;
+	}
+	public void mouseExited(MouseEvent e) {
+	    mouseInside = false;
+	}
+	/* MouseMotionListener*/
+	public void mouseDragged(MouseEvent e) {}
+	public void mouseMoved(MouseEvent e) {}
+	public void keyPressed(KeyEvent e) {}
+	public void keyTyped(KeyEvent e) {}           
+	public void keyReleased(KeyEvent e) {
+	    if (e.getKeyCode() == KeyEvent.VK_SPACE ||
+		 e.getKeyCode() == KeyEvent.VK_ENTER) {
+		togglePopup();
+	    }
+            if(e.getKeyCode()==KeyEvent.VK_RIGHT)
+                transferFocus();
+	}
+	/**
+	 * Variables hideNext and mouseInside are used to 
+	 * hide the popupMenu by clicking the mouse in the JComboBox
+	 */
+	public void popupMenuCanceled(PopupMenuEvent e) {}
+	public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+	    hideNext = mouseInside;
+	}
+	public void popupMenuWillBecomeVisible(PopupMenuEvent e) {}
+	/*===================================================================*/
+	/* begin Utility methods*/
+	/**/
+	protected void togglePopup() {
+	    if (isVisible() || hideNext)  
+		hide();
+	    else 
+		show();
+	    hideNext = false;
+	}
+	/**/
+	/* end Utility methods*/
+	/*=================================================================*/
+	/* Note *** did not use JButton because Popup closes when pressed*/
+	protected JLabel createUpdateButton(final int field, final int amount,String icon,String ttt,String str) 
+        {
+	    final JLabel label = new JLabel();
+	    final Border selectedBorder = new EtchedBorder();
+	    final Border unselectedBorder = new EmptyBorder(selectedBorder.getBorderInsets(new JLabel()));
+	    label.setBorder(unselectedBorder);
+	    label.setForeground(foreground);
+            label.setPreferredSize(new Dimension(24,24));
+	    label.addMouseListener(new MouseAdapter() {
+                public void mouseReleased(MouseEvent e) {
+                    calendar.add(field, amount);
+                        /*ทำการกำหนดค่าที่เลือกให้กับ coboBox ให้แสดง บน Combobox*/
+                    comboBox.setSelectedItem(dateFormat.format(calendar.getTime()));
+                       /* Constant.println(dateFormat.format(calendar.getTime()));*/
+                    selectDate = dateFormat.format(calendar.getTime());                    
+                    updatePopup();
+                }
+                public void mouseEntered(MouseEvent e) {
+                    label.setBorder(selectedBorder);
+                }
+                public void mouseExited(MouseEvent e) {
+                    label.setBorder(unselectedBorder);
+                }
+            });
+            if(icon!=null)
+                label.setIcon(new javax.swing.ImageIcon(getClass().getResource(icon)));
+            label.setToolTipText(ttt);
+            label.setFont(defaultFont1);
+            label.setText(str);
+	    return label;
+	}
+	protected void initializePopup()
+        {
+	    JPanel header = new JPanel(); /* used Box, but it wasn't Opaque*/
+            header.setBackground(new java.awt.Color(255, 255, 255));
+	    header.setOpaque(true);
+	    JLabel label = createUpdateButton(Calendar.YEAR, -1,"/com/hospital_os/images/animprev.gif","ปีก่อนหน้า","");
+	    header.add(label);
+	    label = createUpdateButton(Calendar.MONTH, -1, "/com/hospital_os/images/varprev.gif","เดือนก่อนหน้า","");
+	    header.add(label);
+	    label = createUpdateButton(Calendar.DATE, -7,"/com/hospital_os/images/Move.gif","สัปดาห์ก่อน", "");
+            header.add(label);
+//	    label = createUpdateButton(Calendar.DATE, 14,null,null,"2w");
+//            header.add(label);
+	    monthLabel = new JLabel("", JLabel.CENTER);
+	    header.add(monthLabel);
+	    label = createUpdateButton(Calendar.DATE, 7,"/com/hospital_os/images/Moveback.gif","สัปดาห์หน้า","");
+            header.add(label);
+//	    label = createUpdateButton(Calendar.MONTH, 2,null,null,"2m");
+//            header.add(label);
+	    label = createUpdateButton(Calendar.MONTH, 1, "/com/hospital_os/images/varnext.gif","เดือนถัดไป","");
+	    header.add(label);
+	    label = createUpdateButton(Calendar.YEAR, 1,"/com/hospital_os/images/animnext.gif", "ปีถัดไป","");
+	    header.add(label);
+            
+	    popup = new JPopupMenu();
+	    popup.setBorder(BorderFactory.createLineBorder(Color.black));
+	    popup.setLayout(new BorderLayout());
+	    popup.setBackground(background);
+	    popup.addPopupMenuListener(this);
+	    popup.add(BorderLayout.NORTH, header);
+	}
+        private JLabel getDayLabel(int day,String str)
+        {
+            JLabel label = new JLabel(str);
+            if(day==Calendar.SUNDAY)
+                label.setForeground(new java.awt.Color(255, 0, 0));
+            else
+                label.setForeground(new java.awt.Color(0, 153, 0));
+            
+            label.setFont(defaultFont1);
+            label.setBackground(new java.awt.Color(153, 153, 153));
+            label.setHorizontalAlignment(label.CENTER);
+            return label;
+        }
+	/**
+         * @author henbe
+         * update the Popup when either the month or the year of the calendar has been changed
+         * Testing Fail
+         * get calendar is Main Instant
+         */
+	protected void updatePopup() 
+        {
+	    monthLabel.setText( monthFormat.format(calendar.getTime()) );
+            monthLabel.setFont(defaultFont1);
+	    monthLabel.setForeground(foreground);
+	    if (days != null) {
+		popup.remove(days);
+	    }
+	    days = new JPanel(new GridLayout(0, 7));
+            days.setBackground(background);
+	    days.setOpaque(true);
+            days.add(getDayLabel(Calendar.SUNDAY,"อ"));
+            days.add(getDayLabel(Calendar.MONDAY,"จ"));
+            days.add(getDayLabel(Calendar.TUESDAY,"อ"));
+            days.add(getDayLabel(Calendar.WEDNESDAY,"พ"));
+            days.add(getDayLabel(Calendar.THURSDAY,"พฤ"));
+            days.add(getDayLabel(Calendar.FRIDAY,"ศ"));
+            days.add(getDayLabel(Calendar.SATURDAY,"ส"));
+            /*แสดงวันที่เป็นค่าว่างถ้าเป็นสับดาที่ 1*/
+	    Calendar setupCalendar = (Calendar) calendar.clone();
+            //ปัญหาคือเรารู้ว่ามันคือวันอะไรในสัปดาห์แต่เราต้องการจะรู้ว่าวันแรกของเดือนนั้นเป็นวันอะไรก็จะต้อง
+            //เอามาหาว่า วันที่นี้ เป็นวันอะไร  ถ้าเป็นวันที่ 1 จะเป็นวันอะไร
+            //1-7
+	    int day_week = setupCalendar.get(Calendar.DAY_OF_WEEK);
+            //1-31
+            int day_month = setupCalendar.get(Calendar.DAY_OF_MONTH);
+            //0-6 เอาไว้บวกเพิ่มในกรณี่ของวันแรก
+            int index = day_week-((day_month%7)+1);
+            if(index<0) index+=7;
+            //ผลจะต้องเป็น 0-6 เพราะว่ามัน %7 จากสมการ day_week = (day_month+index%7)
+            int first = ((1+index)%7);
+            if(first<0) first+=7;
+//            Constant.println("dw" + day_week +
+//                    " dm" + day_month +
+//                    " index" + index +
+//                    " first" + first);
+	    for (int i=1;i<=first; i++) {
+		days.add(new JLabel(""));		
+	    }
+            String month = dateFormat.format(setupCalendar.getTime()).substring(3,5);
+            String year = dateFormat.format(setupCalendar.getTime()).substring(6);
+            String select_month = dateFormat.format(setupCalendar.getTime()).substring(3,5);
+            String select_year = dateFormat.format(setupCalendar.getTime()).substring(6);
+            int select_day = Integer.parseInt(dateFormat.format(setupCalendar.getTime()).substring(0,2));
+            
+            Calendar cal = Calendar.getInstance();
+            String now_month = dateFormat.format(cal.getTime()).substring(3,5);
+            String now_year = dateFormat.format(cal.getTime()).substring(6);
+            int now_day = Integer.parseInt(dateFormat.format(cal.getTime()).substring(0,2));
+            
+            if(selectDate!=null)
+            {
+                select_month = selectDate.substring(3,5);
+                select_year = selectDate.substring(6);
+                select_day = Integer.parseInt(selectDate.substring(0,2));
+            }
+        /*    Constant.println(dateFormat.format(setupCalendar.getTime()));*/
+	    for (int i = 1; i <= setupCalendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++)
+            {    
+		final int day = i;
+                final JLabel label = new JLabel(String.valueOf(day));
+		label.setHorizontalAlignment(JLabel.CENTER);
+		label.setForeground(foreground);
+                label.setFont(defaultFont1);
+                label.setPreferredSize(new Dimension(30,24));
+                if(((i+index)%7+1)==Calendar.SUNDAY)
+                {
+                    label.setOpaque(true);
+                    label.setForeground(Color.RED);
+                }
+                if(day == now_day && (month.equals(now_month)) && (year.equals(now_year)))
+                {
+                    label.setOpaque(true);
+                    label.setForeground(Color.BLUE);
+                }
+                if(day == select_day && (month.equals(select_month)) && (year.equals(select_year)))
+                {
+                    label.setOpaque(true);
+                    label.setBackground(selectedBackground);
+                }
+		label.addMouseListener(new MouseListener() 
+                {
+                    public void mousePressed(MouseEvent e) {}
+                    public void mouseClicked(MouseEvent e) {}
+                    public void mouseReleased(MouseEvent e) {
+                        label.setOpaque(false);
+                        label.setBackground(background);
+                        /*label.setForeground(foreground);*/
+                        calendar.set(Calendar.DAY_OF_MONTH, day);
+                        /*ทำการกำหนดค่าที่เลือกให้กับ coboBox ให้แสดง บน Combobox*/
+                        comboBox.setSelectedItem(dateFormat.format(calendar.getTime()));
+                       /* Constant.println(dateFormat.format(calendar.getTime()));*/
+                        selectDate = dateFormat.format(calendar.getTime());
+                        /* hide is called with setSelectedItem() ... removeAll()*/
+                        comboBox.requestFocus();
+                    }
+                    public void mouseEntered(MouseEvent e) {
+                        label.setOpaque(true);
+                        label.setBackground(selectedBackground);
+                       /* label.setForeground(selectedForeground);*/
+                    }
+                    public void mouseExited(MouseEvent e) {
+                        label.setOpaque(false);
+                        label.setBackground(background);
+                       /* label.setForeground(foreground);*/
+                    }
+                });
+		days.add(label);
+	    }
+	    popup.add(BorderLayout.CENTER, days);
+	    popup.pack();	    
+	}
+    }
+ 
+    
+    public static void main(String[] argv)
+    {
+        final DateComboBoxNew dateComboBox = new DateComboBoxNew();
+        dateComboBox.setFont(new com.hospital_os.gui.font.DefaultFont());
+        JFrame frm = new JFrame("Test HNTextField");
+        final JButton jb = new JButton("get");
+        final JButton jb1 = new JButton("set");
+        frm.getContentPane().setLayout(new FlowLayout());
+        frm.getContentPane().add(dateComboBox);
+        frm.getContentPane().add(jb);
+        frm.getContentPane().add(jb1);
+        dateComboBox.setEditable(true);
+        frm.pack();
+        frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frm.setVisible(true);
+        dateComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                //Constant.println("DateAction");
+                //Constant.println(dateComboBox.getText()); 
+            }
+        });
+        jb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Constant.println(dateComboBox.getText()); 
+            }
+        });
+        jb1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dateComboBox.setText("12/12/2549"); 
+            }
+        });
+        
+    }
+}
+    

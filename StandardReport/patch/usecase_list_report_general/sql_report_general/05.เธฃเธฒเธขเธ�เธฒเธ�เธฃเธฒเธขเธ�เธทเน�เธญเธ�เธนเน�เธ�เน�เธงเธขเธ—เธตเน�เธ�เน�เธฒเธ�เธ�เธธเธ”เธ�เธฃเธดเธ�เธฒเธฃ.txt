@@ -1,0 +1,63 @@
+-- ทั่วไป (รายชื่อผู้ป่วยที่ผ่านจุดบริการ)
+---จุดบริการทั้งหมด
+SELECT  
+	substr(b_service_point.service_point_description,4) AS NAME_SERVICEPOINT, 
+	t_visit.visit_hn AS HN_NUMBER,
+	 t_visit.visit_vn AS VN_AN_NUMBER , 
+	f_patient_prefix.patient_prefix_description AS PREFIX, 
+	t_patient.patient_firstname AS PATIENT_NAME, 
+	t_patient.patient_lastname AS LASTNAME 
+FROM  
+	((t_visit INNER JOIN (t_visit_service INNER JOIN b_service_point  
+					ON t_visit_service.b_service_point_id = b_service_point.b_service_point_id)   
+				ON t_visit.t_visit_id = t_visit_service.t_visit_id 
+				AND t_visit.f_visit_status_id <> '4')  
+			INNER JOIN t_patient 
+				ON t_visit.t_patient_id = t_patient.t_patient_id)  
+		LEFT JOIN f_patient_prefix  
+			ON f_patient_prefix.f_patient_prefix_id = t_patient.f_patient_prefix_id  
+WHERE  
+	(((substring(assign_date_time,0,11)) Between '2549-10-10' And '2549-10-10') ) 
+GROUP BY  
+	b_service_point.service_point_description , 
+	t_visit.visit_hn, 
+	t_visit.visit_vn ,
+	f_patient_prefix.patient_prefix_description , 
+	t_patient.patient_firstname , 
+	t_patient.patient_lastname , 
+	b_service_point.b_service_point_id , 
+	t_visit_service.visit_service_staff_doctor 
+ORDER BY 
+	t_visit_service.visit_service_staff_doctor DESC
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+---จุดบริการที่เลือก
+SELECT  
+	substr(b_service_point.service_point_description,4) AS NAME_SERVICEPOINT, 
+	t_visit.visit_hn AS HN_NUMBER,
+ 	t_visit.visit_vn AS VN_AN_NUMBER , 
+	f_patient_prefix.patient_prefix_description AS PREFIX, 
+	t_patient.patient_firstname AS PATIENT_NAME, 
+	t_patient.patient_lastname AS LASTNAME 
+FROM  
+	((t_visit INNER JOIN (t_visit_service 
+			INNER JOIN b_service_point  
+				ON t_visit_service.b_service_point_id = b_service_point.b_service_point_id)   
+			ON t_visit.t_visit_id = t_visit_service.t_visit_id 
+			AND t_visit.f_visit_status_id <> '4')  
+		INNER JOIN t_patient 
+			ON t_visit.t_patient_id = t_patient.t_patient_id)  
+	LEFT JOIN f_patient_prefix  
+		ON f_patient_prefix.f_patient_prefix_id = t_patient.f_patient_prefix_id  
+WHERE  
+	(((substring(assign_date_time,0,11)) Between '2549-10-10' And '2549-10-10')  
+	AND ((b_service_point.b_service_point_id)='2409144269314') ) 
+GROUP BY  
+	b_service_point.service_point_description , 
+	t_visit.visit_hn, 
+	t_visit.visit_vn , 
+	f_patient_prefix.patient_prefix_description , 
+	t_patient.patient_firstname , 
+	t_patient.patient_lastname , 
+	b_service_point.b_service_point_id , t_visit_service.visit_service_staff_doctor 
+ORDER BY 
+	t_visit_service.visit_service_staff_doctor DESC

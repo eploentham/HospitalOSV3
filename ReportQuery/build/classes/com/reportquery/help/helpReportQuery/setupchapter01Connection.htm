@@ -1,0 +1,89 @@
+<html >
+
+<head>
+
+<title>setupchapter01Connection</title>
+<style type="text/css">
+<!--
+.style1 {font-size: 20px}
+.style2 {font-size: 16px}
+-->
+</style>
+</head>
+
+<body lang=EN-US style='tab-interval:36.0pt'>
+
+
+
+<h3 class="style1">1. <span lang=TH>การติดต่อฐานข้อมูล</span></h3>
+
+                สำหรับ
+การทำงานในครั้งแรกของโปรแกรม เมื่อปิดโปรแกรมขึ้นมา โปรแกรมจะแสดง Dialog 
+ดังรูปที่1 นั้นหมายความว่าโปรแกรมยังไม่ได้เชื่อมต่อกับฐานข้อมูล
+ให้ผู้ใช้ทำการเชื่อมต่อกับฐานข้อมูลด้วย ดัง รูปที่ 2
+
+<p class=MsoNormal> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img width=404 height=115
+src="./setupchapter01Connection.files/image002.jpg" v:shapes="_x0000_i1025"></p>
+
+<p class=MsoNormal><b><span lang=TH>รูปที่ </span>1</b> <span lang=TH>แสดงข้อความครั้งแรกที่เปิดโปรแกรมถ้ายังไม่เชื่อมต่อกับฐานข้อมูล</span></p>
+
+<p class=MsoNormal><span lang=TH>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img width=260 height=290
+src="./setupchapter01Connection.files/image004.jpg" v:shapes="_x0000_i1026"></span></p>
+
+<p class=MsoNormal><b><span lang=TH>รูปที่ </span>2</b> <span lang=TH>ผู้ใช้ต้องกรอกรายละเอียดเพื่อทำการเชื่อมต่อกับฐานข้อมูล</span></p>
+
+<h1 class="style2"><span lang=TH>คำอธิบาย</span></h1>
+
+<p class=MsoNormal><b><span lang=TH><span lang=TH>&nbsp;&nbsp;&nbsp;</span>เครื่องแม่ข่าย</span></b><span lang=TH><span
+style="mso-spacerun: yes">&nbsp; </span>เป็น หมายเลข </span>IP <span lang=TH>ของเครื่อง
+</span>Server <span lang=TH>ที่มีฐานข้อมูลอยู่ (เช่น </span>192.168.1.1<span
+lang=TH>)</span></p>
+
+<p class=MsoNormal><b><span lang=TH><span lang=TH>&nbsp;&nbsp;&nbsp;</span>ฐานข้อมูล</span></b><span lang=TH>
+เป็นฐานข้อมูลที่ต้องการใช้งาน (เช่น </span>hospital_os<span lang=TH>)</span></p>
+
+<p class=MsoNormal><b><span lang=TH><span lang=TH>&nbsp;&nbsp;&nbsp;</span>พอร์ต</span></b><span lang=TH> เป็น พอร์ต
+ที่ใช้ในการติดต่อ โดยปกติจะเป็น </span>5432</p>
+
+<p class=MsoNormal><b><span lang=TH><span lang=TH>&nbsp;&nbsp;&nbsp;</span>ชื่อผู้ใช้ฐานข้อมูล</span></b><span
+lang=TH> เป็น ชื่อของผู้มีสิทธิเข้าใช้งานฐานข้อมูล</span></p>
+
+<p class=MsoNormal><b><span lang=TH><span lang=TH>&nbsp;&nbsp;&nbsp;</span>รหัสผ่าน</span></b><span lang=TH> เป็น
+รหัสผ่านของผู้มีสิทธิเข้าใช้งานฐานข้อมูล</span></p>
+<p class=MsoNormal><span style='mso-tab-count:1'> </span><b><span
+lang=TH>ขั้นตอนการทำงาน</span><o:p></o:p></b></p>
+<p class=MsoNormal style='margin-left:54.0pt;text-indent:-18.0pt;mso-list:l0 level1 lfo1;
+tab-stops:list 54.0pt'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span lang=TH>กรอกรายละเอียดที่แสดงในรูปที่ </span>2<span
+lang=TH> ให้ครบ</span></p>
+
+<p class=MsoNormal style='margin-left:54.0pt;text-indent:-18.0pt;mso-list:l0 level1 lfo1;
+tab-stops:list 54.0pt'>2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span lang=TH>กดปุ่ม ตกลง</span></p>
+
+<p class=MsoNormal style='margin-left:54.0pt;text-indent:-18.0pt;mso-list:l0 level1 lfo1;
+tab-stops:list 54.0pt'>3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span lang=TH>กรณีที่ พิมพ์ เครื่องแม่ข่าย,
+ฐานข้อมูล,พอร์ต,ชื่อผู้ใช้ฐานข้อมูล หรือ รหัสผ่าน ผิดโปรแกรมจะแสดง </span>Dialog
+<span lang=TH>ดังรูปที่ </span>3</p>
+
+<p class=MsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img width=268 height=115
+src="./setupchapter01Connection.files/image006.jpg" v:shapes="_x0000_i1027">
+</p>
+<p class=MsoNormal>  <b><span lang=TH>รูปที่ </span>3 </b><span lang=TH>กรอกรายละเอียดผิดพลาด</span></p>
+ <p class=MsoNormal style='margin-left:54.0pt;text-indent:-18.0pt;mso-list:l0 level1 lfo1;
+tab-stops:list 54.0pt'>4.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span lang=TH>เมื่อกรอกถูกต้องและ กดปุ่มตกลงแล้ว โปรแกรมจะแสดง
+ผลดังรูปที่ </span>4 <span lang=TH>พร้อมใช้งาน</span></p>
+  
+  <p class=MsoNormal><span lang=TH>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img width=553 height=461
+src="./setupchapter01Connection.files/image008.jpg" v:shapes="_x0000_i1028">
+</span></p>
+<p class=MsoNormal><b><span lang=TH>รูปที่ </span>4</b> <span lang=TH>โปรแกรมพร้อมใช้งาน</span></p>
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<o:p></o:p></p>
+
+</div>
+
+</body>
+
+</html>

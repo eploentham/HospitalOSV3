@@ -1,0 +1,31 @@
+/*
+ * RP115Group4SchoolOutSite_2549.java
+ *
+ * Created on 22 มีนาคม 2549, 16:43 น.
+ *
+ * To change this template, choose Tools | Options and locate the template under
+ * the Source Creation and Management node. Right-click the template and choose
+ * Open. You can then make changes to the template in the Source Editor.
+ */
+
+package com.standardReport.object;
+
+/**
+ *
+ * @author pu
+ */
+public class RP115Group4SchoolOutSite_2549
+{
+    /**จำนวนครั้งที่ออกพื้นที่ ให้บริการงานอนามัยโรงเรียน*/
+    public String visit_school;
+    
+    /** Creates a new instance of RP115Group4SchoolOutSite_2549 */
+    public RP115Group4SchoolOutSite_2549()
+    {
+    }
+    
+    public void setInitData()
+    {
+        visit_school = "";
+    }    
+}

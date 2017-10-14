@@ -1,0 +1,122 @@
+-- ทั่วไป (รายงานจำนวนผู้ป่วยโรคตา)
+SELECT  
+	r_eye_group.eye_group_description_th as eye_des
+	,  CASE WHEN (sum(eye_disage.new_patient_male) >0 )  
+			THEN sum(eye_disage.new_patient_male)   
+			ELSE 0 
+	END as n_patient_male
+	,  CASE WHEN (sum(eye_disage.visit_male)  >0 )   
+			THEN sum(eye_disage.visit_male) 
+			ELSE 0  
+	END  as v_patient_male
+	,  CASE WHEN (sum(eye_disage.new_patient_female) >0 )   
+			THEN sum(eye_disage.new_patient_female)  
+			ELSE 0  
+	END 	as n_patient_female
+	,  CASE WHEN (sum(eye_disage.visit_female)>0 )   
+			THEN sum(eye_disage.visit_female)   
+			ELSE 0 
+	END 	 as v_patient_female
+	,  CASE WHEN (sum(eye_disage.new_patient_nospec) >0 )   
+			THEN sum(eye_disage.new_patient_nospec)   
+			ELSE 0  
+	END 	as n_patient_nospec
+	,  CASE WHEN (sum(eye_disage.visit_nospec)>0 )   
+			THEN sum(eye_disage.visit_nospec)   
+			ELSE 0   
+			END 	 as v_patient_nospec
+	,  CASE WHEN (sum(eye_disage.new_patient_count) >0 )   
+			THEN sum(eye_disage.new_patient_count) 
+			ELSE 0   
+	END 	as n_patient_total
+	,  CASE WHEN (sum(eye_disage.visit_count)>0 )    
+			THEN sum(eye_disage.visit_count)  
+			ELSE 0   
+	END 	 as v_patient_total  
+FROM  
+	r_eye_group  
+		LEFT JOIN  (  SELECT  
+						r_eye_disease_code.r_eye_group_id   
+						, CASE WHEN ((t_patient.f_sex_id = '1') 
+									AND  (t_patient.t_patient_id NOT IN   
+									(SELECT distinct  t_patient.t_patient_id 
+									FROM  t_visit INNER JOIN  t_patient 
+									ON t_visit.t_patient_id =  t_patient.t_patient_id  
+									WHERE    ( t_visit.f_visit_status_id <> '4')   
+									AND ( t_visit.f_visit_type_id = '0')     
+									AND (( substring(t_visit.visit_financial_discharge_time,0,8) >= '2549-01')   
+									And ( substring(t_visit.visit_financial_discharge_time,0,8) < '2549-01'))     
+									Order by  t_patient.t_patient_id)  )) 
+								THEN 1
+								ELSE 0  
+						END AS new_patient_male  
+						, sum( CASE WHEN (t_patient.f_sex_id = '1')   
+								THEN 1  
+								ELSE 0   
+						END) AS visit_male 
+						,  CASE WHEN ((t_patient.f_sex_id = '2') 
+									AND  (t_patient.t_patient_id NOT IN  (SELECT distinct  t_patient.t_patient_id 
+									FROM  t_visit INNER JOIN  t_patient 
+									ON t_visit.t_patient_id =  t_patient.t_patient_id   
+									WHERE   ( t_visit.f_visit_status_id <> '4')  
+									AND ( t_visit.f_visit_type_id = '0') 
+									AND (( substring(t_visit.visit_financial_discharge_time,0,8) >= '2549-01')  
+									And ( substring(t_visit.visit_financial_discharge_time,0,8) < '2549-01'))       
+									Order by  t_patient.t_patient_id)   )) 
+								THEN 1   
+								ELSE 0  
+						END AS new_patient_female 
+						, sum( CASE WHEN (t_patient.f_sex_id = '2')  
+								THEN 1 
+								ELSE 0   
+						END) AS visit_female  
+						,  CASE WHEN ((t_patient.f_sex_id = '3') AND  
+									(t_patient.t_patient_id NOT IN  (SELECT distinct  t_patient.t_patient_id FROM   
+									t_visit INNER JOIN  t_patient ON t_visit.t_patient_id =  t_patient.t_patient_id      
+									WHERE  ( t_visit.f_visit_status_id <> '4')  AND ( t_visit.f_visit_type_id = '0')   
+									AND (( substring(t_visit.visit_financial_discharge_time,0,8) >= '2549-01')   
+									And ( substring(t_visit.visit_financial_discharge_time,0,8) < '2549-01'))        
+									Order by  t_patient.t_patient_id)  )) 
+								THEN 1 
+								ELSE 0 
+						END AS new_patient_nospec 
+						, sum( CASE WHEN (t_patient.f_sex_id = '3')   
+								THEN 1  
+								ELSE 0  
+						END) AS visit_nospec
+						,   CASE WHEN ( (t_patient.t_patient_id NOT IN  (SELECT distinct  t_patient.t_patient_id 
+									FROM  t_visit INNER JOIN  t_patient 
+									ON t_visit.t_patient_id =  t_patient.t_patient_id  
+									WHERE   ( t_visit.f_visit_status_id <> '4')   AND ( t_visit.f_visit_type_id = '0')   
+									AND (( substring(t_visit.visit_financial_discharge_time,0,8) >= '2549-01')     
+									And ( substring(t_visit.visit_financial_discharge_time,0,8) < '2549-01'))       
+									Order by  t_patient.t_patient_id)  ))   
+								THEN 1 
+								ELSE 0 
+						END AS new_patient_count
+						, count( t_patient.f_sex_id ) AS visit_count  
+					FROM 
+						r_eye_disease_code, t_patient INNER JOIN 
+						(  t_visit INNER JOIN t_diag_icd10   
+						ON t_visit.t_visit_id = t_diag_icd10.diag_icd10_vn        )   
+						ON t_patient.t_patient_id = t_visit.t_patient_id 
+					WHERE 
+						( (  ( substring(t_visit.visit_financial_discharge_time,0,11)) 
+							Between '2549-01-01' And '2549-01-31')  
+						AND (   ( t_diag_icd10.diag_icd10_number)  
+							Between   r_eye_disease_code.eye_disease_code_begin    
+						And   r_eye_disease_code.eye_disease_code_end )  
+						AND (    ( t_diag_icd10.f_diag_icd10_type_id)='1')   
+						AND (( t_visit.f_visit_status_id)<>'4')
+						AND t_diag_icd10.diag_icd10_active = '1' ) 
+					GROUP BY   
+						r_eye_disease_code.r_eye_group_id, t_patient.t_patient_id
+						,        new_patient_male,        new_patient_female
+						,        new_patient_nospec,         new_patient_count   
+					) AS eye_disage  
+	ON r_eye_group.r_eye_group_id = eye_disage.r_eye_group_id   
+GROUP BY  
+	r_eye_group.eye_group_description_th
+	,  r_eye_group.eye_group_number  
+ORDER BY  
+	TO_NUMBER( r_eye_group.eye_group_number,'99') 

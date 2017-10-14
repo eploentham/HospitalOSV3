@@ -1,0 +1,20 @@
+-- ทั่วไป (รายการ LABที่ตรวจเอง)
+SELECT  
+	to_date(substring(t_order.order_verify_date_time,0,11)
+	, 'YYYY-MM-DD') AS ORDER_LAB_DATE 
+	, t_order.order_common_name AS ORDER_LAB_NAME
+	, sum(t_order.order_qty) AS ORDER_LAB_COUNT  
+FROM  
+	t_order 
+WHERE
+	( (t_order.f_order_status_id = '2') 
+	OR (t_order.f_order_status_id = '4') ) 
+	AND (t_order.order_refer_out = '0')   
+	AND (t_order.f_item_group_id = '2')   
+	AND (substring(t_order.order_verify_date_time,0,11) Between '2549-01-01' And '2549-01-31')  
+GROUP BY  
+	ORDER_LAB_DATE 
+	, t_order.order_common_name  
+ORDER BY  
+	ORDER_LAB_DATE 
+	, t_order.order_common_name

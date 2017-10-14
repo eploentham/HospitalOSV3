@@ -1,0 +1,2143 @@
+package com.hosv3.gui.panel.transaction;
+import javax.swing.*;
+import java.util.*;
+import java.awt.event.*;
+import com.hosv3.control.*;
+import com.hosv3.control.lookup.*;
+import com.hosv3.utility.*;
+import com.hosv3.utility.connection.*;
+import com.hosv3.usecase.transaction.*;
+import com.hosv3.object.*;
+import com.hosv3.subject.*;
+import com.hosv3.gui.dialog.*;
+import com.hospital_os.object.*; 
+import com.hospital_os.utility.ComboboxModel;
+import com.hosv3.utility.Constant;
+import com.hospital_os.utility.CellRendererToolTipText;
+import com.hospital_os.utility.Gutil;
+import com.hospital_os.utility.TaBleModel;
+
+/** 
+ *
+ *
+ * @author  Surachai Thowong
+ */
+public class PanelDiagICD10 extends javax.swing.JPanel
+implements ManageDiagnosisResp,ManageVisitResp,ManagePatientResp
+,ManageVitalResp
+{
+    static final long serialVersionUID=0;
+
+    HosSubject theHS;
+    UpdateStatus theUS;
+    HosDialog theHD;
+
+    private Vector icd10;
+    private Vector see;
+    private Vector theSubIcd10;
+
+    /**ใช้ในการแสดงข้อมูลบนตารางของ MapVisitDx :tong 24/03/49,18:03*/
+    String[] column_AllTable ={"รหัส","รายละเอียด"};
+    String[] column_AllTableMapDx ={"รหัส","รายละเอียด","Dx"};
+    String[] column_jTableListDiagIcd10 ={"รหัส","รายละเอียด","ประเภท","แพทย์","คลีนิก"};
+    String[] column_showICD10FromDx = {"Dx","รหัส","ผู้ให้ชื่อโรค"};
+    // private int sa=0;
+    /**ใช้คู่กับการใช้งานของตาราง :tong 24/03/49,18:03*/
+    TaBleModel tmmapvisitdx = null;
+    CellRendererToolTipText theCellRendererToolTipText = new CellRendererToolTipText(true);
+    // ใช้เพื่อให้แสดงรายการ Dx ที่ Map กับ Icd10 เมื่อค้นหาพบในตารางแสดงรายการ Icd10 sumo 26/7/2549
+    public boolean showMapDX = false;
+
+    private GHospitalSuit theGHS;
+
+    private GPatientSuit theGPS;
+
+    private DiagIcd10 theDiagIcd10;
+
+    private LookupControl theLC;
+
+    private DiagnosisControl theDC;
+    
+    // เพิ่มตัวแปรที่ส่งมาจาก DialogChooseICD10FromTemplate เพื่อค้นหา Icd10 ที่ตรงกับที่ DxTemplate และแสดง Dx ให้ตาราง sumo 26/7/2549
+    public String dxMap = "";
+    private String rem_clinic_kid;
+    private String rem_doctor_kid;
+    /** Creates new form PanelDiagICD10 */
+    public PanelDiagICD10() 
+    {
+        initComponents();
+        setLanguage(null);
+        jTableidx10v3.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
+        jTableIcd10.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        jTableShowICD10ForDx.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        jTableListDiagIcd10.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.jButtonReport.setVisible(false);
+    }
+    public void setControl(HosControl hc,GPatientSuit gps,GHospitalSuit ghs, UpdateStatus us)
+    {
+        setControl(hc,gps,ghs, us,true);
+    }
+    public void setControl(HosControl hc,GPatientSuit gps,GHospitalSuit ghs
+            , UpdateStatus us,boolean subject_attach)
+    {   
+        theLC = hc.theLookupControl;
+        theHS = hc.theHS;
+        theUS = us;
+        theDC = hc.theDiagnosisControl;
+        theGPS = gps;
+        theGHS = ghs;
+        if(subject_attach){
+            theHS.theDiagnosisSubject.attachManageDiagnosis(this);
+            theHS.theVisitSubject.attachManageVisit(this);
+            theHS.thePatientSubject.attachManagePatient(this);
+            theHS.theVitalSubject.attachManageVital(this);
+        }        
+        jTextFieldDxStat.setControl(new DxTemplateLookup(hc.theLookupControl),theUS.getJFrame());
+         theHS.theBalloonSubject.attachBalloon(jTextFieldDxStat);
+        jComboBoxDoctor.setEnabled(true);
+        initComboBox();
+        
+        dateComboBoxDxDate.setEditable(true);
+        setAuthor(theGHS.getEmployee().authentication_id);
+        setVisit(null);
+        setDiagIcd10V(null);
+        setMapVisitDxV(null);
+//        setLanguage(null);        
+    }
+    public void initComboBox()
+    {
+        ComboboxModel.initComboBox(jComboBoxClinic,theLC.listClinic());
+        ComboboxModel.initComboBox(jComboBoxGroupIcdType,theLC.listIcd10GroupType());
+        ComboboxModel.initComboBox(jComboBoxDoctor,theLC.listDoctor());        
+        ComboboxModel.initComboBox(jComboBoxDxtype,theLC.listDxType());
+        ComboboxModel.setCodeComboBox(jComboBoxDxtype,"1");
+        ComboboxModel.initComboBox(jComboBoxDxtype,theLC.listDxType());
+        
+        jComboBoxDoctor.insertItemAt(HosObject.getEmployeeUD(),0);
+        jComboBoxDoctor.setSelectedIndex(0);
+    }
+    
+    public void setDialog(HosDialog hd){
+        theHD = hd;
+    }
+    
+    public void clearText()
+    {
+        jTextFieldCode.setText("");
+        jTextAreaDescription.setText("");
+        jTextFieldDxNote.setText("");
+    }
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
+     */
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        buttonGroupSearchType = new javax.swing.ButtonGroup();
+        defaultFont1 = new com.hospital_os.gui.font.DefaultFont();
+        jPanelIcd10List = new javax.swing.JPanel();
+        jScrollPaneIcd10List = new javax.swing.JScrollPane();
+        jTableListDiagIcd10 = new com.hosv3.gui.component.HJTableSort();
+        jLabel5 = new javax.swing.JLabel();
+        jLabelShowDx = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jTextFieldDxStat = new com.hosv3.gui.component.BalloonTextField();
+        jPanelIcd10Property = new javax.swing.JPanel();
+        jTextFieldDxNote = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jTextFieldCode = new javax.swing.JTextField();
+        jComboBoxDxtype = new javax.swing.JComboBox();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        jTextAreaDescription = new javax.swing.JTextArea();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabelModifier = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jComboBoxClinic = new javax.swing.JComboBox();
+        jLabel1 = new javax.swing.JLabel();
+        dateComboBoxDxDate = new com.hospital_os.utility.DateComboBox();
+        jCheckBoxRemember = new javax.swing.JCheckBox();
+        jComboBoxDoctor = new javax.swing.JComboBox();
+        jPanelAction = new javax.swing.JPanel();
+        jButtonSave = new javax.swing.JButton();
+        jButtonCancel = new javax.swing.JButton();
+        jButtonSaveDischarge = new javax.swing.JButton();
+        jButtonClearData = new javax.swing.JButton();
+        jCheckBoxUnlock = new javax.swing.JToggleButton();
+        jCheckIsShowDialog = new javax.swing.JCheckBox();
+        jButtonReport = new javax.swing.JButton();
+        jSplitPane1 = new javax.swing.JSplitPane();
+        jPanelshow = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableShowICD10ForDx = new com.hosv3.gui.component.HJTableSort();
+        jLabel9 = new javax.swing.JLabel();
+        jPanelShowSearch = new javax.swing.JPanel();
+        jPanelSearch = new javax.swing.JPanel();
+        jPanelSearchICD10 = new javax.swing.JPanel();
+        jLabelKeyword = new javax.swing.JLabel();
+        jTextFieldKeyword = new javax.swing.JTextField();
+        jButtonSearch = new javax.swing.JButton();
+        jComboBoxGroupIcdType = new javax.swing.JComboBox();
+        jCheckBoxGroupIcd10 = new javax.swing.JCheckBox();
+        jPanelChooseType = new javax.swing.JPanel();
+        jRadioButtonThree = new javax.swing.JRadioButton();
+        jRadioButtonOne = new javax.swing.JRadioButton();
+        jButtonSee = new javax.swing.JButton();
+        jPanelICD10Group = new javax.swing.JPanel();
+        jScrollPaneIdx10v3 = new javax.swing.JScrollPane();
+        jTableidx10v3 = new com.hosv3.gui.component.HJTableSort();
+        jPanelCD10SubGroup = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTableIcd10 = new com.hosv3.gui.component.HJTableSort();
+
+        setLayout(new java.awt.GridBagLayout());
+
+        jPanelIcd10List.setLayout(new java.awt.GridBagLayout());
+
+        jTableListDiagIcd10.setFont(defaultFont1);
+        jTableListDiagIcd10.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTableListDiagIcd10KeyReleased(evt);
+            }
+        });
+        jTableListDiagIcd10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTableListDiagIcd10MouseReleased(evt);
+            }
+        });
+        jScrollPaneIcd10List.setViewportView(jTableListDiagIcd10);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        jPanelIcd10List.add(jScrollPaneIcd10List, gridBagConstraints);
+
+        jLabel5.setFont(defaultFont1);
+        jLabel5.setText("Dx โดยแพทย์");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 2, 2);
+        jPanelIcd10List.add(jLabel5, gridBagConstraints);
+
+        jLabelShowDx.setFont(defaultFont1);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 16, 2, 0);
+        jPanelIcd10List.add(jLabelShowDx, gridBagConstraints);
+
+        jLabel8.setFont(defaultFont1);
+        jLabel8.setText("Dx โดยเวชสถิติ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        jPanelIcd10List.add(jLabel8, gridBagConstraints);
+
+        jTextFieldDxStat.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextFieldDxStatKeyReleased(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 16, 0, 0);
+        jPanelIcd10List.add(jTextFieldDxStat, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 11);
+        add(jPanelIcd10List, gridBagConstraints);
+
+        jPanelIcd10Property.setBorder(javax.swing.BorderFactory.createTitledBorder("คุณสมบัติของ ICD 10"));
+        jPanelIcd10Property.setLayout(new java.awt.GridBagLayout());
+
+        jTextFieldDxNote.setFont(defaultFont1);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(3, 10, 3, 11);
+        jPanelIcd10Property.add(jTextFieldDxNote, gridBagConstraints);
+
+        jLabel4.setFont(defaultFont1);
+        jLabel4.setText("แพทย์");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(3, 5, 0, 0);
+        jPanelIcd10Property.add(jLabel4, gridBagConstraints);
+
+        jLabel6.setFont(defaultFont1);
+        jLabel6.setText("หมายเหตุ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(3, 5, 3, 0);
+        jPanelIcd10Property.add(jLabel6, gridBagConstraints);
+
+        jLabel2.setFont(defaultFont1);
+        jLabel2.setText("คลีนิก");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(3, 5, 0, 0);
+        jPanelIcd10Property.add(jLabel2, gridBagConstraints);
+
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        jLabel3.setFont(defaultFont1);
+        jLabel3.setText("รหัส ICD 10");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel2.add(jLabel3, gridBagConstraints);
+
+        jTextFieldCode.setBackground(new java.awt.Color(204, 255, 255));
+        jTextFieldCode.setColumns(5);
+        jTextFieldCode.setFont(defaultFont1);
+        jTextFieldCode.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        jTextFieldCode.setMaximumSize(new java.awt.Dimension(61, 22));
+        jTextFieldCode.setMinimumSize(new java.awt.Dimension(61, 22));
+        jTextFieldCode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldCodeActionPerformed(evt);
+            }
+        });
+        jTextFieldCode.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldCodeFocusLost(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 11, 0, 0);
+        jPanel2.add(jTextFieldCode, gridBagConstraints);
+
+        jComboBoxDxtype.setFont(defaultFont1);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel2.add(jComboBoxDxtype, gridBagConstraints);
+
+        jScrollPane11.setBorder(null);
+        jScrollPane11.setMinimumSize(new java.awt.Dimension(22, 30));
+        jScrollPane11.setPreferredSize(new java.awt.Dimension(22, 30));
+
+        jTextAreaDescription.setFont(defaultFont1);
+        jTextAreaDescription.setLineWrap(true);
+        jTextAreaDescription.setWrapStyleWord(true);
+        jTextAreaDescription.setOpaque(false);
+        jScrollPane11.setViewportView(jTextAreaDescription);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 11, 0, 0);
+        jPanel2.add(jScrollPane11, gridBagConstraints);
+
+        jLabel7.setFont(defaultFont1);
+        jLabel7.setText("ประเภท");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 11, 0, 0);
+        jPanel2.add(jLabel7, gridBagConstraints);
+
+        jLabel11.setFont(defaultFont1);
+        jLabel11.setText("รายละเอียด");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        jPanel2.add(jLabel11, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+        jPanelIcd10Property.add(jPanel2, gridBagConstraints);
+
+        jLabelModifier.setFont(defaultFont1);
+        jLabelModifier.setText("ผู้แก้ไข");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(3, 5, 3, 5);
+        jPanelIcd10Property.add(jLabelModifier, gridBagConstraints);
+
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        jComboBoxClinic.setBackground(new java.awt.Color(204, 255, 255));
+        jComboBoxClinic.setFont(defaultFont1);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel1.add(jComboBoxClinic, gridBagConstraints);
+
+        jLabel1.setFont(defaultFont1);
+        jLabel1.setText("วันที่ลงรหัส");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 11, 0, 0);
+        jPanel1.add(jLabel1, gridBagConstraints);
+
+        dateComboBoxDxDate.setFont(defaultFont1);
+        dateComboBoxDxDate.setMinimumSize(new java.awt.Dimension(100, 22));
+        dateComboBoxDxDate.setPreferredSize(new java.awt.Dimension(100, 22));
+        dateComboBoxDxDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dateComboBoxDxDateActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel1.add(dateComboBoxDxDate, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 5);
+        jPanelIcd10Property.add(jPanel1, gridBagConstraints);
+
+        jCheckBoxRemember.setFont(defaultFont1);
+        jCheckBoxRemember.setText("จำค่านี้ไว้");
+        jCheckBoxRemember.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jCheckBoxRemember.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxRememberActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanelIcd10Property.add(jCheckBoxRemember, gridBagConstraints);
+
+        jComboBoxDoctor.setEditable(true);
+        jComboBoxDoctor.setFont(defaultFont1);
+        jComboBoxDoctor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxDoctorActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(3, 10, 0, 0);
+        jPanelIcd10Property.add(jComboBoxDoctor, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 11);
+        add(jPanelIcd10Property, gridBagConstraints);
+
+        jPanelAction.setLayout(new java.awt.GridBagLayout());
+
+        jButtonSave.setFont(defaultFont1);
+        jButtonSave.setText("บันทึก");
+        jButtonSave.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        jButtonSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSaveActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanelAction.add(jButtonSave, gridBagConstraints);
+
+        jButtonCancel.setFont(defaultFont1);
+        jButtonCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hosv3/gui/images/minus16.gif"))); // NOI18N
+        jButtonCancel.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanelAction.add(jButtonCancel, gridBagConstraints);
+
+        jButtonSaveDischarge.setFont(defaultFont1);
+        jButtonSaveDischarge.setText("จำหน่าย");
+        jButtonSaveDischarge.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        jButtonSaveDischarge.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSaveDischargeActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanelAction.add(jButtonSaveDischarge, gridBagConstraints);
+
+        jButtonClearData.setFont(defaultFont1);
+        jButtonClearData.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hosv3/gui/images/plus16.gif"))); // NOI18N
+        jButtonClearData.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        jButtonClearData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonClearDataActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanelAction.add(jButtonClearData, gridBagConstraints);
+
+        jCheckBoxUnlock.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hosv3/gui/images/Unlock.png"))); // NOI18N
+        jCheckBoxUnlock.setToolTipText("ปลดล้อกทันที");
+        jCheckBoxUnlock.setMaximumSize(new java.awt.Dimension(26, 26));
+        jCheckBoxUnlock.setMinimumSize(new java.awt.Dimension(26, 26));
+        jCheckBoxUnlock.setPreferredSize(new java.awt.Dimension(26, 26));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        jPanelAction.add(jCheckBoxUnlock, gridBagConstraints);
+
+        jCheckIsShowDialog.setFont(defaultFont1);
+        jCheckIsShowDialog.setText("โรคเรื้อรัง,เฝ้าระวัง");
+        jCheckIsShowDialog.setToolTipText("แสดงข้อมูลโรคเรื้อรัง,เฝ้าระวัง");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        jPanelAction.add(jCheckIsShowDialog, gridBagConstraints);
+
+        jButtonReport.setFont(defaultFont1);
+        jButtonReport.setText("รายงาน");
+        jButtonReport.setToolTipText("ให้รหัสโรครายการที่เลือกส่งรายงาน");
+        jButtonReport.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        jButtonReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonReportActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanelAction.add(jButtonReport, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 11, 11);
+        add(jPanelAction, gridBagConstraints);
+
+        jSplitPane1.setBorder(null);
+        jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+        jSplitPane1.setOneTouchExpandable(true);
+
+        jPanelshow.setLayout(new java.awt.GridBagLayout());
+
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(23, 60));
+
+        jTableShowICD10ForDx.setFont(defaultFont1);
+        jTableShowICD10ForDx.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTableShowICD10ForDxMouseReleased(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTableShowICD10ForDx);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanelshow.add(jScrollPane1, gridBagConstraints);
+
+        jLabel9.setFont(defaultFont1);
+        jLabel9.setText("ข้อมูลจากการจับคู่ชื่อโรคกับรหัสโรค");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 11);
+        jPanelshow.add(jLabel9, gridBagConstraints);
+
+        jSplitPane1.setLeftComponent(jPanelshow);
+
+        jPanelShowSearch.setLayout(new java.awt.GridBagLayout());
+
+        jPanelSearch.setLayout(new java.awt.GridBagLayout());
+
+        jPanelSearchICD10.setLayout(new java.awt.GridBagLayout());
+
+        jLabelKeyword.setFont(defaultFont1);
+        jLabelKeyword.setText("คำค้น");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanelSearchICD10.add(jLabelKeyword, gridBagConstraints);
+
+        jTextFieldKeyword.setFont(defaultFont1);
+        jTextFieldKeyword.setMaximumSize(new java.awt.Dimension(150, 21));
+        jTextFieldKeyword.setMinimumSize(new java.awt.Dimension(150, 21));
+        jTextFieldKeyword.setPreferredSize(new java.awt.Dimension(150, 21));
+        jTextFieldKeyword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldKeywordActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 0);
+        jPanelSearchICD10.add(jTextFieldKeyword, gridBagConstraints);
+
+        jButtonSearch.setFont(defaultFont1);
+        jButtonSearch.setText("ค้นหา");
+        jButtonSearch.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        jButtonSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSearchActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 0);
+        jPanelSearchICD10.add(jButtonSearch, gridBagConstraints);
+
+        jComboBoxGroupIcdType.setFont(defaultFont1);
+        jComboBoxGroupIcdType.setEnabled(false);
+        jComboBoxGroupIcdType.setMinimumSize(new java.awt.Dimension(31, 24));
+        jComboBoxGroupIcdType.setPreferredSize(new java.awt.Dimension(31, 24));
+        jComboBoxGroupIcdType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxGroupIcdTypeActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 3, 0, 0);
+        jPanelSearchICD10.add(jComboBoxGroupIcdType, gridBagConstraints);
+
+        jCheckBoxGroupIcd10.setFont(defaultFont1);
+        jCheckBoxGroupIcd10.setText("กลุ่ม");
+        jCheckBoxGroupIcd10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jCheckBoxGroupIcd10MouseClicked(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        jPanelSearchICD10.add(jCheckBoxGroupIcd10, gridBagConstraints);
+
+        jPanelChooseType.setLayout(new java.awt.GridBagLayout());
+
+        buttonGroupSearchType.add(jRadioButtonThree);
+        jRadioButtonThree.setFont(defaultFont1);
+        jRadioButtonThree.setText("เล่ม3 (ชื่อโรค)");
+        jRadioButtonThree.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jRadioButtonThreeMouseClicked(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        jPanelChooseType.add(jRadioButtonThree, gridBagConstraints);
+
+        buttonGroupSearchType.add(jRadioButtonOne);
+        jRadioButtonOne.setFont(defaultFont1);
+        jRadioButtonOne.setSelected(true);
+        jRadioButtonOne.setText("เล่ม1-2(ชื่อโรคและรหัสโรค) ");
+        jRadioButtonOne.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jRadioButtonOneMouseClicked(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanelChooseType.add(jRadioButtonOne, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
+        jPanelSearchICD10.add(jPanelChooseType, gridBagConstraints);
+
+        jButtonSee.setFont(defaultFont1);
+        jButtonSee.setText("ตัวช่วย");
+        jButtonSee.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        jButtonSee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSeeActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 0);
+        jPanelSearchICD10.add(jButtonSee, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanelSearch.add(jPanelSearchICD10, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+        jPanelShowSearch.add(jPanelSearch, gridBagConstraints);
+
+        jPanelICD10Group.setLayout(new java.awt.GridBagLayout());
+
+        jScrollPaneIdx10v3.setMaximumSize(new java.awt.Dimension(120, 50));
+        jScrollPaneIdx10v3.setMinimumSize(new java.awt.Dimension(120, 70));
+        jScrollPaneIdx10v3.setPreferredSize(new java.awt.Dimension(120, 50));
+        jScrollPaneIdx10v3.setRequestFocusEnabled(false);
+
+        jTableidx10v3.setFont(defaultFont1);
+        jTableidx10v3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTableidx10v3KeyReleased(evt);
+            }
+        });
+        jTableidx10v3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTableidx10v3MouseReleased(evt);
+            }
+        });
+        jScrollPaneIdx10v3.setViewportView(jTableidx10v3);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanelICD10Group.add(jScrollPaneIdx10v3, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.8;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+        jPanelShowSearch.add(jPanelICD10Group, gridBagConstraints);
+
+        jPanelCD10SubGroup.setLayout(new java.awt.GridBagLayout());
+
+        jScrollPane2.setMaximumSize(new java.awt.Dimension(120, 100));
+        jScrollPane2.setMinimumSize(new java.awt.Dimension(120, 70));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(120, 100));
+
+        jTableIcd10.setFont(defaultFont1);
+        jTableIcd10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTableIcd10MouseReleased(evt);
+            }
+        });
+        jTableIcd10.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTableIcd10KeyReleased(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTableIcd10);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanelCD10SubGroup.add(jScrollPane2, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanelShowSearch.add(jPanelCD10SubGroup, gridBagConstraints);
+
+        jSplitPane1.setRightComponent(jPanelShowSearch);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 0);
+        add(jSplitPane1, gridBagConstraints);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextFieldDxStatKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextFieldDxStatKeyReleased
+    {//GEN-HEADEREND:event_jTextFieldDxStatKeyReleased
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER)
+        {
+            theDC.saveDxByStat(jTextFieldDxStat.getText());
+            //theDC.saveDxByStat(theVisit, auth);
+        }
+    }//GEN-LAST:event_jTextFieldDxStatKeyReleased
+
+    private void jTableShowICD10ForDxMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableShowICD10ForDxMouseReleased
+        selectTableShowICD10ForDx();
+    }//GEN-LAST:event_jTableShowICD10ForDxMouseReleased
+
+    private void dateComboBoxDxDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateComboBoxDxDateActionPerformed
+        String bdate = dateComboBoxDxDate.getText();
+    }//GEN-LAST:event_dateComboBoxDxDateActionPerformed
+
+    private void jTableListDiagIcd10KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableListDiagIcd10KeyReleased
+        if(evt.getKeyCode()==KeyEvent.VK_UP || evt.getKeyCode()==KeyEvent.VK_DOWN)
+            this.jTableListDiagIcd10MouseReleased(null);
+    }//GEN-LAST:event_jTableListDiagIcd10KeyReleased
+
+    private void jTableIcd10KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableIcd10KeyReleased
+        if(evt.getKeyCode()==KeyEvent.VK_UP || evt.getKeyCode()==KeyEvent.VK_DOWN)
+            this.jTableIcd10MouseReleased(null);
+    }//GEN-LAST:event_jTableIcd10KeyReleased
+
+    private void jTableidx10v3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableidx10v3KeyReleased
+        if(evt.getKeyCode()==KeyEvent.VK_UP || evt.getKeyCode()==KeyEvent.VK_DOWN)
+            this.jTableidx10v3MouseReleased(null);
+    }//GEN-LAST:event_jTableidx10v3KeyReleased
+
+    private void jComboBoxGroupIcdTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxGroupIcdTypeActionPerformed
+        //henbe_wait search
+    }//GEN-LAST:event_jComboBoxGroupIcdTypeActionPerformed
+
+    private void jButtonClearDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearDataActionPerformed
+        this.jTableIcd10.clearSelection();
+        this.jTableListDiagIcd10.clearSelection();
+        DiagIcd10 dx10 = theGPS.initDiagIcd10();
+        if(jCheckBoxRemember.isSelected()){
+            dx10.doctor_kid = this.rem_doctor_kid;
+            dx10.clinic_kid = this.rem_clinic_kid;
+        }
+        else
+            dx10.doctor_kid = theGPS.getVisitDoctorID();
+        setDiagIcd10(dx10,null);
+    }//GEN-LAST:event_jButtonClearDataActionPerformed
+
+    private void jTextFieldCodeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldCodeFocusLost
+        String search = jTextFieldCode.getText().replace('\'',' ').trim();
+        search = search.toUpperCase();
+        if(search.equals(""))
+        {
+            theUS.setStatus("กรุณากรอกรหัสที่จะค้น",UpdateStatus.WARNING);
+            return;
+        }
+        ICD10 icd10byCode;
+        icd10byCode = theDC.readIcd10ByCode(search);
+        if(icd10byCode==null)
+        {
+            theUS.setStatus("ไม่พบข้อมูลที่ค้นหา กรุณาค้นหาใหม่อีกครั้ง",UpdateStatus.WARNING);
+            return;
+        }
+        ICD10 bgi = null;
+        if(icd10!=null)
+        {
+            for(int i =0 ; i< icd10.size(); i++)
+            {
+                if(icd10byCode.icd10_id == ((ICD10)icd10.get(i)).icd10_id)
+                {
+                    bgi = (ICD10)icd10.get(i);
+                }
+            }
+        }
+        if(bgi!=null)
+            setIcd10(bgi);
+    }//GEN-LAST:event_jTextFieldCodeFocusLost
+
+    private void jTextFieldKeywordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldKeywordActionPerformed
+       searchIcd10();
+    }//GEN-LAST:event_jTextFieldKeywordActionPerformed
+
+    private void jRadioButtonThreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButtonThreeMouseClicked
+        if(jRadioButtonThree.isSelected())
+        {
+            jCheckBoxGroupIcd10.setEnabled(false);
+            jComboBoxGroupIcdType.setEnabled(false);
+            jButtonSee.setEnabled(true);
+            return;
+        }
+        jCheckBoxGroupIcd10.setEnabled(true);
+        jComboBoxGroupIcdType.setEnabled(true);
+        jButtonSee.setEnabled(false);
+    }//GEN-LAST:event_jRadioButtonThreeMouseClicked
+
+    private void jRadioButtonOneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButtonOneMouseClicked
+        if(jRadioButtonOne.isSelected())
+        {
+            jCheckBoxGroupIcd10.setEnabled(true);
+            jCheckBoxGroupIcd10.setSelected(false);
+            jButtonSee.setEnabled(false);
+            return;
+        }
+        jCheckBoxGroupIcd10.setEnabled(false);
+        jComboBoxGroupIcdType.setEnabled(false);
+        jButtonSee.setEnabled(true);
+    }//GEN-LAST:event_jRadioButtonOneMouseClicked
+
+    private void jButtonSeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSeeActionPerformed
+        theHD.showDialogSeeIcd10(see, jTextFieldKeyword); 
+    }//GEN-LAST:event_jButtonSeeActionPerformed
+/*
+ *Incomplete henbe not understand
+ */
+    private void jTableIcd10MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableIcd10MouseReleased
+        this.jTableListDiagIcd10.clearSelection();
+        this.jTableShowICD10ForDx.clearSelection();
+        int row = jTableIcd10.getSelectedRow();
+        if(row==-1) return;//incase of table is disable
+        ICD10 icd = (ICD10)theSubIcd10.get(row);
+        setIcd10(icd);
+
+
+        String tmp = jTextFieldCode.getText();
+        DiagIcd10 dx10 = theGPS.initDiagIcd10();
+        if(jCheckBoxRemember.isSelected()){
+            dx10.doctor_kid = this.rem_doctor_kid;
+            dx10.clinic_kid = this.rem_clinic_kid;
+        }
+        else
+            dx10.doctor_kid = theGPS.getVisitDoctorID();
+        setDiagIcd10(dx10,null);
+        jTextFieldCode.setText(tmp);
+    }//GEN-LAST:event_jTableIcd10MouseReleased
+/*
+ *Incomplete henbe not understand
+ */
+    private void jTableidx10v3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableidx10v3MouseReleased
+        Vector icd10 = null;
+        this.jTableShowICD10ForDx.clearSelection();
+        int row = jTableidx10v3.getSelectedRow();
+
+        String of = (String)jTableidx10v3.getValueAt(row, 0);
+        String search = null;
+        if(jCheckBoxGroupIcd10.isSelected())
+            search = Gutil.getGuiData(jComboBoxGroupIcdType);
+        icd10 = theDC.listIcd10ByCode(of.substring(0, 3));
+        
+        setSubIcd10V(icd10);
+
+        String tmp = jTextFieldCode.getText();
+        DiagIcd10 dx10 = theGPS.initDiagIcd10();
+        if(jCheckBoxRemember.isSelected()){
+            dx10.doctor_kid = this.rem_doctor_kid;
+            dx10.clinic_kid = this.rem_clinic_kid;
+        }
+        else
+            dx10.doctor_kid = theGPS.getVisitDoctorID();
+        setDiagIcd10(dx10,null);
+        jTextFieldCode.setText(tmp);
+    }//GEN-LAST:event_jTableidx10v3MouseReleased
+
+    private void jCheckBoxGroupIcd10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCheckBoxGroupIcd10MouseClicked
+        jComboBoxGroupIcdType.setEnabled(jCheckBoxGroupIcd10.isSelected());
+    }//GEN-LAST:event_jCheckBoxGroupIcd10MouseClicked
+
+    private void jTextFieldCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCodeActionPerformed
+        String search = Gutil.CheckReservedWords(jTextFieldCode.getText());
+        search = search.toUpperCase();
+        if(search.equals("")){
+            theUS.setStatus("กรุณากรอกรหัสที่จะค้น",UpdateStatus.WARNING);
+            return;
+        }
+        ICD10 icd10byCode = theDC.readIcd10ByCode(search);
+//        System.out.println("icd10bycode:"+icd10byCode.icd10_id);
+        if(icd10byCode==null){
+            theUS.setStatus("ไม่พบข้อมูลที่ค้นหา กรุณาค้นหาใหม่อีกครั้ง",UpdateStatus.WARNING);
+            return;
+        }
+        setIcd10(icd10byCode);
+
+        String tmp = jTextFieldCode.getText();
+        DiagIcd10 dx10 = theGPS.initDiagIcd10();
+        if(jCheckBoxRemember.isSelected()){
+            dx10.doctor_kid = this.rem_doctor_kid;
+            dx10.clinic_kid = this.rem_clinic_kid;
+        }
+        else
+            dx10.doctor_kid = theGPS.getVisitDoctorID();
+        setDiagIcd10(dx10,null);
+        jTextFieldCode.setText(tmp);
+    }//GEN-LAST:event_jTextFieldCodeActionPerformed
+
+    private void jButtonSaveDischargeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveDischargeActionPerformed
+        // Somprasong 08122010 เพิ่มการตรวจสอบว่า ถ้าไม่มี Primary diag ไม่สามารถจำหน่ายทางการแพทย์ได้
+        Vector<X39Persistent> listDiagIcd10s = theGPS.listDiagIcd10();
+        boolean canDischarge = false;
+        if (listDiagIcd10s == null || listDiagIcd10s.isEmpty()) {
+            canDischarge = false;
+        } else {
+            for (X39Persistent icx : listDiagIcd10s) {
+                DiagIcd10 ic = (DiagIcd10) icx;
+                if(ic.type.equals("1")){
+                    canDischarge = true;
+                }
+            }
+        }
+        if(!canDischarge){
+            theUS.setStatus("ไม่มี Primary Diagnosis ไม่สามารถจำหน่ายทางการแพทย์ได้",UpdateStatus.WARNING);
+            return;
+        }
+        if(theHD.showDialogDischarge(theGPS.getVisit()))
+         {
+             if(HosObject.isVisitDeath(theGPS.getVisit()))
+                 this.theHD.showDialogDeath();
+             if(!theDC.dischargeDoctor(this.jCheckBoxUnlock.isSelected()))
+                 return;
+             if(!jCheckBoxUnlock.isSelected() && HosObject.isVisitRefer(theGPS.getVisit()))
+                 this.theHD.showDialogReferIn(theGPS.getVisit());
+         }
+    }//GEN-LAST:event_jButtonSaveDischargeActionPerformed
+
+    private void jTableListDiagIcd10MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableListDiagIcd10MouseReleased
+        this.jTableIcd10.clearSelection();
+        this.jTableidx10v3.clearSelection();
+        int row = jTableListDiagIcd10.getSelectedRow();
+        if(row < 0)
+        {
+            return;
+        }
+        String des = (String)jTableListDiagIcd10.getValueAt(row,1);
+        setDiagIcd10(theGPS.readDiagIcd10(row),des);
+    }//GEN-LAST:event_jTableListDiagIcd10MouseReleased
+
+    private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
+        int[] row = this.jTableListDiagIcd10.getSelectedRows();
+        theDC.deleteDiagIcd10(row);
+        
+    }//GEN-LAST:event_jButtonCancelActionPerformed
+
+    private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
+        String search = Gutil.CheckReservedWords(jTextFieldCode.getText());
+        search = search.toUpperCase();
+        ICD10 icd10byCode = theDC.readIcd10ByCode(search);
+        if(icd10byCode==null){
+            theUS.setStatus(Constant.getTextBundle("ไม่พบรหัสโรคที่กรอก") + " "+
+                    Constant.getTextBundle("กรุณากรอกรหัสโรคใหม่อีกครั้ง"),UpdateStatus.WARNING);
+            return;
+        }        
+        jTextFieldCode.setText(icd10byCode.icd10_id);
+        // Somprasong 08122010 เพิ่มการตรวจสอบว่า ถ้ามี Primary diag แล้วไม่สามารถบันทึกเกิน 1 ตัวได้
+        DiagIcd10 diagIcd10 = getDiagIcd10();
+        if (diagIcd10.type.equals("1")) {
+            boolean canAddPrimary = true;
+            Vector<X39Persistent> listDiagIcd10s = theGPS.listDiagIcd10();
+            if (listDiagIcd10s != null) {
+                for (X39Persistent icx : listDiagIcd10s) {
+                    DiagIcd10 ic = (DiagIcd10) icx;
+                    if (ic.type.equals("1") && !ic.getObjectId().equals(diagIcd10.getObjectId())) {
+                        canAddPrimary = false;
+                    }
+                }
+                if (!canAddPrimary) {
+                    theUS.setStatus("มี Primary Diagnosis แล้วไม่สามารถบันทึกเกิน 1 ได้", UpdateStatus.WARNING);
+                    return;
+                }
+            }
+        }
+//        theDC.saveDiagIcd10(getDiagIcd10(), jCheckIsShowDialog.isSelected());
+        theDC.saveDiagIcd10(diagIcd10, jCheckIsShowDialog.isSelected());
+    }//GEN-LAST:event_jButtonSaveActionPerformed
+
+    private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchActionPerformed
+        searchIcd10();
+    }//GEN-LAST:event_jButtonSearchActionPerformed
+
+    private void jButtonReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReportActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonReportActionPerformed
+
+    private void jCheckBoxRememberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxRememberActionPerformed
+        if(this.jCheckBoxRemember.isSelected()){
+            rem_clinic_kid =  Gutil.getGuiData(jComboBoxClinic);
+            rem_doctor_kid =  Gutil.getGuiData(jComboBoxDoctor);
+        }
+        else{
+            rem_clinic_kid = null;
+            rem_doctor_kid = null;
+        }
+
+    }//GEN-LAST:event_jCheckBoxRememberActionPerformed
+
+    private void jComboBoxDoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxDoctorActionPerformed
+        if(evt.getActionCommand().equals("comboBoxEdited"))
+        {
+            String keyword = String.valueOf(jComboBoxDoctor.getSelectedItem());
+            Vector v = theLC.listDoctor(keyword);
+            if(v!=null && !v.isEmpty() && v.size()>1)
+            {
+                Employee undefine = new Employee();
+                undefine.setObjectId("");
+                undefine.fname = Constant.getTextBundle("ไม่ระบุ");
+                if(keyword.trim().equals(""))
+                    v.add(0,undefine);
+            }
+            if(v==null){
+                v = new Vector();
+            }
+            jComboBoxDoctor.setEnabled(true);
+            ComboboxModel.initComboBox(jComboBoxDoctor,v);
+        }
+    }//GEN-LAST:event_jComboBoxDoctorActionPerformed
+                                                                                                                                
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroupSearchType;
+    private com.hospital_os.utility.DateComboBox dateComboBoxDxDate;
+    private com.hospital_os.gui.font.DefaultFont defaultFont1;
+    private javax.swing.JButton jButtonCancel;
+    private javax.swing.JButton jButtonClearData;
+    private javax.swing.JButton jButtonReport;
+    private javax.swing.JButton jButtonSave;
+    private javax.swing.JButton jButtonSaveDischarge;
+    private javax.swing.JButton jButtonSearch;
+    private javax.swing.JButton jButtonSee;
+    private javax.swing.JCheckBox jCheckBoxGroupIcd10;
+    private javax.swing.JCheckBox jCheckBoxRemember;
+    private javax.swing.JToggleButton jCheckBoxUnlock;
+    private javax.swing.JCheckBox jCheckIsShowDialog;
+    private javax.swing.JComboBox jComboBoxClinic;
+    private javax.swing.JComboBox jComboBoxDoctor;
+    private javax.swing.JComboBox jComboBoxDxtype;
+    private javax.swing.JComboBox jComboBoxGroupIcdType;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelKeyword;
+    private javax.swing.JLabel jLabelModifier;
+    private javax.swing.JLabel jLabelShowDx;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanelAction;
+    private javax.swing.JPanel jPanelCD10SubGroup;
+    private javax.swing.JPanel jPanelChooseType;
+    private javax.swing.JPanel jPanelICD10Group;
+    private javax.swing.JPanel jPanelIcd10List;
+    private javax.swing.JPanel jPanelIcd10Property;
+    private javax.swing.JPanel jPanelSearch;
+    private javax.swing.JPanel jPanelSearchICD10;
+    public javax.swing.JPanel jPanelShowSearch;
+    private javax.swing.JPanel jPanelshow;
+    private javax.swing.JRadioButton jRadioButtonOne;
+    private javax.swing.JRadioButton jRadioButtonThree;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPaneIcd10List;
+    private javax.swing.JScrollPane jScrollPaneIdx10v3;
+    private javax.swing.JSplitPane jSplitPane1;
+    private com.hosv3.gui.component.HJTableSort jTableIcd10;
+    private com.hosv3.gui.component.HJTableSort jTableListDiagIcd10;
+    private com.hosv3.gui.component.HJTableSort jTableShowICD10ForDx;
+    private com.hosv3.gui.component.HJTableSort jTableidx10v3;
+    private javax.swing.JTextArea jTextAreaDescription;
+    private javax.swing.JTextField jTextFieldCode;
+    private javax.swing.JTextField jTextFieldDxNote;
+    private com.hosv3.gui.component.BalloonTextField jTextFieldDxStat;
+    private javax.swing.JTextField jTextFieldKeyword;
+    // End of variables declaration//GEN-END:variables
+
+    /**
+     * ใช้ในการกำหนดให้แสดงหรือไม่แสดง Panel ที่ไม่จำเป็น
+     * เอาไว้ใช้ในกรณีที่รหัส ICD10 ที่ทำการ map เป็นกลุ่มรหัส
+     * @param bshow เป็น boolean ถ้า เป็น true จะแสดงทั้งหมด ถ้าเป็น false จะแสดงบางส่วนที่จำเป็น
+     * @author padungrat(tong)
+     * @date 20/04/2549,16:24
+     */
+    public void setShowForMapDxTemplate(boolean bshow)
+    {
+        jPanelshow.setVisible(bshow);
+        jPanelIcd10List.setVisible(bshow);
+        jPanelIcd10Property.setVisible(bshow);
+        jPanelAction.setVisible(bshow);
+        jPanelChooseType.setVisible(bshow);
+        jPanelSearchICD10.setVisible(bshow);
+        //jTableIcd10.setEnabled(true);
+         jButtonSee.setVisible(false);
+        // เพิ่มให้สามารถเลือกตารางกลุ่มหลักได้ในครั้งที่บันทึก Dx sumo 26/7/2549
+        //jTableidx10v3.setEnabled(true);
+       //////////////////////////////////////////
+    }
+    
+    /**
+     * ใช้ในการส่งข้อมูลหลังจากที่เลือกข้อมูลแล้วกลับไปยังส่วนที่ต้องการ
+     * @return ICD10 ถ้าเป็น null แสดงว่าไม่ได้เลือกรายการใดๆ
+     * @author padungrat(tong)
+     * @date 20/04/2549,16:36
+     */
+    public ICD10 getSelectICD10()
+    {
+        int row = jTableIcd10.getSelectedRow();
+        if(row!=-1)
+           return (ICD10)theSubIcd10.get(row);
+        return null;
+    }
+    /**
+     * ใช้ในการกำหนดให้มีการค้นหาและแสดง ICD10 จากค่าที่รับเข้ามาโดยค่าที่รับเข้ามาจะต้องเป็น รหัสโรค
+     * @param String icd10_desc เป็นรหัส ICD10 แบบกลุ่ม,String map_dx เป็นชื่อ Dx ที่บันทึก,boolean show_map_dx ตารางเพิ่มช่องแสดง Dx 
+     * @author padungrat(tong)
+     * @date 19/04/2549,17:08, modify sumo 26/7/2549
+     */
+    public void setSearchICD10(String icd10_desc,String map_dx,boolean show_map_dx)
+    {
+        jTextFieldKeyword.setText(icd10_desc);
+        jRadioButtonOne.setSelected(true);
+        // นำตัวแปรที่สร้างเพิ่มมารับค่าที่ส่งมา sumo 26/7/2549
+        showMapDX = show_map_dx;
+        dxMap = map_dx;
+        //////////////////////////////////////////////
+        searchIcd10();
+        if(0 < jTableIcd10.getRowCount())
+        {
+            jTableIcd10.setRowSelectionInterval(0,0);
+        }
+    }
+    
+     /**
+     * ใช้เคลียร์ค่าที่ส่งมาจาก DialogChooseICD10FromTemplate ให้แสดงผลตามปกติโดยไม่มีช่อง Dx ในตารางแสดงรายการ Icd10 sumo 26/7/2549
+     * @param ไม่มี
+     * @author sumo
+     * @date 26/7/2549
+     */
+    public void setClearKeySearchFromDialog()
+    {
+        showMapDX = false;
+        dxMap = "";
+    }
+    
+    /**
+     * ใช้ในการเลือกข้อมูลบนตาราง
+     */
+    public void selectTableShowICD10ForDx()
+    {
+        this.jTableIcd10.clearSelection();
+        this.jTableListDiagIcd10.clearSelection();
+        this.jTableidx10v3.clearSelection();
+    
+        int row = this.jTableShowICD10ForDx.getSelectedRow();
+        if(row != -1)
+        {   
+            MapVisitDx theMapVisitDx = theGPS.readMapVisitDx(row);
+            this.jTextFieldKeyword.setText(theMapVisitDx.visit_diag_map_dx);
+            if(theMapVisitDx.dx_template_id.trim().length() >0)
+            {
+                jRadioButtonOne.setSelected(true);
+                jRadioButtonOneMouseClicked(null);
+                setDiagFromMapVisitDx(theMapVisitDx.visit_diag_map_icd);
+            }
+            else {
+                jRadioButtonThree.setSelected(true);
+                jRadioButtonThreeMouseClicked(null);
+                searchIcd10();
+            }
+            //set ชื่อแพทย์ ให้ด้วย
+            //Gutil.setGuiData(jComboBoxDoctor, theMapVisitDx.visit_diag_map_staff);
+        }
+    }
+
+    public void setDiagFromMapVisitDx(String icd_code)
+   {
+        if(icd_code!=null) 
+        {
+            Vector vSubicd = new Vector();
+            Vector vGrpicd = new Vector();
+                            
+            ICD10 icd10 = theDC.readIcd10ByCode(icd_code);
+            //if(dt.icd_type.equals(DxTemplateType.ICD_CODE))
+            if(icd_code.indexOf(".") >=0)
+            {
+                vSubicd.add(icd10);
+            }
+            else
+            {
+                vGrpicd.add(icd10);
+            }
+
+            this.setIcd10V(vGrpicd);
+            this.setSubIcd10V(vSubicd);
+            vSubicd = null;
+            vGrpicd = null;
+        }
+
+   }
+    
+    
+    public void gc()
+    {
+        jPanelIcd10List = null; 
+        jButtonCancel = null;
+        jButtonSave = null;
+        jScrollPaneIcd10List = null;
+        jButtonSearch = null;
+        jPanelAction = null;
+        jPanelIcd10Property = null; 
+        jTextFieldKeyword = null;
+        jTableListDiagIcd10 = null;
+        jLabelKeyword = null;
+    }
+    public void clear(){
+        jTextFieldCode.setText("");
+        jTextAreaDescription.setText("");
+        jTextFieldDxNote.setText("");
+        ComboboxModel.setCodeComboBox(jComboBoxDxtype,"1");
+        String date = theGHS.getDateTime();
+        dateComboBoxDxDate.setText(DateUtil.convertFieldDate(date).substring(0,10));
+        Gutil.setGuiData(jComboBoxClinic,rem_clinic_kid);
+        Gutil.setGuiData(jComboBoxDoctor,rem_doctor_kid);
+    }
+    private void setDiagIcd10(DiagIcd10 dx10,String des)
+    {
+        theDiagIcd10 = dx10;
+        if(dx10==null){
+            clear();
+            return;
+        }
+        Gutil.setGuiData(jComboBoxClinic,dx10.clinic_kid);
+        Gutil.setGuiData(jComboBoxDoctor,dx10.doctor_kid);
+
+        dateComboBoxDxDate.setText(DateUtil.convertFieldDate(dx10.diagnosis_date));
+        jTextFieldCode.setText(dx10.icd10_code);
+        if(des!=null) jTextAreaDescription.setText(des);
+        Gutil.setGuiData(jComboBoxDxtype, dx10.type);
+        jTextFieldDxNote.setText(dx10.dischange_note);
+        jTextFieldDxStat.setText(theGPS.getVisit().stat_dx);
+        String updater = theLC.readEmployeeNameById(dx10.diag_icd10_staff_update);
+        if(!updater.equals(""))
+            jLabelModifier.setText(updater);
+        else
+            jLabelModifier.setText(theLC.readEmployeeNameById(dx10.diag_icd10_staff_record));
+// henbe wait for update database
+//        jButtonReport.setVisible((!dx10.primary_report.equals("1"))
+//                && dx10.type.equals(Dxtype.getPrimaryDiagnosis()));
+    }
+    
+    private DiagIcd10 getDiagIcd10()
+    {
+        DiagIcd10 dx10 = theDiagIcd10;
+        if(dx10==null)
+            dx10 = theGPS.initDiagIcd10();
+        
+        dx10.type =  Gutil.getGuiData(jComboBoxDxtype);
+        dx10.icd10_code =  Gutil.getGuiData(jTextFieldCode);
+        dx10.clinic_kid =  Gutil.getGuiData(jComboBoxClinic);
+        dx10.doctor_kid =  Gutil.getGuiData(jComboBoxDoctor);
+        dx10.dischange_note =  Gutil.CheckReservedWords(Gutil.getGuiData(jTextFieldDxNote));
+        dx10.diagnosis_date =  dateComboBoxDxDate.getText();
+        return dx10;
+    }
+    
+    /**
+     * ใช้ในการแสดงตัวช่วยที่ถูกจับคู่กับรหัสโรค  
+     * @param mapVisitDx เป็น Vector ของ Object MapVisitDx
+     * @author padungrat(tong)
+     * @date 24/03/49,18:14
+     */
+    private void setMapVisitDxV(Vector mapVisitDx)
+    {
+        tmmapvisitdx = new TaBleModel(column_showICD10FromDx,0);
+        
+        if(mapVisitDx != null)
+        {
+            tmmapvisitdx = new TaBleModel(column_showICD10FromDx,mapVisitDx.size());
+            int count = mapVisitDx.size() -1;
+            for(int i =  count ; i >= 0 ; i--)
+            //for(int i =0 ; i < mapVisitDx.size(); i++)
+            {
+                MapVisitDx theMapVisitDxTemp = (MapVisitDx)mapVisitDx.get(count - i);
+                tmmapvisitdx.setValueAt(theMapVisitDxTemp.visit_diag_map_dx,(count - i ), 0);
+                tmmapvisitdx.setValueAt(theMapVisitDxTemp.visit_diag_map_icd, (count - i ), 1);
+                tmmapvisitdx.setValueAt(this.theLC.getEmployeeName(theMapVisitDxTemp.visit_diag_map_staff), (count - i ), 2);
+            }
+        }
+        jTableShowICD10ForDx.setModel(tmmapvisitdx);
+        jTableShowICD10ForDx.getColumnModel().getColumn(0).setPreferredWidth(300);
+       // jTableShowICD10ForDx.getColumnModel().getColumn(0).setCellRenderer(theCellRendererToolTipText);
+        jTableShowICD10ForDx.getColumnModel().getColumn(1).setPreferredWidth(100);
+        jTableShowICD10ForDx.getColumnModel().getColumn(2).setPreferredWidth(250);
+       // jTableShowICD10ForDx.getColumnModel().getColumn(1).setCellRenderer(theCellRendererToolTipText);
+        
+    }
+    
+
+    private void setDiagIcd10V(Vector<X39Persistent> dx)
+    {
+        if(theDiagIcd10!=null)
+            setDiagIcd10V(dx,this.theDiagIcd10.getObjectId());
+        else
+            setDiagIcd10V(dx,null);
+    }
+    private void setDiagIcd10V(Vector<X39Persistent> dx,String id)
+    {
+        Vector<X39Persistent> vDiagIcd10 = dx;
+        TaBleModel tm= null;
+        if(vDiagIcd10 == null || vDiagIcd10.isEmpty())
+        {
+            tm= new TaBleModel(column_jTableListDiagIcd10,0);
+            jTableListDiagIcd10.setModel(tm); 
+            setDiagIcd10(null,null);
+            return;
+        }
+        tm = new TaBleModel(column_jTableListDiagIcd10,vDiagIcd10.size());
+        String cid  = null;
+        int i=0;
+        int index = 0;
+        for( X39Persistent icx : vDiagIcd10 ) {
+            DiagIcd10 ic = (DiagIcd10)icx;
+            cid = ic.icd10_code;
+            if(ic.getObjectId().equals(id))
+                index = i;
+            ICD10 theICD10 = theDC.listIcd10ById(cid);
+            tm.setValueAt(ic.icd10_code, i, 0);
+            if(theICD10 != null){
+                if(theICD10.description!=null)
+                    tm.setValueAt(theICD10.description,i, 1);
+                else
+                    tm.setValueAt("",i, 1);
+                tm.setValueAt(Dxtype.getText(ic.type),i, 2);
+                tm.setValueAt(this.theLC.getEmployeeName(ic.doctor_kid),i, 3);
+                tm.setValueAt(this.theLC.getClinicName(ic.clinic_kid),i, 4);
+            }
+            i++;
+        }
+        cid = null;
+        jTableListDiagIcd10.setModel(tm);
+        jTableListDiagIcd10.getColumnModel().getColumn(0).setPreferredWidth(100);
+        jTableListDiagIcd10.getColumnModel().getColumn(1).setPreferredWidth(200);
+        jTableListDiagIcd10.getColumnModel().getColumn(2).setPreferredWidth(100);
+        jTableListDiagIcd10.getColumnModel().getColumn(3).setPreferredWidth(200);
+        jTableListDiagIcd10.getColumnModel().getColumn(4).setPreferredWidth(200);
+        if(i>0){
+            jTableListDiagIcd10.setRowSelectionInterval(index,index);
+            String des = (String)jTableListDiagIcd10.getValueAt(index,1);
+            setDiagIcd10(theGPS.readDiagIcd10(index),des);
+        }
+        else{
+            DiagIcd10 dx10 = theGPS.initDiagIcd10();
+            if(jCheckBoxRemember.isSelected()){
+                dx10.doctor_kid = this.rem_doctor_kid;
+                dx10.clinic_kid = this.rem_clinic_kid;
+            }
+            else
+                dx10.doctor_kid = theGPS.getVisitDoctorID();
+            setDiagIcd10(dx10,null);
+        }
+    }
+    
+    //henbe_error_algoritum
+    public void searchIcd10()
+    {
+//        String search = Gutil.CheckReservedWords(jTextFieldKeyword.getText());
+        String search = jTextFieldKeyword.getText();
+        search = search.toUpperCase();
+        if(search.equals("") && !jCheckBoxGroupIcd10.isSelected())
+        {
+            theUS.setStatus("กรุณากรอกคำค้นให้มากกว่า 2 ตัวอักษร",UpdateStatus.WARNING);
+            return;
+        }
+        String group = Gutil.getGuiData(jComboBoxGroupIcdType);
+        if(jRadioButtonOne.isSelected()){
+            // ค้นหาจากเล่ม 1-2 ค้นหาโดยระบุกลุ่ม ค้นหาโดยไม่ระบุกลุ่ม
+            if(!jCheckBoxGroupIcd10.isSelected()){
+                group = "";
+            }
+            icd10 = theDC.listIcd10ByIdNameGroup(search, group);
+
+            Vector cicd = new Vector();
+            for(int i=0;icd10!=null && i<icd10.size(); i++)
+            {
+                ///////////////////////////////////////////////////
+                ICD10 sicd = (ICD10)icd10.get(i);
+                if(sicd.icd10_id!=null && !sicd.icd10_id.equals(""))
+                {   
+                    sicd.icd10_id = sicd.icd10_id.substring(0,3);
+                    if(cicd.size()==0) {
+                        cicd.add(sicd);
+                    }
+                    else {
+                        ICD10 cidx;
+                        int add = 0;
+                        for(int n=0; n<cicd.size(); n++)  {
+                            cidx = (ICD10)cicd.get(n);
+                            if(sicd.icd10_id.equals(cidx.icd10_id)) {
+                                add = 1;
+                                n = cicd.size();
+                            }
+                        }
+                        if(add==0) {
+                            cidx = sicd;
+                            cicd.add(cidx);
+                            cidx= null;
+                        }
+                    }
+                }
+            }
+            setIcd10V(cicd);
+        }
+        else{
+            icd10 = theDC.listIdx10V3All(search);
+            Vector v = subCode(icd10);
+            setIcd10v3V(v);
+        }
+        
+    }
+
+    public Vector subCode(Vector icd3code)
+    {
+        Vector vcode = new Vector();
+        see = new Vector();
+        Idx10V3 scode = new Idx10V3();
+        Idx10V3 cidx = new Idx10V3();
+        if(icd3code!=null)
+        {
+            for(int i=0; i<icd3code.size(); i++)
+            {
+                Idx10V3 of = new Idx10V3();
+                of = (Idx10V3)icd3code.get(i);
+                if((of.code1!=null)&&(!of.code1.equals("")))
+                {
+                    //กรณีที่ค่าจำนวนมีน้อยกว่า 2 เช่น NA henbe comment 
+                    //สำหรับแสดงทั้งหมดกรณีที่เป็นกลุ่มย่อยของเล่ม สาม
+                    //if(of.code1.length() > 3)
+                      //  of.code1 =of.code1.substring(0,3);
+                    
+                    if((vcode.size())==0){
+                        vcode.add(of);
+                    }
+                    else{
+                        int add = 0;
+                        for(int n=0; n<vcode.size(); n++)
+                        {
+                            cidx = (Idx10V3)vcode.get(n);
+                            if(of.code1.equals(cidx.code1)) {
+                                add = 1;
+                                n = vcode.size();
+                            }
+                        }
+                        if(add==0){
+                            cidx = of;
+                            vcode.add(cidx);
+                            cidx= null;
+                        }
+                    }
+                }
+                else{
+                    scode = of;
+                    see.add(scode);
+                }
+                of = null;
+            }
+        }
+        if(see.size()!=0)
+        {
+            jButtonSee.setEnabled(true);
+        }
+        return vcode;
+    }    
+    
+    private void setIcd10v3V(Vector vicd)
+    {
+        TaBleModel tm = null;        
+        if(vicd==null){
+            tm = new TaBleModel(column_AllTable,0);            
+            jTableidx10v3.setModel(tm);
+            setSubIcd10V(null);
+            return;
+        }
+        tm = new TaBleModel(column_AllTable,vicd.size());
+        ICD10 icd10;
+        for(int i=0; i< vicd.size(); i++)   
+        {
+            Idx10V3 code = (Idx10V3)vicd.get(i);
+            icd10 = new ICD10();
+            icd10.icd10_id = code.code1;
+            icd10.description = code.description;
+            if(icd10 !=null)
+            {
+                tm.setValueAt(icd10.icd10_id,i,0);
+                tm.setValueAt(icd10.description,i,1);
+            }
+        }       
+        
+        jTableidx10v3.setModel(tm);
+        jTableidx10v3.getColumnModel().getColumn(0).setPreferredWidth(40);
+        jTableidx10v3.getColumnModel().getColumn(1).setPreferredWidth(250);  
+        jTableidx10v3.getColumnModel().getColumn(1).setCellRenderer(theCellRendererToolTipText);
+
+        if(vicd.size()>0) {
+            this.jTableidx10v3.setRowSelectionInterval(0,0);
+            jTableidx10v3MouseReleased(null);
+        }
+        else setSubIcd10V(null);
+    }
+
+    private void setIcd10V(Vector vicd)
+    {
+        TaBleModel tm = null;   
+        if(vicd==null){
+            tm = new TaBleModel(column_AllTable,0);            
+            jTableidx10v3.setModel(tm);
+            setSubIcd10V(null);
+            return;
+        }
+        if(showMapDX == true)
+        {
+            tm = new TaBleModel(column_AllTableMapDx,vicd.size());
+        }
+        else
+        {
+            tm = new TaBleModel(column_AllTable,vicd.size());
+        }
+        ICD10 icd10;
+        // ใช้กับการตรวจสอบค่า Icd10 ที่ค้นหาได้ว่าอันไหนตรงกับ Dx ที่ Map ไว้ sumo 26/7/2549
+        String keyword = Gutil.CheckReservedWords(jTextFieldKeyword.getText());
+        //////////////////////////////////////////////////////////////////////////
+        for(int i=0; i< vicd.size(); i++)   {
+            icd10 = (ICD10)vicd.get(i); 
+            tm.setValueAt(icd10.icd10_id,i,0);
+            tm.setValueAt(icd10.description,i,1);
+            //ตรวจสอบว่าถ้าเป็นการค้นหาที่ได้มาจาก DialogChooseICD10FromTemplate ให้แสดงช่อง Dx ด้วย sumo 26/7/2549
+            if(showMapDX == true)
+            {
+                if(icd10.icd10_id.equals(keyword))
+                {
+                    tm.setValueAt(dxMap,i,2);
+                }
+                else
+                {
+                    tm.setValueAt("",i,2);
+                }
+            }
+            //////////////////////////////////////////////////////////////////////////////////////////
+        }        
+        jTableidx10v3.setModel(tm);
+        jTableidx10v3.getColumnModel().getColumn(0).setPreferredWidth(40);
+        jTableidx10v3.getColumnModel().getColumn(1).setPreferredWidth(250);   
+        jTableidx10v3.getColumnModel().getColumn(1).setCellRenderer(theCellRendererToolTipText);
+        //ตรวจสอบว่าถ้าเป็นการค้นหาที่ได้มาจาก DialogChooseICD10FromTemplate ให้แสดงช่อง Dx ด้วย sumo 26/7/2549
+        if(showMapDX == true)
+        {
+            jTableidx10v3.getColumnModel().getColumn(2).setPreferredWidth(50);
+        }
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        if(vicd.size()>0) {
+            this.jTableidx10v3.setRowSelectionInterval(0,0);
+            jTableidx10v3MouseReleased(null);
+        }
+        else setSubIcd10V(null);
+    }
+    
+    private void setSubIcd10V(Vector vicd)
+    {        
+        theSubIcd10 = vicd;
+        TaBleModel tm = null;    
+        if(vicd==null){
+            tm = new TaBleModel(column_AllTable,0);            
+            jTableIcd10.setModel(tm);
+            return;
+        }
+        if(showMapDX == true)
+        {
+            tm = new TaBleModel(column_AllTableMapDx,vicd.size());
+        }
+        else
+        {
+            tm = new TaBleModel(column_AllTable,vicd.size());
+        }
+        ICD10 icd10;
+        // ใช้กับการตรวจสอบค่า Icd10 ที่ค้นหาได้ว่าอันไหนตรงกับ Dx ที่ Map ไว้ sumo 26/7/2549
+        String keyword = Gutil.CheckReservedWords(jTextFieldKeyword.getText());
+        //////////////////////////////////////////////////////////////////////////
+        for(int i=0; i< vicd.size(); i++)   
+        {
+            icd10 = (ICD10)vicd.get(i); 
+            tm.setValueAt(icd10.icd10_id,i,0);
+            tm.setValueAt(icd10.description,i,1);
+            //ตรวจสอบว่าถ้าเป็นการค้นหาที่ได้มาจาก DialogChooseICD10FromTemplate ให้แสดงช่อง Dx ด้วย sumo 26/7/2549
+            if(showMapDX == true)
+            {
+                if(icd10.icd10_id.equals(keyword))
+                {
+                    tm.setValueAt(dxMap,i,2);
+                }
+                else
+                {
+                    tm.setValueAt("",i,2);
+                }
+            }
+            //////////////////////////////////////////////////////////////////////////////////////////
+        }        
+        jTableIcd10.setModel(tm);
+        jTableIcd10.getColumnModel().getColumn(0).setPreferredWidth(40);
+        jTableIcd10.getColumnModel().getColumn(1).setPreferredWidth(250);
+        jTableIcd10.getColumnModel().getColumn(1).setCellRenderer(theCellRendererToolTipText);
+        //ตรวจสอบว่าถ้าเป็นการค้นหาที่ได้มาจาก DialogChooseICD10FromTemplate ให้แสดงช่อง Dx ด้วย sumo 26/7/2549
+        if(showMapDX == true)  {
+            jTableIcd10.getColumnModel().getColumn(2).setPreferredWidth(50);
+        }
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        if(vicd.size()>0) {
+            icd10=null;
+            for(int i=0,size=vicd.size();i<size;i++){
+                icd10 = (ICD10)vicd.get(i);
+                if(icd10.icd10_id.equalsIgnoreCase(jTextFieldKeyword.getText()))
+                        break;
+                else    icd10=null;
+            }
+            if(icd10==null){
+                icd10 = (ICD10)vicd.get(0); 
+                jTableIcd10.setRowSelectionInterval(0,0);
+            }
+            setIcd10(icd10);
+        }
+    }
+    private void setIcd10(ICD10 icd10_now)
+    {
+        jTextFieldCode.setText(icd10_now.icd10_id);
+        jTextAreaDescription.setText(icd10_now.description);
+    }
+
+    
+    public void setLanguage(String msg)
+    {
+        GuiLang.setLanguage(jButtonCancel);
+        GuiLang.setLanguage(jButtonSave);
+        GuiLang.setLanguage(jButtonSaveDischarge);
+        GuiLang.setLanguage(jButtonSearch);
+        GuiLang.setLanguage(jButtonSee);
+        GuiLang.setLanguage(jCheckBoxGroupIcd10);
+        GuiLang.setLanguage(jCheckBoxRemember);
+        GuiLang.setLanguage(jCheckBoxUnlock);
+        GuiLang.setLanguage(jLabel1);
+        GuiLang.setLanguage(jLabel11);
+        GuiLang.setLanguage(jLabel2);
+        GuiLang.setLanguage(jLabel3);
+        GuiLang.setLanguage(jLabel4);
+        GuiLang.setLanguage(jLabel5);
+        GuiLang.setLanguage(jLabel6);
+        GuiLang.setLanguage(jLabel7);
+        GuiLang.setLanguage(jLabel8);
+        GuiLang.setLanguage(jLabel9);
+        GuiLang.setLanguage(jLabelKeyword);
+        GuiLang.setLanguage(jLabelModifier);
+        GuiLang.setLanguage(jRadioButtonOne);
+        GuiLang.setLanguage(jRadioButtonThree);
+        GuiLang.setLanguage(column_AllTable);
+        GuiLang.setLanguage(column_AllTableMapDx);
+        GuiLang.setLanguage(column_jTableListDiagIcd10);
+        GuiLang.setLanguage(column_showICD10FromDx);
+        GuiLang.setTextBundle(jPanelIcd10List);
+        GuiLang.setTextBundle(jPanelIcd10Property);
+        GuiLang.setTextBundle(jPanelshow);
+        GuiLang.setTextBundle(jPanelShowSearch);
+        GuiLang.setLanguage(jCheckIsShowDialog);
+    }
+
+    public void setEnabled(boolean author)
+    {        
+        jTextFieldDxStat.setEnabled(author);
+        jButtonSave.setEnabled(author);
+        jCheckIsShowDialog.setEnabled(author);
+        jCheckBoxGroupIcd10.setEnabled(author);
+        dateComboBoxDxDate.setEnabled(author);
+        jButtonCancel.setEnabled(author);
+        jButtonSearch.setEnabled(author);
+        jComboBoxClinic.setEnabled(author);
+        jComboBoxDoctor.setEnabled(author);
+        jComboBoxDxtype.setEnabled(author);       
+        jScrollPane11.setEnabled(author);
+        //jTableListDiagIcd10.setEnabled(author);
+        jTextAreaDescription.setEnabled(author);
+        jTextFieldCode.setEnabled(author);
+        jTextFieldDxNote.setEnabled(author);
+        jTextFieldKeyword.setEnabled(author);
+        jButtonClearData.setEnabled(author);
+        jButtonSaveDischarge.setEnabled(author);
+        jButtonSee.setEnabled(author);
+        jRadioButtonOne.setEnabled(author);
+        jRadioButtonThree.setEnabled(author);
+        jTableIcd10.setEnabled(author);
+        jTableidx10v3.setEnabled(author);
+        
+//        //aut : ถ้าใช้ icd10tm จะค้นหาโดยใช้เล่มและกลุ่มไม่ได้
+//        if(Gutil.isSelected(theLC.readOption().used_icd10_tm)) {
+//            jRadioButtonOne.setEnabled(false);
+//            jRadioButtonThree.setEnabled(false);
+//            jCheckBoxGroupIcd10.setEnabled(false);
+//        }
+    }
+    
+    public void setAuthor(String str){
+        //jButtonSaveDischarge.setVisible(str.equals(Authentication.STAT));
+        if(theGHS.getEmployee().authentication_id.equals(Authentication.STAT)
+        || theGHS.getEmployee().authentication_id.equals(Authentication.ONE)){
+            this.jTextFieldDxStat.setVisible(true);
+        }
+        else{
+            this.jTextFieldDxStat.setVisible(false);
+        }        
+    }
+    
+    private void setVisit(Visit v)
+    {
+        Visit theVisit = v;
+        //henbe add in readVisit,visitPatient
+        if(theVisit==null){
+            setIcd10V(null);
+            setSubIcd10V(null);
+            setDiagIcd10V(null);           
+            setEnabled(false);
+            ComboboxModel.setCodeComboBox(jComboBoxDxtype,"1");
+            jTextFieldKeyword.setText("");
+            jTextFieldCode.setText("");
+            jTextAreaDescription.setText("");
+            jTextFieldDxNote.setText("");
+            jLabelShowDx.setText("");
+            jTextFieldDxStat.setText("");
+            return;
+        }
+        jLabelShowDx.setText(theVisit.doctor_dx);
+        jTextFieldKeyword.setText(theVisit.doctor_dx);
+        
+        if(!theVisit.doctor_dx.equals("") && (theGPS.listMapVisitDx().isEmpty())){
+//            jButtonSearchActionPerformed(null);
+            jButtonSearch.doClick();
+        }
+        jTextFieldDxStat.setText(theVisit.stat_dx);
+        //ถ้าเป็นเวชใช้ได้
+        if(theGHS.getEmployee().authentication_id.equals(Authentication.STAT)){
+            setEnabled(true);
+            return;
+        }
+        // ถ้าผู้ป่วยถูกล้อกโดยผู้ใช้คนอื่น
+        if(theGPS.getVisit().isLockingByOther(theGHS.getEmployee().getObjectId())) {
+            Constant.println("theVisit.locking.equals(1)");
+            setEnabled(false);
+            return;
+        }
+        //  henbe_test
+        //หากหมอตรวจเรียบร้อยแล้วก็จะมีการลงรหัสโรคให้
+        //แต่ถ้ารหัสโรคยังไม่ได้ลงผู้ที่ตามเก็บที่หลังที่ไม่ใช่ เวชสถิติ ควรสามารถลงข้อมูลตามแพทย์ได้
+        if(theGPS.getVisit().isDischargeDoctor()
+        && !theGHS.getEmployee().authentication_id.equals(Authentication.STAT)){
+            setEnabled(false);
+            return;
+        }
+        if(theGPS.getVisit().isDropVisit()) {
+            setEnabled(false);
+            return;
+        }
+        setEnabled(true);            
+    }
+    
+   public void notifyAdmitVisit(String str, int status) {
+   }
+   
+   public void notifyManageAppointment(String str, int status) {
+   }
+   
+   public void notifyManageDiagIcd10(String str, int status) {
+       setDiagIcd10V(theGPS.listDiagIcd10());
+//       this.theDiagIcd10.getObjectId();
+//       int index = jTableListDiagIcd10.getSelectedRow();
+       //แสดงว่าไม่ได้เลือกจากรายการเก่าก็จะต้องไปเพิ่มในรายการสุดท้าย
+//       if(index==-1 && jTableListDiagIcd10.getRowCount()>0){
+//           index = jTableListDiagIcd10.getRowCount()-1;
+//           jTableListDiagIcd10.setRowSelectionInterval(index,index);
+//           jTableListDiagIcd10MouseReleased(null);
+//       }
+   }
+   
+   public void notifyManageDiagIcd9(String str, int status) {
+   }
+   
+   public void notifyManageDrugAllergy(String str, int status) {
+   }
+   
+   public void notifySavePatientPayment(String str, int status) {
+   }
+   
+   public void notifyReadVisit(String str, int status) {
+        setVisit(theGPS.getVisit());
+        setDiagIcd10V(theGPS.listDiagIcd10());
+        setMapVisitDxV(theGPS.listMapVisitDx());
+        jButtonClearDataActionPerformed(null);
+   }
+
+  public void setDiagFromTemplate(Vector vdt)
+   {
+        if(vdt!=null) 
+        {
+            Vector vSubicd = new Vector();
+            Vector vGrpicd = new Vector();
+            for(int j=0;j<vdt.size();j++)
+            {
+                DxTemplate dt = (DxTemplate)vdt.get(j);
+                ICD10 icd10 = theDC.readIcd10ByCode(dt.icd_code);
+                if(dt.icd_type.equals(DxTemplateType.ICD_CODE))
+                {
+                    vSubicd.add(icd10);
+                }
+                else
+                {
+                    vGrpicd.add(icd10);
+                }
+            }
+            this.setIcd10V(vGrpicd);
+            this.setSubIcd10V(vSubicd);
+        }
+
+   }
+  
+   public void notifyObservVisit(String str, int status) {
+   }
+   
+   public void notifyUnlockVisit(String str, int status) {       
+        setVisit(theGPS.getVisit());
+        setDiagIcd10V(theGPS.listDiagIcd10());
+        setMapVisitDxV(theGPS.listMapVisitDx());
+        //setSubIcd10V(null);            
+   }
+   
+   public void notifyVisitPatient(String str, int status) {
+        setVisit(theGPS.getVisit());
+        setDiagIcd10V(theGPS.listDiagIcd10());
+        setMapVisitDxV(theGPS.listMapVisitDx());
+  }
+   
+   public void notifyDischargeDoctor(String str, int status) {
+        setVisit(theGPS.getVisit());
+        setDiagIcd10V(theGPS.listDiagIcd10());
+        setMapVisitDxV(theGPS.listMapVisitDx());
+   }
+   
+   public void notifyAddItemDrugAllergy(String str, int status) {
+   }
+   
+   public void notifyCheckDoctorTreament(String msg, int state) {
+   }
+ 
+   public void notifyAddCurrentPrimarySymtom(String str, int status) {
+   }   
+      
+   public void notifyAddPrimarySymtom(String str, int status) {
+   }
+   
+   public void notifyDropVisit(String str, int status) {
+        setVisit(theGPS.getVisit());
+        setDiagIcd10V(theGPS.listDiagIcd10());
+        setMapVisitDxV(theGPS.listMapVisitDx());
+   }
+   
+   public void notifySendVisit(String str, int status) {       
+        setVisit(theGPS.getVisit());
+        setDiagIcd10V(theGPS.listDiagIcd10());
+        setMapVisitDxV(theGPS.listMapVisitDx());
+   }
+   
+   public void notifyDischargeFinancial(String str, int status) {
+        setVisit(theGPS.getVisit());
+        setDiagIcd10V(theGPS.listDiagIcd10());
+        setMapVisitDxV(theGPS.listMapVisitDx());
+   }
+   
+   public void notifyManagePayment(String str, int status) {
+   }
+   
+   public void notifyReverseFinancial(String str, int status) {
+        setVisit(theGPS.getVisit());
+        setDiagIcd10V(theGPS.listDiagIcd10());
+        setMapVisitDxV(theGPS.listMapVisitDx());
+   }
+   
+   public void notifyReverseDoctor(String str, int status) {
+        setVisit(theGPS.getVisit());
+        setDiagIcd10V(theGPS.listDiagIcd10());
+        setMapVisitDxV(theGPS.listMapVisitDx());
+   }
+   
+   public void notifyDeleteVisitPayment(String str, int status) {
+   }
+   
+   public void notifyDeletePatientPayment(String str, int status) {
+   }
+
+   public void notifyDeleteParticipateOr(String msg, int status) {
+   }
+
+    public void notifyAddDxTemplate(String str, int status) {
+    }
+    
+    public void notifyReadPatient(String str, int status) {
+        setVisit(theGPS.getVisit());
+        setDiagIcd10V(theGPS.listDiagIcd10());
+        setMapVisitDxV(theGPS.listMapVisitDx());
+    }
+    public void notifyReadFamily(String str, int status) {
+        setVisit(theGPS.getVisit());
+        setDiagIcd10V(theGPS.listDiagIcd10());
+        setMapVisitDxV(theGPS.listMapVisitDx());
+    }
+    
+    public void notifySavePatient(String str, int status) {
+    }
+
+    public void notifyDeletePatient(String str, int status) {
+    }
+    
+    public void notifyRemainDoctorDischarge(String str, int status) {
+        setVisit(theGPS.getVisit());
+        setDiagIcd10V(theGPS.listDiagIcd10());
+        setMapVisitDxV(theGPS.listMapVisitDx());
+    }    
+    
+    public void notifySendVisitBackWard(String str, int status) {
+        setVisit(theGPS.getVisit());
+        setDiagIcd10V(theGPS.listDiagIcd10());
+        setMapVisitDxV(theGPS.listMapVisitDx());
+    }
+    
+    public void notifyAddPrimarySymptom(String str, int status) {
+    }
+    
+    public void notifyDeleteMapVisitDxByVisitId(String str, int status) {
+    }
+    
+    public void notifyManagePhysicalExam(String str, int status) {
+    }
+    
+    public void notifyManagePrimarySymptom(String str, int status) {
+    }
+    
+    public void notifyManageVitalSign(String str, int status) {
+    }
+    
+    public void notifySaveDiagDoctor(String str, int status) {
+        setVisit(theGPS.getVisit());
+        setDiagIcd10V(theGPS.listDiagIcd10());
+        setMapVisitDxV(theGPS.listMapVisitDx());
+        //setDiagFromTemplate();
+    }
+    
+    public void notifySaveAppointment(String str, int status) {
+    }
+    
+    public void notifyReverseAdmit(String str, int status) {
+    }
+    
+    public void notifyResetPatient(String str, int status) {
+        setVisit(theGPS.getVisit());
+        setDiagIcd10V(theGPS.listDiagIcd10());
+        setMapVisitDxV(theGPS.listMapVisitDx());
+    }
+
+    public void notifySaveBorrowFilmXray(String str, int status) {
+    }
+
+}

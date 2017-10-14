@@ -1,0 +1,1423 @@
+/*
+ * DialogBorrowFilmXray.java
+ *
+ * Created on 7 ธันวาคม 2546, 14:14 น.
+ * Modified on 21 เมษายน 2547, 13:00 น.
+ */
+package com.hosv3.gui.dialog;
+import java.util.*;
+import java.awt.*;
+import javax.swing.*;
+import com.hosv3.control.*;
+import com.hosv3.utility.*;
+import com.hosv3.object.*;
+import com.hosv3.utility.connection.*;
+import com.hosv3.control.lookup.*;
+import com.hospital_os.object.*;
+import com.hospital_os.object.specialQuery.*; 
+import com.hospital_os.utility.Gutil;
+import com.hospital_os.utility.TaBleModel;
+import com.hospital_os.utility.CelRenderer;
+import com.hosv3.utility.Constant;
+import com.hospital_os.utility.CellRendererHos;
+/**
+ *
+ * @author sumo
+ * @modifier sumo
+ */
+public class DialogBorrowFilmXray extends JFrame implements UpdateStatus 
+{
+    HosControl theHC;
+    HosObject theHO;
+    public boolean actionCommand = false;
+    JFrame aMain;
+    LookupControl theLookupControl;
+    PatientControl thePatientControl;
+    VisitControl theVisitControl;
+    SetupControl theSetupControl;
+    SystemControl theSystemControl;
+    Patient thePatient;
+    CelRenderer cellRenderer = new CelRenderer();
+    BorrowFilmXray theBorrowFilmXray = new BorrowFilmXray();
+    /**vector ของ รายการยืมฟิล์ม Xray*/
+    Vector vBorrow;  
+    
+    private String[] collistHn = {"Hn","ชื่อ","วันที่","ผู้ยืม","คืน"};
+    private String[] collistXn = {"Xn","ชื่อ","วันที่","ผู้ยืม","คืน"};  
+    CellRendererHos hnRender = new CellRendererHos(CellRendererHos.HN);
+    /**
+     *flag true คือ ต้อง check เรื่องเวลา
+     *     false คือ ไม่ต้อง check เรื่องเวลา
+     */
+    private boolean flag;
+    
+    /** Creates new form DialogAppointment */
+    public DialogBorrowFilmXray(HosControl hc,UpdateStatus us)
+    {   
+        aMain = us.getJFrame();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/com/hosv3/gui/images/PrintXNIndex.gif")));
+        theLookupControl = hc.theLookupControl;
+        thePatientControl = hc.thePatientControl;
+        theSetupControl = hc.theSetupControl;
+        theSystemControl = hc.theSystemControl;
+    hnRender = new CellRendererHos(CellRendererHos.HN,theLookupControl.getSequenceDataHN().pattern);
+        theHO = hc.theHO;
+        theHC = hc;
+        thePatient = theHO.thePatient;
+        initComponents();
+        updateOGComponent();
+        setDefault();
+        setEnableAll(true);
+        setLanguage("");
+        jTextFieldCancel.setVisible(false);
+        if(theHO.thePatient!=null)
+        {
+            thePatient = theHC.thePatientControl.readPatientByHnToBorrowFilm(theHO.thePatient.hn, this);
+            if(thePatient != null) 
+            {
+                updateOGBorrowFilmXray(null, thePatient);
+            }
+        }
+        jTextFieldBorrowToOther.setControl(new ServicePointLookup(theHC.theLookupControl),this);
+//        jTextFieldBorrowToOther.setEControl(new ServicePointLookup(theHC.theSetupControl));
+        theHC.theHS.theBalloonSubject.attachBalloon(jTextFieldBorrowToOther);
+        jButtonPreviewListBorrowFilmXray.setVisible(false);
+        jButtonPrintListBorrowFilmXray.setVisible(false);
+        jTextFieldHosName.setEditable(false);
+        this.dateComboBoxDateFrom.setEnabled(false);
+        this.dateComboBoxDateTo.setEnabled(false);
+    }
+   
+    //////////////////////////////////////////////////////////////////////////
+    /**
+     *dialog ที่ใช้ในการส่งข้อความเตื่อนผู้ใช้
+     */
+     public void setStatus(String str, int status) 
+     {
+         
+        ThreadStatus theTT = new ThreadStatus(this,this.jLabelStatus);
+        theTT.start();
+        str = Constant.getTextBundle(str);
+        jLabelStatus.setText(" " + str);
+        Constant.println("----SetStatus---- " + str);
+        if(status == UpdateStatus.WARNING){
+            jLabelStatus.setBackground(Color.YELLOW);
+        }
+        if(status == UpdateStatus.COMPLETE){
+            jLabelStatus.setBackground(Color.GREEN);
+        }
+        if(status == UpdateStatus.ERROR){
+            jLabelStatus.setBackground(Color.RED);
+        }        
+    }
+    
+     //////////////////////////////////////////////////////////////////////////
+     /**
+      *dialog ที่ใข้ในการให้ผู้ใข้ทำการยีนยันสิ่งต่าง
+      */
+    public boolean confirmBox(String str, int status) {
+        int i = JOptionPane.showConfirmDialog(this,str,Constant.getTextBundle("เตือน")
+                ,JOptionPane.YES_NO_OPTION);
+        return (i==JOptionPane.YES_OPTION);
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    /**
+     *init component
+     *ทำการเซตค่าให้กับ component ต่างๆ
+     *neung
+     */
+    private void updateOGComponent(){   
+        dateComboBoxDateBorrowFilm.setEditable(true);
+        dateComboBoxDateFrom.setEditable(true);
+        dateComboBoxDateTo.setEditable(true);
+    }
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
+     */
+    // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jLabelStatus = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabelCauseBorrow = new javax.swing.JLabel();
+        jLabelBorrowTo = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextAreaCauseBorrow = new javax.swing.JTextArea();
+        jPanel4 = new javax.swing.JPanel();
+        jButtonHos = new javax.swing.JButton();
+        jTextFieldHosName = new javax.swing.JTextField();
+        jTextFieldHosCode = new javax.swing.JTextField();
+        jLabelPermissibly_Borrow = new javax.swing.JLabel();
+        jTextFieldPermissibly = new javax.swing.JTextField();
+        jPanel10 = new javax.swing.JPanel();
+        jTextFieldHN = new com.hospital_os.utility.HNTextField();
+        jLabelXn = new javax.swing.JLabel();
+        jTextFieldXN = new javax.swing.JTextField();
+        jLabelHn = new javax.swing.JLabel();
+        jTextFieldCancel = new javax.swing.JTextField();
+        jLabelBorrowToOther = new javax.swing.JLabel();
+        jTextFieldBorrowToOther = new com.hosv3.gui.component.BalloonTextField();
+        jPanel5 = new javax.swing.JPanel();
+        jLabelAmountDate = new javax.swing.JLabel();
+        jTextFieldAmountDate = new com.hospital_os.utility.DoubleTextField();
+        dateComboBoxDateBorrowFilm = new com.hospital_os.utility.DateComboBox();
+        dateComboBoxDateReturnFilm = new com.hospital_os.utility.DateComboBox();
+        jCheckBoxReturnFilmDate = new javax.swing.JCheckBox();
+        jLabelBorrowFilmDate = new javax.swing.JLabel();
+        jLabelAmountDate1 = new javax.swing.JLabel();
+        jLabelFLName = new javax.swing.JLabel();
+        jTextFieldPatientName = new javax.swing.JTextField();
+        jLabelBorrowName = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        jTextFieldBXLName = new javax.swing.JTextField();
+        jTextFieldBXFName = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jButtonAdd = new javax.swing.JButton();
+        jButtonSave = new javax.swing.JButton();
+        jButtonDel = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new com.hosv3.gui.component.HJTableSort();
+        jPanelSearch = new javax.swing.JPanel();
+        jCheckBoxShowCancel = new javax.swing.JCheckBox();
+        jCheckBoxSCurrPatient = new javax.swing.JCheckBox();
+        jPanel11 = new javax.swing.JPanel();
+        jLabelDateEnd = new javax.swing.JLabel();
+        dateComboBoxDateFrom = new com.hospital_os.utility.DateComboBox();
+        dateComboBoxDateTo = new com.hospital_os.utility.DateComboBox();
+        jCheckBoxDateSearch = new javax.swing.JCheckBox();
+        jButtonPreviewListBorrowFilmXray = new javax.swing.JButton();
+        jButtonPrintListBorrowFilmXray = new javax.swing.JButton();
+
+        getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
+
+        jLabelStatus.setFont(new java.awt.Font("Tahoma", 0, 14));
+        jLabelStatus.setMaximumSize(new java.awt.Dimension(4, 24));
+        jLabelStatus.setMinimumSize(new java.awt.Dimension(4, 20));
+        jLabelStatus.setOpaque(true);
+        jLabelStatus.setPreferredSize(new java.awt.Dimension(4, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        getContentPane().add(jLabelStatus, gridBagConstraints);
+
+        jPanel7.setLayout(new java.awt.GridBagLayout());
+
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Dialog_Borrow_Film_Xray_Detail"));
+        jLabelCauseBorrow.setText("CauseBorrow");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 12, 0, 0);
+        jPanel7.add(jLabelCauseBorrow, gridBagConstraints);
+
+        jLabelBorrowTo.setText("BorrowTo");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 12, 0, 0);
+        jPanel7.add(jLabelBorrowTo, gridBagConstraints);
+
+        jScrollPane2.setMaximumSize(new java.awt.Dimension(250, 150));
+        jScrollPane2.setMinimumSize(new java.awt.Dimension(50, 50));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(50, 50));
+        jTextAreaCauseBorrow.setLineWrap(true);
+        jTextAreaCauseBorrow.setWrapStyleWord(true);
+        jScrollPane2.setViewportView(jTextAreaCauseBorrow);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 11, 0, 12);
+        jPanel7.add(jScrollPane2, gridBagConstraints);
+
+        jPanel4.setLayout(new java.awt.GridBagLayout());
+
+        jButtonHos.setText("...");
+        jButtonHos.setMaximumSize(new java.awt.Dimension(24, 24));
+        jButtonHos.setMinimumSize(new java.awt.Dimension(24, 24));
+        jButtonHos.setPreferredSize(new java.awt.Dimension(24, 24));
+        jButtonHos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonHosActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel4.add(jButtonHos, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel4.add(jTextFieldHosName, gridBagConstraints);
+
+        jTextFieldHosCode.setMinimumSize(new java.awt.Dimension(41, 21));
+        jTextFieldHosCode.setPreferredSize(new java.awt.Dimension(41, 21));
+        jTextFieldHosCode.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldHosCodeFocusLost(evt);
+            }
+        });
+        jTextFieldHosCode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextFieldHosCodeKeyReleased(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        jPanel4.add(jTextFieldHosCode, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 11, 0, 12);
+        jPanel7.add(jPanel4, gridBagConstraints);
+
+        jLabelPermissibly_Borrow.setText("Permissibly_Borrow");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 12, 0, 0);
+        jPanel7.add(jLabelPermissibly_Borrow, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 11, 0, 12);
+        jPanel7.add(jTextFieldPermissibly, gridBagConstraints);
+
+        jPanel10.setLayout(new java.awt.GridBagLayout());
+
+        jTextFieldHN.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldHN.setMinimumSize(new java.awt.Dimension(65, 21));
+        jTextFieldHN.setPreferredSize(new java.awt.Dimension(65, 21));
+        jTextFieldHN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldHNActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel10.add(jTextFieldHN, gridBagConstraints);
+
+        jLabelXn.setText("XN");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel10.add(jLabelXn, gridBagConstraints);
+
+        jTextFieldXN.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldXN.setMinimumSize(new java.awt.Dimension(65, 21));
+        jTextFieldXN.setPreferredSize(new java.awt.Dimension(65, 21));
+        jTextFieldXN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldXNActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel10.add(jTextFieldXN, gridBagConstraints);
+
+        jLabelHn.setText("HN");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel10.add(jLabelHn, gridBagConstraints);
+
+        jTextFieldCancel.setBackground(new java.awt.Color(255, 0, 0));
+        jTextFieldCancel.setEditable(false);
+        jTextFieldCancel.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextFieldCancel.setText("\u0e22\u0e01\u0e40\u0e25\u0e34\u0e01");
+        jTextFieldCancel.setToolTipText("");
+        jTextFieldCancel.setBorder(null);
+        jTextFieldCancel.setMinimumSize(new java.awt.Dimension(70, 21));
+        jTextFieldCancel.setPreferredSize(new java.awt.Dimension(70, 21));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel10.add(jTextFieldCancel, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 12, 0, 12);
+        jPanel7.add(jPanel10, gridBagConstraints);
+
+        jLabelBorrowToOther.setText("BorrowToOther");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 12, 0, 0);
+        jPanel7.add(jLabelBorrowToOther, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 11, 0, 12);
+        jPanel7.add(jTextFieldBorrowToOther, gridBagConstraints);
+
+        jPanel5.setLayout(new java.awt.GridBagLayout());
+
+        jLabelAmountDate.setText("\u0e27\u0e31\u0e19");
+        jLabelAmountDate.setMaximumSize(new java.awt.Dimension(70, 21));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        jPanel5.add(jLabelAmountDate, gridBagConstraints);
+
+        jTextFieldAmountDate.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldAmountDate.setMinimumSize(new java.awt.Dimension(30, 21));
+        jTextFieldAmountDate.setPreferredSize(new java.awt.Dimension(30, 21));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        jPanel5.add(jTextFieldAmountDate, gridBagConstraints);
+
+        dateComboBoxDateBorrowFilm.setMinimumSize(new java.awt.Dimension(107, 24));
+        dateComboBoxDateBorrowFilm.setPreferredSize(new java.awt.Dimension(107, 24));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 12, 0, 0);
+        jPanel5.add(dateComboBoxDateBorrowFilm, gridBagConstraints);
+
+        dateComboBoxDateReturnFilm.setMinimumSize(new java.awt.Dimension(107, 24));
+        dateComboBoxDateReturnFilm.setPreferredSize(new java.awt.Dimension(107, 24));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 12, 0, 0);
+        jPanel5.add(dateComboBoxDateReturnFilm, gridBagConstraints);
+
+        jCheckBoxReturnFilmDate.setText("\u0e27\u0e31\u0e19\u0e17\u0e35\u0e48\u0e04\u0e37\u0e19");
+        jCheckBoxReturnFilmDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxReturnFilmDateActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        jPanel5.add(jCheckBoxReturnFilmDate, gridBagConstraints);
+
+        jLabelBorrowFilmDate.setText("\u0e27\u0e31\u0e19\u0e17\u0e35\u0e48\u0e22\u0e37\u0e21");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        jPanel5.add(jLabelBorrowFilmDate, gridBagConstraints);
+
+        jLabelAmountDate1.setText("\u0e08\u0e33\u0e19\u0e27\u0e19\u0e27\u0e31\u0e19\u0e22\u0e37\u0e21");
+        jLabelAmountDate1.setMaximumSize(new java.awt.Dimension(70, 21));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        jPanel5.add(jLabelAmountDate1, gridBagConstraints);
+
+        jLabelFLName.setText("\u0e0a\u0e37\u0e48\u0e2d-\u0e2a\u0e01\u0e38\u0e25 \u0e1c\u0e39\u0e49\u0e1b\u0e48\u0e27\u0e22");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel5.add(jLabelFLName, gridBagConstraints);
+
+        jTextFieldPatientName.setEditable(false);
+        jTextFieldPatientName.setBorder(null);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 12, 0, 0);
+        jPanel5.add(jTextFieldPatientName, gridBagConstraints);
+
+        jLabelBorrowName.setText("\u0e0a\u0e37\u0e48\u0e2d-\u0e2a\u0e01\u0e38\u0e25 \u0e1c\u0e39\u0e49\u0e22\u0e37\u0e21");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        jPanel5.add(jLabelBorrowName, gridBagConstraints);
+
+        jPanel8.setLayout(new java.awt.GridBagLayout());
+
+        jTextFieldBXLName.setMaximumSize(new java.awt.Dimension(100, 21));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel8.add(jTextFieldBXLName, gridBagConstraints);
+
+        jTextFieldBXFName.setMaximumSize(new java.awt.Dimension(100, 21));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        jPanel8.add(jTextFieldBXFName, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 12, 0, 0);
+        jPanel5.add(jPanel8, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 12, 0, 12);
+        jPanel7.add(jPanel5, gridBagConstraints);
+
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        jButtonAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hosv3/gui/images/plus16.gif")));
+        jButtonAdd.setMaximumSize(new java.awt.Dimension(24, 24));
+        jButtonAdd.setMinimumSize(new java.awt.Dimension(26, 26));
+        jButtonAdd.setPreferredSize(new java.awt.Dimension(26, 26));
+        jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel1.add(jButtonAdd, gridBagConstraints);
+
+        jButtonSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hospital_os/images/Save16.gif")));
+        jButtonSave.setText("\u0e1a\u0e31\u0e19\u0e17\u0e36\u0e01");
+        jButtonSave.setMaximumSize(new java.awt.Dimension(80, 26));
+        jButtonSave.setMinimumSize(new java.awt.Dimension(80, 26));
+        jButtonSave.setPreferredSize(new java.awt.Dimension(80, 26));
+        jButtonSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSaveActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        jPanel1.add(jButtonSave, gridBagConstraints);
+
+        jButtonDel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hosv3/gui/images/minus16.gif")));
+        jButtonDel.setMaximumSize(new java.awt.Dimension(24, 24));
+        jButtonDel.setMinimumSize(new java.awt.Dimension(26, 26));
+        jButtonDel.setPreferredSize(new java.awt.Dimension(26, 26));
+        jButtonDel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDelActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel1.add(jButtonDel, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(17, 12, 11, 12);
+        jPanel7.add(jPanel1, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        getContentPane().add(jPanel7, gridBagConstraints);
+        jPanel7.getAccessibleContext().setAccessibleParent(jPanel7);
+
+        jPanel3.setLayout(new java.awt.GridBagLayout());
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Dialog_Borrow_Film_Xray_Search"));
+        jPanel3.setRequestFocusEnabled(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTable1MouseReleased(evt);
+            }
+        });
+        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTable1KeyReleased(evt);
+            }
+        });
+
+        jScrollPane1.setViewportView(jTable1);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 11, 11, 11);
+        jPanel3.add(jScrollPane1, gridBagConstraints);
+
+        jPanelSearch.setLayout(new java.awt.GridBagLayout());
+
+        jCheckBoxShowCancel.setText("\u0e23\u0e32\u0e22\u0e01\u0e32\u0e23\u0e17\u0e35\u0e48\u0e22\u0e01\u0e40\u0e25\u0e34\u0e01");
+        jCheckBoxShowCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxShowCancelActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        jPanelSearch.add(jCheckBoxShowCancel, gridBagConstraints);
+
+        jCheckBoxSCurrPatient.setText("CurrentPatient");
+        jCheckBoxSCurrPatient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxSCurrPatientActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 3, 0, 0);
+        jPanelSearch.add(jCheckBoxSCurrPatient, gridBagConstraints);
+
+        jPanel11.setLayout(new java.awt.GridBagLayout());
+
+        jLabelDateEnd.setText("\u0e16\u0e36\u0e07");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel11.add(jLabelDateEnd, gridBagConstraints);
+
+        dateComboBoxDateFrom.setMinimumSize(new java.awt.Dimension(107, 24));
+        dateComboBoxDateFrom.setPreferredSize(new java.awt.Dimension(107, 24));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
+        jPanel11.add(dateComboBoxDateFrom, gridBagConstraints);
+
+        dateComboBoxDateTo.setMinimumSize(new java.awt.Dimension(107, 24));
+        dateComboBoxDateTo.setPreferredSize(new java.awt.Dimension(107, 24));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
+        jPanel11.add(dateComboBoxDateTo, gridBagConstraints);
+
+        jCheckBoxDateSearch.setText("\u0e27\u0e31\u0e19\u0e17\u0e35\u0e48");
+        jCheckBoxDateSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxDateSearchActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel11.add(jCheckBoxDateSearch, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(3, 3, 0, 3);
+        jPanelSearch.add(jPanel11, gridBagConstraints);
+
+        jButtonPreviewListBorrowFilmXray.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hospital_os/images/preview24.gif")));
+        jButtonPreviewListBorrowFilmXray.setToolTipText("PreviewListBorrowFilmXray");
+        jButtonPreviewListBorrowFilmXray.setMinimumSize(new java.awt.Dimension(26, 26));
+        jButtonPreviewListBorrowFilmXray.setPreferredSize(new java.awt.Dimension(26, 26));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        jPanelSearch.add(jButtonPreviewListBorrowFilmXray, gridBagConstraints);
+
+        jButtonPrintListBorrowFilmXray.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hospital_os/images/print24.gif")));
+        jButtonPrintListBorrowFilmXray.setToolTipText("PrintListBorrowFilmXray");
+        jButtonPrintListBorrowFilmXray.setMinimumSize(new java.awt.Dimension(26, 26));
+        jButtonPrintListBorrowFilmXray.setPreferredSize(new java.awt.Dimension(26, 26));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        jPanelSearch.add(jButtonPrintListBorrowFilmXray, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 11, 0, 11);
+        jPanel3.add(jPanelSearch, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        getContentPane().add(jPanel3, gridBagConstraints);
+        jPanel3.getAccessibleContext().setAccessibleParent(jPanel3);
+
+        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds((screenSize.width-838)/2, (screenSize.height-565)/2, 838, 565);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jCheckBoxDateSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxDateSearchActionPerformed
+        this.dateComboBoxDateFrom.setEnabled(jCheckBoxDateSearch.isSelected());
+        this.dateComboBoxDateTo.setEnabled(jCheckBoxDateSearch.isSelected());
+        searchBorrowFilmXray(false);
+    }//GEN-LAST:event_jCheckBoxDateSearchActionPerformed
+
+    private void jCheckBoxReturnFilmDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxReturnFilmDateActionPerformed
+        dateComboBoxDateReturnFilm.setEnabled(jCheckBoxReturnFilmDate.isSelected());
+    }//GEN-LAST:event_jCheckBoxReturnFilmDateActionPerformed
+
+    private void jCheckBoxSCurrPatientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxSCurrPatientActionPerformed
+        searchBorrowFilmXray(false);
+        if(jCheckBoxSCurrPatient.isSelected() && jTextFieldXN.getText().equals("") && jTextFieldHN.getText().equals(""))
+        {
+            setStatus(Constant.getTextBundle("ไม่สามารถค้นหาได้")+" "+
+                    Constant.getTextBundle("เนื่องจากไม่มีข้อมูลผู้ป่วยปัจจุบัน") ,WARNING);
+        }
+    }//GEN-LAST:event_jCheckBoxSCurrPatientActionPerformed
+
+    private void jTextFieldXNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldXNActionPerformed
+        thePatient = theHC.thePatientControl.readPatientByXnToBorrowFilm(jTextFieldXN.getText(),this);
+        if(thePatient == null) 
+        {
+            setDefault();
+            return;
+        }
+        updateOGBorrowFilmXray(null, thePatient);
+    }//GEN-LAST:event_jTextFieldXNActionPerformed
+
+    private void jTextFieldHNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldHNActionPerformed
+        thePatient = theHC.thePatientControl.readPatientByHnToBorrowFilm(jTextFieldHN.getText(),this);
+        if(thePatient == null) 
+        {
+            setDefault();
+            return;
+        }
+        updateOGBorrowFilmXray(null, thePatient);
+    }//GEN-LAST:event_jTextFieldHNActionPerformed
+
+    private void jCheckBoxShowCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxShowCancelActionPerformed
+        searchBorrowFilmXray(false);
+    }//GEN-LAST:event_jCheckBoxShowCancelActionPerformed
+
+    private void jTextFieldHosCodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldHosCodeKeyReleased
+        if(jTextFieldHosCode.getText().length()!=5)
+        {
+            return;
+        }
+        jTextFieldHosCodeFocusLost(null);
+    }//GEN-LAST:event_jTextFieldHosCodeKeyReleased
+
+    private void jTextFieldHosCodeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldHosCodeFocusLost
+        if(jTextFieldHosCode.getText().equals(""))
+            return;
+        
+        Office office = theHC.theLookupControl.readHospitalByCode(jTextFieldHosCode.getText());
+        if(office==null)
+        {
+            jTextFieldHosCode.setText("");
+            jTextFieldHosName.setText("");
+            setStatus(Constant.getTextBundle("ไม่พบสถานพยาบาลที่ตรงกับรหัสที่ระบุ")+" "+
+                    Constant.getTextBundle("กรุณาตรวจสอบรหัสอีกครั้ง"), WARNING);
+            if(theBorrowFilmXray!=null) 
+            {
+                theBorrowFilmXray.borrow_to = "";
+            }
+        }
+        else
+        {
+            jTextFieldHosName.setText(office.getName());
+            if(theBorrowFilmXray!=null) 
+            {
+                theBorrowFilmXray.borrow_to = office.getObjectId();
+            }
+        }
+    }//GEN-LAST:event_jTextFieldHosCodeFocusLost
+
+    private void jButtonHosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHosActionPerformed
+        Office office = new Office();
+        office.setObjectId(theBorrowFilmXray.borrow_to);
+        if(DialogOffice.showDialog(theHC,this,office))
+        {
+            theBorrowFilmXray.borrow_to = office.getObjectId();
+            jTextFieldHosName.setText(office.getName());
+            jTextFieldHosCode.setText(office.getCode());
+        } 
+    }//GEN-LAST:event_jButtonHosActionPerformed
+
+    private void jTable1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyReleased
+        if(evt.getKeyCode()==evt.VK_UP || evt.getKeyCode()==evt.VK_DOWN){
+            this.jTable1MouseReleased(null);
+        }
+    }//GEN-LAST:event_jTable1KeyReleased
+
+    private void jTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseReleased
+        int row = jTable1.getSelectedRow();
+        if(row==-1)
+        {
+            return;
+        }
+        SpecialQueryBorrowFilmXray sqbor = (SpecialQueryBorrowFilmXray) vBorrow.get(row);
+        theBorrowFilmXray = thePatientControl.readBorrowFilmXrayByPK(sqbor.t_borrow_film_xray_id);
+        System.err.println("theBorrowFilmXray.patient_hn = "+theBorrowFilmXray.patient_hn);
+        System.err.println("theBorrowFilmXray.patient_xn = "+theBorrowFilmXray.patient_xn);
+        updateOGBorrowFilmXray(theBorrowFilmXray,null);
+    }//GEN-LAST:event_jTable1MouseReleased
+
+    private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
+        actionCommand = false;
+        String date_time = theHO.date_time;
+        theBorrowFilmXray = theHO.initBorrowFilmXray(date_time);
+        setDefault();
+        this.setStatus(Constant.getTextBundle("กรุณากรอกข้อมูลการยืมฟิล์ม Xray"),UpdateStatus.COMPLETE);
+    }//GEN-LAST:event_jButtonAddActionPerformed
+
+    private void jButtonDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDelActionPerformed
+        int row = jTable1.getSelectedRow();
+        boolean ret = true;
+        if(row < 0)
+        {
+            setStatus(Constant.getTextBundle("กรุณาเลือกรายการยืมคืนฟิล์ม Xray ที่ต้องการลบก่อน"),UpdateStatus.WARNING);
+            return;
+        }
+        ret = thePatientControl.deleteBorrowFilmXray(theBorrowFilmXray,this);  
+        if(ret == false)
+        {
+            return;
+        }
+        theBorrowFilmXray = theHO.initBorrowFilmXray("");
+        //updateOGBorrowFilmXray(theBorrowFilmXray, null);
+        setDefault();
+        searchBorrowFilmXray(false);
+    }//GEN-LAST:event_jButtonDelActionPerformed
+
+    private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
+        actionCommand = true;
+        updateGOBorrowFilmXray(theBorrowFilmXray);
+        boolean ret = thePatientControl.saveBorrowFilmXray(theBorrowFilmXray,this);
+        if(ret == false)
+        {
+            return;
+        }
+        //this.updateOGBorrowFilmXray(theBorrowFilmXray,null);
+        searchBorrowFilmXray(true);
+    }//GEN-LAST:event_jButtonSaveActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        setVisible(false);
+        //closeDialog = true;
+        dispose();
+    }//GEN-LAST:event_formWindowClosing
+           
+    /**
+     * เป็น function ในการจัดการการพิมพ์ของการพิมพ์รายการนัดหมายตามจุดบริการ
+     *
+     **/
+//    private void printBorrowFilmXray(int preview){
+//       com.printing.object.AppointmentList.PrintAppointmentList papplist = new com.printing.object.AppointmentList.PrintAppointmentList();
+//       Vector vPrintAppointmentList = new Vector();
+//       //กำหนดค่าเพื่อจะนำไปแสดงบน เอกสาร
+//       papplist.setHospital(theLookupControl.readSite().off_name);
+//       papplist.setServicePointAppList(ComboboxModel.getStringConboBox(jComboBoxSearchServicePoint)); 
+//       //papplist.setServicePointAppList(theSetupControl.listServicePointByPk(ComboboxModel.getCodeComboBox(jComboBoxSearchServicePoint)).name);       
+//       if(jRadioButtonAll.isSelected()){
+//            papplist.setStartDate(" ทั้งหมด");
+//       }
+//       else{
+//            papplist.setStartDate(DateUtil.convertFieldDate(dateComboBoxDateFrom.getText()) + " ถึงวันที่ " + DateUtil.convertFieldDate(dateComboBoxDateTo.getText()));
+//            //papplist.setEndDate(DateUtil.convertFieldDate(dateComboBoxDateTo.getText()));
+//       }
+//             
+//        if(vappointment != null && vappointment.size() > 0){
+//            //Patient patient = new Patient();
+//            //Appointment app;
+//            SpecialQueryAppointment spappointment = new SpecialQueryAppointment();
+//            com.printing.object.AppointmentList.DataSource datasource;
+//            int num = 1;
+//            for(int i = 0 ; i < vappointment.size() ; i++){
+//                spappointment = (SpecialQueryAppointment)vappointment.get(i);
+//                datasource = new com.printing.object.AppointmentList.DataSource();
+//                datasource.hn = spappointment.patient_hn; //patient.hn;
+//                datasource.name = spappointment.patient_firstname + " " + spappointment.patient_lastname ;//patient.patient_name + " " + patient.patient_last_name;
+//                datasource.app_date = DateUtil.convertFieldDate(spappointment.patient_appointment_date);
+//                datasource.app_time = spappointment.patient_appointment_time;
+//                datasource.app_type = spappointment.patient_appointment;
+//                datasource.serviceAppoint = spappointment.service_point_description.substring(3); 
+//                vPrintAppointmentList.add(datasource);
+//                spappointment = null;
+//            }
+//            //patient = null;
+//            spappointment = null;
+//        }
+//        else{
+//            JOptionPane.showMessageDialog(this,"ไม่มีรายการนัดที่จะพิมพ์","เตือน",JOptionPane.ERROR_MESSAGE);
+//        }
+//        com.printing.object.AppointmentList.DataSourcePrintAppointmentList dpapplist = new com.printing.object.AppointmentList.DataSourcePrintAppointmentList(vPrintAppointmentList);
+//        com.printing.gui.PrintingFrm thePrintingFrm = new com.printing.gui.PrintingFrm(aMain,5,papplist.getData(),preview,0,dpapplist);
+//        vPrintAppointmentList = null;
+//    }
+    
+    
+    ////////////////////////////////////////////////////////////////////////////
+    /**
+     *
+     */
+    public JFrame getJFrame() {
+        return this;
+    }
+    ///////////////////////////////////////////////////////////////////////////
+    /**
+     *เก็บค่าจาก GUI มาเก็บไว้ใน Object
+     */
+    public void updateGOBorrowFilmXray(BorrowFilmXray bor)
+    {
+        if(bor != null && thePatient != null)
+        {
+            bor.patient_hn = thePatient.hn;
+            bor.patient_xn = thePatient.xn;
+        }
+        bor.date_serv = theHO.date_time;
+      
+        bor.borrow_film_date = dateComboBoxDateBorrowFilm.getText();//Gutil.getGuiBDate(dateComboBoxDateBorrowFilm.getText());
+        bor.borrow_status = "0";
+        bor.return_film_date = "";
+        if(jCheckBoxReturnFilmDate.isSelected())
+        {
+            bor.borrow_status = "1";
+            bor.return_film_date = dateComboBoxDateReturnFilm.getText();
+        }
+        bor.borrow_cause= Gutil.CheckReservedWords(jTextAreaCauseBorrow.getText());
+        bor.amount_date = jTextFieldAmountDate.getText();
+        bor.borrower_name = jTextFieldBXFName.getText();
+        bor.borrower_lastname = jTextFieldBXLName.getText();
+        bor.permissibly_borrow = jTextFieldPermissibly.getText();
+        bor.borrow_to = jTextFieldHosCode.getText();
+        if(bor.borrow_staff_record == null || bor.borrow_staff_record.equals(""))
+        {
+            bor.borrow_staff_record = theHO.theEmployee.getObjectId();
+            bor.borrow_record_date_time = theHO.date_time;
+        }
+        bor.borrow_to_other = jTextFieldBorrowToOther.getText();
+    }
+    ///////////////////////////////////////////////////////////////////////////
+    /**
+     *เซตความยาวDialog
+     */
+//    private void setDialog()
+//    {   
+//        setSize(740,400);
+//        setTitle("การนัดหมาย");
+//        Toolkit thekit = getToolkit();
+//        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//        setLocation((screenSize.width-getSize().width)/2, (screenSize.height-getSize().height)/2);
+//    }
+//    public void setVisit(Visit v){
+//        theVisit = v;
+//    }
+//    public Appointment2 getAppointment(){
+//        return theAppointment;
+//    }
+    
+   ////////////////////////////////////////////////////////////////////////////
+    /**
+     *เป็น Static Function
+     *เพื่อทำการโชว์Dialog
+     */
+    public static boolean showDialog(HosControl hc,UpdateStatus us){
+        DialogBorrowFilmXray dlg = new DialogBorrowFilmXray(hc,us);
+        dlg.setSize(640,480);
+        dlg.setTitle(Constant.getTextBundle("การยืมคืนฟิล์ม Xray"));
+
+        Toolkit thekit = dlg.getToolkit();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        dlg.setLocation((screenSize.width-dlg.getSize().width)/2, (screenSize.height-dlg.getSize().height)/2);
+                
+        dlg.setVisible(true);
+        if(dlg.actionCommand){     
+            return true;
+        }
+        dlg=null;
+        System.gc();
+        return false;
+    } 
+    
+    ///////////////////////////////////////////////////////////////////////////
+    /**
+     *เซตปุ่มต่างๆ
+     */
+    private void setEnableAll(boolean var)
+    {   
+        jButtonAdd.setEnabled(var);     
+        jButtonSave.setEnabled(var);
+        jButtonDel.setEnabled(var); 
+    }
+    ///////////////////////////////////////////////////////////////////////////
+    /**
+     *ค้นหารายการยืมฟิล์ม Xray
+     */
+    private void searchBorrowFilmXray(boolean fromsave)
+    {
+        String datefrom = dateComboBoxDateFrom.getText();
+        String dateto = dateComboBoxDateTo.getText();
+        String hn = "";
+        String xn = "";
+        boolean show = true;
+        if(fromsave == true)
+        {
+            datefrom = theBorrowFilmXray.borrow_film_date;
+            dateto = theBorrowFilmXray.borrow_film_date;
+        }
+        boolean all_period = !this.jCheckBoxDateSearch.isSelected();
+        String active = "1";
+        if(jCheckBoxShowCancel.isSelected())
+        {
+            active = "0";
+        }
+        if(jCheckBoxSCurrPatient.isSelected())
+        {
+            if(jTextFieldXN.getText().equals("") && jTextFieldHN.getText().equals(""))
+            {
+//                setStatus(Constant.getTextBundle("ไม่สามารถค้นหาได้ เนื่องจากไม่มีข้อมูลผู้ป่วยปัจจุบัน") ,WARNING);
+                updateOGBorrowFilmXrayV(null,true); 
+                return;
+            }
+            if(!jTextFieldHN.getText().equals(""))
+            {
+                hn = jTextFieldHN.getText();
+                show = true;
+            }
+            if(!jTextFieldXN.getText().equals("") && jTextFieldHN.getText().equals(""))
+            {
+                xn = jTextFieldXN.getText();
+                show = false;
+            }
+        }
+        else
+        {
+            if(jTextFieldXN.getText().equals("") && jTextFieldHN.getText().equals(""))
+            {
+                show = false;
+            }
+        }
+        vBorrow =  thePatientControl.listBorrowFilmXrayByDate(all_period,datefrom,dateto,hn,xn,active); 
+//        if(vBorrow == null)
+//        {
+//            setStatus(Constant.getTextBundle("ไม่สามารถค้นหาได้") ,WARNING);
+//        }
+//        setStatus(Constant.getTextBundle("ค้นหารายการยืมฟิล์ม Xray เสร็จสิ้น") ,COMPLETE);
+        fromsave = false;
+        if(show == true)
+        {
+            updateOGBorrowFilmXrayV(vBorrow,true); 
+        }
+        else
+        {
+            updateOGBorrowFilmXrayV(vBorrow,false); 
+        }    
+    }
+    
+    /**
+     *เมื่อทำการเลือก BorrowFilmXray     
+     */
+    public void updateOGBorrowFilmXray(BorrowFilmXray bor,Patient patient)
+    {   
+        if(bor != null)
+        {
+            theBorrowFilmXray = bor;
+            dateComboBoxDateBorrowFilm.setText(DateUtil.convertFieldDate(theBorrowFilmXray.borrow_film_date));
+            dateComboBoxDateReturnFilm.setText(DateUtil.convertFieldDate(theBorrowFilmXray.return_film_date));
+            jTextFieldBXFName.setText(theBorrowFilmXray.borrower_name);  
+            jTextFieldBXLName.setText(theBorrowFilmXray.borrower_lastname);          
+            jTextAreaCauseBorrow.setText(theBorrowFilmXray.borrow_cause);
+            jTextFieldHN.setText(bor.patient_hn);
+            jTextFieldXN.setText(bor.patient_xn);
+            if(theBorrowFilmXray.patient_hn!=null || !theBorrowFilmXray.patient_hn.equals(""))
+            {
+                thePatient = thePatientControl.readPatientByHnToBorrowFilm(theBorrowFilmXray.patient_hn,this);
+                if(thePatient == null)
+                {
+                    return;
+                }
+                jTextFieldHN.setText(thePatient.hn);
+                jTextFieldXN.setText(thePatient.xn);
+                Prefix prefix = theHC.theLookupControl.readPrefixById(thePatient.f_prefix_id);
+                String sPrefix = "";
+                if(prefix!=null)
+                {
+                    sPrefix = prefix.description;
+                }
+                jTextFieldPatientName.setText(sPrefix + " "
+                            + thePatient.patient_name + " " + thePatient.patient_last_name);
+            }
+            else
+            {
+                jTextFieldHN.setText("");
+                jTextFieldXN.setText("");
+                jTextFieldPatientName.setText("");
+            }
+            if(theBorrowFilmXray.borrow_status.equals("1"))
+            {
+                jCheckBoxReturnFilmDate.setSelected(true);
+            }
+            else
+            {
+                jCheckBoxReturnFilmDate.setSelected(false);
+            }
+            jCheckBoxReturnFilmDateActionPerformed(null);
+            jTextFieldAmountDate.setText(theBorrowFilmXray.amount_date);
+            jTextFieldPermissibly.setText(theBorrowFilmXray.permissibly_borrow);
+            if(theBorrowFilmXray.borrow_to.equals("") || theBorrowFilmXray.borrow_to == null)
+            {
+                jTextFieldHosCode.setText("");
+                jTextFieldHosName.setText("");
+            }
+            else
+            {
+                Office of = (Office)theLookupControl.readHospitalByCode(theBorrowFilmXray.borrow_to);
+                jTextFieldHosName.setText(of.name);                                    
+                jTextFieldHosCode.setText(of.getCode());
+            }
+            jTextFieldCancel.setVisible(false);
+            if(theBorrowFilmXray.borrow_active.equals("0"))
+            {
+                jTextFieldCancel.setVisible(true);
+            }
+            jTextFieldBorrowToOther.setText(theBorrowFilmXray.borrow_to_other);
+        }
+        else
+        {
+            jTextFieldHN.setText(patient.hn);
+            jTextFieldXN.setText(patient.xn);
+            Prefix prefix = theHC.theLookupControl.readPrefixById(patient.f_prefix_id);
+            String sPrefix = "";
+            if(prefix!=null)
+            {
+                sPrefix = prefix.description;
+            }
+            jTextFieldPatientName.setText(sPrefix + " "
+                        + patient.patient_name + " " + patient.patient_last_name);
+        }
+     }      
+    
+    ////////////////////////////////////////////////////////////////////////////
+    /**
+     *เซตค่าในตาราง BorrowFilmXray
+     */
+    private void updateOGBorrowFilmXrayV(Vector vbor,boolean show)
+    {                
+        TaBleModel tm ;
+        int[] rows = jTable1.getSelectedRows();
+        if(show == true)
+        {
+            if(vbor == null || vbor.isEmpty())
+            {   
+                tm= new TaBleModel(collistHn,0);
+                jTable1.setModel(tm); 
+                return;
+            }
+            tm = new TaBleModel(collistHn,vbor.size());
+           for(int i=0 ;i<vbor.size(); i++)
+           {
+                SpecialQueryBorrowFilmXray sqbor = (SpecialQueryBorrowFilmXray)vbor.get(i);
+                Prefix prefix = this.theLookupControl.readPrefixById(sqbor.patient_prefix);
+                String prefix_str = "";
+                if(prefix!=null)  prefix_str = prefix.description;
+                String pt_name = prefix_str + " "
+                    + sqbor.patient_firstname + " "
+                    + sqbor.patient_lastname;
+                Prefix prefix1 = this.theLookupControl.readPrefixById(sqbor.borrower_prefix);
+                String prefix_bor = "";
+                if(prefix1!=null)  prefix_bor = prefix1.description;
+                String bor_name = prefix_bor + " "
+                    + sqbor.borrower_name + " "
+                    + sqbor.borrower_lastname;
+                String date = DateUtil.getDateToString(DateUtil.getDateFromText(
+                    sqbor.borrow_film_date),false);
+                if(date ==null)   date = "";
+
+                tm.setValueAt(sqbor.patient_hn,i,0);
+                tm.setValueAt(pt_name,i,1);
+                tm.setValueAt(date,i,2);                              
+                tm.setValueAt(bor_name,i,3);
+                tm.setValueAt(sqbor.borrow_status,i,4);
+            }
+            jTable1.setModel(tm);
+            setjTable1Default(rows);
+        }
+        else
+        {
+            if(vbor == null || vbor.isEmpty()){   
+                tm= new TaBleModel(collistXn,0);
+                jTable1.setModel(tm); 
+                return;
+            }
+            tm = new TaBleModel(collistXn,vbor.size());
+           for(int i=0 ;i<vbor.size(); i++){
+                SpecialQueryBorrowFilmXray sqbor = (SpecialQueryBorrowFilmXray)vbor.get(i);
+                Prefix prefix = this.theLookupControl.readPrefixById(sqbor.patient_prefix);
+                String prefix_str = "";
+                if(prefix!=null)  prefix_str = prefix.description;
+                String pt_name = prefix_str + " "
+                    + sqbor.patient_firstname + " "
+                    + sqbor.patient_lastname;
+                Prefix prefix1 = this.theLookupControl.readPrefixById(sqbor.borrower_prefix);
+                String prefix_bor = "";
+                if(prefix1!=null)  prefix_bor = prefix1.description;
+                String bor_name = prefix_bor + " "
+                    + sqbor.borrower_name + " "
+                    + sqbor.borrower_lastname;
+                String date = DateUtil.getDateToString(DateUtil.getDateFromText(
+                    sqbor.borrow_film_date),false);
+                if(date ==null)   date = "";
+
+                tm.setValueAt(sqbor.patient_xn,i,0);
+                tm.setValueAt(pt_name,i,1);
+                tm.setValueAt(date,i,2);                              
+                tm.setValueAt(bor_name,i,3);
+                tm.setValueAt(sqbor.borrow_status,i,4);
+            }
+            jTable1.setModel(tm);
+            setjTable1Default(rows);
+        }
+    } 
+    
+    private void setjTable1Default(int[] rows)
+    {       
+        jTable1.getColumnModel().getColumn(0).setPreferredWidth(45);
+        jTable1.getColumnModel().getColumn(0).setCellRenderer(hnRender);
+        jTable1.getColumnModel().getColumn(1).setPreferredWidth(90);
+        jTable1.getColumnModel().getColumn(2).setPreferredWidth(83);
+        jTable1.getColumnModel().getColumn(3).setPreferredWidth(90);
+        jTable1.getColumnModel().getColumn(4).setPreferredWidth(7);
+        jTable1.getColumnModel().getColumn(4).setCellRenderer(cellRenderer);
+    }
+    ///////////////////////////////////////////////////////////////////////////
+    /**
+     *ใช้ในการเซตภาษา
+     */
+      public void setLanguage(String msg){
+          GuiLang.setLanguage(jLabelAmountDate);
+          GuiLang.setLanguage(jLabelAmountDate1);
+          GuiLang.setLanguage(jButtonPrintListBorrowFilmXray);
+          GuiLang.setLanguage(jButtonPreviewListBorrowFilmXray);
+          GuiLang.setLanguage(jButtonSave);
+          GuiLang.setLanguage(jLabelDateEnd);
+          GuiLang.setLanguage(jLabelBorrowTo);
+          GuiLang.setLanguage(jLabelBorrowFilmDate);
+          GuiLang.setLanguage(jLabelCauseBorrow);
+          GuiLang.setLanguage(jLabelPermissibly_Borrow);
+          GuiLang.setLanguage(jCheckBoxReturnFilmDate);
+          GuiLang.setLanguage(jCheckBoxShowCancel);
+          GuiLang.setLanguage(jLabelBorrowName);
+          GuiLang.setLanguage(jLabelFLName);
+          GuiLang.setLanguage(jLabelXn);
+          GuiLang.setLanguage(jLabelHn);
+          GuiLang.setLanguage(jCheckBoxDateSearch);
+          GuiLang.setLanguage(collistHn);
+          GuiLang.setLanguage(collistXn);
+          GuiLang.setLanguage(jPanel3);
+          GuiLang.setLanguage(jPanel7);
+          GuiLang.setLanguage(jLabelBorrowToOther);
+          GuiLang.setLanguage(jCheckBoxSCurrPatient);
+          jTextFieldCancel.setText(GuiLang.setLanguage(jTextFieldCancel.getText()));
+      }
+    ////////////////////////////////////////////////////////////////////////////
+    /**
+     *กำหนดค่า Default ให้ช่องต่างๆ
+     */
+      public void setDefault()
+      {
+            jTextFieldHN.setText("");
+            jTextFieldXN.setText("");
+            jTextFieldPatientName.setText("");
+            jTextFieldBXFName.setText("");
+            jTextFieldBXLName.setText("");
+            dateComboBoxDateBorrowFilm.setText(DateUtil.convertFieldDate(theHO.date_time));
+            dateComboBoxDateReturnFilm.setText(DateUtil.convertFieldDate(dateComboBoxDateBorrowFilm.getText()));
+            jCheckBoxReturnFilmDate.setSelected(false);
+            dateComboBoxDateReturnFilm.setEnabled(false);
+            jTextFieldAmountDate.setText("");
+            jTextFieldPermissibly.setText("");
+            jTextAreaCauseBorrow.setText("");
+            jTextFieldHosCode.setText("");
+            jTextFieldHosName.setText("");
+            jTextFieldBorrowToOther.setText("");
+            thePatient = new Patient();
+            theBorrowFilmXray = new BorrowFilmXray();
+      }
+      
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
+    private com.hospital_os.utility.DateComboBox dateComboBoxDateBorrowFilm;
+    private com.hospital_os.utility.DateComboBox dateComboBoxDateFrom;
+    private com.hospital_os.utility.DateComboBox dateComboBoxDateReturnFilm;
+    private com.hospital_os.utility.DateComboBox dateComboBoxDateTo;
+    private javax.swing.JButton jButtonAdd;
+    private javax.swing.JButton jButtonDel;
+    private javax.swing.JButton jButtonHos;
+    private javax.swing.JButton jButtonPreviewListBorrowFilmXray;
+    private javax.swing.JButton jButtonPrintListBorrowFilmXray;
+    private javax.swing.JButton jButtonSave;
+    private javax.swing.JCheckBox jCheckBoxDateSearch;
+    private javax.swing.JCheckBox jCheckBoxReturnFilmDate;
+    private javax.swing.JCheckBox jCheckBoxSCurrPatient;
+    private javax.swing.JCheckBox jCheckBoxShowCancel;
+    private javax.swing.JLabel jLabelAmountDate;
+    private javax.swing.JLabel jLabelAmountDate1;
+    private javax.swing.JLabel jLabelBorrowFilmDate;
+    private javax.swing.JLabel jLabelBorrowName;
+    private javax.swing.JLabel jLabelBorrowTo;
+    private javax.swing.JLabel jLabelBorrowToOther;
+    private javax.swing.JLabel jLabelCauseBorrow;
+    private javax.swing.JLabel jLabelDateEnd;
+    private javax.swing.JLabel jLabelFLName;
+    private javax.swing.JLabel jLabelHn;
+    private javax.swing.JLabel jLabelPermissibly_Borrow;
+    private javax.swing.JLabel jLabelStatus;
+    private javax.swing.JLabel jLabelXn;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanelSearch;
+    protected javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    protected com.hosv3.gui.component.HJTableSort jTable1;
+    private javax.swing.JTextArea jTextAreaCauseBorrow;
+    private com.hospital_os.utility.DoubleTextField jTextFieldAmountDate;
+    private javax.swing.JTextField jTextFieldBXFName;
+    private javax.swing.JTextField jTextFieldBXLName;
+    private com.hosv3.gui.component.BalloonTextField jTextFieldBorrowToOther;
+    private javax.swing.JTextField jTextFieldCancel;
+    private com.hospital_os.utility.HNTextField jTextFieldHN;
+    private javax.swing.JTextField jTextFieldHosCode;
+    private javax.swing.JTextField jTextFieldHosName;
+    private javax.swing.JTextField jTextFieldPatientName;
+    private javax.swing.JTextField jTextFieldPermissibly;
+    private javax.swing.JTextField jTextFieldXN;
+    // End of variables declaration//GEN-END:variables
+    public static void main(String[] argc){
+        Constant.println(DateUtil.convertFieldDate("2524-12-12"));
+    }
+
+    public void notifySaveBorrowFilmXray(String str, int status) {
+    }
+}

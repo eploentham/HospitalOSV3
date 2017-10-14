@@ -1,0 +1,64 @@
+/*
+ * AfterMchMother.java
+ *
+ * Created on 26 กรกฎาคม 2548, 14:23 น.
+ *
+ * To change this template, choose Tools | Options and locate the template under
+ * the Source Creation and Management node. Right-click the template and choose
+ * Open. You can then make changes to the template in the Source Editor.
+ */
+
+package com.pcu.object;
+import com.hospital_os.usecase.connection.Persistent;
+/**
+ *
+ * @author tong(Padungrat)
+ */
+public class AfterMchMother extends Persistent {
+    
+        private static String init = "";
+        public String visit_id=init;
+        public String patient_id=init;
+        public String updatetime=init;
+        public String note=init;
+        public String active=init;
+        public String user_record =init;
+        public String user_modify=init;
+        public String user_cancel=init;
+        public String uterus_level =init;
+        public String milk_seep=init;
+        public String sugar_level=init;
+        public String lochia=init;
+        public String menses =init;
+        public String sew=init;
+        public String cream =init;
+        public String albumin=init;
+        public String result_verify=init;
+        public String pcare =init;
+        public String mch_id=init;
+        public String asphyxia =init;
+        public String vit_k =init;
+        public String bcres =init;
+        public String appointment = init;
+        public String recordtime = init;
+        public String symptom_notice = init;
+        public String place = init;
+        public String pregnantnumber = init;
+        public String family_id = init;
+        private String vn = init;
+        public String survey_date = init;
+    /** Creates a new instance of AfterMchMother */
+    public AfterMchMother() {
+    }
+    
+    public String getVN()
+    {
+        return vn;
+        
+    }
+    
+    public void setVN(String visit_vn)
+    {
+        vn = visit_vn;
+    }
+}

@@ -1,0 +1,205 @@
+/*
+ * Report12File.java
+ *
+ * Created on 7 กันยายน 2548, 10:10 น.
+ *
+ * To change this template, choose Tools | Options and locate the template under
+ * the Source Creation and Management node. Right-click the template and choose
+ * Open. You can then make changes to the template in the Source Editor.
+ */
+
+package com.report18file;
+
+import com.hospital_os.object.MenuItemPlugIn;
+import com.hospital_os.object.Version;
+import com.hospital_os.usecase.connection.ModuleInfTool;
+import com.hospital_os.usecase.connection.ConnectionInf; 
+import com.hospital_os.utility.IconData;
+import com.hosv3.HosSet;
+import com.hosv3.control.HosControl;
+import com.hosv3.control.MapCon;
+import com.hosv3.gui.component.PanelSetupXPer;
+import com.hosv3.gui.panel.detail.PanelMapLookup;
+import com.hosv3.object.HosObject;
+import com.hosv3.utility.Constant;
+import com.hosv3.utility.connection.UpdateStatus;
+import com.report18file.control.MapControl;
+import com.report18file.control.Rp18Control;
+
+import com.report18file.gui.PanelMainReport;
+import com.report18file.gui.PanelMapDrug;
+import com.report18file.gui.PanelSetupNutrition;
+import com.report18file.help.ShowHelp18File;
+import com.report18file.utility.Config;
+import com.report18file.utility.Language;
+import com.report18file.utility.Report18FileData;
+import com.setupreport.manage.HosManage;
+import java.util.Vector;
+import javax.swing.JPanel;
+import javax.swing.tree.DefaultMutableTreeNode;
+/**
+ *
+ * @author tong(Padungrat)
+ */
+public class Report18File  implements ModuleInfTool
+{
+    String PANEL_SETUP_NUTRI = Constant.getTextBundle("จับคู่ภาวะโภชนาการ");
+    String PANEL_SETUP_DRUG_MAP = Constant.getTextBundle("จับคู่ยา24หลัก");
+    String PANEL_SETUP_PLAN_MAP = Constant.getTextBundle("จับคู่สิทธิ");
+    String PANEL_SETUP_PREFIX_MAP = Constant.getTextBundle("จับคู่คำนำหน้าชื่อ");
+    String PANEL_SETUP_OCCUPAT_MAP = Constant.getTextBundle("จับคู่อาชีพ");
+
+    /**Panel ของ 12 file*/
+    PanelMainReport thePanelReport;
+    /**Connection*/
+    ConnectionInf theConnectionInf;
+    private ShowHelp18File theShowHelp18File;
+    private Vector vSetupModule;
+    private HosControl theHC;
+    private HosObject theHO;
+    private UpdateStatus theUS;
+    /** Creates a new instance of Report12File */
+    public Report18File() {
+    }
+    public javax.swing.JMenu getJMenu() {
+        return null;
+    }
+
+    public javax.swing.JPanel getJPanel() {
+        return thePanelReport;
+    }
+
+    public java.lang.String getNamePanel() {
+        return Language.getTextBundle("Report18File", 1);
+    }
+
+    public java.util.Vector getVectorJMenuItem(String str) {
+        java.util.Vector  vc = null;
+        if(thePanelReport != null)
+        {
+            vc  = getMenuItem();
+        }
+        
+        return vc;
+        
+    }
+
+    /**ใช้ในการ ส่ง Dialog Help ให้กับ Frame หลัก  */
+    public Vector getMenuItem() {
+        Vector vc = new Vector();
+        javax.swing.JMenuItem jMenuItem1 = new javax.swing.JMenuItem();
+        theShowHelp18File = new ShowHelp18File();
+        theShowHelp18File.addID(jMenuItem1);
+
+        jMenuItem1.setText(Language.getTextBundle("Report18FileHelp",1));
+        MenuItemPlugIn theMenuItemPlugIn = new MenuItemPlugIn();
+        theMenuItemPlugIn.authen = true;
+        theMenuItemPlugIn.theJMenuItem = jMenuItem1;
+        vc.add(theMenuItemPlugIn);
+        return vc;
+    }
+    public java.util.Vector getVectorSetupModule() {
+        if(vSetupModule!=null)
+            return vSetupModule;
+        vSetupModule = new Vector();
+        DefaultMutableTreeNode tree_main = new DefaultMutableTreeNode(new IconData(PanelSetupXPer.ICONs
+                , "รายงาน 18/2553"));
+        {
+            PanelSetupNutrition panel = new PanelSetupNutrition(new HosManage(theHC.theConnectionInf,theHC.theUS));
+            vSetupModule.add(PanelSetupXPer.getSetupModule(panel,PANEL_SETUP_NUTRI,tree_main));
+        }
+
+        if(theHO.theGActionAuthV.isReadTreeRpMapDrug24())
+        {
+            PanelMapDrug panel = new PanelMapDrug();
+            panel.setTitle(PANEL_SETUP_DRUG_MAP);
+            panel.setControl(new MapControl(Report18FileData.MAP_DRUG,theUS,theHC.theConnectionInf),theUS,theHO
+                    ,theHC.theLookupControl);
+            vSetupModule.add(PanelSetupXPer.getSetupModule(panel,PANEL_SETUP_DRUG_MAP,tree_main));
+        }
+        if(theHO.theGActionAuthV.isReadTreeRpMapPlan())
+        {
+            PanelMapLookup panel = new PanelMapLookup();
+            panel.setTitle(PANEL_SETUP_PLAN_MAP);
+            panel.setControl(new MapControl(Report18FileData.MAP_PLAN,theUS,theHC.theConnectionInf)
+                    ,theUS,theHO);
+            vSetupModule.add(PanelSetupXPer.getSetupModule(panel,PANEL_SETUP_PLAN_MAP,tree_main));
+        }
+        if(theHO.theGActionAuthV.isReadTreeRpMapPrefix())
+        {
+            PanelMapLookup panel = new PanelMapLookup();
+            panel.setTitle(PANEL_SETUP_PREFIX_MAP);
+            panel.setControl(new MapControl(Report18FileData.MAP_PREFIX,theUS,theHC.theConnectionInf)
+                    ,theUS,theHO);
+            vSetupModule.add(PanelSetupXPer.getSetupModule(panel,PANEL_SETUP_PREFIX_MAP,tree_main));
+        }
+        if(theHO.theGActionAuthV.isReadTreeRpMapOccupation())
+        {
+            PanelMapLookup panel = new PanelMapLookup();
+            panel.setTitle(PANEL_SETUP_OCCUPAT_MAP);
+            panel.setControl(new MapControl(Report18FileData.MAP_OCCUPATION,theUS,theHC.theConnectionInf)
+                    ,theUS,theHO);
+            vSetupModule.add(PanelSetupXPer.getSetupModule(panel,PANEL_SETUP_OCCUPAT_MAP,tree_main));
+        }
+
+        return vSetupModule;
+    }
+
+    public boolean isInMenuStandard() {
+        return false;
+    }
+
+    public boolean isJMenuVisible(String str) {
+        return false;
+    }
+
+    public boolean isJPanelVisible(String str) {
+        return true;
+    }
+
+    public boolean isJTreeVisible(String str) {
+        return true;
+    }
+
+    public void setHosControl(Object obj) {
+        if(obj instanceof HosControl)
+        {
+            System.out.println("Init instance of report 18 file");
+            theHC = (HosControl)obj;
+            theConnectionInf = theHC.theConnectionInf;
+            Rp18Control rc = new Rp18Control(this.theConnectionInf,theHC.theUS,theHC.theHO);
+            thePanelReport = new PanelMainReport();
+            theUS = theHC.theUS;
+            theHO = theHC.theHO;
+            thePanelReport.setConnection(rc,theUS);
+        }
+    }   
+
+    /**ใช้ในการกำหนด version ของ การออกรายงาน 12 แฟ้ม
+     *@return เป็น Object ของ Vesion
+     */
+    public Version getVersion() {
+        Version version = new Version();
+        version.app_code = Config.getTextBundle("Version");
+        version.description = Config.getTextBundle("Description");
+        version.update_time = Config.getTextBundle("Update");
+        version.db_code = Config.getTextBundle("VersionDatabaseUse");
+        version.version_id = "help12.ShowHelp18File";
+        return version;
+    }
+    public Object getObjectVersion() {
+        return getVersion();
+    }
+
+    public java.util.Vector getVectorJPanel() {
+        return null;
+    }
+
+
+    public static void main(String args[]){
+
+        String[] a = {"-module=com.report18file.Report18File"};
+        HosSet.main(a);
+    }
+
+}

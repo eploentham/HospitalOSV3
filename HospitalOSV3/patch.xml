@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="changeme" default="all" basedir=".">
+    <!--ใช้กับ windows ไม่ได้<property name="folderPatch" location="/hosv3.9.11build01/"/>-->
+    <target name="build patch">
+        <zip destfile="patch/hosv3.9.11build01.zip" update="true">
+            <zipfileset dir="../HospitalOSV3/app/config/ext_module_rp" includes="Report12File.xml" prefix="hosv3.9.11build01/config/ext_module_rp"/>
+            <zipfileset dir="../HospitalOSV3/app/config/ext_module_rp" includes="Report18File.xml" prefix="hosv3.9.11build01/config/ext_module_rp"/>
+            <zipfileset dir="../HospitalOSV3/app/config/ext_module_rp" includes="ReportGeneral.xml" prefix="hosv3.9.11build01/config/ext_module_rp"/>
+            <zipfileset dir="../HospitalOSV3/app/config/ext_module_rp" includes="ReportGeneralPCU.xml" prefix="hosv3.9.11build01/config/ext_module_rp"/>
+    <!--<zipfileset dir="../HospitalOSV3/app/config/ext_module_rp" includes="ReportNakorn.xml" prefix="hosv3.9.11build01/config/ext_module_rp"/-->
+            <zipfileset dir="../HospitalOSV3/app/config/ext_module_rp" includes="ReportNan.xml" prefix="hosv3.9.11build01/config/ext_module_rp"/>
+            <zipfileset dir="../HospitalOSV3/app/config/ext_module_rp" includes="ReportQuery.xml" prefix="hosv3.9.11build01/config/ext_module_rp"/>
+            <zipfileset dir="../HospitalOSV3/app/config/ext_module_rp" includes="ReportStandard.xml" prefix="hosv3.9.11build01/config/ext_module_rp"/>
+            <zipfileset dir="../HospitalOSV3/app/config/ext_module_rp" includes="SetupReport.xml" prefix="hosv3.9.11build01/config/ext_module_rp"/>
+            <zipfileset dir="../HospitalOSV3/app/config/language" prefix="hosv3.9.11build01/config/language"/>
+            <zipfileset dir="../HospitalOSV3/app/config/rp_12file53" prefix="hosv3.9.11build01/config/rp_12file53"/>
+            <zipfileset dir="../HospitalOSV3/app/config/rp_18file_nhso53" prefix="hosv3.9.11build01/config/rp_18file_nhso53"/>
+            <zipfileset dir="../HospitalOSV3/app/config/rp_18file_pp53" prefix="hosv3.9.11build01/config/rp_18file_pp53"/>
+            <zipfileset dir="../HospitalOSV3/app/config/rp_pcu" prefix="hosv3.9.11build01/config/rp_pcu"/>
+            <zipfileset dir="../HospitalOSV3/app/config/rp_standard" prefix="hosv3.9.11build01/config/rp_standard"/>
+            <zipfileset dir="../HospitalOSV3/app/database/report" prefix="hosv3.9.11build01/database/report"/>
+            <zipfileset dir="../HospitalOSV3/app/database" includes="hospitalOSV39.sql" prefix="hosv3.9.11build01/database"/>
+            <zipfileset dir="../HospitalOSV3/app/database" includes="updateV3_7.sql" prefix="hosv3.9.11build01/database"/>
+            <zipfileset dir="../HospitalOSV3/app/database" includes="updateV3_72.sql" prefix="hosv3.9.11build01/database"/>
+            <zipfileset dir="../HospitalOSV3/app/database" includes="updateV3_73.sql" prefix="hosv3.9.11build01/database"/>
+            <zipfileset dir="../HospitalOSV3/app/database" includes="updateV3_74.sql" prefix="hosv3.9.11build01/database"/>
+            <zipfileset dir="../HospitalOSV3/app/database" includes="updateV3_741.sql" prefix="hosv3.9.11build01/database"/>
+            <zipfileset dir="../HospitalOSV3/app/database" includes="updateV3_8.sql" prefix="hosv3.9.11build01/database"/>
+            <zipfileset dir="../HospitalOSV3/app/database" includes="updateV3_81.sql" prefix="hosv3.9.11build01/database"/>
+            <zipfileset dir="../HospitalOSV3/app/database" includes="updateV3_82.sql" prefix="hosv3.9.11build01/database"/>
+            <zipfileset dir="../HospitalOSV3/app/database" includes="updateV3_83.sql" prefix="hosv3.9.11build01/database"/>
+            <zipfileset dir="../HospitalOSV3/app/database" includes="updateV3_91.sql" prefix="hosv3.9.11build01/database"/>
+            <zipfileset dir="../HospitalOSV3/app/database" includes="updateV3_92.sql" prefix="hosv3.9.11build01/database"/>
+            <zipfileset dir="../HospitalOSV3/app/database" includes="updateV3_93.sql" prefix="hosv3.9.11build01/database"/>
+            <zipfileset dir="../HospitalOSV3/app/database" includes="updateV3_94.sql" prefix="hosv3.9.11build01/database"/>
+            <zipfileset dir="../HospitalOSV3/app/database" includes="updateV3_95.sql" prefix="hosv3.9.11build01/database"/>
+            <zipfileset dir="../HospitalOSV3/app/database" includes="updateV3_96.sql" prefix="hosv3.9.11build01/database"/>
+            <zipfileset dir="../HospitalOSV3/app/database" includes="updateV3_97.sql" prefix="hosv3.9.11build01/database"/>
+            <zipfileset dir="../HospitalOSV3/app/database" includes="updateV3_98.sql" prefix="hosv3.9.11build01/database"/>
+            <zipfileset dir="../HospitalOSV3/app/database" includes="updateV3_99.sql" prefix="hosv3.9.11build01/database"/>
+            <zipfileset dir="../HospitalOSV3/app/database" includes="updateV3_9_10.sql" prefix="hosv3.9.11build01/database"/>
+            <zipfileset dir="../HospitalOSV3/app/database" includes="updateV3_9_11.sql" prefix="hosv3.9.11build01/database"/>
+            <zipfileset dir="../HospitalOSV3/app/hprinting/byuser" prefix="hosv3.9.11build01/hprinting/byuser"/>
+            <zipfileset dir="../HospitalOSV3/app/hprinting/pcu" includes="afterMchMother.xml" prefix="hosv3.9.11build01/hprinting2/pcu"/>
+            <zipfileset dir="../HospitalOSV3/app/hprinting/pcu" includes="bornMchMother.xml" prefix="hosv3.9.11build01/hprinting2/pcu"/>
+            <zipfileset dir="../HospitalOSV3/app/hprinting/pcu" includes="epi.xml" prefix="hosv3.9.11build01/hprinting2/pcu"/>
+            <zipfileset dir="../HospitalOSV3/app/hprinting/pcu" includes="growhistory.xml" prefix="hosv3.9.11build01/hprinting2/pcu"/>
+            <zipfileset dir="../HospitalOSV3/app/hprinting/pcu" includes="pp.xml" prefix="hosv3.9.11build01/hprinting2/pcu"/>
+            <zipfileset dir="../HospitalOSV3/app/hprinting" includes="IpdNameCard.xml" prefix="hosv3.9.11build01/hprinting2"/>
+            <zipfileset dir="../HospitalOSV3/app/hprinting" includes="IpdNameChart.xml" prefix="hosv3.9.11build01/hprinting2"/>
+            <zipfileset dir="../HospitalOSV3/app/hprinting" includes="drugRx.xml" prefix="hosv3.9.11build01/hprinting2"/>
+            <zipfileset dir="../HospitalOSV3/app/hprinting" includes="drugRx_con.xml" prefix="hosv3.9.11build01/hprinting2"/>
+            <zipfileset dir="../HospitalOSV3/app/hprinting" includes="receipt.xml" prefix="hosv3.9.11build01/hprinting2"/>
+            <zipfileset dir="../HospitalOSV3/app/hprinting" includes="receipt_con.xml" prefix="hosv3.9.11build01/hprinting2"/>
+            <zipfileset dir="../HospitalOSV3/app/hprinting" includes="resultLab.xml" prefix="hosv3.9.11build01/hprinting2"/>
+            <zipfileset dir="../HospitalOSV3/app/hprinting" includes="resultLab_con.xml" prefix="hosv3.9.11build01/hprinting2"/>
+            <zipfileset dir="../HospitalOSV3/app/hprinting" includes="summary.xml" prefix="hosv3.9.11build01/hprinting2"/>
+            <zipfileset dir="../HospitalOSV3/app/hprinting" includes="visitslipNew.xml" prefix="hosv3.9.11build01/hprinting2"/>
+            <zipfileset dir="../HospitalOSV3/app/hprinting" includes="refer.xml" prefix="hosv3.9.11build01/hprinting2"/>
+            <zipfileset dir="../HospitalOSV3/app/hprinting" includes="appointment_con.xml" prefix="hosv3.9.11build01/hprinting2"/>
+            <zipfileset dir="../HospitalOSV3/app/hprinting" includes="refer_result.xml" prefix="hosv3.9.11build01/hprinting2"/>
+
+            <zipfileset dir="../HospitalOSV3/app/icon" includes="splash_bk.jpg" prefix="hosv3.9.11build01/icon"/>
+            <zipfileset dir="../HospitalOSV3/app" includes="build.xml" prefix="hosv3.9.11build01/"/>
+            <zipfileset dir="../HospitalOSV3/app" includes="hos_update.sh" prefix="hosv3.9.11build01/"/>
+            <!--เพราะว่าหากเขาแก้เสร็จแล้วก็จะไม่ต้องไปทับทำให้ใช้งานไม่ได้
+            <zipfileset dir="../HospitalOSV3/app" includes="report.bat" prefix="hosv3.9.11build01"/>
+            <zipfileset dir="../HospitalOSV3/app" includes="report.sh" prefix="hosv3.9.11build01"/>-->
+            <zipfileset dir="../HospitalOSV3/patch/manual" includes="hosv39_patch.xls" prefix="hosv3.9.11build01/manual"/>
+            <zipfileset dir="../HospitalOSV3/patch/manual" includes="autoupdate_manual.doc" prefix="hosv3.9.11build01/manual"/>
+            <zipfileset dir="../HospitalOSV3/app/lib/module" includes="xstream-1.2.1.jar" prefix="hosv3.9.11build01/lib/module"/>
+            <zipfileset dir="../HospitalOSV3/app/lib/module" includes="poi-3.0.1-FINAL-20070705.jar" prefix="hosv3.9.11build01/lib/module"/>
+            <zipfileset dir="../HospitalOSV3/app/lib" includes="EaSynthLookAndFeel.jar" prefix="hosv3.9.11build01/lib"/>
+            <zipfileset dir="../HospitalOSV3/app/lib" includes="JTattoo.jar" prefix="hosv3.9.11build01/lib"/>
+            <zipfileset dir="../HospitalOSV3/app/lib" includes="SmartCard.jar" prefix="hosv3.9.11build01/lib"/>
+            <zipfileset dir="../HospitalOSV3/app/lib" includes="SmartcardDataAccess.jar" prefix="hosv3.9.11build01/lib"/>
+            <zipfileset dir="../HospitalOSV3/app/lib" includes="liquidlnf.jar" prefix="hosv3.9.11build01/lib"/>
+            <zipfileset dir="../HospitalOSV3/app/lib" includes="nimrodlf-1.1.jar" prefix="hosv3.9.11build01/lib"/>
+            <zipfileset dir="../HospitalOSV3/app/lib" includes="tinylaf.jar" prefix="hosv3.9.11build01/lib"/>
+            <zipfileset dir="../HospitalOSV3/app/lib" includes="jna.jar" prefix="hosv3.9.11build01/lib"/>
+            <zipfileset dir="../HospitalOSV3/app/lib" includes="javax.mail.jar" prefix="hosv3.9.11build01/lib"/>
+            <zipfileset dir="../HospitalOSV3/app/lib" includes="SDJavaComponent.jar" prefix="hosv3.9.11build01/lib"/>
+            <zipfileset dir="../HospitalOSV3/app/lib" includes="SDJavaUtility.jar" prefix="hosv3.9.11build01/lib"/>
+            <zipfileset dir="../HospitalOSV3/app/lib" includes="SDJTable.jar" prefix="hosv3.9.11build01/lib"/>
+            <zipfileset dir="../PCU/dist" includes="PCU.jar" prefix="hosv3.9.11build01/lib/module"/>
+            <zipfileset dir="../Report/dist" includes="Report.jar" prefix="hosv3.9.11build01/lib/module"/>
+            <zipfileset dir="../ReportNan/dist" includes="ReportNan.jar" prefix="hosv3.9.11build01/lib/module"/>
+            <zipfileset dir="../Report12File/dist" includes="Report12File.jar" prefix="hosv3.9.11build01/lib/module"/>
+            <zipfileset dir="../Report18File/dist" includes="Report18File.jar" prefix="hosv3.9.11build01/lib/module"/>
+            <zipfileset dir="../ReportQuery/dist" includes="ReportQuery.jar" prefix="hosv3.9.11build01/lib/module"/>
+            <zipfileset dir="../SetupReport/dist" includes="SetupReport.jar" prefix="hosv3.9.11build01/lib/module"/>
+            <zipfileset dir="../StandardReport/dist" includes="StandardReport.jar" prefix="hosv3.9.11build01/lib/module"/>
+            <zipfileset dir="../NHSOWSClient/dist" includes="NHSOWSClient.jar" prefix="hosv3.9.11build01/lib/module"/>
+            <zipfileset dir="../standardHospitalOS/dist" includes="standardHospitalOS.jar" prefix="hosv3.9.11build01/lib"/>
+            <zipfileset dir="../HospitalOSV3/dist" includes="HospitalOSV3.jar" prefix="hosv3.9.11build01/lib"/>
+        </zip>
+    </target>
+</project>

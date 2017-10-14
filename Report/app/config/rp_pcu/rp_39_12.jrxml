@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="Untitled_report_1"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="date_to" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date_from" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[select 
+t_order.order_common_name as รายการ
+,count(distinct case when (t_visit.t_patient_id not in 
+                        (select
+                            t_visit.t_patient_id
+                        from 
+                            t_visit inner join t_order 
+                                on t_visit.t_visit_id = t_order.t_visit_id
+                        where 
+                         f_order_status_id <> '3'
+                        and f_visit_status_id <> '4'
+                        and (t_order.order_common_name LIKE 'อบสมุนไพร%'
+                                or t_order.order_common_name LIKE '%ประคบสมุนไพร%'
+                                or t_order.order_common_name LIKE '%ประคบเพื่อการรักษา%') 
+                        and substring(t_visit.visit_begin_visit_time,1,10) Between '2552-01-01' and '2552-11-30')
+                    )
+           then t_visit.t_patient_id
+           else NULL
+ end) as คนใหม่
+,count(distinct t_visit.t_patient_id) as จำนวนคนทั้งหมด
+,count(t_visit.t_visit_id) as จำนวนครั้ง
+from 
+    t_visit inner join t_order 
+                                on t_visit.t_visit_id = t_order.t_visit_id
+                        where 
+                         f_order_status_id <> '3'
+                        and f_visit_status_id <> '4'
+                        and (t_order.order_common_name LIKE 'อบสมุนไพร%'
+                                or t_order.order_common_name LIKE '%ประคบสมุนไพร%'
+                                or t_order.order_common_name LIKE '%ประคบเพื่อการรักษา%' ) 
+and substring(t_visit.visit_begin_visit_time,1,10) Between '2552-12-01' and '2552-12-31'
+group by 
+t_order.order_common_name]]></queryString>
+
+	<field name="รายการ" class="java.lang.String"/>
+	<field name="คนใหม่" class="java.lang.Long"/>
+	<field name="จำนวนคนทั้งหมด" class="java.lang.Long"/>
+	<field name="จำนวนครั้ง" class="java.lang.Long"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="30"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="100"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="30"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<lastPageFooter>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</lastPageFooter>
+		<summary>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

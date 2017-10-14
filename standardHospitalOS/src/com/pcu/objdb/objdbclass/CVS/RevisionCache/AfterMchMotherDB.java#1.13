@@ -1,0 +1,1001 @@
+/*
+ * AfterMchMotherMotherDB.java
+ *
+ * Created on 26 กรกฎาคม 2548, 14:50 น.
+ *
+ * To change this template, choose Tools | Options and locate the template under
+ * the Source Creation and Management node. Right-click the template and choose
+ * Open. You can then make changes to the template in the Source Editor.
+ */
+
+package com.pcu.objdb.objdbclass;
+import java.util.*;
+import java.sql.*; 
+import com.hospital_os.usecase.connection.*;
+import com.pcu.object.*;
+import com.hospital_os.utility.*;
+/**
+ *
+ * @author tong(Padungrat)
+ */
+public class AfterMchMotherDB {
+    public ConnectionInf theConnectionInf;
+    public  AfterMchMother dbObj;
+    private AfterMchMother p;
+    private String sql;
+    final private String idtable = "768";
+    private Vector list;
+    private ResultSet rs;
+    /** Creates a new instance of AfterMchMotherMotherDB */
+    public AfterMchMotherDB(ConnectionInf db)
+    {
+        theConnectionInf=db;
+        dbObj = new AfterMchMother();
+        initConfig(); 
+    }
+    public boolean initConfig()
+    {
+        this.dbObj.table = "t_health_postpartum";
+        this.dbObj.pk_field = "t_health_postpartum_id";
+        
+        this.dbObj.visit_id = "t_visit_id";
+        this.dbObj.patient_id = "t_patient_id";
+        this.dbObj.recordtime = "record_date_time";
+        this.dbObj.note = "health_postpartum_notice";
+        this.dbObj.active = "health_postpartum_active";
+        this.dbObj.user_record = "health_postpartum_staff_record";
+        this.dbObj.user_modify = "health_postpartum_staff_modify";
+        this.dbObj.user_cancel = "health_postpartum_staff_cancel";
+        this.dbObj.uterus_level = "health_postpartum_fundus_height";
+        this.dbObj.milk_seep  = "health_postpartum_lactation";
+        this.dbObj.sugar_level  = "health_postpartum_sugar_level";
+        this.dbObj.lochia  = "health_postpartum_lochia";
+        this.dbObj.menses  = "health_postpartum_menstruation";
+        this.dbObj.sew   = "f_health_postpartum_episiotomy_type_id";
+        this.dbObj.cream  = "health_postpartum_nipple";
+        this.dbObj.albumin  = "health_postpartum_albumin";
+        this.dbObj.result_verify  = "health_postpartum_summary_verify";
+        this.dbObj.pcare   = "health_postpartum_visit";
+        this.dbObj.mch_id   = "t_health_delivery_id";
+        this.dbObj.asphyxia  = "health_postpartum_asphyxia";
+        this.dbObj.vit_k   = "health_postpartum_vit_k";
+        this.dbObj.bcres   = "health_postpartum_bcres";
+        this.dbObj.appointment  = "health_postpartum_appointment";
+        this.dbObj.updatetime = "update_date_time";
+        this.dbObj.symptom_notice = "health_postpartum_symptom_notice";
+        this.dbObj.place = "f_health_postpartum_birth_place_id";
+        this.dbObj.pregnantnumber = "health_postpartum_pregnant_number";
+        this.dbObj.family_id = "t_health_family_id";
+        this.dbObj.survey_date = "postpartum_survey_date";
+
+        this.dbObj.visit_id2 = "t_visit_id2";
+        this.dbObj.patient_id2 = "t_patient_id2";
+        this.dbObj.recordtime2 = "record_date_time2";
+        this.dbObj.note2 = "health_postpartum_notice2";
+        this.dbObj.active2 = "health_postpartum_active2";
+        this.dbObj.user_record2 = "health_postpartum_staff_record2";
+        this.dbObj.user_modify2 = "health_postpartum_staff_modify2";
+        this.dbObj.user_cancel2 = "health_postpartum_staff_cancel2";
+        this.dbObj.uterus_level2 = "health_postpartum_fundus_height2";
+        this.dbObj.milk_seep2  = "health_postpartum_lactation2";
+        this.dbObj.sugar_level2  = "health_postpartum_sugar_level2";
+        this.dbObj.lochia2  = "health_postpartum_lochia2";
+        this.dbObj.menses2  = "health_postpartum_menstruation2";
+        this.dbObj.sew2   = "f_health_postpartum_episiotomy_type_id2";
+        this.dbObj.cream2  = "health_postpartum_nipple2";
+        this.dbObj.albumin2  = "health_postpartum_albumin2";
+        this.dbObj.result_verify2  = "health_postpartum_summary_verify2";
+        this.dbObj.pcare2   = "health_postpartum_visit2";
+        this.dbObj.mch_id2   = "t_health_delivery_id2";
+        this.dbObj.asphyxia2  = "health_postpartum_asphyxia2";
+        this.dbObj.vit_k2   = "health_postpartum_vit_k2";
+        this.dbObj.bcres2   = "health_postpartum_bcres2";
+        this.dbObj.appointment2  = "health_postpartum_appointment2";
+        this.dbObj.updatetime2 = "update_date_time2";
+        this.dbObj.symptom_notice2 = "health_postpartum_symptom_notice2";
+        this.dbObj.place2 = "f_health_postpartum_birth_place_id2";
+        this.dbObj.pregnantnumber2 = "health_postpartum_pregnant_number2";
+        this.dbObj.family_id2 = "t_health_family_id2";
+        this.dbObj.survey_date2 = "postpartum_survey_date2";
+
+        this.dbObj.visit_id3 = "t_visit_id3";
+        this.dbObj.patient_id3 = "t_patient_id3";
+        this.dbObj.recordtime3 = "record_date_time3";
+        this.dbObj.note3 = "health_postpartum_notice3";
+        this.dbObj.active3 = "health_postpartum_active3";
+        this.dbObj.user_record3 = "health_postpartum_staff_record3";
+        this.dbObj.user_modify3 = "health_postpartum_staff_modify3";
+        this.dbObj.user_cancel3 = "health_postpartum_staff_cancel3";
+        this.dbObj.uterus_level3 = "health_postpartum_fundus_height3";
+        this.dbObj.milk_seep3  = "health_postpartum_lactation3";
+        this.dbObj.sugar_level3  = "health_postpartum_sugar_level3";
+        this.dbObj.lochia3  = "health_postpartum_lochia3";
+        this.dbObj.menses3  = "health_postpartum_menstruation3";
+        this.dbObj.sew3   = "f_health_postpartum_episiotomy_type_id3";
+        this.dbObj.cream3  = "health_postpartum_nipple3";
+        this.dbObj.albumin3  = "health_postpartum_albumin3";
+        this.dbObj.result_verify3  = "health_postpartum_summary_verify3";
+        this.dbObj.pcare3   = "health_postpartum_visit3";
+        this.dbObj.mch_id3   = "t_health_delivery_id3";
+        this.dbObj.asphyxia3  = "health_postpartum_asphyxia3";
+        this.dbObj.vit_k3   = "health_postpartum_vit_k3";
+        this.dbObj.bcres3   = "health_postpartum_bcres3";
+        this.dbObj.appointment3  = "health_postpartum_appointment3";
+        this.dbObj.updatetime3 = "update_date_time3";
+        this.dbObj.symptom_notice3 = "health_postpartum_symptom_notice3";
+        this.dbObj.place3 = "f_health_postpartum_birth_place_id3";
+        this.dbObj.pregnantnumber3 = "health_postpartum_pregnant_number3";
+        this.dbObj.family_id3 = "t_health_family_id3";
+        this.dbObj.survey_date3 = "postpartum_survey_date3";
+
+        this.dbObj.t_health_postpartum_detail_id = "t_health_postpartum_detail_id";
+        return true;
+        
+    }
+    /**
+     * @param cmd
+     * @param o
+     * @return int
+     * @roseuid 3F6574DE0394
+     */
+    public int insert(AfterMchMother o) throws Exception
+    {
+        sql="";
+       
+        o.generateOID(idtable);
+        sql="insert into " + dbObj.table + " ("
+        + dbObj.pk_field
+        
+        
+        + " ,"	+ dbObj.visit_id
+        + " ,"	+ dbObj.patient_id
+        + " ,"	+ dbObj.recordtime
+        + " ,"	+ dbObj.note
+        + " ,"	+ dbObj.active
+        + " ,"	+ dbObj.user_record
+        + " ,"	+ dbObj.user_modify
+        + " ,"	+ dbObj.user_cancel
+        + " ,"	+ dbObj.uterus_level
+        + " ,"	+ dbObj.milk_seep
+        + " ,"	+ dbObj.sugar_level
+        + " ,"	+ dbObj.lochia
+        + " ,"	+ dbObj.menses
+        + " ,"	+ dbObj.sew
+        + " ,"	+ dbObj.cream
+        + " ,"	+ dbObj.albumin
+        + " ,"	+ dbObj.result_verify
+        + " ,"	+ dbObj.pcare
+        + " ,"	+ dbObj.mch_id
+        + " ,"	+ dbObj.asphyxia
+        + " ,"	+ dbObj.vit_k
+        + " ,"	+ dbObj.bcres
+        + " ,"	+ dbObj.appointment
+        + " ,"	+ dbObj.updatetime
+        + " ,"	+ dbObj.symptom_notice
+        + " ,"	+ dbObj.place
+        + " ,"	+ dbObj.pregnantnumber
+        + " ,"	+ dbObj.family_id
+        + " ,"	+ dbObj.survey_date
+        + " ) values ('"
+        + o.getObjectId()
+        
+        + "','" + o.visit_id
+        + "','" + o.patient_id
+        + "','" + o.recordtime
+        + "','" + o.note
+        + "','" + o.active
+        + "','" + o.user_record
+        + "','" + o.user_modify
+        + "','" + o.user_cancel
+        + "','" + o.uterus_level
+        + "','" + o.milk_seep
+        + "','" + o.sugar_level
+        + "','" + o.lochia
+        + "','" + o.menses
+        + "','" + o.sew
+        + "','" + o.cream
+        + "','" + o.albumin
+        + "','" + o.result_verify
+        + "','" + o.pcare
+        + "','" + o.mch_id
+        + "','" + o.asphyxia
+        + "','" + o.vit_k
+        + "','" + o.bcres
+        + "','" + o.appointment      
+        + "','" + o.updatetime
+        + "','" + o.symptom_notice
+        + "','" + o.place
+        + "','" + o.pregnantnumber
+        + "','" + o.family_id
+        + "','" + o.survey_date
+        + "')";
+        
+        sql = Gutil.convertSQLToMySQL(sql,theConnectionInf.gettypeDatabase());
+        
+        return theConnectionInf.eUpdate(sql);
+    }
+    public int insertN(AfterMchMother o) throws Exception
+    {
+        sql="";
+
+        o.generateOID(idtable);
+        sql="insert into " + dbObj.table + " ("
+        + dbObj.pk_field
+
+
+        + " ,"	+ dbObj.visit_id
+        + " ,"	+ dbObj.patient_id
+        + " ,"	+ dbObj.recordtime
+        + " ,"	+ dbObj.note
+        + " ,"	+ dbObj.active
+        + " ,"	+ dbObj.user_record
+        + " ,"	+ dbObj.user_modify
+        + " ,"	+ dbObj.user_cancel
+        + " ,"	+ dbObj.uterus_level
+        + " ,"	+ dbObj.milk_seep
+        + " ,"	+ dbObj.sugar_level
+        + " ,"	+ dbObj.lochia
+        + " ,"	+ dbObj.menses
+        + " ,"	+ dbObj.sew
+        + " ,"	+ dbObj.cream
+        + " ,"	+ dbObj.albumin
+        + " ,"	+ dbObj.result_verify
+        + " ,"	+ dbObj.pcare
+        + " ,"	+ dbObj.mch_id
+        + " ,"	+ dbObj.asphyxia
+        + " ,"	+ dbObj.vit_k
+        + " ,"	+ dbObj.bcres
+        + " ,"	+ dbObj.appointment
+        + " ,"	+ dbObj.updatetime
+        + " ,"	+ dbObj.symptom_notice
+        + " ,"	+ dbObj.place
+        + " ,"	+ dbObj.pregnantnumber
+        + " ,"	+ dbObj.family_id
+        + " ,"	+ dbObj.survey_date
+
+        + " ,"	+ dbObj.visit_id2
+        + " ,"	+ dbObj.patient_id2
+        + " ,"	+ dbObj.recordtime2
+        + " ,"	+ dbObj.note2
+        + " ,"	+ dbObj.active2
+        + " ,"	+ dbObj.user_record2
+        + " ,"	+ dbObj.user_modify2
+        + " ,"	+ dbObj.user_cancel2
+        + " ,"	+ dbObj.uterus_level2
+        + " ,"	+ dbObj.milk_seep2
+        + " ,"	+ dbObj.sugar_level2
+        + " ,"	+ dbObj.lochia2
+        + " ,"	+ dbObj.menses2
+        + " ,"	+ dbObj.sew2
+        + " ,"	+ dbObj.cream2
+        + " ,"	+ dbObj.albumin2
+        + " ,"	+ dbObj.result_verify2
+        + " ,"	+ dbObj.pcare2
+        + " ,"	+ dbObj.mch_id2
+        + " ,"	+ dbObj.asphyxia2
+        + " ,"	+ dbObj.vit_k2
+        + " ,"	+ dbObj.bcres2
+        + " ,"	+ dbObj.appointment2
+        + " ,"	+ dbObj.updatetime2
+        + " ,"	+ dbObj.symptom_notice2
+        + " ,"	+ dbObj.place2
+        + " ,"	+ dbObj.pregnantnumber2
+        + " ,"	+ dbObj.family_id2
+        + " ,"	+ dbObj.survey_date2
+
+        + " ,"	+ dbObj.visit_id3
+        + " ,"	+ dbObj.patient_id3
+        + " ,"	+ dbObj.recordtime3
+        + " ,"	+ dbObj.note3
+        + " ,"	+ dbObj.active3
+        + " ,"	+ dbObj.user_record3
+        + " ,"	+ dbObj.user_modify3
+        + " ,"	+ dbObj.user_cancel3
+        + " ,"	+ dbObj.uterus_level3
+        + " ,"	+ dbObj.milk_seep3
+        + " ,"	+ dbObj.sugar_level3
+        + " ,"	+ dbObj.lochia3
+        + " ,"	+ dbObj.menses3
+        + " ,"	+ dbObj.sew3
+        + " ,"	+ dbObj.cream3
+        + " ,"	+ dbObj.albumin3
+        + " ,"	+ dbObj.result_verify3
+        + " ,"	+ dbObj.pcare3
+        + " ,"	+ dbObj.mch_id3
+        + " ,"	+ dbObj.asphyxia3
+        + " ,"	+ dbObj.vit_k3
+        + " ,"	+ dbObj.bcres3
+        + " ,"	+ dbObj.appointment3
+        + " ,"	+ dbObj.updatetime3
+        + " ,"	+ dbObj.symptom_notice3
+        + " ,"	+ dbObj.place3
+        + " ,"	+ dbObj.pregnantnumber3
+        + " ,"	+ dbObj.family_id3
+        + " ,"	+ dbObj.survey_date3
+
+        + " ,"	+ dbObj.t_health_postpartum_detail_id
+        + " ) values ('"
+        + o.getObjectId()
+
+        + "','" + o.visit_id
+        + "','" + o.patient_id
+        + "','" + o.recordtime
+        + "','" + o.note
+        + "','" + o.active
+        + "','" + o.user_record
+        + "','" + o.user_modify
+        + "','" + o.user_cancel
+        + "','" + o.uterus_level
+        + "','" + o.milk_seep
+        + "','" + o.sugar_level
+        + "','" + o.lochia
+        + "','" + o.menses
+        + "','" + o.sew
+        + "','" + o.cream
+        + "','" + o.albumin
+        + "','" + o.result_verify
+        + "','" + o.pcare
+        + "','" + o.mch_id
+        + "','" + o.asphyxia
+        + "','" + o.vit_k
+        + "','" + o.bcres
+        + "','" + o.appointment
+        + "','" + o.updatetime
+        + "','" + o.symptom_notice
+        + "','" + o.place
+        + "','" + o.pregnantnumber
+        + "','" + o.family_id
+        + "','" + o.survey_date
+
+        + "','" + o.visit_id2
+        + "','" + o.patient_id2
+        + "','" + o.recordtime2
+        + "','" + o.note2
+        + "','" + o.active2
+        + "','" + o.user_record2
+        + "','" + o.user_modify2
+        + "','" + o.user_cancel2
+        + "','" + o.uterus_level2
+        + "','" + o.milk_seep2
+        + "','" + o.sugar_level2
+        + "','" + o.lochia2
+        + "','" + o.menses2
+        + "','" + o.sew2
+        + "','" + o.cream2
+        + "','" + o.albumin2
+        + "','" + o.result_verify2
+        + "','" + o.pcare2
+        + "','" + o.mch_id2
+        + "','" + o.asphyxia2
+        + "','" + o.vit_k2
+        + "','" + o.bcres2
+        + "','" + o.appointment2
+        + "','" + o.updatetime2
+        + "','" + o.symptom_notice2
+        + "','" + o.place2
+        + "','" + o.pregnantnumber2
+        + "','" + o.family_id2
+        + "','" + o.survey_date2
+
+        + "','" + o.visit_id3
+        + "','" + o.patient_id3
+        + "','" + o.recordtime3
+        + "','" + o.note3
+        + "','" + o.active3
+        + "','" + o.user_record3
+        + "','" + o.user_modify3
+        + "','" + o.user_cancel3
+        + "','" + o.uterus_level3
+        + "','" + o.milk_seep3
+        + "','" + o.sugar_level3
+        + "','" + o.lochia3
+        + "','" + o.menses3
+        + "','" + o.sew3
+        + "','" + o.cream3
+        + "','" + o.albumin3
+        + "','" + o.result_verify3
+        + "','" + o.pcare3
+        + "','" + o.mch_id3
+        + "','" + o.asphyxia3
+        + "','" + o.vit_k3
+        + "','" + o.bcres3
+        + "','" + o.appointment3
+        + "','" + o.updatetime3
+        + "','" + o.symptom_notice3
+        + "','" + o.place3
+        + "','" + o.pregnantnumber3
+        + "','" + o.family_id3
+        + "','" + o.survey_date3
+
+        + "','" + o.t_health_postpartum_detail_id
+        + "')";
+
+        sql = Gutil.convertSQLToMySQL(sql,theConnectionInf.gettypeDatabase());
+
+        return theConnectionInf.eUpdate(sql);
+    }
+    public int update(AfterMchMother o) throws Exception
+    {
+        sql="update " + dbObj.table + " set ";
+       
+        String field =""
+        
+        + "', "	+ dbObj.visit_id  + "='" + o.visit_id
+        + "', "	+ dbObj.patient_id  + "='" + o.patient_id
+        + "', "	+ dbObj.recordtime   + "='" + o.recordtime
+        + "', "	+ dbObj.note   + "='" + o.note
+        + "', "	+ dbObj.active  + "='" + o.active
+        + "', "	+ dbObj.user_record   + "='" + o.user_record
+        + "', "	+ dbObj.user_modify    + "='" + o.user_modify
+        + "', "	+ dbObj.user_cancel    + "='" + o.user_cancel
+        + "', "	+ dbObj.uterus_level    + "='" + o.uterus_level
+        + "', "	+ dbObj.milk_seep    + "='" + o.milk_seep
+        + "', "	+ dbObj.sugar_level    + "='" + o.sugar_level
+        + "', "	+ dbObj.lochia   + "='" + o.lochia
+        + "', "	+ dbObj.menses    + "='" + o.menses
+        + "', "	+ dbObj.sew    + "='" + o.sew
+        + "', "	+ dbObj.cream   + "='" + o.cream
+        + "', "	+ dbObj.albumin   + "='" + o.albumin
+        + "', "	+ dbObj.result_verify   + "='" + o.result_verify
+        + "', "	+ dbObj.pcare  + "='" + o.pcare
+        + "', "	+ dbObj.mch_id  + "='" + o.mch_id
+        + "', "	+ dbObj.asphyxia   + "='" + o.asphyxia
+        + "', "	+ dbObj.vit_k  + "='" + o.vit_k
+        + "', "	+ dbObj.bcres  + "='" + o.bcres
+        + "', "	+ dbObj.appointment  + "='" + o.appointment
+        + "', "	+ dbObj.updatetime  + "='" + o.updatetime
+        + "', "	+ dbObj.symptom_notice  + "='" + o.symptom_notice
+        + "', "	+ dbObj.place  + "='" + o.place
+        + "', "	+ dbObj.pregnantnumber  + "='" + o.pregnantnumber
+        + "', "	+ dbObj.family_id  + "='" + o.family_id
+        + "', "	+ dbObj.survey_date  + "='" + o.survey_date
+        + "' where " + dbObj.pk_field + "='" + o.getObjectId() +"'";
+        sql = Gutil.convertSQLToMySQL(sql+field.substring(2),theConnectionInf.gettypeDatabase());
+        return theConnectionInf.eUpdate(sql);
+    }
+    public int updateN(AfterMchMother o) throws Exception
+    {
+        sql="update " + dbObj.table + " set ";
+
+        String field =""
+
+        + "', "	+ dbObj.visit_id  + "='" + o.visit_id
+        + "', "	+ dbObj.patient_id  + "='" + o.patient_id
+        + "', "	+ dbObj.recordtime   + "='" + o.recordtime
+        + "', "	+ dbObj.note   + "='" + o.note
+        + "', "	+ dbObj.active  + "='" + o.active
+        + "', "	+ dbObj.user_record   + "='" + o.user_record
+        + "', "	+ dbObj.user_modify    + "='" + o.user_modify
+        + "', "	+ dbObj.user_cancel    + "='" + o.user_cancel
+        + "', "	+ dbObj.uterus_level    + "='" + o.uterus_level
+        + "', "	+ dbObj.milk_seep    + "='" + o.milk_seep
+        + "', "	+ dbObj.sugar_level    + "='" + o.sugar_level
+        + "', "	+ dbObj.lochia   + "='" + o.lochia
+        + "', "	+ dbObj.menses    + "='" + o.menses
+        + "', "	+ dbObj.sew    + "='" + o.sew
+        + "', "	+ dbObj.cream   + "='" + o.cream
+        + "', "	+ dbObj.albumin   + "='" + o.albumin
+        + "', "	+ dbObj.result_verify   + "='" + o.result_verify
+        + "', "	+ dbObj.pcare  + "='" + o.pcare
+        + "', "	+ dbObj.mch_id  + "='" + o.mch_id
+        + "', "	+ dbObj.asphyxia   + "='" + o.asphyxia
+        + "', "	+ dbObj.vit_k  + "='" + o.vit_k
+        + "', "	+ dbObj.bcres  + "='" + o.bcres
+        + "', "	+ dbObj.appointment  + "='" + o.appointment
+        + "', "	+ dbObj.updatetime  + "='" + o.updatetime
+        + "', "	+ dbObj.symptom_notice  + "='" + o.symptom_notice
+        + "', "	+ dbObj.place  + "='" + o.place
+        + "', "	+ dbObj.pregnantnumber  + "='" + o.pregnantnumber
+        + "', "	+ dbObj.family_id  + "='" + o.family_id
+        + "', "	+ dbObj.survey_date  + "='" + o.survey_date
+
+        + "', "	+ dbObj.visit_id2  + "='" + o.visit_id2
+        + "', "	+ dbObj.patient_id2  + "='" + o.patient_id2
+        + "', "	+ dbObj.recordtime2   + "='" + o.recordtime2
+        + "', "	+ dbObj.note2   + "='" + o.note2
+        + "', "	+ dbObj.active2  + "='" + o.active2
+        + "', "	+ dbObj.user_record2   + "='" + o.user_record2
+        + "', "	+ dbObj.user_modify2    + "='" + o.user_modify2
+        + "', "	+ dbObj.user_cancel2    + "='" + o.user_cancel2
+        + "', "	+ dbObj.uterus_level2    + "='" + o.uterus_level2
+        + "', "	+ dbObj.milk_seep2    + "='" + o.milk_seep2
+        + "', "	+ dbObj.sugar_level2    + "='" + o.sugar_level2
+        + "', "	+ dbObj.lochia2   + "='" + o.lochia2
+        + "', "	+ dbObj.menses2    + "='" + o.menses2
+        + "', "	+ dbObj.sew2    + "='" + o.sew2
+        + "', "	+ dbObj.cream2   + "='" + o.cream2
+        + "', "	+ dbObj.albumin2   + "='" + o.albumin2
+        + "', "	+ dbObj.result_verify2   + "='" + o.result_verify2
+        + "', "	+ dbObj.pcare2  + "='" + o.pcare2
+        + "', "	+ dbObj.mch_id2  + "='" + o.mch_id2
+        + "', "	+ dbObj.asphyxia2   + "='" + o.asphyxia2
+        + "', "	+ dbObj.vit_k2  + "='" + o.vit_k2
+        + "', "	+ dbObj.bcres2  + "='" + o.bcres2
+        + "', "	+ dbObj.appointment2  + "='" + o.appointment2
+        + "', "	+ dbObj.updatetime2  + "='" + o.updatetime2
+        + "', "	+ dbObj.symptom_notice2  + "='" + o.symptom_notice2
+        + "', "	+ dbObj.place2  + "='" + o.place2
+        + "', "	+ dbObj.pregnantnumber2  + "='" + o.pregnantnumber2
+        + "', "	+ dbObj.family_id2  + "='" + o.family_id2
+        + "', "	+ dbObj.survey_date2  + "='" + o.survey_date2
+
+        + "', "	+ dbObj.visit_id3  + "='" + o.visit_id3
+        + "', "	+ dbObj.patient_id3  + "='" + o.patient_id3
+        + "', "	+ dbObj.recordtime3   + "='" + o.recordtime3
+        + "', "	+ dbObj.note3   + "='" + o.note3
+        + "', "	+ dbObj.active3  + "='" + o.active3
+        + "', "	+ dbObj.user_record3   + "='" + o.user_record3
+        + "', "	+ dbObj.user_modify3    + "='" + o.user_modify3
+        + "', "	+ dbObj.user_cancel3    + "='" + o.user_cancel3
+        + "', "	+ dbObj.uterus_level3    + "='" + o.uterus_level3
+        + "', "	+ dbObj.milk_seep3    + "='" + o.milk_seep3
+        + "', "	+ dbObj.sugar_level3    + "='" + o.sugar_level3
+        + "', "	+ dbObj.lochia3   + "='" + o.lochia3
+        + "', "	+ dbObj.menses3    + "='" + o.menses3
+        + "', "	+ dbObj.sew3    + "='" + o.sew3
+        + "', "	+ dbObj.cream3   + "='" + o.cream3
+        + "', "	+ dbObj.albumin3   + "='" + o.albumin3
+        + "', "	+ dbObj.result_verify3   + "='" + o.result_verify3
+        + "', "	+ dbObj.pcare3  + "='" + o.pcare3
+        + "', "	+ dbObj.mch_id3  + "='" + o.mch_id3
+        + "', "	+ dbObj.asphyxia3   + "='" + o.asphyxia3
+        + "', "	+ dbObj.vit_k3  + "='" + o.vit_k3
+        + "', "	+ dbObj.bcres3  + "='" + o.bcres3
+        + "', "	+ dbObj.appointment3  + "='" + o.appointment3
+        + "', "	+ dbObj.updatetime3  + "='" + o.updatetime3
+        + "', "	+ dbObj.symptom_notice3  + "='" + o.symptom_notice3
+        + "', "	+ dbObj.place3  + "='" + o.place3
+        + "', "	+ dbObj.pregnantnumber3  + "='" + o.pregnantnumber3
+        + "', "	+ dbObj.family_id3  + "='" + o.family_id3
+        + "', "	+ dbObj.survey_date3  + "='" + o.survey_date3
+        + "' where " + dbObj.pk_field + "='" + o.getObjectId() +"'";
+        sql = Gutil.convertSQLToMySQL(sql+field.substring(2),theConnectionInf.gettypeDatabase());
+        return theConnectionInf.eUpdate(sql);
+    }
+    
+    public int delete(AfterMchMother o) throws Exception
+    {
+        sql="delete from " + dbObj.table
+        + " where " + dbObj.pk_field + "='" + o.getObjectId() +"'";
+        return theConnectionInf.eUpdate(sql);
+    }
+    public int updateActive(AfterMchMother o) throws Exception
+    {
+        sql="update " + dbObj.table + " set ";
+       
+        String field =""
+                + "', " + dbObj.user_cancel + "='" + o.user_cancel
+                + "', " + dbObj.active + "='" + o.active
+                + "', " + dbObj.updatetime + "='" + o.updatetime
+        
+        
+        + "' where " + dbObj.pk_field + "='" + o.getObjectId() +"'";
+        
+        sql = Gutil.convertSQLToMySQL(sql+field.substring(2),theConnectionInf.gettypeDatabase());
+        return theConnectionInf.eUpdate(sql);
+    }
+    
+    public AfterMchMother selectByPK(String pk) throws Exception
+    {
+        sql="select * from " + dbObj.table
+        + " where " + dbObj.pk_field
+        + " = '" + pk + "'"
+        + " AND " + dbObj.active + " = '1'";
+        list=eQuery(sql);
+        if(list.size()==0)
+            return null;
+        else
+            return (AfterMchMother)list.get(0);
+    }
+    /**
+     *
+     * @deprecated
+     */
+    public Vector selectByHN(String pk) throws Exception
+    {
+        return selectByPtid(pk);
+    }
+    public Vector selectByPtid(String pk) throws Exception
+    {
+        sql="select * from " + dbObj.table
+        + " where " + dbObj.patient_id
+        + " = '" + pk + "'"
+        + " AND " + dbObj.active + " = '1' "
+        + " Order By  " + dbObj.pcare;
+        list=eQuery(sql);
+        if(list.size()==0)
+            return null;
+        else
+            return list;
+    }
+    
+    public Vector selectByMchID(String mch_id) throws Exception
+    {
+        sql="select * from " + dbObj.table
+        + " where " + dbObj.mch_id
+        + " = '" + mch_id + "'"
+        + " AND " + dbObj.active + " = '1' "
+        + " Order By  " + dbObj.pcare;
+        
+        list=eQuery(sql);
+        if(list.size()==0)
+            return null;
+        else
+            return list;
+    }
+    public AfterMchMother readPPCareByFamilyIDAndGravida(String mch_detail_id) throws Exception
+    {
+        String sql="select * from " + dbObj.table + " where "
+            + dbObj.t_health_postpartum_detail_id + " = '" + mch_detail_id + "' and "
+            + dbObj.active + "='1'";
+        Vector v = eQueryN(sql);
+        if(v.isEmpty())
+            return null;
+        else
+            return (AfterMchMother)v.get(0);
+    }
+    public Vector selectAll() throws Exception
+    {
+        sql="select * from " + dbObj.table;
+        list=eQuery(sql);
+        if(list.size()==0)
+            return null;
+        else
+            return list;
+    }
+    
+    /**
+     * ใช้ในการแสดงข้อมูลลงตาราง ของ GUI ดังนั้นจึงมีข้อมูลไม่ครบ
+     * @author ผดุงรัฐ
+     * @return Vector ของ Object แต่จะมีข้อมูลไม่ครบ
+     */
+    public Vector selectShowTableByVisitID(String visit_id) throws Exception
+    {
+        sql = "select * from " + dbObj.table +
+              " Where " + dbObj.visit_id + "='" + visit_id + "'" + 
+              " AND " + dbObj.active + "= '1'" +
+              " Order by " + dbObj.pregnantnumber + " , " + dbObj.pcare; // + " DESC";
+       
+        return eQueryShowTable(sql);
+    }   
+    
+    /**
+     * ใช้ในการแสดงข้อมูลลงตาราง ของ GUI ดังนั้นจึงมีข้อมูลไม่ครบ
+     * @author หนุ่ม
+     * @return Vector ของ Object แต่จะมีข้อมูลไม่ครบ
+     */
+    public Vector selectShowTableByPatientID(String patient_id) throws Exception
+    {
+        sql = "select * from " + dbObj.table +
+              " Where " + dbObj.patient_id + "='" + patient_id + "'" + 
+              " AND " + dbObj.active + "= '1'" +
+              " Order by " + dbObj.pregnantnumber + " , " + dbObj.pcare; // + " DESC";
+       
+        return eQueryShowTable(sql);
+    }
+    
+    /**
+     * ใช้ในการแสดงข้อมูลลงตาราง ของ GUI ดังนั้นจึงมีข้อมูลไม่ครบ
+     * @author หนุ่ม
+     * @return Vector ของ Object แต่จะมีข้อมูลไม่ครบ
+     */
+    public Vector selectShowTableByFamilyID(String family_id) throws Exception
+    {
+        sql = "select * from " + dbObj.table +
+              " Where " + dbObj.family_id + "='" + family_id + "'" + 
+              " AND " + dbObj.active + "= '1'" +
+              " Order by " + dbObj.pregnantnumber + " , " + dbObj.pcare; // + " DESC";
+       
+        return this.eQuery(sql);
+    }
+    public AfterMchMother readByFamilyIDAndGravidaAndNumber(String family_id,String gravida,String number) throws Exception
+    {
+        sql = "select * from " + dbObj.table +
+              " Where " + dbObj.family_id + "='" + family_id + "' and " + dbObj.pregnantnumber +
+              " ='"+gravida+"' and " + dbObj.pcare + "='" + number + "' and " + dbObj.pcare2 + " = '' and " + dbObj.pcare3 + " = ''" +
+              " AND " + dbObj.active + "= '1'" +
+              " Order by " + dbObj.pregnantnumber + " , " + dbObj.pcare; // + " DESC";
+        Vector v = eQuery(sql);
+        if(v.isEmpty())
+            return null;
+        else
+            return (AfterMchMother)v.get(0);
+//        return this.eQuery(sql);
+    }
+    
+    /**
+     *ใช้ในการหาจำนวน row ของการค้นหาด้วย visit_id
+     *@param visit_id เป็น string ของ keyหลักของตาราง
+     *@return เป็น int จำนวนของ row ที่ได้จากการค้นหา
+     *@author tong(padungrat)
+     */
+    public int countAfterMchMotherByVisitID(String visit_id) throws Exception
+    {   int count = -1;
+        sql = "SELECT count("+ dbObj.pk_field +") " +
+               " From " + dbObj.table + "" +
+               " Where " + dbObj.visit_id + "='" + visit_id + "'" + 
+               " AND " + dbObj.active + "= '1'";
+        rs = theConnectionInf.eQuery(sql);      
+        while(rs.next())
+        {
+            count= rs.getInt(1);
+            
+        }
+        rs.close();
+        return count;
+    }
+    /**
+     *ใช้ในการหาจำนวน row ของการค้นหาด้วย mch_id
+     *@param mch_id เป็น string ของ keyหลักของตาราง
+     *@return เป็น int จำนวนของ row ที่ได้จากการค้นหา
+     *@author tong(padungrat)
+     */
+    public int countAfterMchMotherByMCHID(String mch_id,String carenumber) throws Exception
+    {   int count = -1;
+        sql = "SELECT count("+ dbObj.pk_field +") " +
+               " From " + dbObj.table + "" +
+               " Where " + dbObj.mch_id + "='" + mch_id + "'" +
+                " AND " + dbObj.pcare  + "='" + carenumber + "'" +
+               " AND " + dbObj.active + "= '1'";
+        
+        rs = theConnectionInf.eQuery(sql);      
+        while(rs.next())
+        {
+            count= rs.getInt(1);
+            
+        }
+        rs.close();
+        return count;
+    }
+    
+    /**
+     *ใช้ในการหาจำนวน row ของการค้นหาด้วย id ของข้อมูลการคลอด
+     *@param bornmch_id เป็น string ของ keyหลักของตาราง
+     *@return เป็น int จำนวนของ row ที่ได้จากการค้นหา
+     *@author tong(padungrat)
+     */
+    public int countAfterMchMotherByBornMchKeyID(String bornmch_id) throws Exception
+    {   int count = -1;
+        sql = "SELECT count("+ dbObj.pk_field +") " +
+               " From " + dbObj.table + "" +
+               " Where " + dbObj.mch_id + "='" + bornmch_id + "'" + 
+               " AND " + dbObj.active + "= '1'";
+        rs = theConnectionInf.eQuery(sql);      
+        while(rs.next())
+        {
+            count= rs.getInt(1);
+            
+        }
+        rs.close();
+        return count;
+    }
+    
+    
+    /**
+     * ใช้ในการแสดงข้อมูลลงตาราง ของ GUI ดังนั้นจึงมีข้อมูลไม่ครบ
+     * @author ผดุงรัฐ
+     * @return Vector ของ Object แต่จะมีข้อมูลไม่ครบ
+     * @param bornmch_id เป็น string ของ keyหลักของตาราง
+     */
+    public Vector selectShowTableByBornMchID(String bornmch_id) throws Exception
+    {
+        sql = "select * from " + dbObj.table +
+              " Where " + dbObj.mch_id + "='" + bornmch_id + "'" + 
+              " AND " + dbObj.active + "= '1'" +
+              " Order by " + dbObj.pregnantnumber + " , " + dbObj.pcare; // + " DESC";
+       
+        list=eQueryShowTable(sql);
+        if(list.size()==0)
+            return null;
+        else
+            return list;        
+    } 
+    public Vector eQueryShowTable(String sql) throws Exception
+    {
+     
+        list = new Vector();
+        rs = theConnectionInf.eQuery(sql);
+        while(rs.next())
+        {
+            p = new AfterMchMother();
+            p.setObjectId(rs.getString(dbObj.pk_field));
+            
+            p.visit_id = rs.getString(dbObj.visit_id);
+            p.patient_id = rs.getString(dbObj.patient_id);
+            p.pcare = rs.getString(dbObj.pcare);
+            p.recordtime = rs.getString(dbObj.recordtime);
+            p.updatetime = rs.getString(dbObj.updatetime);
+            p.pregnantnumber = rs.getString(dbObj.pregnantnumber);
+            list.add(p);
+        }
+        rs.close();
+        return list;
+    }
+    
+    
+    public Vector eQuery(String sql) throws Exception
+    {
+        
+        list = new Vector();
+        rs = theConnectionInf.eQuery(sql);
+        while(rs.next())
+        {
+            p = new AfterMchMother();
+            p.setObjectId(rs.getString(dbObj.pk_field));
+            
+            
+            p.visit_id = rs.getString(dbObj.visit_id);
+            p.patient_id  = rs.getString(dbObj.patient_id);
+            p.recordtime   = rs.getString(dbObj.recordtime);
+            p.note   = rs.getString(dbObj.note);
+            p.active  = rs.getString(dbObj.active);
+            p.user_record   = rs.getString(dbObj.user_record);
+            p.user_modify    = rs.getString(dbObj.user_modify);
+            p.user_cancel    = rs.getString(dbObj.user_cancel);
+            p.uterus_level    = rs.getString(dbObj.uterus_level);
+            p.milk_seep    = rs.getString(dbObj.milk_seep);
+            p.sugar_level    = rs.getString(dbObj.sugar_level);
+            p.lochia   = rs.getString(dbObj.lochia);
+            p.menses    = rs.getString(dbObj.menses);
+            p.sew    = rs.getString(dbObj.sew);
+            p.cream   = rs.getString(dbObj.cream);
+            p.albumin   = rs.getString(dbObj.albumin);
+            p.result_verify   = rs.getString(dbObj.result_verify);
+            p.pcare  = rs.getString(dbObj.pcare);
+            p.mch_id  = rs.getString(dbObj.mch_id);
+            p.asphyxia   = rs.getString(dbObj.asphyxia);
+            p.vit_k  = rs.getString(dbObj.vit_k);
+            p.bcres  = rs.getString(dbObj.bcres);
+            p.appointment  = rs.getString(dbObj.appointment);
+            p.updatetime  = rs.getString(dbObj.updatetime);
+            p.symptom_notice  = rs.getString(dbObj.symptom_notice);
+            p.place  = rs.getString(dbObj.place);
+            p.pregnantnumber  = rs.getString(dbObj.pregnantnumber);
+            p.family_id  = rs.getString(dbObj.family_id);
+            p.survey_date  = rs.getString(dbObj.survey_date);
+            list.add(p);
+            p = null;
+        }
+        rs.close();
+        return list;
+    }
+    public Vector eQueryN(String sql) throws Exception
+    {
+
+        list = new Vector();
+        rs = theConnectionInf.eQuery(sql);
+        while(rs.next())
+        {
+            p = new AfterMchMother();
+            p.setObjectId(rs.getString(dbObj.pk_field));
+
+
+            p.visit_id = rs.getString(dbObj.visit_id);
+            p.patient_id  = rs.getString(dbObj.patient_id);
+            p.recordtime   = rs.getString(dbObj.recordtime);
+            p.note   = rs.getString(dbObj.note);
+            p.active  = rs.getString(dbObj.active);
+            p.user_record   = rs.getString(dbObj.user_record);
+            p.user_modify    = rs.getString(dbObj.user_modify);
+            p.user_cancel    = rs.getString(dbObj.user_cancel);
+            p.uterus_level    = rs.getString(dbObj.uterus_level);
+            p.milk_seep    = rs.getString(dbObj.milk_seep);
+            p.sugar_level    = rs.getString(dbObj.sugar_level);
+            p.lochia   = rs.getString(dbObj.lochia);
+            p.menses    = rs.getString(dbObj.menses);
+            p.sew    = rs.getString(dbObj.sew);
+            p.cream   = rs.getString(dbObj.cream);
+            p.albumin   = rs.getString(dbObj.albumin);
+            p.result_verify   = rs.getString(dbObj.result_verify);
+            p.pcare  = rs.getString(dbObj.pcare);
+            p.mch_id  = rs.getString(dbObj.mch_id);
+            p.asphyxia   = rs.getString(dbObj.asphyxia);
+            p.vit_k  = rs.getString(dbObj.vit_k);
+            p.bcres  = rs.getString(dbObj.bcres);
+            p.appointment  = rs.getString(dbObj.appointment);
+            p.updatetime  = rs.getString(dbObj.updatetime);
+            p.symptom_notice  = rs.getString(dbObj.symptom_notice);
+            p.place  = rs.getString(dbObj.place);
+            p.pregnantnumber  = rs.getString(dbObj.pregnantnumber);
+            p.family_id  = rs.getString(dbObj.family_id);
+            p.survey_date  = rs.getString(dbObj.survey_date);
+
+            p.visit_id2 = rs.getString(dbObj.visit_id2);
+            p.patient_id2  = rs.getString(dbObj.patient_id2);
+            p.recordtime2   = rs.getString(dbObj.recordtime2);
+            p.note2   = rs.getString(dbObj.note2);
+            p.active2  = rs.getString(dbObj.active2);
+            p.user_record2   = rs.getString(dbObj.user_record2);
+            p.user_modify2    = rs.getString(dbObj.user_modify2);
+            p.user_cancel2    = rs.getString(dbObj.user_cancel2);
+            p.uterus_level2    = rs.getString(dbObj.uterus_level2);
+            p.milk_seep2    = rs.getString(dbObj.milk_seep2);
+            p.sugar_level2    = rs.getString(dbObj.sugar_level2);
+            p.lochia2   = rs.getString(dbObj.lochia2);
+            p.menses2    = rs.getString(dbObj.menses2);
+            p.sew2    = rs.getString(dbObj.sew2);
+            p.cream2   = rs.getString(dbObj.cream2);
+            p.albumin2   = rs.getString(dbObj.albumin2);
+            p.result_verify2   = rs.getString(dbObj.result_verify2);
+            p.pcare2  = rs.getString(dbObj.pcare2);
+            p.mch_id2  = rs.getString(dbObj.mch_id2);
+            p.asphyxia2   = rs.getString(dbObj.asphyxia2);
+            p.vit_k2  = rs.getString(dbObj.vit_k2);
+            p.bcres2  = rs.getString(dbObj.bcres2);
+            p.appointment2  = rs.getString(dbObj.appointment2);
+            p.updatetime2  = rs.getString(dbObj.updatetime2);
+            p.symptom_notice2  = rs.getString(dbObj.symptom_notice2);
+            p.place2  = rs.getString(dbObj.place2);
+            p.pregnantnumber2  = rs.getString(dbObj.pregnantnumber2);
+            p.family_id2  = rs.getString(dbObj.family_id2);
+            p.survey_date2  = rs.getString(dbObj.survey_date2);
+
+            p.visit_id3 = rs.getString(dbObj.visit_id3);
+            p.patient_id3  = rs.getString(dbObj.patient_id3);
+            p.recordtime3   = rs.getString(dbObj.recordtime3);
+            p.note3   = rs.getString(dbObj.note3);
+            p.active3  = rs.getString(dbObj.active3);
+            p.user_record3   = rs.getString(dbObj.user_record3);
+            p.user_modify3    = rs.getString(dbObj.user_modify3);
+            p.user_cancel3    = rs.getString(dbObj.user_cancel3);
+            p.uterus_level3    = rs.getString(dbObj.uterus_level3);
+            p.milk_seep3    = rs.getString(dbObj.milk_seep3);
+            p.sugar_level3    = rs.getString(dbObj.sugar_level3);
+            p.lochia3   = rs.getString(dbObj.lochia3);
+            p.menses3    = rs.getString(dbObj.menses3);
+            p.sew3    = rs.getString(dbObj.sew3);
+            p.cream3   = rs.getString(dbObj.cream3);
+            p.albumin3   = rs.getString(dbObj.albumin3);
+            p.result_verify3   = rs.getString(dbObj.result_verify3);
+            p.pcare3  = rs.getString(dbObj.pcare3);
+            p.mch_id3  = rs.getString(dbObj.mch_id3);
+            p.asphyxia3   = rs.getString(dbObj.asphyxia3);
+            p.vit_k3  = rs.getString(dbObj.vit_k3);
+            p.bcres3  = rs.getString(dbObj.bcres3);
+            p.appointment3  = rs.getString(dbObj.appointment3);
+            p.updatetime3  = rs.getString(dbObj.updatetime3);
+            p.symptom_notice3  = rs.getString(dbObj.symptom_notice3);
+            p.place3  = rs.getString(dbObj.place3);
+            p.pregnantnumber3  = rs.getString(dbObj.pregnantnumber3);
+            p.family_id3  = rs.getString(dbObj.family_id3);
+            p.survey_date3  = rs.getString(dbObj.survey_date3);
+
+            p.t_health_postpartum_detail_id  = rs.getString(dbObj.t_health_postpartum_detail_id);
+
+            list.add(p);
+            p = null;
+        }
+        rs.close();
+        return list;
+    }
+/////////////////////////////////////////////////////////////////////////////    
+    public int updateFidByFid(String family_id,String family_from) throws Exception
+    {
+        String sql="update " + dbObj.table + " set " 
+                + dbObj.family_id + "='" + family_id + "',"
+                + dbObj.user_cancel + "="+ dbObj.user_cancel + "||'-'||'" + family_from + "'"
+                + " where " + dbObj.family_id + "='" + family_from +"'";
+        return theConnectionInf.eUpdate(sql);
+    }  
+    
+/////////////////////////////////////////////////////////////////////////////    
+    public int updateFidByPtid(String family_id,String patient_id) throws Exception
+    {
+        String sql="update " + dbObj.table + " set " 
+                + dbObj.family_id + "='" + family_id
+                + "' where " + dbObj.patient_id + "='" + patient_id +"'";
+        sql = Gutil.convertSQLToMySQL(sql,theConnectionInf.gettypeDatabase());
+        return theConnectionInf.eUpdate(sql);
+    }     
+
+
+    public int selectCount() throws Exception {
+             String sql="select count(*) as count from " + dbObj.table;
+             ResultSet rs = theConnectionInf.eQuery(sql);
+             if(rs.next()){
+                 return rs.getInt("count");
+             }
+             return 0;
+    }
+    
+}

@@ -1,0 +1,29 @@
+
+<all>
+<DatabaseLocation>
+<connection></connection>
+<driver>org.postgresql.Driver</driver>
+<url>jdbc:postgresql://localhost/jld</url>
+<username>postgres</username>
+<password>postgres</password>
+
+</DatabaseLocation>
+<PatientSearch>
+    <table>t_patient</table>
+    <t_patient_id>t_patient_id</t_patient_id>
+    <patient_hn>patient_hn</patient_hn>
+    <patient_firstname>patient_firstname</patient_firstname>
+    <patient_lastname>patient_lastname</patient_lastname>
+    <patient_birthday>patient_birthday</patient_birthday>
+    <patient_mother_firstname>patient_mother_firstname</patient_mother_firstname>
+    <patient_pid>patient_pid</patient_pid>
+    <patient_house>patient_house</patient_house>
+    <patient_road>patient_road</patient_road>
+    <patient_moo>patient_moo</patient_moo>
+    <patient_tambon>patient_tambon</patient_tambon>
+    <patient_amphur>patient_amphur</patient_amphur>
+    <patient_changwat>patient_changwat</patient_changwat>
+    <patient_phone_number>patient_phone_number</patient_phone_number>
+    <patient_active>patient_active</patient_active>
+</PatientSearch>
+</all>

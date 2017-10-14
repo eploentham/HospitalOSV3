@@ -1,0 +1,1439 @@
+/*
+ * DialogBorrowOpdCard.java
+ *
+ * Created on 7 ธันวาคม 2546, 14:14 น.
+ * Modified on 21 เมษายน 2547, 13:00 น.
+ */
+package com.hosv3.gui.dialog;
+import java.util.*;
+import java.awt.*;
+import javax.swing.*;
+import com.hosv3.control.*;
+import com.hosv3.utility.*;
+import com.hosv3.object.*;
+import com.hosv3.utility.connection.*;
+import com.hosv3.control.lookup.*;
+import com.hospital_os.object.*;
+import com.hospital_os.object.specialQuery.*; 
+import com.hospital_os.utility.Gutil;
+import com.hosv3.utility.Constant;
+import com.hospital_os.utility.TaBleModel;
+import com.hospital_os.utility.CelRenderer; 
+import com.hospital_os.utility.CellRendererHos;
+/**
+ *
+ * @author sum
+ */
+public class DialogBorrowOpdCard extends JFrame implements UpdateStatus 
+{
+    HosControl theHC;
+    HosObject theHO;
+    public boolean actionCommand = false;
+    JFrame aMain;
+    LookupControl theLookupControl;
+    PatientControl thePatientControl;
+    VisitControl theVisitControl;
+    SetupControl theSetupControl;
+    SystemControl theSystemControl;
+    Patient thePatient;
+    BorrowOpdCard theBorrowOpdCard = new BorrowOpdCard();
+    /**vector ของ รายการยืมฟิล์ม Xray*/
+    Vector vBorrow;  
+    CelRenderer cellRenderer = new CelRenderer();
+    CellRendererHos hnRender = new CellRendererHos(CellRendererHos.HN);
+    private String[] collistHn = {"HN","ชื่อ","วันที่","คืน"};
+    /**หัวตารางของการนัดหมาย*/
+    private QueueVisit theQueueVisit;
+    /**
+     *flag true คือ ต้อง check เรื่องเวลา
+     *     false คือ ไม่ต้อง check เรื่องเวลา
+     */
+    private boolean flag;
+    
+    /** Creates new form DialogAppointment */
+    public DialogBorrowOpdCard(HosControl hc,UpdateStatus us)
+    {   
+        aMain = us.getJFrame();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/com/hosv3/gui/images/bor_OPDcard.gif")));
+        theLookupControl = hc.theLookupControl;
+        thePatientControl = hc.thePatientControl;
+        theSetupControl = hc.theSetupControl;
+        theSystemControl = hc.theSystemControl;
+        theHO = hc.theHO;
+        theHC = hc;
+        thePatient = theHO.thePatient;
+    hnRender = new CellRendererHos(CellRendererHos.HN,theLookupControl.getSequenceDataHN().pattern);
+        initComponents();
+        updateOGComponent();
+        setDefault();
+        jTextFieldCancel.setVisible(false);
+        setEnableAll(true);
+        setLanguage("");
+        if(theHO.thePatient!=null)
+        {
+            thePatient = theHC.thePatientControl.readPatientByHNRet(theHO.thePatient.hn);
+            if(thePatient != null) 
+            {
+                updateOGBorrowOpdCard(null, thePatient);
+            }
+        }
+        jTextFieldBorrowToOther.setControl(new ServicePointLookup(theHC.theLookupControl),this);
+        theHC.theHS.theBalloonSubject.attachBalloon(jTextFieldBorrowToOther);
+        jButtonPreviewListBorrowOpdCard.setVisible(false);
+        jButtonPrintListBorrowOpdCard.setVisible(false);
+        jTextFieldHosName.setEditable(false);
+        this.dateComboBoxDateFrom.setEnabled(false);
+        this.dateComboBoxDateTo.setEnabled(false);
+        searchBorrowOpdCard(false);
+    }
+   
+    //////////////////////////////////////////////////////////////////////////
+    /**
+     *dialog ที่ใช้ในการส่งข้อความเตื่อนผู้ใช้
+     */
+     public void setStatus(String str, int status) 
+     {
+        ThreadStatus theTT = new ThreadStatus(this,jLabelStatus);
+        theTT.start();  
+        str = Constant.getTextBundle(str);
+        jLabelStatus.setText(" " + str);
+        Constant.println("----SetStatus---- " + str);
+        if(status == UpdateStatus.WARNING){
+            jLabelStatus.setBackground(Color.YELLOW);
+        }
+        if(status == UpdateStatus.COMPLETE){
+            jLabelStatus.setBackground(Color.GREEN);
+        }
+        if(status == UpdateStatus.ERROR){
+            jLabelStatus.setBackground(Color.RED);
+        }      
+    }
+    
+     //////////////////////////////////////////////////////////////////////////
+     /**
+      *dialog ที่ใข้ในการให้ผู้ใข้ทำการยีนยันสิ่งต่าง
+      */
+    public boolean confirmBox(String str, int status) {
+        int i = JOptionPane.showConfirmDialog(this,str,Constant.getTextBundle("เตือน")
+                ,JOptionPane.YES_NO_OPTION);
+        return (i==JOptionPane.YES_OPTION);
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////
+    /**
+     *init component
+     *ทำการเซตค่าให้กับ component ต่างๆ
+     *neung
+     */
+    private void updateOGComponent(){   
+        dateComboBoxDateBorrowOpd.setEditable(true);
+        dateComboBoxDateFrom.setEditable(true);
+        dateComboBoxDateTo.setEditable(true);
+    }
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
+     */
+    // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jLabelStatus = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabelFLName = new javax.swing.JLabel();
+        jTextFieldPatientName = new javax.swing.JTextField();
+        jLabelCauseBorrow = new javax.swing.JLabel();
+        jLabelBorrowTo = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextAreaCauseBorrow = new javax.swing.JTextArea();
+        jPanel4 = new javax.swing.JPanel();
+        jButtonHos = new javax.swing.JButton();
+        jTextFieldHosName = new javax.swing.JTextField();
+        jTextFieldHosCode = new javax.swing.JTextField();
+        jPanel5 = new javax.swing.JPanel();
+        jLabelAmountDate = new javax.swing.JLabel();
+        jTextFieldAmountDate = new com.hospital_os.utility.DoubleTextField();
+        dateComboBoxDateBorrowOpd = new com.hospital_os.utility.DateComboBox();
+        dateComboBoxDateReturnOpd = new com.hospital_os.utility.DateComboBox();
+        jCheckBoxReturnOpdDate = new javax.swing.JCheckBox();
+        jLabelBorrowOpdDate = new javax.swing.JLabel();
+        jLabelAmountDate1 = new javax.swing.JLabel();
+        jLabelPermissibly_Borrow = new javax.swing.JLabel();
+        jTextFieldPermissibly = new javax.swing.JTextField();
+        jPanel8 = new javax.swing.JPanel();
+        jLabelBorrowName = new javax.swing.JLabel();
+        jTextFieldBXLName = new javax.swing.JTextField();
+        jTextFieldBXFName = new javax.swing.JTextField();
+        jLabelBorrowToOther = new javax.swing.JLabel();
+        jTextFieldBorrowToOther = new com.hosv3.gui.component.BalloonTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jButtonAdd = new javax.swing.JButton();
+        jButtonDel = new javax.swing.JButton();
+        jButtonSave = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabelHn = new javax.swing.JLabel();
+        jTextFieldHN = new com.hospital_os.utility.HNTextField();
+        jTextFieldCancel = new javax.swing.JTextField();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new com.hosv3.gui.component.HJTableSort();
+        jPanelSearch = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jCheckBoxShowCancel = new javax.swing.JCheckBox();
+        jCheckBoxSCurrPatient = new javax.swing.JCheckBox();
+        jPanel10 = new javax.swing.JPanel();
+        jLabelDateEnd = new javax.swing.JLabel();
+        dateComboBoxDateFrom = new com.hospital_os.utility.DateComboBox();
+        dateComboBoxDateTo = new com.hospital_os.utility.DateComboBox();
+        jCheckBoxDateSearch = new javax.swing.JCheckBox();
+        jButtonSearch = new javax.swing.JButton();
+        jPanel9 = new javax.swing.JPanel();
+        jButtonPreviewListBorrowOpdCard = new javax.swing.JButton();
+        jButtonPrintListBorrowOpdCard = new javax.swing.JButton();
+
+        getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
+
+        jLabelStatus.setFont(new java.awt.Font("Tahoma", 0, 14));
+        jLabelStatus.setMaximumSize(new java.awt.Dimension(4, 24));
+        jLabelStatus.setMinimumSize(new java.awt.Dimension(4, 20));
+        jLabelStatus.setOpaque(true);
+        jLabelStatus.setPreferredSize(new java.awt.Dimension(4, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        getContentPane().add(jLabelStatus, gridBagConstraints);
+
+        jPanel7.setLayout(new java.awt.GridBagLayout());
+
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Dialog_Borrow_OpdCard_Detail"));
+        jPanel7.setMinimumSize(new java.awt.Dimension(320, 360));
+        jPanel7.setPreferredSize(new java.awt.Dimension(320, 360));
+        jLabelFLName.setText("\u0e0a\u0e37\u0e48\u0e2d-\u0e2a\u0e01\u0e38\u0e25 \u0e1c\u0e39\u0e49\u0e1b\u0e48\u0e27\u0e22");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 12, 0, 0);
+        jPanel7.add(jLabelFLName, gridBagConstraints);
+
+        jTextFieldPatientName.setEditable(false);
+        jTextFieldPatientName.setBorder(null);
+        jTextFieldPatientName.setMinimumSize(new java.awt.Dimension(200, 21));
+        jTextFieldPatientName.setPreferredSize(new java.awt.Dimension(200, 21));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 12);
+        jPanel7.add(jTextFieldPatientName, gridBagConstraints);
+
+        jLabelCauseBorrow.setText("CauseBorrow");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 12, 0, 0);
+        jPanel7.add(jLabelCauseBorrow, gridBagConstraints);
+
+        jLabelBorrowTo.setText("BorrowTo");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 12, 0, 0);
+        jPanel7.add(jLabelBorrowTo, gridBagConstraints);
+
+        jScrollPane2.setMaximumSize(new java.awt.Dimension(250, 150));
+        jScrollPane2.setMinimumSize(new java.awt.Dimension(50, 50));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(50, 50));
+        jTextAreaCauseBorrow.setLineWrap(true);
+        jTextAreaCauseBorrow.setWrapStyleWord(true);
+        jTextAreaCauseBorrow.setMaximumSize(new java.awt.Dimension(1024, 1024));
+        jTextAreaCauseBorrow.setMinimumSize(new java.awt.Dimension(10, 10));
+        jTextAreaCauseBorrow.setPreferredSize(new java.awt.Dimension(10, 10));
+        jScrollPane2.setViewportView(jTextAreaCauseBorrow);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 12);
+        jPanel7.add(jScrollPane2, gridBagConstraints);
+
+        jPanel4.setLayout(new java.awt.GridBagLayout());
+
+        jPanel4.setPreferredSize(new java.awt.Dimension(200, 24));
+        jButtonHos.setText("...");
+        jButtonHos.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jButtonHos.setMaximumSize(new java.awt.Dimension(24, 24));
+        jButtonHos.setMinimumSize(new java.awt.Dimension(24, 24));
+        jButtonHos.setPreferredSize(new java.awt.Dimension(24, 24));
+        jButtonHos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonHosActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel4.add(jButtonHos, gridBagConstraints);
+
+        jTextFieldHosName.setMinimumSize(new java.awt.Dimension(120, 21));
+        jTextFieldHosName.setPreferredSize(new java.awt.Dimension(130, 21));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel4.add(jTextFieldHosName, gridBagConstraints);
+
+        jTextFieldHosCode.setMaximumSize(new java.awt.Dimension(57, 21));
+        jTextFieldHosCode.setMinimumSize(new java.awt.Dimension(45, 21));
+        jTextFieldHosCode.setPreferredSize(new java.awt.Dimension(45, 21));
+        jTextFieldHosCode.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldHosCodeFocusLost(evt);
+            }
+        });
+        jTextFieldHosCode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextFieldHosCodeKeyReleased(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(jTextFieldHosCode, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 12);
+        jPanel7.add(jPanel4, gridBagConstraints);
+
+        jPanel5.setLayout(new java.awt.GridBagLayout());
+
+        jLabelAmountDate.setText("\u0e27\u0e31\u0e19");
+        jLabelAmountDate.setMaximumSize(new java.awt.Dimension(70, 21));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel5.add(jLabelAmountDate, gridBagConstraints);
+
+        jTextFieldAmountDate.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldAmountDate.setMinimumSize(new java.awt.Dimension(30, 21));
+        jTextFieldAmountDate.setPreferredSize(new java.awt.Dimension(30, 21));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 10, 0, 0);
+        jPanel5.add(jTextFieldAmountDate, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
+        jPanel5.add(dateComboBoxDateBorrowOpd, gridBagConstraints);
+
+        dateComboBoxDateReturnOpd.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                dateComboBoxDateReturnOpdFocusLost(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 0);
+        jPanel5.add(dateComboBoxDateReturnOpd, gridBagConstraints);
+
+        jCheckBoxReturnOpdDate.setText("\u0e27\u0e31\u0e19\u0e17\u0e35\u0e48\u0e04\u0e37\u0e19");
+        jCheckBoxReturnOpdDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxReturnOpdDateActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        jPanel5.add(jCheckBoxReturnOpdDate, gridBagConstraints);
+
+        jLabelBorrowOpdDate.setText("\u0e27\u0e31\u0e19\u0e17\u0e35\u0e48\u0e22\u0e37\u0e21");
+        jLabelBorrowOpdDate.setPreferredSize(new java.awt.Dimension(63, 15));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel5.add(jLabelBorrowOpdDate, gridBagConstraints);
+
+        jLabelAmountDate1.setText("\u0e08\u0e33\u0e19\u0e27\u0e19\u0e27\u0e31\u0e19\u0e22\u0e37\u0e21");
+        jLabelAmountDate1.setMaximumSize(new java.awt.Dimension(70, 21));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel5.add(jLabelAmountDate1, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 12, 0, 12);
+        jPanel7.add(jPanel5, gridBagConstraints);
+
+        jLabelPermissibly_Borrow.setText("Permissibly_Borrow");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 12, 0, 0);
+        jPanel7.add(jLabelPermissibly_Borrow, gridBagConstraints);
+
+        jTextFieldPermissibly.setMinimumSize(new java.awt.Dimension(4, 21));
+        jTextFieldPermissibly.setPreferredSize(new java.awt.Dimension(4, 21));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 12);
+        jPanel7.add(jTextFieldPermissibly, gridBagConstraints);
+
+        jPanel8.setLayout(new java.awt.GridBagLayout());
+
+        jLabelBorrowName.setText("\u0e0a\u0e37\u0e48\u0e2d-\u0e2a\u0e01\u0e38\u0e25 \u0e1c\u0e39\u0e49\u0e22\u0e37\u0e21");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel8.add(jLabelBorrowName, gridBagConstraints);
+
+        jTextFieldBXLName.setMinimumSize(new java.awt.Dimension(125, 21));
+        jTextFieldBXLName.setPreferredSize(new java.awt.Dimension(125, 21));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel8.add(jTextFieldBXLName, gridBagConstraints);
+
+        jTextFieldBXFName.setMinimumSize(new java.awt.Dimension(125, 21));
+        jTextFieldBXFName.setPreferredSize(new java.awt.Dimension(125, 21));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
+        jPanel8.add(jTextFieldBXFName, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 12, 0, 12);
+        jPanel7.add(jPanel8, gridBagConstraints);
+
+        jLabelBorrowToOther.setText("BorrowToOther");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 12, 0, 0);
+        jPanel7.add(jLabelBorrowToOther, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 12);
+        jPanel7.add(jTextFieldBorrowToOther, gridBagConstraints);
+
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        jPanel1.setMinimumSize(new java.awt.Dimension(320, 26));
+        jPanel1.setPreferredSize(new java.awt.Dimension(320, 26));
+        jButtonAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hosv3/gui/images/plus16.gif")));
+        jButtonAdd.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jButtonAdd.setMaximumSize(new java.awt.Dimension(24, 24));
+        jButtonAdd.setMinimumSize(new java.awt.Dimension(26, 26));
+        jButtonAdd.setPreferredSize(new java.awt.Dimension(26, 26));
+        jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        jPanel1.add(jButtonAdd, gridBagConstraints);
+
+        jButtonDel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hosv3/gui/images/minus16.gif")));
+        jButtonDel.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jButtonDel.setMaximumSize(new java.awt.Dimension(24, 24));
+        jButtonDel.setMinimumSize(new java.awt.Dimension(26, 26));
+        jButtonDel.setPreferredSize(new java.awt.Dimension(26, 26));
+        jButtonDel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDelActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        jPanel1.add(jButtonDel, gridBagConstraints);
+
+        jButtonSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hospital_os/images/Save16.gif")));
+        jButtonSave.setText("\u0e1a\u0e31\u0e19\u0e17\u0e36\u0e01");
+        jButtonSave.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jButtonSave.setMaximumSize(new java.awt.Dimension(80, 26));
+        jButtonSave.setMinimumSize(new java.awt.Dimension(80, 26));
+        jButtonSave.setPreferredSize(new java.awt.Dimension(80, 26));
+        jButtonSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSaveActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 0);
+        jPanel1.add(jButtonSave, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(17, 12, 11, 12);
+        jPanel7.add(jPanel1, gridBagConstraints);
+
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        jLabelHn.setText("HN \u0e17\u0e35\u0e48\u0e15\u0e49\u0e2d\u0e07\u0e01\u0e32\u0e23\u0e22\u0e37\u0e21");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel2.add(jLabelHn, gridBagConstraints);
+
+        jTextFieldHN.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldHN.setMinimumSize(new java.awt.Dimension(65, 21));
+        jTextFieldHN.setPreferredSize(new java.awt.Dimension(65, 21));
+        jTextFieldHN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldHNActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel2.add(jTextFieldHN, gridBagConstraints);
+
+        jTextFieldCancel.setBackground(new java.awt.Color(255, 0, 0));
+        jTextFieldCancel.setEditable(false);
+        jTextFieldCancel.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextFieldCancel.setText("\u0e22\u0e01\u0e40\u0e25\u0e34\u0e01");
+        jTextFieldCancel.setToolTipText("");
+        jTextFieldCancel.setBorder(null);
+        jTextFieldCancel.setMinimumSize(new java.awt.Dimension(70, 21));
+        jTextFieldCancel.setPreferredSize(new java.awt.Dimension(70, 21));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel2.add(jTextFieldCancel, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 12, 0, 12);
+        jPanel7.add(jPanel2, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(12, 5, 0, 5);
+        getContentPane().add(jPanel7, gridBagConstraints);
+        jPanel7.getAccessibleContext().setAccessibleParent(jPanel7);
+
+        jPanel3.setLayout(new java.awt.GridBagLayout());
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Dialog_Borrow_OpdCard_Search"));
+        jPanel3.setRequestFocusEnabled(false);
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(100, 22));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(100, 80));
+        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTable1KeyReleased(evt);
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTable1MouseReleased(evt);
+            }
+        });
+
+        jScrollPane1.setViewportView(jTable1);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+        jPanel3.add(jScrollPane1, gridBagConstraints);
+
+        jPanelSearch.setLayout(new java.awt.GridBagLayout());
+
+        jPanel6.setLayout(new java.awt.GridBagLayout());
+
+        jCheckBoxShowCancel.setText("\u0e23\u0e32\u0e22\u0e01\u0e32\u0e23\u0e17\u0e35\u0e48\u0e22\u0e01\u0e40\u0e25\u0e34\u0e01");
+        jCheckBoxShowCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxShowCancelActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        jPanel6.add(jCheckBoxShowCancel, gridBagConstraints);
+
+        jCheckBoxSCurrPatient.setText("CurrentPatient");
+        jCheckBoxSCurrPatient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxSCurrPatientActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        jPanel6.add(jCheckBoxSCurrPatient, gridBagConstraints);
+
+        jPanel10.setLayout(new java.awt.GridBagLayout());
+
+        jLabelDateEnd.setText("\u0e16\u0e36\u0e07");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel10.add(jLabelDateEnd, gridBagConstraints);
+
+        dateComboBoxDateFrom.setMinimumSize(new java.awt.Dimension(100, 20));
+        dateComboBoxDateFrom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dateComboBoxDateFromActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel10.add(dateComboBoxDateFrom, gridBagConstraints);
+
+        dateComboBoxDateTo.setMinimumSize(new java.awt.Dimension(100, 20));
+        dateComboBoxDateTo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dateComboBoxDateToActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel10.add(dateComboBoxDateTo, gridBagConstraints);
+
+        jCheckBoxDateSearch.setText("\u0e27\u0e31\u0e19\u0e17\u0e35\u0e48");
+        jCheckBoxDateSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxDateSearchActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        jPanel10.add(jCheckBoxDateSearch, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 3);
+        jPanel6.add(jPanel10, gridBagConstraints);
+
+        jButtonSearch.setText("\u0e04\u0e49\u0e19\u0e2b\u0e32");
+        jButtonSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSearchActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        jPanel6.add(jButtonSearch, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        jPanelSearch.add(jPanel6, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(12, 5, 0, 5);
+        jPanel3.add(jPanelSearch, gridBagConstraints);
+
+        jPanel9.setLayout(new java.awt.GridBagLayout());
+
+        jButtonPreviewListBorrowOpdCard.setText("PreviewListBorrowOpd");
+        jButtonPreviewListBorrowOpdCard.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        jButtonPreviewListBorrowOpdCard.setMinimumSize(new java.awt.Dimension(160, 26));
+        jButtonPreviewListBorrowOpdCard.setPreferredSize(new java.awt.Dimension(160, 26));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        gridBagConstraints.weightx = 1.0;
+        jPanel9.add(jButtonPreviewListBorrowOpdCard, gridBagConstraints);
+
+        jButtonPrintListBorrowOpdCard.setText("PrintListBorrowFilmOpd");
+        jButtonPrintListBorrowOpdCard.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        jButtonPrintListBorrowOpdCard.setMinimumSize(new java.awt.Dimension(160, 26));
+        jButtonPrintListBorrowOpdCard.setPreferredSize(new java.awt.Dimension(160, 26));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel9.add(jButtonPrintListBorrowOpdCard, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 11, 5);
+        jPanel3.add(jPanel9, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(12, 5, 0, 0);
+        getContentPane().add(jPanel3, gridBagConstraints);
+        jPanel3.getAccessibleContext().setAccessibleParent(jPanel3);
+
+        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds((screenSize.width-697)/2, (screenSize.height-544)/2, 697, 544);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchActionPerformed
+        searchBorrowOpdCard(false);
+    }//GEN-LAST:event_jButtonSearchActionPerformed
+
+    private void jCheckBoxDateSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxDateSearchActionPerformed
+        this.dateComboBoxDateFrom.setEnabled(jCheckBoxDateSearch.isSelected());
+        this.dateComboBoxDateTo.setEnabled(jCheckBoxDateSearch.isSelected());
+//        searchBorrowOpdCard(false);
+    }//GEN-LAST:event_jCheckBoxDateSearchActionPerformed
+
+    private void dateComboBoxDateToActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateComboBoxDateToActionPerformed
+        this.dateComboBoxDateTo.getText();
+//        searchBorrowOpdCard(false);
+    }//GEN-LAST:event_dateComboBoxDateToActionPerformed
+
+    private void dateComboBoxDateFromActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateComboBoxDateFromActionPerformed
+        dateComboBoxDateTo.setText(
+                DateUtil.convertFieldDate(dateComboBoxDateFrom.getText()));
+//        searchBorrowOpdCard(false);
+    }//GEN-LAST:event_dateComboBoxDateFromActionPerformed
+
+    private void jCheckBoxSCurrPatientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxSCurrPatientActionPerformed
+//        searchBorrowOpdCard(false);
+        if(jCheckBoxSCurrPatient.isSelected() && jTextFieldHN.getText().equals(""))
+        {
+            setStatus("ไม่สามารถค้นหาได้ เนื่องจากไม่มีข้อมูลผู้ป่วยปัจจุบัน" ,WARNING);
+        }
+    }//GEN-LAST:event_jCheckBoxSCurrPatientActionPerformed
+
+    private void jCheckBoxShowCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxShowCancelActionPerformed
+//       searchBorrowOpdCard(false);
+    }//GEN-LAST:event_jCheckBoxShowCancelActionPerformed
+
+    private void jTextFieldHosCodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldHosCodeKeyReleased
+        if(jTextFieldHosCode.getText().length()!=5)
+        {
+            return;
+        }
+        jTextFieldHosCodeFocusLost(null);
+    }//GEN-LAST:event_jTextFieldHosCodeKeyReleased
+
+    private void jTextFieldHosCodeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldHosCodeFocusLost
+        if(jTextFieldHosCode.getText().equals(""))
+            return;
+        Office office = theHC.theLookupControl.readHospitalByCode(jTextFieldHosCode.getText());
+        if(office==null)
+        {
+            jTextFieldHosCode.setText("");
+            jTextFieldHosName.setText("");
+            setStatus("ไม่พบสถานพยาบาลที่ตรงกับรหัสที่ระบุ กรุณาตรวจสอบรหัสอีกครั้ง", WARNING);
+            if(theBorrowOpdCard!=null) 
+            {
+                theBorrowOpdCard.borrow_opd_to = "";
+            }
+        }
+        else
+        {
+            jTextFieldHosName.setText(office.getName());
+            if(theBorrowOpdCard!=null) 
+            {
+                theBorrowOpdCard.borrow_opd_to = office.getObjectId();
+            }
+        }
+    }//GEN-LAST:event_jTextFieldHosCodeFocusLost
+
+    private void jButtonHosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHosActionPerformed
+        Office office = new Office();
+        office.setObjectId(theBorrowOpdCard.borrow_opd_to);
+        if(DialogOffice.showDialog(theHC,this,office))
+        {
+            theBorrowOpdCard.borrow_opd_to = office.getObjectId();
+            jTextFieldHosName.setText(office.getName());
+            jTextFieldHosCode.setText(office.getCode());
+        } 
+    }//GEN-LAST:event_jButtonHosActionPerformed
+
+    private void jCheckBoxReturnOpdDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxReturnOpdDateActionPerformed
+        if(jCheckBoxReturnOpdDate.isSelected())
+        {
+            dateComboBoxDateReturnOpd.setEnabled(true);
+            if(theBorrowOpdCard.return_opd_date.trim().equals(""))
+            {
+                dateComboBoxDateReturnOpd.setText(DateUtil.convertFieldDate(theLookupControl.getTextCurrentDate()));
+            }
+            return;
+        }
+        dateComboBoxDateReturnOpd.setEnabled(false);
+    }//GEN-LAST:event_jCheckBoxReturnOpdDateActionPerformed
+
+    private void dateComboBoxDateReturnOpdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_dateComboBoxDateReturnOpdFocusLost
+        if(dateComboBoxDateBorrowOpd.getText()!=null || dateComboBoxDateReturnOpd.getText()!=""){
+            /**
+             *borrowDate เก็บวันยืม
+             *returnDate เก็บวันคืน
+             */
+            String borrowDate = dateComboBoxDateBorrowOpd.getText();
+            String returnDate = dateComboBoxDateReturnOpd.getText();          
+            /**
+             *yearBorr เก็บปียืม
+             *monthBorr เก็บเดือนยืม
+             *dateBorr เก็บวันยืม
+             *yearRet เก็บปีคืน           
+             *monthRet เก็บเดือนคืน 
+             *dateRet เก็บวันคืน 
+             */
+            int yearBorr = Integer.parseInt(borrowDate.substring(0,4));
+            int monthBorr = Integer.parseInt(borrowDate.substring(5,7));
+            int dateBorr = Integer.parseInt(borrowDate.substring(8,10));
+            int yearRet = Integer.parseInt(returnDate.substring(0,4));
+            int monthRet = Integer.parseInt(returnDate.substring(5,7));
+            int dateRet = Integer.parseInt(returnDate.substring(8,10));
+            if(yearRet > yearBorr){
+                flag=false;
+            }
+            if(yearRet < yearBorr){
+                JOptionPane.showMessageDialog(this, Constant.getTextBundle("ไม่สามารถคืนปีย้อนหลังได้"),
+                        Constant.getTextBundle("เตือน"), JOptionPane.WARNING_MESSAGE);
+                flag=false;
+            }
+            if(yearRet == yearBorr){
+                if(monthRet > monthBorr){
+                    flag=false;
+                }
+                if(monthRet < monthBorr){
+                    JOptionPane.showMessageDialog(this, Constant.getTextBundle("ไม่สามารถคืนเดือนย้อนหลังได้"),
+                            Constant.getTextBundle("เตือน"), JOptionPane.WARNING_MESSAGE);
+                    flag=false;
+                }
+                if(monthRet == monthBorr){
+                    if(dateRet > dateBorr){
+                        flag=false;
+                    }
+                    if(dateRet < dateBorr){
+                        JOptionPane.showMessageDialog(this, Constant.getTextBundle("ไม่สามารถคืนวันย้อนหลังได้"),
+                                Constant.getTextBundle("เตือน"), JOptionPane.WARNING_MESSAGE);
+                        flag=false;
+                    }
+                    if(dateRet == dateBorr){
+                        flag=true;
+                    }
+                } 
+            }
+        }
+    }//GEN-LAST:event_dateComboBoxDateReturnOpdFocusLost
+
+    private void jTextFieldHNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldHNActionPerformed
+        thePatient = theHC.thePatientControl.readPatientByHnToBorrowOpd(jTextFieldHN.getText(),this);
+        if(thePatient == null) 
+        {
+            setDefault();
+            return;
+        }
+        updateOGBorrowOpdCard(null, thePatient);
+    }//GEN-LAST:event_jTextFieldHNActionPerformed
+
+    private void jTable1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyReleased
+        if(evt.getKeyCode()==evt.VK_UP || evt.getKeyCode()==evt.VK_DOWN){
+            this.jTable1MouseReleased(null);
+        }
+    }//GEN-LAST:event_jTable1KeyReleased
+
+    private void jTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseReleased
+        int row = jTable1.getSelectedRow();
+        if(row==-1)
+        {
+            return;
+        }
+        SpecialQueryBorrowOpdCard sqbor = (SpecialQueryBorrowOpdCard) vBorrow.get(row);
+        theBorrowOpdCard = thePatientControl.readBorrowOpdCardByPK(sqbor.t_borrow_opdcard_id); 
+        updateOGBorrowOpdCard(theBorrowOpdCard,null);
+    }//GEN-LAST:event_jTable1MouseReleased
+
+    private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
+        actionCommand = false;
+        theBorrowOpdCard = theHO.initBorrowOpdCard(theHO.date_time);
+        updateOGBorrowOpdCard(theBorrowOpdCard,null);
+        //setStatus(Constant.getTextBundle("กรุณากรอกข้อมูลการยืม OPDCard"),UpdateStatus.COMPLETE);
+    }//GEN-LAST:event_jButtonAddActionPerformed
+
+    private void jButtonDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDelActionPerformed
+        int row = jTable1.getSelectedRow();
+        boolean ret = true;
+        if(row < 0)
+        {
+            setStatus("กรุณาเลือกรายการยืม OpdCard ที่ต้องการลบก่อน",UpdateStatus.WARNING);
+            return;
+        }
+        ret = thePatientControl.deleteBorrowOpdCard(theBorrowOpdCard,this);  
+        if(ret == false)
+        {
+            return;
+        }
+        theBorrowOpdCard = theHO.initBorrowOpdCard("");
+        //updateOGBorrowOpdCard(theBorrowOpdCard, null);
+        setDefault();
+        searchBorrowOpdCard(false);
+    }//GEN-LAST:event_jButtonDelActionPerformed
+
+    private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
+        actionCommand = true;
+        updateGOBorrowOpdCard(theBorrowOpdCard);
+        boolean ret = thePatientControl.saveBorrowOpdCard(theBorrowOpdCard,this);
+        if(ret == false)
+        {
+            return;
+        }
+        //this.updateOGBorrowOpdCard(theBorrowOpdCard,null);
+        searchBorrowOpdCard(true);
+    }//GEN-LAST:event_jButtonSaveActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        setVisible(false);
+        //closeDialog = true;
+        dispose();
+    }//GEN-LAST:event_formWindowClosing
+           
+    /**
+     * เป็น function ในการจัดการการพิมพ์ของการพิมพ์รายการนัดหมายตามจุดบริการ
+     *
+     **/
+//    private void printBorrowOpdCard(int preview){
+//       com.printing.object.AppointmentList.PrintAppointmentList papplist = new com.printing.object.AppointmentList.PrintAppointmentList();
+//       Vector vPrintAppointmentList = new Vector();
+//       //กำหนดค่าเพื่อจะนำไปแสดงบน เอกสาร
+//       papplist.setHospital(theLookupControl.readSite().off_name);
+//       papplist.setServicePointAppList(ComboboxModel.getStringConboBox(jComboBoxSearchServicePoint)); 
+//       //papplist.setServicePointAppList(theSetupControl.listServicePointByPk(ComboboxModel.getCodeComboBox(jComboBoxSearchServicePoint)).name);       
+//       if(jRadioButtonAll.isSelected()){
+//            papplist.setStartDate(" ทั้งหมด");
+//       }
+//       else{
+//            papplist.setStartDate(DateUtil.convertFieldDate(dateComboBoxDateFrom.getText()) + " ถึงวันที่ " + DateUtil.convertFieldDate(dateComboBoxDateTo.getText()));
+//            //papplist.setEndDate(DateUtil.convertFieldDate(dateComboBoxDateTo.getText()));
+//       }
+//             
+//        if(vappointment != null && vappointment.size() > 0){
+//            //Patient patient = new Patient();
+//            //Appointment app;
+//            SpecialQueryAppointment spappointment = new SpecialQueryAppointment();
+//            com.printing.object.AppointmentList.DataSource datasource;
+//            int num = 1;
+//            for(int i = 0 ; i < vappointment.size() ; i++){
+//                spappointment = (SpecialQueryAppointment)vappointment.get(i);
+//                datasource = new com.printing.object.AppointmentList.DataSource();
+//                datasource.hn = spappointment.patient_hn; //patient.hn;
+//                datasource.name = spappointment.patient_firstname + " " + spappointment.patient_lastname ;//patient.patient_name + " " + patient.patient_last_name;
+//                datasource.app_date = DateUtil.convertFieldDate(spappointment.patient_appointment_date);
+//                datasource.app_time = spappointment.patient_appointment_time;
+//                datasource.app_type = spappointment.patient_appointment;
+//                datasource.serviceAppoint = spappointment.service_point_description.substring(3); 
+//                vPrintAppointmentList.add(datasource);
+//                spappointment = null;
+//            }
+//            //patient = null;
+//            spappointment = null;
+//        }
+//        else{
+//            JOptionPane.showMessageDialog(this,"ไม่มีรายการนัดที่จะพิมพ์","เตือน",JOptionPane.ERROR_MESSAGE);
+//        }
+//        com.printing.object.AppointmentList.DataSourcePrintAppointmentList dpapplist = new com.printing.object.AppointmentList.DataSourcePrintAppointmentList(vPrintAppointmentList);
+//        com.printing.gui.PrintingFrm thePrintingFrm = new com.printing.gui.PrintingFrm(aMain,5,papplist.getData(),preview,0,dpapplist);
+//        vPrintAppointmentList = null;
+//    }
+    
+    
+    ////////////////////////////////////////////////////////////////////////////
+    /**
+     *
+     */
+    public JFrame getJFrame() {
+        return this;
+    }
+    ///////////////////////////////////////////////////////////////////////////
+    /**
+     *เก็บค่าจาก GUI มาเก็บไว้ใน Object
+     */
+    public void updateGOBorrowOpdCard(BorrowOpdCard bor){  
+        bor.patient_hn = jTextFieldHN.getText();
+        bor.date_serv_opd = theHO.date_time;
+        bor.borrow_opd_date = dateComboBoxDateBorrowOpd.getText();//Gutil.getGuiBDate(dateComboBoxDateBorrowOpd.getText());
+        bor.borrow_opd_status = "0";
+        bor.return_opd_date = "";
+        if(jCheckBoxReturnOpdDate.isSelected())
+        {
+            bor.borrow_opd_status = "1";
+            bor.return_opd_date = dateComboBoxDateReturnOpd.getText();
+        }
+        bor.borrow_opd_cause= Gutil.CheckReservedWords(jTextAreaCauseBorrow.getText());
+        bor.amount_date_opd = jTextFieldAmountDate.getText();
+        bor.borrower_opd_name = jTextFieldBXFName.getText();
+        bor.borrower_opd_lastname = jTextFieldBXLName.getText();
+        bor.permissibly_borrow_opd = jTextFieldPermissibly.getText();
+        bor.borrow_opd_to = jTextFieldHosCode.getText();
+        if(bor.borrow_opdcard_staff_record != null || bor.borrow_opdcard_staff_record.equals(""))
+        {
+            bor.borrow_opdcard_staff_record = theHO.theEmployee.getObjectId();
+            bor.borrow_opdcard_record_date_time = theHO.date_time;
+        }
+        bor.borrow_opd_to_other = jTextFieldBorrowToOther.getText();
+    }
+
+   ////////////////////////////////////////////////////////////////////////////
+    /**
+     *เป็น Static Function
+     *เพื่อทำการโชว์Dialog
+     */
+    public static boolean showDialog(HosControl hc,UpdateStatus us){
+        DialogBorrowOpdCard dlg = new DialogBorrowOpdCard(hc,us);
+        dlg.setSize(640,480);
+        dlg.setTitle(Constant.getTextBundle("การยืมคืน OpdCard"));
+
+        Toolkit thekit = dlg.getToolkit();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        dlg.setLocation((screenSize.width-dlg.getSize().width)/2, (screenSize.height-dlg.getSize().height)/2);
+                
+        dlg.setVisible(true);
+        if(dlg.actionCommand){     
+            return true;
+        }
+        dlg=null;
+        System.gc();
+        return false;
+    } 
+    
+    ///////////////////////////////////////////////////////////////////////////
+    /**
+     *เซตปุ่มต่างๆ
+     */
+    private void setEnableAll(boolean var)
+    {   
+        jButtonAdd.setEnabled(var);     
+        jButtonSave.setEnabled(var);
+        jButtonDel.setEnabled(var); 
+    }
+    ///////////////////////////////////////////////////////////////////////////
+    /**
+     *ค้นหารายการยืม OpdCard
+     */
+    private void searchBorrowOpdCard(boolean fromsave)
+    {
+        String datefrom = dateComboBoxDateFrom.getText();
+        String dateto = dateComboBoxDateTo.getText();
+        boolean show = true;
+        if(fromsave == true)
+        {
+            datefrom = theBorrowOpdCard.borrow_opd_date;
+            dateto = theBorrowOpdCard.borrow_opd_date;
+        }
+        boolean all_period = !jCheckBoxDateSearch.isSelected();
+        String hn = "";
+        if(jCheckBoxSCurrPatient.isSelected())
+        {
+            if(jTextFieldHN.getText().equals(""))
+            {
+//                setStatus(Constant.getTextBundle("ไม่สามารถค้นหาได้ เนื่องจากไม่มีข้อมูลผู้ป่วยปัจจุบัน") ,WARNING);
+                updateOGBorrowOpdCardV(null);
+                return;
+            }
+            hn = jTextFieldHN.getText();
+        }
+        String active = "1";
+        if(jCheckBoxShowCancel.isSelected())
+        {
+            active = "0";
+        }
+        vBorrow =  thePatientControl.listBorrowOpdCardByDate(all_period,datefrom,dateto,hn,active);
+//        if(vBorrow == null)
+//        {
+//            setStatus(Constant.getTextBundle("ไม่สามารถค้นหาได้") ,WARNING);
+//        }
+//        setStatus(Constant.getTextBundle("ค้นหารายการยืม OpdCard เสร็จสิ้น") ,COMPLETE);
+        fromsave = false;
+        updateOGBorrowOpdCardV(vBorrow);   
+    }
+    
+    /**
+     *เมื่อทำการเลือก BorrowOpdCard     
+     */
+    public void updateOGBorrowOpdCard(BorrowOpdCard bor,Patient patient){   
+        if(bor != null)
+        {
+            theBorrowOpdCard = bor;
+            dateComboBoxDateBorrowOpd.setText(DateUtil.convertFieldDate(theBorrowOpdCard.borrow_opd_date));
+            dateComboBoxDateReturnOpd.setText(DateUtil.convertFieldDate(theBorrowOpdCard.return_opd_date));
+            jTextFieldBXFName.setText(theBorrowOpdCard.borrower_opd_name);  
+            jTextFieldBXLName.setText(theBorrowOpdCard.borrower_opd_lastname);          
+            jTextAreaCauseBorrow.setText(theBorrowOpdCard.borrow_opd_cause);        
+            if(!theBorrowOpdCard.patient_hn.equals(""))
+            {
+                patient = thePatientControl.readPatientByHNRet(theBorrowOpdCard.patient_hn);
+                jTextFieldHN.setText(patient.hn);
+                Prefix prefix = theHC.theLookupControl.readPrefixById(patient.f_prefix_id);
+                String sPrefix = "";
+                if(prefix!=null)
+                {
+                    sPrefix = prefix.description;
+                }
+                jTextFieldPatientName.setText(sPrefix + " "
+                            + patient.patient_name + " " + patient.patient_last_name);
+            }
+            else
+            {
+                jTextFieldHN.setText("");
+                jTextFieldPatientName.setText("");
+            }
+            if(theBorrowOpdCard.borrow_opd_status.equals("1"))
+            {
+                jCheckBoxReturnOpdDate.setSelected(true);
+            }
+            else
+            {
+                jCheckBoxReturnOpdDate.setSelected(false);
+            }
+            jCheckBoxReturnOpdDateActionPerformed(null);
+            jTextFieldAmountDate.setText(theBorrowOpdCard.amount_date_opd);
+            jTextFieldPermissibly.setText(theBorrowOpdCard.permissibly_borrow_opd);
+            if(theBorrowOpdCard.borrow_opd_to.equals("") || theBorrowOpdCard.borrow_opd_to == null)
+            {
+                jTextFieldHosCode.setText("");
+                jTextFieldHosName.setText("");
+            }
+            else
+            {
+                Office of = (Office)theLookupControl.readHospitalByCode(theBorrowOpdCard.borrow_opd_to);
+                jTextFieldHosName.setText(of.name);                                    
+                jTextFieldHosCode.setText(of.getCode());
+            }
+            jTextFieldCancel.setVisible(false);
+            if(theBorrowOpdCard.borrow_opdcard_active.equals("0"))
+            {
+                jTextFieldCancel.setVisible(true);
+            }
+            jTextFieldBorrowToOther.setText(theBorrowOpdCard.borrow_opd_to_other);
+        }
+        else if(patient!=null)
+        {
+            jTextFieldHN.setText(patient.hn);
+            Prefix prefix = theHC.theLookupControl.readPrefixById(patient.f_prefix_id);
+            String sPrefix = "";
+            if(prefix!=null)
+            {
+                sPrefix = prefix.description;
+            }
+            jTextFieldPatientName.setText(sPrefix + " "
+                        + patient.patient_name + " " + patient.patient_last_name);
+        }
+     }      
+    
+    ////////////////////////////////////////////////////////////////////////////
+    /**
+     *เซตค่าในตาราง BorrowOpdCard
+     */
+    private void updateOGBorrowOpdCardV(Vector vbor)
+    {                
+        TaBleModel tm ;
+        int[] rows = jTable1.getSelectedRows();
+        if(vbor == null || vbor.isEmpty())
+        {   
+            tm= new TaBleModel(collistHn,0);
+            jTable1.setModel(tm); 
+            return;
+        }
+        tm = new TaBleModel(collistHn,vbor.size());
+       for(int i=0 ;i<vbor.size(); i++){
+            SpecialQueryBorrowOpdCard sqbor = (SpecialQueryBorrowOpdCard)vbor.get(i);
+            Prefix prefix = this.theLookupControl.readPrefixById(sqbor.patient_prefix);
+            String prefix_str = "";
+            if(prefix!=null)  prefix_str = prefix.description;
+            String pt_name = prefix_str + " "
+                + sqbor.patient_firstname + " "
+                + sqbor.patient_lastname;
+            Prefix prefix1 = this.theLookupControl.readPrefixById(sqbor.borrower_opd_prefix);
+            String prefix_bor = "";
+            if(prefix1!=null)  prefix_bor = prefix1.description;
+            String bor_name = prefix_bor + " "
+                + sqbor.borrower_opd_name + " "
+                + sqbor.borrower_opd_lastname;
+            String date = DateUtil.getDateToString(DateUtil.getDateFromText(
+                sqbor.borrow_opd_date),false);
+            if(date ==null)   date = "";
+
+            tm.setValueAt(theLookupControl.getRenderTextHN(sqbor.patient_hn),i,0);
+            tm.setValueAt(pt_name,i,1);
+            tm.setValueAt(date,i,2);                              
+           // tm.setValueAt(bor_name,i,3);
+            tm.setValueAt(sqbor.borrow_opd_status,i,3);
+        }
+        jTable1.setModel(tm);
+        setjTable1Default(rows);
+    } 
+    
+    private void setjTable1Default(int[] rows)
+    {       
+        jTable1.getColumnModel().getColumn(0).setPreferredWidth(45);
+        jTable1.getColumnModel().getColumn(0).setCellRenderer(hnRender);
+        jTable1.getColumnModel().getColumn(1).setPreferredWidth(90);
+        jTable1.getColumnModel().getColumn(2).setPreferredWidth(83);
+        jTable1.getColumnModel().getColumn(3).setPreferredWidth(7);
+        jTable1.getColumnModel().getColumn(3).setCellRenderer(cellRenderer);
+    }
+    ///////////////////////////////////////////////////////////////////////////
+    /**
+     *ใช้ในการเซตภาษา
+     */
+      public void setLanguage(String msg)
+      {         
+          GuiLang.setLanguage(jLabelAmountDate);
+          GuiLang.setLanguage(jLabelAmountDate1);
+          GuiLang.setLanguage(jButtonPrintListBorrowOpdCard);
+          GuiLang.setLanguage(jButtonPreviewListBorrowOpdCard);
+          GuiLang.setLanguage(jButtonSave);
+          GuiLang.setLanguage(jLabelDateEnd);
+          GuiLang.setLanguage(jLabelBorrowTo);
+          GuiLang.setLanguage(jLabelBorrowOpdDate);
+          GuiLang.setLanguage(jLabelCauseBorrow);
+          GuiLang.setLanguage(jLabelPermissibly_Borrow);
+          GuiLang.setLanguage(jCheckBoxReturnOpdDate);
+          GuiLang.setLanguage(jLabelBorrowName);
+          GuiLang.setLanguage(jLabelFLName);
+          GuiLang.setLanguage(jLabelHn);
+          GuiLang.setLanguage(jCheckBoxDateSearch);
+          GuiLang.setLanguage(collistHn);
+          GuiLang.setLanguage(jPanel3);
+          GuiLang.setLanguage(jPanel7);
+          GuiLang.setLanguage(jLabelBorrowToOther);
+          GuiLang.setLanguage(jCheckBoxSCurrPatient);
+          GuiLang.setLanguage(jCheckBoxShowCancel);
+          GuiLang.setLanguage(jButtonSearch);
+          jTextFieldCancel.setText(GuiLang.setLanguage(jTextFieldCancel.getText()));
+          
+      }
+    ////////////////////////////////////////////////////////////////////////////
+    /**
+     *กำหนดค่า Default ให้ช่องต่างๆ
+     */
+      public void setDefault()
+      {
+            jTextFieldHN.setText("");
+            jTextFieldPatientName.setText("");
+            jTextFieldBXFName.setText("");
+            jTextFieldBXLName.setText("");
+            dateComboBoxDateBorrowOpd.setText(DateUtil.convertFieldDate(theHC.theLookupControl.getTextCurrentDate()));
+            dateComboBoxDateReturnOpd.setText(DateUtil.convertFieldDate(dateComboBoxDateBorrowOpd.getText()));
+            jCheckBoxReturnOpdDate.setSelected(false);
+            dateComboBoxDateReturnOpd.setEnabled(false);
+            jTextFieldAmountDate.setText("");
+            jTextFieldPermissibly.setText("");
+            jTextAreaCauseBorrow.setText("");
+            jTextFieldHosCode.setText("");
+            jTextFieldHosName.setText("");
+            jTextFieldBorrowToOther.setText("");
+            thePatient = new Patient();
+            theBorrowOpdCard = new BorrowOpdCard();
+      }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
+    private com.hospital_os.utility.DateComboBox dateComboBoxDateBorrowOpd;
+    private com.hospital_os.utility.DateComboBox dateComboBoxDateFrom;
+    private com.hospital_os.utility.DateComboBox dateComboBoxDateReturnOpd;
+    private com.hospital_os.utility.DateComboBox dateComboBoxDateTo;
+    private javax.swing.JButton jButtonAdd;
+    private javax.swing.JButton jButtonDel;
+    private javax.swing.JButton jButtonHos;
+    private javax.swing.JButton jButtonPreviewListBorrowOpdCard;
+    private javax.swing.JButton jButtonPrintListBorrowOpdCard;
+    private javax.swing.JButton jButtonSave;
+    private javax.swing.JButton jButtonSearch;
+    private javax.swing.JCheckBox jCheckBoxDateSearch;
+    private javax.swing.JCheckBox jCheckBoxReturnOpdDate;
+    private javax.swing.JCheckBox jCheckBoxSCurrPatient;
+    private javax.swing.JCheckBox jCheckBoxShowCancel;
+    private javax.swing.JLabel jLabelAmountDate;
+    private javax.swing.JLabel jLabelAmountDate1;
+    private javax.swing.JLabel jLabelBorrowName;
+    private javax.swing.JLabel jLabelBorrowOpdDate;
+    private javax.swing.JLabel jLabelBorrowTo;
+    private javax.swing.JLabel jLabelBorrowToOther;
+    private javax.swing.JLabel jLabelCauseBorrow;
+    private javax.swing.JLabel jLabelDateEnd;
+    private javax.swing.JLabel jLabelFLName;
+    private javax.swing.JLabel jLabelHn;
+    private javax.swing.JLabel jLabelPermissibly_Borrow;
+    private javax.swing.JLabel jLabelStatus;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JPanel jPanelSearch;
+    protected javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    protected com.hosv3.gui.component.HJTableSort jTable1;
+    private javax.swing.JTextArea jTextAreaCauseBorrow;
+    private com.hospital_os.utility.DoubleTextField jTextFieldAmountDate;
+    private javax.swing.JTextField jTextFieldBXFName;
+    private javax.swing.JTextField jTextFieldBXLName;
+    private com.hosv3.gui.component.BalloonTextField jTextFieldBorrowToOther;
+    private javax.swing.JTextField jTextFieldCancel;
+    private com.hospital_os.utility.HNTextField jTextFieldHN;
+    private javax.swing.JTextField jTextFieldHosCode;
+    private javax.swing.JTextField jTextFieldHosName;
+    private javax.swing.JTextField jTextFieldPatientName;
+    private javax.swing.JTextField jTextFieldPermissibly;
+    // End of variables declaration//GEN-END:variables
+    public static void main(String[] argc){
+        Constant.println(DateUtil.convertFieldDate("2524-12-12"));
+    }
+
+    public void notifySaveBorrowOpdCard(String str, int status) {
+    }
+
+}

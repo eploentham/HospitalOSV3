@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : dental_report.xml
+    Created on : 17 พฤษภาคม 2550, 18:02 น.
+    Author     : amp
+    Description:
+        Purpose of the document follows.
+value="-module=;;;;"/>
+-->
+
+<root>
+    <module-report>com.dental_report.DentalReport</module-report>
+    <module-index>-1</module-index>
+    
+</root>

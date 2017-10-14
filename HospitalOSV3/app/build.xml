@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- HospitalOSV3.exe  link to default target name below-->
+<project basedir="." default="run_mod" name="StartRun">
+
+    <target name="import_hcis">
+    <java classname="com.thcisimport.Main" fork="true">
+	<classpath>
+	  <pathelement location="./"/>
+	  <fileset dir="lib">
+	    <include name="**/*.jar"/>
+	  </fileset>
+	</classpath>
+        <arg value="-noverify -DhaveBirthDayTrue=true"/>
+        </java>
+    </target >
+
+	<target name="DayClean">
+    <java classname="com.hosv3.control.CleanTrans" fork="true">
+	<classpath>
+	  <pathelement location="./"/>
+	  <fileset dir="lib">
+	    <include name="**/*.jar"/>
+	  </fileset>
+	</classpath>
+        <arg value="test"/>
+        </java>
+    </target >
+
+	<!-- HospitalOSMain.exe  link to Main target name below-->
+	<target name="Main">
+    <java classname="com.hosv3.HosApp" fork="true">
+	<classpath>
+	  <pathelement location="./"/>
+	  <fileset dir="lib">
+	    <include name="**/*.jar"/>
+	  </fileset>
+	</classpath>
+        <arg value="-username=er -password=demo"/>
+        </java>
+    </target >
+
+	<target name="Setup">
+    <java classname="com.hosv3.HosSet" fork="true">
+	<classpath>
+	  <pathelement location="./"/>
+	  <fileset dir="lib">
+	    <include name="**/*.jar"/>
+	  </fileset>
+	</classpath>
+        <arg value=""/>
+        </java>
+    </target >
+
+
+	<target name="auto_login">
+    <java classname="com.hosv3.HosApp" fork="true">
+	<classpath>
+	  <pathelement location="./"/>
+	  <fileset dir="lib">
+	    <include name="**/*.jar"/>
+	  </fileset>
+	</classpath>
+        <arg value="-module_xml"/>
+        <arg value="-user=er"/>
+        <arg value="-password=demo"/>
+        </java>
+    </target >
+	<target name="run_mod">
+    <java classname="com.hosv3.HosApp" fork="true">
+	<classpath>
+	  <pathelement location="./"/>
+	  <fileset dir="lib">
+	    <include name="**/*.jar"/>
+	  </fileset>
+	</classpath>
+        <arg value="-module_xml"/> 
+        </java>
+    </target >
+
+	<target name="setup_mod">
+    <java classname="com.hosv3.HosSet" fork="true">
+	<classpath>
+	  <pathelement location="./"/>
+	  <fileset dir="lib">
+	    <include name="**/*.jar"/>
+	  </fileset>
+	</classpath>
+        <arg value="-module_xml"/>
+        </java>
+    </target >
+
+	<target name="report">
+    <java classname="com.reportcenter.MainReport" fork="true">
+	<classpath>
+	  <pathelement location="./"/>
+	  <fileset dir="lib">
+	    <include name="**/*.jar"/>
+	  </fileset>
+	</classpath>
+        <arg value="-module_xml"/>
+        </java>
+    </target >
+
+	<target name="migrate">
+    <java classname="com.hosv3.HosSet" fork="true">
+	<classpath>
+	  <pathelement location="./"/>
+	  <fileset dir="lib">
+	    <include name="**/*.jar"/>
+	  </fileset>
+	</classpath>
+        <arg value="-module=com.module.MigrateModule"/>
+        </java>
+    </target >
+
+<!--        <arg value="-module=com.welfare.app.WelfareModule;com.migrate.app.MigrateModule"/>-->
+
+</project>

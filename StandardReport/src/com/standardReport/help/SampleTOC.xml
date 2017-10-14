@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'  ?>
+<!DOCTYPE toc
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 2.0//EN"
+         "../dtd/toc_2_0.dtd">
+<toc version="2.0">
+<tocitem text="วิธีการ ติดต่อฐานข้อมูล" image="toplevelfolder">
+
+   <!tocitem text="Report Center Help" target="intro"/>
+
+   <tocitem text="หัวข้อการใช้งาน" target="start" expand="true">
+       <tocitem text="รายงานมาตรฐาน" target="overview" expand="true">
+                    <tocitem text="การติดต่อฐานข้อมูล" target="overview-1-1"/>
+                    <tocitem text="การเลือกรายงานมาตรฐานที่ต้องการ" target="overview-1-2"/>
+                    <tocitem text="การเลือกช่วงวันที่ที่ต้องการ" target="overview-1-3"/>
+                    <tocitem text="การเลือกรูปแบบของไฟล์ที่ต้องการจะบันทึก" target="overview-1-4"/>
+                    <tocitem text="การเลือก Folder ที่ต้องการจะจัดเก็บไฟล์" target="overview-1-5"/>
+                    <tocitem text="ตัวอย่างการออกรายงาน" target="overview-1-6"  expand="true">
+                        <tocitem text="ตัวอย่างการออกรายงาน 504" target=""  expand="true">
+                            <tocitem text="ตัวอย่างการออกรายงาน 504 รายกลุ่ม" target="overview-1-6-01-01"/>
+                            <tocitem text="ตัวอย่างการออกรายงาน 504 รายโรค" target="overview-1-6-01-02"/>
+                        </tocitem>
+                        <tocitem text="ตัวอย่างการออกรายงาน 505" target=""  expand="true">
+                           <tocitem text="ตัวอย่างการออกรายงาน 505 รายกลุ่ม" target="overview-1-6-02-01"/>
+                            <tocitem text="ตัวอย่างการออกรายงาน 505 รายโรค" target="overview-1-6-02-02"/>
+                        </tocitem>
+                        <tocitem text="ตัวอย่างการออกรายงาน 506" target=""  expand="true">
+                            <tocitem text="ตัวอย่างการออกรายงาน 506 รายกลุ่ม" target="overview-1-6-03-01"/>
+                            <tocitem text="ตัวอย่างการออกรายงาน 506 รายโรค" target="overview-1-6-03-02"/>
+                            <tocitem text="ตัวอย่างการออกรายงาน ข้อมูลติดตามผู้ป่วย 506" target="overview-1-6-03-03"/>
+                        </tocitem>
+                        <tocitem text="ตัวอย่างการออกรายงาน 11รง5" target=""  expand="true">
+                            <tocitem text="ตัวอย่างการออกรายงาน 11รง5 ส่วนที่ 1" target="overview-1-6-04-01"/>
+                            <tocitem text="ตัวอย่างการออกรายงาน 11รง5 ส่วนที่ 2" target="overview-1-6-04-02"/>
+                            <tocitem text="ตัวอย่างการออกรายงาน 11รง5 ส่วนที่ 4" target="overview-1-6-04-04"/>
+                        </tocitem>
+                    </tocitem>
+                
+      </tocitem>
+   </tocitem>
+
+  
+</tocitem>
+</toc>

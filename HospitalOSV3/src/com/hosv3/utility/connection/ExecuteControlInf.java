@@ -1,0 +1,1 @@
+/* * DBConnection.java * * Created on 17 ตุลาคม 2546, 17:19 น. */package com.hosv3.utility.connection;/** * * @author  henbe */public interface ExecuteControlInf {    /** Creates a new instance of DBConnection */    public boolean execute(Object str);    }

@@ -1,0 +1,1 @@
+package com.hospital_os.object;import com.hospital_os.usecase.connection.Persistent;public class Group505 extends Persistent {        public String key_id;        public String group_505_id;        public String description_en;        public String description_th;     /**    * @roseuid 3F658BBB036E    */        public Group505()    {       }}

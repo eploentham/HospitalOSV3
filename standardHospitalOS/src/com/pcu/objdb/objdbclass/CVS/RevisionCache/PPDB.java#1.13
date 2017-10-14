@@ -1,0 +1,468 @@
+/*
+ * PPDB.java
+ *
+ * Created on 2 สิงหาคม 2548, 12:00 น.
+ */
+
+package com.pcu.objdb.objdbclass;
+
+import java.util.*;
+import java.sql.*; 
+import com.hospital_os.usecase.connection.*;
+import com.hospital_os.utility.*;
+import com.pcu.object.*;
+/**
+ *
+ * @author amp
+ */
+public class PPDB 
+{
+    
+    /** Creates a new instance of PPDB */
+    public PPDB()
+    {
+    }
+    
+    public ConnectionInf theConnectionInf;
+    public PP dbObj;
+    final private String idtable = "771";
+    
+    public PPDB(ConnectionInf db)
+    {
+        theConnectionInf=db;
+        dbObj = new PP();
+        initConfig();
+    }
+    
+    public boolean initConfig()
+    {
+        dbObj.table = "t_health_pp";        
+        dbObj.pk_field = "t_health_pp_id";
+        dbObj.t_patient_id ="t_patient_id";
+        dbObj.t_visit_id = "t_visit_id";   
+        dbObj.pp_number ="pp_number";
+        dbObj.pp_mother_pid ="pp_mother_pid";
+        dbObj.pp_gravida = "pp_gravida";   
+        dbObj.pp_initial_condition ="pp_initial_condition";
+        dbObj.pp_color ="pp_color";
+        dbObj.pp_activity = "pp_activity";   
+        dbObj.pp_breathing_time ="pp_breathing_time";
+        dbObj.pp_crying_time = "pp_crying_time";   
+        dbObj.pp_aspiration ="pp_aspiration";
+        dbObj.pp_weight ="pp_weight";
+        dbObj.pp_eye_drug = "pp_eye_drug";         
+        dbObj.pp_method_bearing = "pp_method_bearing";        
+        dbObj.pp_lost_oxygen = "pp_lost_oxygen";
+        dbObj.pp_vit_k ="pp_vit_k";
+        dbObj.pp_resuscitation = "pp_resuscitation";
+        dbObj.pp_diseases_abnormal = "pp_diseases_abnormal";
+        dbObj.pp_apgar_heart_rate_per_minute_one_minute = "pp_apgar_heart_rate_per_minute_one_minute";
+        dbObj.pp_apgar_heart_rate_one_minute = "pp_apgar_heart_rate_one_minute";
+        dbObj.pp_apgar_respiration_effort_one_minute = "pp_apgar_respiration_effort_one_minute";
+        dbObj.pp_apgar_muscle_tone_one_minute = "pp_apgar_muscle_tone_one_minute";
+        dbObj.pp_apgar_reflex_irritability_one_minute = "pp_apgar_reflex_irritability_one_minute";
+        dbObj.pp_apgar_skin_color_one_minute = "pp_apgar_skin_color_one_minute";
+        dbObj.pp_apgar_total_score_one_minute = "pp_apgar_total_score_one_minute";
+        dbObj.pp_apgar_heart_rate_per_minute_five_minute = "pp_apgar_heart_rate_per_minute_five_minute";
+        dbObj.pp_apgar_heart_rate_five_minute = "pp_apgar_heart_rate_five_minute";
+        dbObj.pp_apgar_respiration_effort_five_minute = "pp_apgar_respiration_effort_five_minute";    
+        dbObj.pp_apgar_muscle_tone_five_minute = "pp_apgar_muscle_tone_five_minute";
+        dbObj.pp_apgar_reflex_irritability_five_minute = "pp_apgar_reflex_irritability_five_minute";
+        dbObj.pp_apgar_skin_color_five_minute = "pp_apgar_skin_color_five_minute";
+        dbObj.pp_apgar_total_score_five_minute = "pp_apgar_total_score_five_minute";
+        dbObj.pp_apgar_heart_rate_per_minute_ten_minute = "pp_apgar_heart_rate_per_minute_ten_minute";
+        dbObj.pp_apgar_heart_rate_ten_minute = "pp_apgar_heart_rate_ten_minute";
+        dbObj.pp_apgar_respiration_effort_ten_minute = "pp_apgar_respiration_effort_ten_minute";
+        dbObj.pp_apgar_muscle_tone_ten_minute = "pp_apgar_muscle_tone_ten_minute";
+        dbObj.pp_apgar_reflex_irritability_ten_minute = "pp_apgar_reflex_irritability_ten_minute";
+        dbObj.pp_apgar_skin_color_ten_minute = "pp_apgar_skin_color_ten_minute";
+        dbObj.pp_apgar_total_score_ten_minute = "pp_apgar_total_score_ten_minute";
+        dbObj.pp_fronto_occipital = "pp_fronto_occipital";
+        dbObj.pp_length = "pp_length";
+        dbObj.pp_chest = "pp_chest";    
+        dbObj.pp_tempperature = "pp_tempperature";
+        dbObj.pp_state = "pp_state";
+        dbObj.pp_dead_type = "pp_dead_type";
+        dbObj.pp_dead_cause = "pp_dead_cause";
+        dbObj.pp_dead_date = "pp_dead_date";
+        dbObj.pp_dead_time = "pp_dead_time";
+        dbObj.pp_comment = "pp_comment";
+        dbObj.pp_staff_record = "pp_staff_record";
+        dbObj.pp_staff_modify = "pp_staff_modify";
+        dbObj.pp_staff_cancel = "pp_staff_cancel";
+        dbObj.pp_record_date_time = "pp_record_date_time";
+        dbObj.pp_modify_date_time = "pp_modify_date_time";
+        dbObj.pp_cancel_date_time = "pp_cancel_date_time";
+        dbObj.pp_active = "pp_active";
+        dbObj.family_id ="t_health_family_id";
+        dbObj.survey_date = "pp_survey_date";
+        return true;
+    }
+    
+    public int insert(PP o) throws Exception
+    {
+        String sql="";
+        PP p=o;
+        p.generateOID(idtable);
+        sql="insert into " + dbObj.table + " ("
+        + dbObj.pk_field        
+        + " ," + dbObj.t_patient_id
+        + " ," + dbObj.t_visit_id 
+        + " ," + dbObj.pp_number
+        + " ," + dbObj.pp_mother_pid
+        + " ," + dbObj.pp_gravida
+        + " ," + dbObj.pp_initial_condition
+        + " ," + dbObj.pp_color
+        + " ," + dbObj.pp_activity
+        + " ," + dbObj.pp_breathing_time
+        + " ," + dbObj.pp_crying_time   
+        + " ," + dbObj.pp_aspiration
+        + " ," + dbObj.pp_weight
+        + " ," + dbObj.pp_eye_drug       
+        + " ," + dbObj.pp_method_bearing       
+        + " ," + dbObj.pp_lost_oxygen
+        + " ," + dbObj.pp_vit_k
+        + " ," + dbObj.pp_resuscitation
+        + " ," + dbObj.pp_diseases_abnormal
+        + " ," + dbObj.pp_apgar_heart_rate_per_minute_one_minute
+        + " ," + dbObj.pp_apgar_heart_rate_one_minute
+        + " ," + dbObj.pp_apgar_respiration_effort_one_minute
+        + " ," + dbObj.pp_apgar_muscle_tone_one_minute
+        + " ," + dbObj.pp_apgar_reflex_irritability_one_minute
+        + " ," + dbObj.pp_apgar_skin_color_one_minute
+        + " ," + dbObj.pp_apgar_total_score_one_minute
+        + " ," + dbObj.pp_apgar_heart_rate_per_minute_five_minute
+        + " ," + dbObj.pp_apgar_heart_rate_five_minute
+        + " ," + dbObj.pp_apgar_respiration_effort_five_minute    
+        + " ," + dbObj.pp_apgar_muscle_tone_five_minute
+        + " ," + dbObj.pp_apgar_reflex_irritability_five_minute
+        + " ," + dbObj.pp_apgar_skin_color_five_minute
+        + " ," + dbObj.pp_apgar_total_score_five_minute
+        + " ," + dbObj.pp_apgar_heart_rate_per_minute_ten_minute
+        + " ," + dbObj.pp_apgar_heart_rate_ten_minute
+        + " ," + dbObj.pp_apgar_respiration_effort_ten_minute
+        + " ," + dbObj.pp_apgar_muscle_tone_ten_minute
+        + " ," + dbObj.pp_apgar_reflex_irritability_ten_minute 
+        + " ," + dbObj.pp_apgar_skin_color_ten_minute
+        + " ," + dbObj.pp_apgar_total_score_ten_minute
+        + " ," + dbObj.pp_fronto_occipital
+        + " ," + dbObj.pp_length
+        + " ," + dbObj.pp_chest
+        + " ," + dbObj.pp_tempperature
+        + " ," + dbObj.pp_state 
+        + " ," + dbObj.pp_dead_type 
+        + " ," + dbObj.pp_dead_cause 
+        + " ," + dbObj.pp_dead_date
+        + " ," + dbObj.pp_dead_time 
+        + " ," + dbObj.pp_comment
+        + " ," + dbObj.pp_staff_record 
+        + " ," + dbObj.pp_staff_modify
+        + " ," + dbObj.pp_staff_cancel 
+        + " ," + dbObj.pp_record_date_time 
+        + " ," + dbObj.pp_modify_date_time 
+        + " ," + dbObj.pp_cancel_date_time 
+        + " ," + dbObj.pp_active
+        + " ," + dbObj.family_id
+        + " ," + dbObj.survey_date
+        + " ) values ('"
+        + p.getObjectId()        
+        + "','" + p.t_patient_id
+        + "','" + p.t_visit_id 
+        + "','" + p.pp_number
+        + "','" + p.pp_mother_pid
+        + "','" + p.pp_gravida
+        + "','" + p.pp_initial_condition
+        + "','" + p.pp_color
+        + "','" + p.pp_activity
+        + "','" + p.pp_breathing_time
+        + "','" + p.pp_crying_time   
+        + "','" + p.pp_aspiration
+        + "','" + p.pp_weight
+        + "','" + p.pp_eye_drug       
+        + "','" + p.pp_method_bearing       
+        + "','" + p.pp_lost_oxygen
+        + "','" + p.pp_vit_k 
+        + "','" + p.pp_resuscitation
+        + "','" + p.pp_diseases_abnormal
+        + "','" + p.pp_apgar_heart_rate_per_minute_one_minute
+        + "','" + p.pp_apgar_heart_rate_one_minute
+        + "','" + p.pp_apgar_respiration_effort_one_minute
+        + "','" + p.pp_apgar_muscle_tone_one_minute
+        + "','" + p.pp_apgar_reflex_irritability_one_minute
+        + "','" + p.pp_apgar_skin_color_one_minute
+        + "','" + p.pp_apgar_total_score_one_minute
+        + "','" + p.pp_apgar_heart_rate_per_minute_five_minute
+        + "','" + p.pp_apgar_heart_rate_five_minute
+        + "','" + p.pp_apgar_respiration_effort_five_minute    
+        + "','" + p.pp_apgar_muscle_tone_five_minute
+        + "','" + p.pp_apgar_reflex_irritability_five_minute
+        + "','" + p.pp_apgar_skin_color_five_minute
+        + "','" + p.pp_apgar_total_score_five_minute
+        + "','" + p.pp_apgar_heart_rate_per_minute_ten_minute
+        + "','" + p.pp_apgar_heart_rate_ten_minute
+        + "','" + p.pp_apgar_respiration_effort_ten_minute
+        + "','" + p.pp_apgar_muscle_tone_ten_minute
+        + "','" + p.pp_apgar_reflex_irritability_ten_minute 
+        + "','" + p.pp_apgar_skin_color_ten_minute
+        + "','" + p.pp_apgar_total_score_ten_minute
+        + "','" + p.pp_fronto_occipital
+        + "','" + p.pp_length
+        + "','" + p.pp_chest
+        + "','" + p.pp_tempperature
+        + "','" + p.pp_state 
+        + "','" + p.pp_dead_type 
+        + "','" + p.pp_dead_cause 
+        + "','" + p.pp_dead_date
+        + "','" + p.pp_dead_time 
+        + "','" + p.pp_comment
+        + "','" + p.pp_staff_record 
+        + "','" + p.pp_staff_modify
+        + "','" + p.pp_staff_cancel 
+        + "','" + p.pp_record_date_time 
+        + "','" + p.pp_modify_date_time 
+        + "','" + p.pp_cancel_date_time 
+        + "','" + p.pp_active     
+        + "','" + p.family_id
+        + "','" + p.survey_date
+        + "')";
+        
+        return theConnectionInf.eUpdate(sql);
+    }
+    
+    public int update(PP o) throws Exception
+    {
+        String sql="update " + dbObj.table + " set ";
+        PP p=o;
+        String field =""        
+        + "', " + dbObj.t_patient_id + "='" + p.t_patient_id
+        + "', " + dbObj.t_visit_id + "='" + p.t_visit_id
+        + "', " + dbObj.pp_number + "='" + p.pp_number
+        + "', " + dbObj.pp_mother_pid + "='" + p.pp_mother_pid
+        + "', " + dbObj.pp_gravida + "='" + p.pp_gravida
+        + "', " + dbObj.pp_initial_condition + "='" + p.pp_initial_condition
+        + "', " + dbObj.pp_color + "='" + p.pp_color
+        + "', " + dbObj.pp_activity + "='" + p.pp_activity
+        + "', " + dbObj.pp_breathing_time + "='" + p.pp_breathing_time
+        + "', " + dbObj.pp_crying_time + "='" + p.pp_crying_time 
+        + "', " + dbObj.pp_aspiration + "='" + p.pp_aspiration
+        + "', " + dbObj.pp_weight + "='" + p.pp_weight
+        + "', " + dbObj.pp_eye_drug + "='" + p.pp_eye_drug     
+        + "', " + dbObj.pp_method_bearing + "='" + p.pp_method_bearing    
+        + "', " + dbObj.pp_lost_oxygen + "='" + p.pp_lost_oxygen
+        + "', " + dbObj.pp_vit_k + "='" + p.pp_vit_k 
+        + "', " + dbObj.pp_resuscitation + "='" + p.pp_resuscitation
+        + "', " + dbObj.pp_diseases_abnormal + "='" + p.pp_diseases_abnormal
+        + "', " + dbObj.pp_apgar_heart_rate_per_minute_one_minute + "='" + p.pp_apgar_heart_rate_per_minute_one_minute
+        + "', " + dbObj.pp_apgar_heart_rate_one_minute + "='" + p.pp_apgar_heart_rate_one_minute
+        + "', " + dbObj.pp_apgar_respiration_effort_one_minute + "='" + p.pp_apgar_respiration_effort_one_minute
+        + "', " + dbObj.pp_apgar_muscle_tone_one_minute + "='" + p.pp_apgar_muscle_tone_one_minute
+        + "', " + dbObj.pp_apgar_reflex_irritability_one_minute + "='" + p.pp_apgar_reflex_irritability_one_minute
+        + "', " + dbObj.pp_apgar_skin_color_one_minute + "='" + p.pp_apgar_skin_color_one_minute
+        + "', " + dbObj.pp_apgar_total_score_one_minute + "='" + p.pp_apgar_total_score_one_minute
+        + "', " + dbObj.pp_apgar_heart_rate_per_minute_five_minute + "='" + p.pp_apgar_heart_rate_per_minute_five_minute
+        + "', " + dbObj.pp_apgar_heart_rate_five_minute + "='" + p.pp_apgar_heart_rate_five_minute
+        + "', " + dbObj.pp_apgar_respiration_effort_five_minute + "='" + p.pp_apgar_respiration_effort_five_minute  
+        + "', " + dbObj.pp_apgar_muscle_tone_five_minute + "='" + p.pp_apgar_muscle_tone_five_minute
+        + "', " + dbObj.pp_apgar_reflex_irritability_five_minute + "='" + p.pp_apgar_reflex_irritability_five_minute
+        + "', " + dbObj.pp_apgar_skin_color_five_minute + "='" + p.pp_apgar_skin_color_five_minute
+        + "', " + dbObj.pp_apgar_total_score_five_minute + "='" + p.pp_apgar_total_score_five_minute
+        + "', " + dbObj.pp_apgar_heart_rate_per_minute_ten_minute + "='" + p.pp_apgar_heart_rate_per_minute_ten_minute
+        + "', " + dbObj.pp_apgar_heart_rate_ten_minute + "='" + p.pp_apgar_heart_rate_ten_minute
+        + "', " + dbObj.pp_apgar_respiration_effort_ten_minute + "='" + p.pp_apgar_respiration_effort_ten_minute
+        + "', " + dbObj.pp_apgar_muscle_tone_ten_minute + "='" + p.pp_apgar_muscle_tone_ten_minute
+        + "', " + dbObj.pp_apgar_reflex_irritability_ten_minute + "='" + p.pp_apgar_reflex_irritability_ten_minute 
+        + "', " + dbObj.pp_apgar_skin_color_ten_minute + "='" + p.pp_apgar_skin_color_ten_minute
+        + "', " + dbObj.pp_apgar_total_score_ten_minute + "='" + p.pp_apgar_total_score_ten_minute
+        + "', " + dbObj.pp_fronto_occipital + "='" + p.pp_fronto_occipital
+        + "', " + dbObj.pp_length + "='" + p.pp_length
+        + "', " + dbObj.pp_chest + "='" + p.pp_chest
+        + "', " + dbObj.pp_tempperature + "='" + p.pp_tempperature
+        + "', " + dbObj.pp_state + "='" + p.pp_state
+        + "', " + dbObj.pp_dead_type + "='" + p.pp_dead_type
+        + "', " + dbObj.pp_dead_cause + "='" + p.pp_dead_cause
+        + "', " + dbObj.pp_dead_date + "='" + p.pp_dead_date
+        + "', " + dbObj.pp_dead_time + "='" + p.pp_dead_time
+        + "', " + dbObj.pp_comment + "='" + p.pp_comment
+        + "', " + dbObj.pp_staff_record + "='" + p.pp_staff_record
+        + "', " + dbObj.pp_staff_modify + "='" + p.pp_staff_modify
+        + "', " + dbObj.pp_staff_cancel + "='" + p.pp_staff_cancel
+        + "', " + dbObj.pp_record_date_time + "='" + p.pp_record_date_time
+        + "', " + dbObj.pp_modify_date_time + "='" + p.pp_modify_date_time
+        + "', " + dbObj.pp_cancel_date_time + "='" + p.pp_cancel_date_time
+        + "', " + dbObj.pp_active + "='" + p.pp_active            
+        + "', " + dbObj.family_id + "='" + p.family_id
+        + "', " + dbObj.survey_date + "='" + p.survey_date
+        + "' where " + dbObj.pk_field + "='" + p.getObjectId() +"'";
+        sql = sql+field.substring(2);
+        return theConnectionInf.eUpdate(sql);
+    }
+    
+    public int delete(PP o) throws Exception
+    {
+        String sql="delete from " + dbObj.table
+        + " where " + dbObj.pk_field + "='" + o.getObjectId() +"'";
+        return theConnectionInf.eUpdate(sql);
+    }
+    
+    public PP readPPByPatientId(String search) throws Exception
+    {
+        String sql="select * from " + dbObj.table + " where "
+                + dbObj.t_patient_id + " = '" + search + "' and "
+                + dbObj.pp_active + " = '1'";
+        
+        Vector v=eQuery(sql);
+        if(v.size()==0)
+            return null;
+        else
+            return (PP)v.get(0);
+    }
+    public PP readPPByFamilyID(String family_id) throws Exception
+    {
+        String sql="select * from " + dbObj.table + " where "
+                + dbObj.family_id + " = '" + family_id + "' and "
+                + dbObj.pp_active + " = '1'";
+        
+        Vector v=eQuery(sql);
+        if(v.size()==0)
+            return null;
+        else
+            return (PP)v.get(0);
+    }
+    public Vector eQuery(String sql) throws Exception
+    {
+        PP p;
+        Vector list = new Vector();
+        ResultSet rs = theConnectionInf.eQuery(sql);
+        while(rs.next())
+        {
+            p = new PP();
+            p.setObjectId(rs.getString(dbObj.pk_field));
+            p.t_patient_id = rs.getString(dbObj.t_patient_id);
+            p.t_visit_id = rs.getString(dbObj.t_visit_id); 
+            p.pp_number = rs.getString(dbObj.pp_number);
+            p.pp_mother_pid = rs.getString(dbObj.pp_mother_pid);
+            p.pp_gravida = rs.getString(dbObj.pp_gravida);
+            p.pp_initial_condition = rs.getString(dbObj.pp_initial_condition);
+            p.pp_color = rs.getString(dbObj.pp_color);
+            p.pp_activity = rs.getString(dbObj.pp_activity);
+            p.pp_breathing_time = rs.getString(dbObj.pp_breathing_time);
+            p.pp_crying_time = rs.getString(dbObj.pp_crying_time);   
+            p.pp_aspiration = rs.getString(dbObj.pp_aspiration);
+            p.pp_weight = rs.getString(dbObj.pp_weight);
+            p.pp_eye_drug = rs.getString(dbObj.pp_eye_drug);      
+            p.pp_method_bearing  = rs.getString(dbObj.pp_method_bearing);     
+            p.pp_lost_oxygen = rs.getString(dbObj.pp_lost_oxygen);
+            p.pp_vit_k = rs.getString(dbObj.pp_vit_k);
+            p.pp_resuscitation = rs.getString(dbObj.pp_resuscitation);
+            p.pp_diseases_abnormal = rs.getString(dbObj.pp_diseases_abnormal);
+            p.pp_apgar_heart_rate_per_minute_one_minute = rs.getString(dbObj.pp_apgar_heart_rate_per_minute_one_minute);
+            p.pp_apgar_heart_rate_one_minute = rs.getString(dbObj.pp_apgar_heart_rate_one_minute);
+            p.pp_apgar_respiration_effort_one_minute = rs.getString(dbObj.pp_apgar_respiration_effort_one_minute);
+            p.pp_apgar_muscle_tone_one_minute = rs.getString(dbObj.pp_apgar_muscle_tone_one_minute);
+            p.pp_apgar_reflex_irritability_one_minute = rs.getString(dbObj.pp_apgar_reflex_irritability_one_minute);
+            p.pp_apgar_skin_color_one_minute = rs.getString(dbObj.pp_apgar_skin_color_one_minute);
+            p.pp_apgar_total_score_one_minute = rs.getString(dbObj.pp_apgar_total_score_one_minute);
+            p.pp_apgar_heart_rate_per_minute_five_minute = rs.getString(dbObj.pp_apgar_heart_rate_per_minute_five_minute);
+            p.pp_apgar_heart_rate_five_minute = rs.getString(dbObj.pp_apgar_heart_rate_five_minute);
+            p.pp_apgar_respiration_effort_five_minute = rs.getString(dbObj.pp_apgar_respiration_effort_five_minute);   
+            p.pp_apgar_muscle_tone_five_minute = rs.getString(dbObj.pp_apgar_muscle_tone_five_minute);
+            p.pp_apgar_reflex_irritability_five_minute = rs.getString(dbObj.pp_apgar_reflex_irritability_five_minute);
+            p.pp_apgar_skin_color_five_minute = rs.getString(dbObj.pp_apgar_skin_color_five_minute);
+            p.pp_apgar_total_score_five_minute = rs.getString(dbObj.pp_apgar_total_score_five_minute);
+            p.pp_apgar_heart_rate_per_minute_ten_minute = rs.getString(dbObj.pp_apgar_heart_rate_per_minute_ten_minute);
+            p.pp_apgar_heart_rate_ten_minute = rs.getString(dbObj.pp_apgar_heart_rate_ten_minute);
+            p.pp_apgar_respiration_effort_ten_minute = rs.getString(dbObj.pp_apgar_respiration_effort_ten_minute);
+            p.pp_apgar_muscle_tone_ten_minute = rs.getString(dbObj.pp_apgar_muscle_tone_ten_minute);
+            p.pp_apgar_reflex_irritability_ten_minute = rs.getString(dbObj.pp_apgar_reflex_irritability_ten_minute); 
+            p.pp_apgar_skin_color_ten_minute = rs.getString(dbObj.pp_apgar_skin_color_ten_minute);
+            p.pp_apgar_total_score_ten_minute = rs.getString(dbObj.pp_apgar_total_score_ten_minute);
+            p.pp_fronto_occipital = rs.getString(dbObj.pp_fronto_occipital);
+            p.pp_length = rs.getString(dbObj.pp_length);
+            p.pp_chest = rs.getString(dbObj.pp_chest);
+            p.pp_tempperature = rs.getString(dbObj.pp_tempperature);
+            p.pp_state = rs.getString(dbObj.pp_state); 
+            p.pp_dead_type = rs.getString(dbObj.pp_dead_type);
+            p.pp_dead_cause = rs.getString(dbObj.pp_dead_cause);
+            p.pp_dead_date = rs.getString(dbObj.pp_dead_date);
+            p.pp_dead_time = rs.getString(dbObj.pp_dead_time);
+            p.pp_comment = rs.getString(dbObj.pp_comment);
+            p.pp_staff_record = rs.getString(dbObj.pp_staff_record);
+            p.pp_staff_modify = rs.getString(dbObj.pp_staff_modify);
+            p.pp_staff_cancel = rs.getString(dbObj.pp_staff_cancel); 
+            p.pp_record_date_time = rs.getString(dbObj.pp_record_date_time);
+            p.pp_modify_date_time = rs.getString(dbObj.pp_modify_date_time);
+            p.pp_cancel_date_time = rs.getString(dbObj.pp_cancel_date_time);
+            p.pp_active = rs.getString(dbObj.pp_active);            
+            p.family_id = rs.getString(dbObj.family_id);            
+            p.survey_date = rs.getString(dbObj.survey_date);            
+            list.add(p);
+        }
+        rs.close();
+        return list;
+    }    
+/////////////////////////////////////////////////////////////////////////////    
+    public int updateFidByFid(String family_id,String family_from) throws Exception
+    {
+        String sql="update " + dbObj.table + " set " 
+                + dbObj.family_id + "='" + family_id + "',"
+                + dbObj.pp_staff_cancel + "="+ dbObj.pp_staff_cancel + "||'-'||'" + family_from + "'"
+                + " where " + dbObj.family_id + "='" + family_from +"'";
+        return theConnectionInf.eUpdate(sql);
+    }  
+/////////////////////////////////////////////////////////////////////////////    
+    public int updateFidByPtid(String family_id,String patient_id) throws Exception
+    {
+        String sql="update " + dbObj.table + " set " 
+                + dbObj.family_id + "='" + family_id
+                + "' where " + dbObj.t_patient_id + "='" + patient_id +"'";
+        sql = Gutil.convertSQLToMySQL(sql,theConnectionInf.gettypeDatabase());
+        return theConnectionInf.eUpdate(sql);
+    }     
+
+
+    public int selectCount() throws Exception {
+             String sql="select count(*) as count from " + dbObj.table;
+             ResultSet rs = theConnectionInf.eQuery(sql);
+             if(rs.next()){
+                 return rs.getInt("count");
+             }
+             return 0;
+    }
+
+    public Vector selectByMotherPid(String mother_pid) throws Exception
+    {
+        String sql="select * from " + dbObj.table + " where "
+                + dbObj.pp_mother_pid + " = '" + mother_pid + "' and "
+                + dbObj.pp_active + " = '1' order by pp_gravida,pp_number";
+        
+        return eQuery(sql);
+    }
+    public Vector selectByMotherFid(String mother_pid) throws Exception
+    {
+        String sql="select * from " + dbObj.table + " where "
+                + dbObj.pp_mother_pid + " = '" + mother_pid + "' and "
+                + dbObj.pp_active + " = '1' order by pp_gravida,pp_number";
+        
+        return eQuery(sql);
+    }
+    public Vector selectByPatientID(String patient_id) throws Exception
+    {
+        String sql="select * from " + dbObj.table + " where "
+                + dbObj.t_patient_id + " = '" + patient_id + "' and "
+                + dbObj.pp_active + " = '1' order by pp_gravida,pp_number";
+        
+        return eQuery(sql);
+    }
+
+    public PP selectByFamilyID(String family_id)  throws Exception {
+        String sql="select * from " + dbObj.table + " where "
+                + dbObj.family_id + " = '" + family_id + "' and "
+                + dbObj.pp_active + " = '1' order by pp_gravida,pp_number";
+
+        Vector v = eQuery(sql);
+        if(v.isEmpty())
+            return null;
+        else
+            return (PP)v.get(0);
+    }
+}

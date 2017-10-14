@@ -1,0 +1,1 @@
+package com.hospital_os.utility;import com.hospital_os.usecase.connection.*;public class XPersistent extends Persistent implements Cloneable, java.io.Serializable{ }

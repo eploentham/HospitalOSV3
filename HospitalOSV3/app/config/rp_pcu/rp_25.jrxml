@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="rp_25"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="date_to" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date_from" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="site_name" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="date_query" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="date_report" isForPrompting="false" class="java.lang.String"/>
+	<queryString><![CDATA[select  case when length(query1.village_moo) = 1 then '0' || query1.village_moo else query1.village_moo end AS หมู่ที่  
+,query1.village_name  as ชื่อหมู่บ้าน
+,query2.count_woman  as ผู้หญิงทั้งหมด
+,query1.method_all  as จำนวนผู้หญิงคุมกำเนิด
+,ROUND((sum(query3.count_woman_planing*100))/(sum(query2.count_woman )),2) AS ร้อยละการคุมกำเนิด
+,query1.method_1  as ยาเม็ด
+,query1.method_2  as ยาฉีด
+,query1.method_3  as   ห่วงอนามัย
+,query1.method_4  as   ยาฝัง
+,query1.method_5  as   ถุงยาง
+,query1.method_6  as   หมันชาย
+,query1.method_7  as   หมันหญิง
+,query1.method_8  as   อื่นๆ
+from   
+    (select  t_health_village.village_moo AS village_moo  
+        ,t_health_village.village_name  
+,sum(case when (t_health_family_planing.f_health_family_planing_method_id = '1' )  then 1  else 0  end) AS  method_1  
+,sum(case when (t_health_family_planing.f_health_family_planing_method_id = '2' )  then 1  else 0  end) AS  method_2  
+,sum(case when (t_health_family_planing.f_health_family_planing_method_id = '3' )  then 1  else 0  end) AS  method_3  
+,sum(case when (t_health_family_planing.f_health_family_planing_method_id = '4' )  then  1  else 0  end) AS  method_4  
+,sum(case when (t_health_family_planing.f_health_family_planing_method_id = '5' )  then  1  else 0  end) AS  method_5  
+,sum(case when (t_health_family_planing.f_health_family_planing_method_id = '6' )  then  1  else 0  end) AS  method_6  
+,sum(case when (t_health_family_planing.f_health_family_planing_method_id = '7' )  then 1  else 0  end) AS  method_7  
+,sum(case when (t_health_family_planing.f_health_family_planing_method_id = '9' )  then  1  else 0  end) AS  method_8  
+,sum(case when (t_health_family_planing.f_health_family_planing_method_id = '1'  
+OR t_health_family_planing.f_health_family_planing_method_id= '2' 
+ OR t_health_family_planing.f_health_family_planing_method_id = '3'  
+OR t_health_family_planing.f_health_family_planing_method_id = '4'  
+OR t_health_family_planing.f_health_family_planing_method_id = '5'  
+OR t_health_family_planing.f_health_family_planing_method_id = '6'  
+OR t_health_family_planing.f_health_family_planing_method_id = '7'  
+OR t_health_family_planing.f_health_family_planing_method_id = '9' ) then  1  else 0  end) AS  method_all 
+from  t_health_family_planing 
+INNER JOIN t_health_family  ON t_health_family_planing.t_health_family_id = t_health_family.t_health_family_id  
+INNER JOIN t_health_home  ON t_health_family.t_health_home_id = t_health_home.t_health_home_id  
+INNER JOIN t_health_village ON t_health_home.t_health_village_id = t_health_village.t_health_village_id  
+INNER JOIN f_patient_marriage_status  ON f_patient_marriage_status.f_patient_marriage_status_id = t_health_family.f_patient_marriage_status_id 
+where  t_health_family_planing.health_family_planing_active = '1'  
+and t_health_family_planing.health_family_planing_date != ''  
+AND t_health_family.f_sex_id = '2' 
+AND f_patient_marriage_status.f_patient_marriage_status_id <> '6'  
+AND ((to_number(substring(' ' || age(to_date($P{date_from},'YYYY-MM-DD')  
+, to_date(t_health_family.patient_birthday,'YYYY-MM-DD')) from '(...)year'),'999') >= 15 )  
+AND   (to_number(substring(' ' || age(to_date($P{date_from},'YYYY-MM-DD')  
+, to_date(t_health_family.patient_birthday,'YYYY-MM-DD')) from '(...)year'),'999') <= 44 ))  
+AND substring(t_health_family_planing.health_family_planing_date,1,10)  between substring($P{date_from},1,10) and substring($P{date_to},1,10)
+group by   t_health_village.village_moo  
+,t_health_village.village_name  
+order by   t_health_village.village_moo  
+,t_health_village.village_name
+  ) AS query1   
+INNER JOIN   
+(select  t_health_village.village_moo AS village_moo  
+,t_health_village.village_name  
+,count(t_health_family.t_health_family_id) AS count_woman  from  t_health_family 
+INNER JOIN t_health_home  ON t_health_family.t_health_home_id = t_health_home.t_health_home_id  
+INNER JOIN t_health_village ON t_health_home.t_health_village_id = t_health_village.t_health_village_id  
+INNER JOIN f_patient_marriage_status  ON f_patient_marriage_status.f_patient_marriage_status_id = t_health_family.f_patient_marriage_status_id  
+where  t_health_family.f_sex_id = '2'  
+AND f_patient_marriage_status.f_patient_marriage_status_id<> '6'  
+AND ((to_number(substring(' ' || age(to_date($P{date_from},'YYYY-MM-DD') 
+, to_date(t_health_family.patient_birthday,'YYYY-MM-DD')) from '(...)year'),'999') >= 15 )  
+AND   (to_number(substring(' ' || age(to_date($P{date_from},'YYYY-MM-DD')  
+, to_date(t_health_family.patient_birthday,'YYYY-MM-DD')) from '(...)year'),'999') <= 44 ))  
+group by  t_health_village.village_moo  ,t_health_village.village_name    
+order by  t_health_village.village_moo  ,t_health_village.village_name    ) AS query2  
+ON query1.village_moo = query2.village_moo  
+INNER JOIN   
+(select count(DISTINCT(t_health_family_planing.t_health_family_id)) AS count_woman_planing  
+,t_health_village.village_moo AS village_moo  
+,t_health_village.village_name  
+from  t_health_family_planing INNER JOIN t_health_family  
+ON t_health_family.t_health_family_id = t_health_family_planing.t_health_family_id   
+INNER JOIN t_health_home  ON t_health_family.t_health_home_id = t_health_home.t_health_home_id 
+INNER JOIN t_health_village  ON t_health_home.t_health_village_id = t_health_village.t_health_village_id  
+INNER JOIN f_patient_marriage_status  ON f_patient_marriage_status.f_patient_marriage_status_id = t_health_family.f_patient_marriage_status_id 
+
+where  t_health_family.f_sex_id = '2'  AND t_health_family_planing.f_health_family_planing_method_id <> '0'  
+AND f_patient_marriage_status.f_patient_marriage_status_id <> '6'  
+AND ((to_number(substring(' ' || age(to_date($P{date_from},'YYYY-MM-DD')  
+, to_date(t_health_family.patient_birthday,'YYYY-MM-DD')) from '(...)year'),'999') >= 15 )  
+AND   (to_number(substring(' ' || age(to_date($P{date_from},'YYYY-MM-DD')  
+, to_date(t_health_family.patient_birthday,'YYYY-MM-DD')) from '(...)year'),'999') <= 44 )) 
+ AND substring(t_health_family_planing.health_family_planing_date,1,10) between substring($P{date_from},1,10) and substring($P{date_to},1,10)
+group by  t_health_village.village_moo 
+ ,t_health_village.village_name
+     order by  t_health_village.village_moo 
+ ,t_health_village.village_name
+) AS query3 
+ ON query1.village_moo = query3.village_moo
+
+GROUP BY
+query1.village_moo 
+,query1.village_name  
+,query2.count_woman  
+,query1.method_all 
+,query1.method_1 
+,query1.method_2 
+,query1.method_3 
+,query1.method_4
+,query1.method_5 
+,query1.method_6 
+,query1.method_7 
+,query1.method_8  
+
+Order by หมู่ที่]]></queryString>
+
+	<field name="หมู่ที่" class="java.lang.String"/>
+	<field name="ชื่อหมู่บ้าน" class="java.lang.String"/>
+	<field name="ผู้หญิงทั้งหมด" class="java.lang.Long"/>
+	<field name="จำนวนผู้หญิงคุมกำเนิด" class="java.lang.Long"/>
+	<field name="ร้อยละการคุมกำเนิด" class="java.math.BigDecimal"/>
+	<field name="ยาเม็ด" class="java.lang.Long"/>
+	<field name="ยาฉีด" class="java.lang.Long"/>
+	<field name="ห่วงอนามัย" class="java.lang.Long"/>
+	<field name="ยาฝัง" class="java.lang.Long"/>
+	<field name="ถุงยาง" class="java.lang.Long"/>
+	<field name="หมันชาย" class="java.lang.Long"/>
+	<field name="หมันหญิง" class="java.lang.Long"/>
+	<field name="อื่นๆ" class="java.lang.Long"/>
+
+	<variable name="rec_no" class="java.lang.Integer" resetType="Report" calculation="Count">
+		<variableExpression><![CDATA[$F{ชื่อหมู่บ้าน}]]></variableExpression>
+	</variable>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="50"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="535"
+						height="50"
+						key="textField-12"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="AngsanaUPC" pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["รายงานแสดงจำนวนและอัตราการวางแผนครอบครัว จำแนกรายหมู่บ้าน (ความครอบคลุม คิดจากการให้บริการ(ทั้งสถานบริการนี้และที่อื่น) และรวมจากการสำรวจผ่าน บ/ช 6 ด้วย"+
+"\nหน่วยงาน "+ $P{site_name}+
+"\nอัตรา ณ ช่วงเดือน " + $P{date_query}]]></textFieldExpression>
+				</textField>
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="20"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="22"
+						y="0"
+						width="100"
+						height="20"
+						key="textField-1"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ชื่อหมู่บ้าน"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="122"
+						y="0"
+						width="39"
+						height="20"
+						key="textField-2"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ผู้หญิงทั้งหมด"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="200"
+						y="0"
+						width="39"
+						height="20"
+						key="textField-3"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ร้อยละการคุมกำเนิด"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="161"
+						y="0"
+						width="39"
+						height="20"
+						key="textField-4"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["จำนวนผู้หญิงคุมกำเนิด"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="239"
+						y="0"
+						width="39"
+						height="20"
+						key="textField-5"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ยาเม็ด"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="278"
+						y="0"
+						width="39"
+						height="20"
+						key="textField-6"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ยาฉีด"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="317"
+						y="0"
+						width="39"
+						height="20"
+						key="textField-7"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ยาฝัง"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="356"
+						y="0"
+						width="39"
+						height="20"
+						key="textField-8"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ห่วงอนามัย"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="395"
+						y="0"
+						width="39"
+						height="20"
+						key="textField-9"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["หมันชาย"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="434"
+						y="0"
+						width="39"
+						height="20"
+						key="textField-10"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["หมันหญิง"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="473"
+						y="0"
+						width="39"
+						height="20"
+						key="textField-11"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["ถุงยาง"]]></textFieldExpression>
+				</textField>
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="18"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="22"
+						y="0"
+						width="100"
+						height="18"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{ชื่อหมู่บ้าน}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="122"
+						y="0"
+						width="39"
+						height="18"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{ผู้หญิงทั้งหมด}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="200"
+						y="0"
+						width="39"
+						height="18"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{ร้อยละการคุมกำเนิด}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="161"
+						y="0"
+						width="39"
+						height="18"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{จำนวนผู้หญิงคุมกำเนิด}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="239"
+						y="0"
+						width="39"
+						height="18"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{ยาเม็ด}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="278"
+						y="0"
+						width="39"
+						height="18"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{ยาฉีด}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="317"
+						y="0"
+						width="39"
+						height="18"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{ยาฝัง}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="356"
+						y="0"
+						width="39"
+						height="18"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{ห่วงอนามัย}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="395"
+						y="0"
+						width="39"
+						height="18"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{หมันชาย}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="434"
+						y="0"
+						width="39"
+						height="18"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{หมันหญิง}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="473"
+						y="0"
+						width="39"
+						height="18"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{ถุงยาง}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="4"
+						y="0"
+						width="18"
+						height="18"
+						key="textField-14"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{rec_no}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="19"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="366"
+						y="0"
+						width="160"
+						height="19"
+						key="textField-13"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["วันที่ออกรายงาน "+ $P{date_report}]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

@@ -1,0 +1,1 @@
+package com.hospital_os.object;import com.hospital_os.usecase.connection.Persistent;public class DrugFrequency extends Persistent {        public String drug_frequency_id;        public String factor = "1";        public String description;        public String active;      /**    * @roseuid 3F658BBB036E    */   public DrugFrequency()    {       }}

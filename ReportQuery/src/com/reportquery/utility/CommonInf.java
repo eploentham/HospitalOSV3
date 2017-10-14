@@ -1,0 +1,1 @@
+package com.reportquery.utility;public interface CommonInf{   public String getCode();    public String getName();    public String toString();}

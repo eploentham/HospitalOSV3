@@ -1,0 +1,74 @@
+-- ทั่วไป (ค่าใช้จ่ายที่สิทธิชำระให้ แยกผู้ป่วยใน - นอก)
+SELECT  
+	t_patient.patient_hn as HN
+	,    CASE WHEN (f_patient_prefix.patient_prefix_description IS NOT NULL  AND 
+				f_patient_prefix.patient_prefix_description <> '' AND  
+				f_patient_prefix.patient_prefix_description <> 'null' ) 
+			THEN (f_patient_prefix.patient_prefix_description || ' ' || t_patient.patient_firstname || ' ' || 
+				t_patient.patient_lastname)  
+			ELSE (t_patient.patient_firstname || ' ' || 
+				t_patient.patient_lastname)  
+	END AS patient_name
+	,    TO_DATE(t_patient.patient_birthday,'YYYY-MM-DD') as birthday
+	,    t_visit.visit_patient_age AS age
+	,   CASE WHEN (t_patient.patient_house <> '' AND t_patient.patient_moo <> '')   
+			THEN  (t_patient.patient_house || ' ม.' || t_patient.patient_moo || ' ต.' ||   
+				f_address_1.address_description || ' อ.' || f_address_2.address_description || ' จ.' ||   
+				f_address_3.address_description )   
+			ELSE (t_patient.patient_house || ' ม.' || t_patient.patient_moo || ' ต.' || 
+				f_address_1.address_description || ' อ.' || f_address_2.address_description || ' จ.' ||  
+				f_address_3.address_description )   
+	END AS address
+	,   CASE WHEN (b_icd10.icd10_number IS NOT NULL  AND    
+				b_icd10.icd10_number <> '' AND     
+				b_icd10.icd10_number <> 'null' )  
+			THEN b_icd10.icd10_number   
+			ELSE '' 
+	END AS icd10_code
+	,   CASE WHEN (b_icd10.icd10_description IS NOT NULL  AND  
+				b_icd10.icd10_description <> '' AND 
+				b_icd10.icd10_description <> 'null' )   
+			THEN b_icd10.icd10_description  
+			ELSE ''  
+	END AS icd10_des
+	,   CASE WHEN (t_visit.f_visit_type_id = 1)  
+			THEN TO_DATE(t_visit.visit_begin_admit_date_time,'YYYY-MM-DD')   
+			ELSE TO_DATE(t_visit.visit_begin_visit_time ,'YYYY-MM-DD')   
+	END as begin_service_time
+	,   b_contract_plans.contract_plans_description AS plan
+	,    sum(TO_NUMBER(TO_NUMBER(t_billing_invoice.billing_invoice_payer_share_ceil,'99999.99') +    
+		TO_NUMBER('0.00','99999.99'),'99999.99')) as payer_share 
+FROM  
+	t_billing_invoice  INNER JOIN t_visit   
+		ON t_visit.t_visit_id = t_billing_invoice.t_visit_id  
+	INNER JOIN t_visit_payment  
+		ON t_billing_invoice.t_payment_id = t_visit_payment.t_visit_payment_id  
+	INNER JOIN t_patient  
+		ON t_visit.t_patient_id = t_patient.t_patient_id  
+	INNER JOIN b_contract_plans  
+		ON b_contract_plans.b_contract_plans_id = t_visit_payment.b_contract_plans_id   
+	LEFT JOIN f_patient_prefix  
+		ON t_patient.f_patient_prefix_id = f_patient_prefix.f_patient_prefix_id   
+	LEFT JOIN t_diag_icd10  
+		ON (t_visit.t_visit_id = t_diag_icd10.diag_icd10_vn  
+			AND t_diag_icd10.f_diag_icd10_type_id = '1')  
+	LEFT JOIN f_address AS f_address_1 
+		ON f_address_1.f_address_id = t_patient.patient_tambon  
+	LEFT JOIN f_address AS f_address_2   
+		ON f_address_2.f_address_id = t_patient.patient_amphur   
+	LEFT JOIN f_address AS f_address_3   
+		ON f_address_3.f_address_id = t_patient.patient_changwat   
+	LEFT JOIN b_icd10 
+		ON t_diag_icd10.diag_icd10_number = b_icd10.icd10_number   
+WHERE   
+	((SUBSTRING(t_visit.visit_financial_discharge_time,0,11) 
+		Between '2549-01-01' And '2549-01-31')   
+	AND ((t_visit.f_visit_type_id)= '0')   
+	AND ((t_billing_invoice.billing_invoice_active)='1')   
+	AND ((TO_NUMBER(t_billing_invoice.billing_invoice_payer_share,'99999.99') ) > 0.0 ) 
+	AND (t_visit.f_visit_status_id <> '4' )  )  
+GROUP BY   
+	HN,  patient_name, birthday,  age,  address,  icd10_code
+	,  icd10_des,  begin_service_time,  plan,  t_visit.t_visit_id  
+ORDER BY  
+	begin_service_time, t_patient.patient_hn

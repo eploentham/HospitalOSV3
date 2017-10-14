@@ -1,0 +1,339 @@
+/*
+ * AfterMchMother.java
+ *
+ * Created on 26 กรกฎาคม 2548, 14:23 น.
+ *
+ * To change this template, choose Tools | Options and locate the template under
+ * the Source Creation and Management node. Right-click the template and choose
+ * Open. You can then make changes to the template in the Source Editor.
+ */
+
+package com.pcu.object;
+import com.hospital_os.usecase.connection.Persistent;
+/**
+ *
+ * @author tong(Padungrat)
+ */
+public class AfterMchMother extends Persistent {
+    
+        private static String init = "";
+        public String visit_id=init;
+        public String patient_id=init;
+        public String updatetime=init;
+        public String note=init;
+        public String active=init;
+        public String user_record =init;
+        public String user_modify=init;
+        public String user_cancel=init;
+        public String uterus_level =init;
+        public String milk_seep=init;
+        public String sugar_level=init;
+        public String lochia=init;
+        public String menses =init;
+        public String sew=init;
+        public String cream =init;
+        public String albumin=init;
+        public String result_verify=init;
+        public String pcare =init;
+        public String mch_id=init;
+        public String asphyxia =init;
+        public String vit_k =init;
+        public String bcres =init;
+        public String appointment = init;
+        public String recordtime = init;
+        public String symptom_notice = init;
+        public String place = init;
+        public String pregnantnumber = init;
+        public String family_id = init;
+        private String vn = init;
+        public String survey_date = init;
+
+        public String visit_id2=init;
+        public String patient_id2=init;
+        public String updatetime2=init;
+        public String note2=init;
+        public String active2=init;
+        public String user_record2=init;
+        public String user_modify2=init;
+        public String user_cancel2=init;
+        public String uterus_level2=init;
+        public String milk_seep2=init;
+        public String sugar_level2=init;
+        public String lochia2=init;
+        public String menses2=init;
+        public String sew2=init;
+        public String cream2=init;
+        public String albumin2=init;
+        public String result_verify2=init;
+        public String pcare2=init;
+        public String mch_id2=init;
+        public String asphyxia2=init;
+        public String vit_k2=init;
+        public String bcres2=init;
+        public String appointment2=init;
+        public String recordtime2=init;
+        public String symptom_notice2=init;
+        public String place2=init;
+        public String pregnantnumber2=init;
+        public String family_id2=init;
+        private String vn2=init;
+        public String survey_date2=init;
+
+        public String visit_id3=init;
+        public String patient_id3=init;
+        public String updatetime3=init;
+        public String note3=init;
+        public String active3=init;
+        public String user_record3=init;
+        public String user_modify3=init;
+        public String user_cancel3=init;
+        public String uterus_level3=init;
+        public String milk_seep3=init;
+        public String sugar_level3=init;
+        public String lochia3=init;
+        public String menses3=init;
+        public String sew3=init;
+        public String cream3=init;
+        public String albumin3=init;
+        public String result_verify3=init;
+        public String pcare3=init;
+        public String mch_id3=init;
+        public String asphyxia3=init;
+        public String vit_k3=init;
+        public String bcres3=init;
+        public String appointment3=init;
+        public String recordtime3=init;
+        public String symptom_notice3=init;
+        public String place3=init;
+        public String pregnantnumber3=init;
+        public String family_id3=init;
+        private String vn3=init;
+        public String survey_date3=init;
+
+        public String t_health_postpartum_detail_id=init;
+    /** Creates a new instance of AfterMchMother */
+    public AfterMchMother() {
+    }
+    public void setObject(AfterMchMother afterMchMother,String obj)
+    {
+        if(afterMchMother == null)
+            afterMchMother = new AfterMchMother();
+        if(obj.equals("1"))
+        {
+            visit_id = afterMchMother.visit_id;
+            patient_id = afterMchMother.patient_id;
+            updatetime = afterMchMother.updatetime;
+            note = afterMchMother.note;
+            active = afterMchMother.active;
+            user_record  = afterMchMother.user_record ;
+            user_modify = afterMchMother.user_modify;
+            user_cancel = afterMchMother.user_cancel;
+            uterus_level  = afterMchMother.uterus_level ;
+            milk_seep = afterMchMother.milk_seep;
+            sugar_level = afterMchMother.sugar_level;
+            lochia = afterMchMother.lochia;
+            menses  = afterMchMother.menses ;
+            sew = afterMchMother.sew;
+            cream  = afterMchMother.cream ;
+            albumin = afterMchMother.albumin;
+            result_verify = afterMchMother.result_verify;
+            pcare  = afterMchMother.pcare ;
+            mch_id = afterMchMother.mch_id;
+            asphyxia  = afterMchMother.asphyxia ;
+            vit_k  = afterMchMother.vit_k ;
+            bcres  = afterMchMother.bcres ;
+            appointment = afterMchMother.appointment;
+            recordtime = afterMchMother.recordtime;
+            symptom_notice = afterMchMother.symptom_notice;
+            place = afterMchMother.place;
+            pregnantnumber = afterMchMother.pregnantnumber;
+            family_id = afterMchMother.family_id;
+            vn = afterMchMother.vn;
+            survey_date = afterMchMother.survey_date;
+        }
+        if(obj.equals("2"))
+        {
+            visit_id = afterMchMother.visit_id2;
+            patient_id = afterMchMother.patient_id2;
+            updatetime = afterMchMother.updatetime2;
+            note = afterMchMother.note2;
+            active = afterMchMother.active2;
+            user_record  = afterMchMother.user_record2;
+            user_modify = afterMchMother.user_modify2;
+            user_cancel = afterMchMother.user_cancel2;
+            uterus_level  = afterMchMother.uterus_level2;
+            milk_seep = afterMchMother.milk_seep2;
+            sugar_level = afterMchMother.sugar_level2;
+            lochia = afterMchMother.lochia2;
+            menses  = afterMchMother.menses2;
+            sew = afterMchMother.sew2;
+            cream  = afterMchMother.cream2;
+            albumin = afterMchMother.albumin2;
+            result_verify = afterMchMother.result_verify2;
+            pcare  = afterMchMother.pcare2;
+            mch_id = afterMchMother.mch_id2;
+            asphyxia  = afterMchMother.asphyxia2;
+            vit_k  = afterMchMother.vit_k2;
+            bcres  = afterMchMother.bcres2;
+            appointment = afterMchMother.appointment2;
+            recordtime = afterMchMother.recordtime2;
+            symptom_notice = afterMchMother.symptom_notice2;
+            place = afterMchMother.place2;
+            pregnantnumber = afterMchMother.pregnantnumber2;
+            family_id = afterMchMother.family_id2;
+            vn = afterMchMother.vn2;
+            survey_date = afterMchMother.survey_date2;
+        }
+        if(obj.equals("3"))
+        {
+            visit_id = afterMchMother.visit_id3;
+            patient_id = afterMchMother.patient_id3;
+            updatetime = afterMchMother.updatetime3;
+            note = afterMchMother.note3;
+            active = afterMchMother.active3;
+            user_record  = afterMchMother.user_record3;
+            user_modify = afterMchMother.user_modify3;
+            user_cancel = afterMchMother.user_cancel3;
+            uterus_level  = afterMchMother.uterus_level3;
+            milk_seep = afterMchMother.milk_seep3;
+            sugar_level = afterMchMother.sugar_level3;
+            lochia = afterMchMother.lochia3;
+            menses  = afterMchMother.menses3;
+            sew = afterMchMother.sew3;
+            cream  = afterMchMother.cream3;
+            albumin = afterMchMother.albumin3;
+            result_verify = afterMchMother.result_verify3;
+            pcare  = afterMchMother.pcare3;
+            mch_id = afterMchMother.mch_id3;
+            asphyxia  = afterMchMother.asphyxia3;
+            vit_k  = afterMchMother.vit_k3;
+            bcres  = afterMchMother.bcres3;
+            appointment = afterMchMother.appointment3;
+            recordtime = afterMchMother.recordtime3;
+            symptom_notice = afterMchMother.symptom_notice3;
+            place = afterMchMother.place3;
+            pregnantnumber = afterMchMother.pregnantnumber3;
+            family_id = afterMchMother.family_id3;
+            vn = afterMchMother.vn3;
+            survey_date = afterMchMother.survey_date3;
+        }
+    }
+    public void setObject1(AfterMchMother afterMchMother)
+    {
+        if(afterMchMother == null)
+            afterMchMother = new AfterMchMother();
+        visit_id = afterMchMother.visit_id;
+        patient_id = afterMchMother.patient_id;
+        updatetime = afterMchMother.updatetime;
+        note = afterMchMother.note;
+        active = afterMchMother.active;
+        user_record  = afterMchMother.user_record ;
+        user_modify = afterMchMother.user_modify;
+        user_cancel = afterMchMother.user_cancel;
+        uterus_level  = afterMchMother.uterus_level ;
+        milk_seep = afterMchMother.milk_seep;
+        sugar_level = afterMchMother.sugar_level;
+        lochia = afterMchMother.lochia;
+        menses  = afterMchMother.menses ;
+        sew = afterMchMother.sew;
+        cream  = afterMchMother.cream ;
+        albumin = afterMchMother.albumin;
+        result_verify = afterMchMother.result_verify;
+        pcare  = afterMchMother.pcare ;
+        mch_id = afterMchMother.mch_id;
+        asphyxia  = afterMchMother.asphyxia ;
+        vit_k  = afterMchMother.vit_k ;
+        bcres  = afterMchMother.bcres ;
+        appointment = afterMchMother.appointment;
+        recordtime = afterMchMother.recordtime;
+        symptom_notice = afterMchMother.symptom_notice;
+        place = afterMchMother.place;
+        pregnantnumber = afterMchMother.pregnantnumber;
+        family_id = afterMchMother.family_id;
+        vn = afterMchMother.vn;
+        survey_date = afterMchMother.survey_date;
+    }
+
+    public void setobject2(AfterMchMother afterMchMother)
+    {
+        if(afterMchMother == null)
+            afterMchMother = new AfterMchMother();
+        visit_id2 = afterMchMother.visit_id;
+        patient_id2 = afterMchMother.patient_id;
+        updatetime2 = afterMchMother.updatetime;
+        note2 = afterMchMother.note;
+        active2 = afterMchMother.active;
+        user_record2 = afterMchMother.user_record ;
+        user_modify2 = afterMchMother.user_modify;
+        user_cancel2 = afterMchMother.user_cancel;
+        uterus_level2 = afterMchMother.uterus_level ;
+        milk_seep2 = afterMchMother.milk_seep;
+        sugar_level2 = afterMchMother.sugar_level;
+        lochia2 = afterMchMother.lochia;
+        menses2 = afterMchMother.menses ;
+        sew2 = afterMchMother.sew;
+        cream2 = afterMchMother.cream ;
+        albumin2 = afterMchMother.albumin;
+        result_verify2 = afterMchMother.result_verify;
+        pcare2 = afterMchMother.pcare ;
+        mch_id2 = afterMchMother.mch_id;
+        asphyxia2 = afterMchMother.asphyxia ;
+        vit_k2 = afterMchMother.vit_k ;
+        bcres2 = afterMchMother.bcres ;
+        appointment2 = afterMchMother.appointment;
+        recordtime2 = afterMchMother.recordtime;
+        symptom_notice2 = afterMchMother.symptom_notice;
+        place2 = afterMchMother.place;
+        pregnantnumber2 = afterMchMother.pregnantnumber;
+        family_id2 = afterMchMother.family_id;
+        vn2 = afterMchMother.vn;
+        survey_date2 = afterMchMother.survey_date;
+    }
+
+    public void setobject3(AfterMchMother afterMchMother)
+    {
+        if(afterMchMother == null)
+            afterMchMother = new AfterMchMother();
+        visit_id3 = afterMchMother.visit_id;
+        patient_id3 = afterMchMother.patient_id;
+        updatetime3 = afterMchMother.updatetime;
+        note3 = afterMchMother.note;
+        active3 = afterMchMother.active;
+        user_record3 = afterMchMother.user_record ;
+        user_modify3 = afterMchMother.user_modify;
+        user_cancel3 = afterMchMother.user_cancel;
+        uterus_level3 = afterMchMother.uterus_level ;
+        milk_seep3 = afterMchMother.milk_seep;
+        sugar_level3 = afterMchMother.sugar_level;
+        lochia3 = afterMchMother.lochia;
+        menses3 = afterMchMother.menses ;
+        sew3 = afterMchMother.sew;
+        cream3 = afterMchMother.cream ;
+        albumin3 = afterMchMother.albumin;
+        result_verify3 = afterMchMother.result_verify;
+        pcare3 = afterMchMother.pcare ;
+        mch_id3 = afterMchMother.mch_id;
+        asphyxia3 = afterMchMother.asphyxia ;
+        vit_k3 = afterMchMother.vit_k ;
+        bcres3 = afterMchMother.bcres ;
+        appointment3 = afterMchMother.appointment;
+        recordtime3 = afterMchMother.recordtime;
+        symptom_notice3 = afterMchMother.symptom_notice;
+        place3 = afterMchMother.place;
+        pregnantnumber3 = afterMchMother.pregnantnumber;
+        family_id3 = afterMchMother.family_id;
+        vn3 = afterMchMother.vn;
+        survey_date3 = afterMchMother.survey_date;
+    }
+    
+    public String getVN()
+    {
+        return vn;
+        
+    }
+    
+    public void setVN(String visit_vn)
+    {
+        vn = visit_vn;
+    }
+}

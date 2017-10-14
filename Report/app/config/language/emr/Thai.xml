@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Thai.xml
+    Created on : 24 มกราคม 2549, 13:36 น.
+    Author     : tong(padungrat)
+    Description:
+        Purpose of the document follows.
+-->
+
+<root>
+        <language-key>ServerName</language-key>
+        <language-des>server</language-des>
+
+        <language-key>OK</language-key>
+        <language-des>ตกลง</language-des>      
+        
+        <language-key>ServerPort</language-key>
+        <language-des>ServerPort</language-des>
+
+        <language-key>Set_Server</language-key>
+        <language-des>ติดต่อ server</language-des> 
+        
+        <language-key>Head_Description</language-key>
+        <language-des>ชื่อภาพ</language-des>
+
+        <language-key>Description</language-key>
+        <language-des>คำอธิบาย</language-des> 
+
+        <language-key>Cancel</language-key>
+        <language-des>ยกเลิก</language-des>
+
+        <language-key>HeadDescriptionNotNULL</language-key>
+        <language-des>กรุณากรอกชื่อภาพด้วยครับ</language-des>
+        
+        <language-key>DescriptionNotNULL</language-key>
+        <language-des>กรุณากรอกคำอธิบายด้วยครับ</language-des>
+
+        <language-key>Warning</language-key>
+        <language-des>เตือน</language-des>
+
+        <language-key>Error_FileServer</language-key>
+        <language-des>เกิดปัญหาการติดต่อของ Server ที่เก็บไฟล์รูปภาพ</language-des>
+
+        <language-key>DescriptionNotNULL</language-key>
+        <language-des>กรุณากรอกคำอธิบายด้วยครับ</language-des>
+
+        <language-key>DescriptionNotNULL</language-key>
+        <language-des>กรุณากรอกคำอธิบายด้วยครับ</language-des>
+----
+        <language-key>Edit</language-key>
+        <language-des>แก้ไข</language-des>
+        
+        <language-key>SearchPatient</language-key>
+        <language-des>ค้นหาผู้ป่วยด้วยเลข HN</language-des>
+        
+        <language-key>Exit</language-key>
+        <language-des>ออก</language-des>
+        
+        <language-key>View</language-key>
+        <language-des>ออก</language-des>
+        
+        <language-key>PanelLeft</language-key>
+        <language-des>แสดงข้อมูลด้านซ้าย</language-des>
+        
+        <language-key>PanelRight</language-key>
+        <language-des>แสดงข้อมูลด้านขวา</language-des>
+        
+        <language-key>ShowDetail</language-key>
+        <language-des>แสดงข้อมูล</language-des>
+        
+        <language-key>ShowVitalSign</language-key>
+        <language-des>แสดงข้อมูลการตรวจร่างกาย</language-des>
+        
+        <language-key>ShowOrderItem</language-key>
+        <language-des>แสดงข้อมูลการตรวจรักษา</language-des>
+        
+        <language-key>ShowDrug</language-key>
+        <language-des>แสดงรายการตรวจรักษาที่เป็นยา</language-des>
+        
+        <language-key>ShowLab</language-key>
+        <language-des>แสดงรายการตรวจรักษาที่เป็นแลบ</language-des>
+        
+        <language-key>ShowXRay</language-key>
+        <language-des>แสดงรายการตรวจรักษาที่เป็นเอ็กซเรย์</language-des>
+        
+        <language-key>ShowService</language-key>
+        <language-des>แสดงรายการตรวจรักษาที่เป็นค่าบริการ</language-des>
+        
+        <language-key>ShowSupply</language-key>
+        <language-des>แสดงรายการตรวจรักษาที่เป็นเวชภัณฑ์</language-des>
+        
+        <language-key>ShowDiagICD</language-key>
+        <language-des>แสดงข้อมูลการลงรหัส</language-des>
+        
+        <language-key>ListVisit</language-key>
+        <language-des>แสดงรายการ Visit</language-des>
+        
+        <language-key>Search</language-key>
+        <language-des>ค้นหา</language-des>
+        
+        <language-key>Close</language-key>
+        <language-des>ปิด</language-des>
+        
+        <language-key>HN</language-key>
+        <language-des>เลข HN</language-des>
+        
+        <language-key>ShowDiag</language-key>
+        <language-des>แสดงข้อมูลการวินิจฉัยและลงรหัส</language-des>
+        
+        <language-key>ShowICD10</language-key>
+        <language-des>แสดงข้อมูลการลงรหัสโรค</language-des>
+        
+        <language-key>ShowICD9</language-key>
+        <language-des>แสดงข้อมูลการลงรหัสหัตถการ</language-des>
+        
+        <language-key>DataPatient</language-key>
+        <language-des>ข้อมูลผู้ป่วย</language-des>
+        
+        <language-key>Patient</language-key>
+        <language-des>ข้อมูลผู้ป่วย</language-des>
+        
+        <language-key>Name</language-key>
+        <language-des>ชื่อ</language-des>
+        
+        <language-key>Age</language-key>
+        <language-des>อายุ</language-des>
+        
+        <language-key>Address</language-key>
+        <language-des>ที่อยู่</language-des>
+        
+        <language-key>Patient_Payment</language-key>
+        <language-des>สิทธิประจำตัวผู้ป่วย</language-des>
+        
+        <language-key>Patient_Drug_Allergy</language-key>
+        <language-des>รายการยาที่แพ้</language-des>
+        
+        <language-key>ListPatientDrugAllergy</language-key>
+        <language-des>รายการยาที่แพ้</language-des>
+        
+        <language-key>Payment</language-key>
+        <language-des>สิทธิ</language-des>
+        
+        <language-key>Exp_Date</language-key>
+        <language-des>วันที่หมดอายุ</language-des>
+        
+        <language-key>Hospital_Main</language-key>
+        <language-des>สถานพยาบาลหลัก</language-des>
+        
+        <language-key>Hospital_Sub</language-key>
+        <language-des>สถานพยาบาลรอง</language-des>
+        
+        <language-key>DataVitalSign</language-key>
+        <language-des>ข้อมูลการตรวจร่างกาย</language-des>
+        
+        <language-key>Date-Time</language-key>
+        <language-des>วันที่-เวลา</language-des>
+        
+        <language-key>Respiration</language-key>
+        <language-des></language-des>
+        
+        <language-key>DoctorDx</language-key>
+        <language-des>การวินิจจากแพทย์</language-des>
+        
+        <language-key>StatDx</language-key>
+        <language-des>การวินิจฉัยจากเวชสถิติ</language-des>
+        
+        <language-key>Code</language-key>
+        <language-des>รหัส</language-des>
+        
+        <language-key>Description</language-key>
+        <language-des>รายละเอียด</language-des>
+        
+        <language-key>Type</language-key>
+        <language-des>ประเภท</language-des>
+        
+        <language-key>Doctor</language-key>
+        <language-des>แพทย์</language-des>
+        
+        <language-key>Clinic</language-key>
+        <language-des>คลินิก</language-des>
+        
+        <language-key>DataCompare</language-key>
+        <language-des>เปรียบเทียบข้อมูล</language-des>
+        
+        <language-key>OrderItem</language-key>
+        <language-des>รายการตรวจรักษา</language-des>
+        
+        <language-key>OrderItemDrug</language-key>
+        <language-des>รายการยา</language-des>
+        
+        <language-key>OrderItemLab</language-key>
+        <language-des>รายการ LAB</language-des>
+        
+        <language-key>OrderItemXRay</language-key>
+        <language-des>รายการ XRay</language-des>
+        
+        <language-key>DiagICD</language-key>
+        <language-des>การวินิจฉัย</language-des>
+        
+        <language-key>DiagICD10</language-key>
+        <language-des>การลงรหัสโรค</language-des>
+        
+        <language-key>DiagICD9</language-key>
+        <language-des>การลงรหัสหัตถการ</language-des>
+        
+        <language-key>Weight</language-key>
+        <language-des>น้ำหนัก</language-des>
+        
+        <language-key>Height</language-key>
+        <language-des>ส่วนสูง</language-des>
+        
+        <language-key>Temperature</language-key>
+        <language-des>อุณหภูมิ</language-des>
+        
+        <language-key>Pressure</language-key>
+        <language-des>ความดัน</language-des>
+        
+        <language-key>Pulse</language-key>
+        <language-des>ชีพจร</language-des>
+        
+        <language-key>Respiration</language-key>
+        <language-des>การหายใจ</language-des>
+        
+        <language-key>ShowImage</language-key>
+        <language-des>แสดงรูป</language-des>
+        
+        <language-key>VisitDate</language-key>
+        <language-des>ของวันที่</language-des>
+        
+        <language-key>OrderItemIsNotReported</language-key>
+        <language-des>รายการที่ยังไม่รายงานผล</language-des>
+        
+        <language-key>NotReported</language-key>
+        <language-des>ยังไม่รายงาน</language-des>
+        
+        <language-key>NotSpecify</language-key>
+        <language-des>ไม่ระบุ</language-des>
+        
+        <language-key>DisContinueOrderItem</language-key>
+        <language-des>ยกเลิกรายการ</language-des>
+        
+        <language-key>Abort</language-key>
+        <language-des>ถูกยกเลิก</language-des>
+        
+        <language-key>SelectDataPatient</language-key>
+        <language-des>กรุณาเลือกข้อมูลของผู้ป่วยด้วย</language-des>
+        
+        <language-key>Help</language-key>
+        <language-des>วิธีใช้</language-des>
+        
+        <language-key>About_EMR</language-key>
+        <language-des>เกี่ยวกับ EMR</language-des>
+        
+        <language-key>HelpContent</language-key>
+        <language-des>วิธีใช้ EMR</language-des>
+        
+        <language-key>Duplicate_FileName</language-key>
+        <language-des>มีชื่อที่ซ้ำกันควรตั้งเป็นชื่ออื่น</language-des>
+        
+        <language-key>NoHaveDataInVitalSign</language-key>
+        <language-des>ไม่มีข้อมูลที่จะให้แสดง</language-des>
+        
+        <language-key>ToolsFileServer</language-key>
+        <language-des>เครื่องมือรูปภาพ</language-des>
+        
+        <language-key>ConfigImageServer</language-key>
+        <language-des>กำหนดติดต่อ Image Server</language-des>
+        
+        <language-key>No_Show_Again</language-key>
+        <language-des>ไม่ต้องแสดงหน้านี้อีก</language-des>
+        
+        <language-key>HeadDescriptionLimitCharecter</language-key>
+        <language-des>ตัวอักษรไม่เกิน 255 ตัวอักษร</language-des>       
+
+        <language-key>Active</language-key>
+        <language-des>active</language-des> 
+        
+        <language-key>Group</language-key>
+        <language-des>กลุ่มรูปภาพ</language-des>    
+        
+        <language-key>Add</language-key>
+        <language-des>เพิ่ม</language-des>       
+        
+        <language-key>Load</language-key>
+        <language-des>load</language-des>
+        
+        <language-key>Upload</language-key>
+        <language-des>upload</language-des>
+        
+        <language-key>BMI</language-key>
+        <language-des>BMI</language-des>
+        
+        <language-key>Nutrition</language-key>
+        <language-des>Nutrition</language-des>
+        
+        <language-key>ShowGraph</language-key>
+        <language-des>แสดงกราฟ</language-des>
+        
+        <language-key>ShowVisitSlip</language-key>
+        <language-des>แสดงรายการตรวจรักษา</language-des>
+        
+        <language-key>MessageShowVisitSlipError</language-key>
+        <language-des>การแสดงผลข้อมูลเกิดความผิดพลาด</language-des>
+        
+        <language-key>PleaseSelectGroup</language-key>
+        <language-des>ยังไม่ได้เลือก หรือสร้าง กลุ่ม</language-des>
+        
+        <language-key>GroupSame</language-key>
+        <language-des>ชื่อกลุ่มซ้ำกับที่มีอยู่</language-des>
+       
+        <language-key>Save</language-key>
+        <language-des>บันทึก</language-des>
+        
+        <language-key>SaveFile</language-key>
+        <language-des>บันทึกไฟล์รูป</language-des>      
+  
+        <language-key>NameGroup</language-key>
+        <language-des>ชื่อกลุ่มรูปภาพ</language-des>               
+
+		<language-key>การแสดงรายการตรวจรักษาจะแสดงได้เพียงรายการ Visit ที่เลือกล่าสุดเท่านั้น</language-key>
+        <language-des>การแสดงรายการตรวจรักษาจะแสดงได้เพียงรายการ Visit ที่เลือกล่าสุดเท่านั้น</language-des>              
+          
+</root>

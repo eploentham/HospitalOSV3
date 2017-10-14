@@ -1,0 +1,267 @@
+<html>
+
+<head>
+<title>5</title>
+
+<style type="text/css">
+<!--
+.style1 {font-family: Tahoma}
+.style3 {font-size: 16px; font-weight: bold; }
+.style4 {
+	font-size: 20px;
+	font-weight: bold;
+}
+-->
+</style>
+</head>
+
+<body lang=EN-US style='tab-interval:36.0pt'>
+
+<div class=Section1 style1>
+
+<h3 class="style4">5. <span lang=TH>การ กรอก คำสั่ง </span>SQL</h3>
+
+<p class=MsoNormal><span lang=TH><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>สำหรับการ
+กรอกคำสั่ง </span>SQL <span lang=TH>สามารถพิมพ์ คำสั่ง </span>SQL <span
+lang=TH>ที่เป็นมาตรฐาน หรือจะใช้ </span>function <span lang=TH>ที่ </span>PostgreSQL
+<span lang=TH>สามารถใช้งานได้เท่านั้น จะไม่สามารถพิมพ์คำสั่ง หรือ </span>function
+<span lang=TH>ที่มาจาก </span>Access <span lang=TH>หรือ ตัวสร้าง </span>SQL <span
+lang=TH>อื่นๆที่ไม่ใช้มาจาก </span>PostgreSQL <span lang=TH>ได้เลย จะแบบ
+รูปแบบการ กรอกคำสั่ง </span>SQL <span lang=TH>ออกเป็น </span>2 <span lang=TH>แบบ</span></p>
+<p class=MsoNormal><strong>5.1.<span lang=TH> คำสั่ง </span>SQL
+    <span lang=TH>ที่ใช้ต้องค้นหาด้วยวันที่</span></strong></p>
+<p class=MsoNormal><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+lang=TH>สำหรับคำสั่งรูปแบบนี้ จะต้องทำเครื่องหมายถูก หน้าต้องการค้นหาด้วยวันที่
+ทุกครั้ง ดังรูปที่ </span>10 </p>
+
+<p class=MsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img width=553 height=461 src="./setupchapter05EditSQL.files/image002.gif"
+  v:shapes="_x0000_s1031 _x0000_s1030 _x0000_s1026 _x0000_s1027 _x0000_s1028 _x0000_s1029">
+<o:p></o:p>
+</p>
+<b><span lang=TH>รูปที่ </span>10</b> <span lang=TH>แสดงการ
+กรอกคำสั่ง </span>SQL <span lang=TH>ค้นหาด้วยวันที่</span>
+<p class=MsoNormal><span lang=TH><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>ในการ
+กรอกคำสั่ง </span>SQL <span lang=TH>ที่ต้องการค้นหาด้วยวันที่ จะต้องใช้
+เครื่องหมาย </span>“?” <span lang=TH>แทน การรับข้อมูลเข้ามา
+และจะต้องมีจำนวนเป็น เลข คู่ เท่านั้น ตัวอย่าง ตารางที่ </span>1</p>
+
+<table border=1 cellspacing=0 cellpadding=0 style='border-collapse:collapse;
+ border:none;mso-border-alt:solid windowtext .5pt;mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>
+ <tr>
+  <td width=55 valign=top style='width:41.4pt;border:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><b><span lang=TH>บรรทัด</span><o:p></o:p></b></p>
+  </td>
+  <td width=513 valign=top style='width:384.7pt;border:solid windowtext .5pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><b><span lang=TH>คำสั่ง
+  </span>SQL<o:p></o:p></b></p>
+  </td>
+ </tr>
+ <tr style='height:17.25pt'>
+  <td width=55 valign=top style='width:41.4pt;border:solid windowtext .5pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:17.25pt'>
+  <p class=MsoNormal align=center style='text-align:center'>1</p>
+  </td>
+  <td width=513 valign=top style='width:384.7pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext .5pt;border-right:solid windowtext .5pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:17.25pt'>
+  <p class=MsoNormal>select visit_hn,visit_vn,visit_begin_visit_time </p>
+  </td>
+ </tr>
+ <tr style='height:15.0pt'>
+  <td width=55 valign=top style='width:41.4pt;border:solid windowtext .5pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:15.0pt'>
+  <p class=MsoNormal align=center style='text-align:center'>2</p>
+  </td>
+  <td width=513 valign=top style='width:384.7pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext .5pt;border-right:solid windowtext .5pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
+  <p class=MsoNormal>from t_visit </p>
+  </td>
+ </tr>
+ <tr style='height:12.75pt'>
+  <td width=55 valign=top style='width:41.4pt;border:solid windowtext .5pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:12.75pt'>
+  <p class=MsoNormal align=center style='text-align:center'>3</p>
+  </td>
+  <td width=513 valign=top style='width:384.7pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext .5pt;border-right:solid windowtext .5pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:12.75pt'>
+  <p class=MsoNormal>where<span style="mso-spacerun: yes">&nbsp; </span></p>
+  </td>
+ </tr>
+ <tr style='height:20.25pt'>
+  <td width=55 valign=top style='width:41.4pt;border:solid windowtext .5pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:20.25pt'>
+  <p class=MsoNormal align=center style='text-align:center'>4</p>
+  </td>
+  <td width=513 valign=top style='width:384.7pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext .5pt;border-right:solid windowtext .5pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:20.25pt'>
+  <p class=MsoNormal>substring(visit_begin_visit_time,0,11) &gt;= ? and<span
+  style="mso-spacerun: yes">&nbsp; </span></p>
+  </td>
+ </tr>
+ <tr style='height:16.75pt'>
+  <td width=55 valign=top style='width:41.4pt;border:solid windowtext .5pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:16.75pt'>
+  <p class=MsoNormal align=center style='text-align:center'>5</p>
+  </td>
+  <td width=513 valign=top style='width:384.7pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext .5pt;border-right:solid windowtext .5pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:16.75pt'>
+  <p class=MsoNormal>substring(visit_begin_visit_time,0,11) &lt;=<span
+  style="mso-spacerun: yes">&nbsp; </span>?;</p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal><b><span lang=TH>ตารางที่ </span>1</b> <span lang=TH>แสดง
+คำสั่ง </span>SQL <span lang=TH>ที่ต้องการค้นหาด้วยวันที่</span></p>
+
+<p class="style3"><span lang=TH>คำอธิบาย</span></p>
+
+<p class=MsoNormal><b><span lang=TH>บรรทัดที่ </span>1</b> <span lang=TH>เป็นการเลือก
+</span>Field <span lang=TH>ที่ต้องการจะแสดงบนหัวตาราง จะประกอบด้วย </span>visit_hn,
+visit_vn <span lang=TH>และ </span>visit_begin_visit_time <span lang=TH>ซึ่งทั้ง
+</span>3 field <span lang=TH>นี้ จะต้องมีอยู่จริงในตาราง </span>t_visit</p>
+
+<p class=MsoNormal><b><span lang=TH>บรรทัดที่ </span>2</b> <span lang=TH>เป็นการกำหนดให้
+ใช้ตาราง </span>t_visit</p>
+
+<p class=MsoNormal><b><span lang=TH>บรรทัดที่ </span>3</b> <span lang=TH>เป็นการระบุว่ายังมีเงื่อนไขให้ตรวจสอบตาม
+หลัง </span>where</p>
+
+<p class=MsoNormal><b><span lang=TH>บรรทัดที่ </span>4-5</b> <span lang=TH>จะเป็นเงื่อนไขที่ใช้ในการตรวจสอบ
+โดยจะทำการตรวจสอบ ข้อมูล ว่าอยู่ในช่วงวันที่ ที่กำหนดหรือไม่ โดยจะใช้ </span>function
+<span lang=TH>ของ </span>postgreSQL <span lang=TH>ที่ชื่อ </span>substring <span
+lang=TH>จะทำการตัดข้อมูลของ </span>Field<span style="mso-spacerun: yes">&nbsp;
+</span><span lang=TH>ที่ชื่อว่า </span>visit_begin_visit_time <span lang=TH>จะเอาเฉพาะตัวอักษรที่
+</span>1-11 <span lang=TH>มาแสดงใช้งานเท่านั้น และจะใช้เครื่องหมาย </span>?(<span
+lang=TH>บรรทัดที่ </span>4) <span lang=TH>บอกวันที่เริ่มต้น และ เครื่องหมาย </span>?
+<span lang=TH>(บรรทัดที่ </span>5) <span lang=TH>บอกวันที่สิ้นสุด
+ในการกำหนดรูปแบบนี้ห้ามสลับกันโดยเด็ดขาดเพราะโปรแกรมจะเริ่มค้นหาจากวันที่เริ่มค้นหาเสมอ</span></p>
+<p class=MsoNormal><strong>5.2. <span lang=TH>คำสั่ง </span>SQL
+    <span lang=TH>ที่ไม่ต้องค้นหาด้วยวันที่</span></strong></p>
+<p class=MsoNormal style='text-indent:36.0pt'><span lang=TH>สำหรับคำสั่งรูปแบบนี้
+จะต้องเอาเครื่องหมายถูก หน้าต้องการค้นหาด้วยวันที่ ออกทุกครั้ง ดังรูปที่ </span>11</p>
+
+<p class=MsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img width=553 height=461
+   src="./setupchapter05EditSQL.files/image004.jpg" v:shapes="_x0000_s1032">
+<p class=MsoNormal><b><span lang=TH>รูปที่ </span>11</b> <span lang=TH>แสดงการ กรอกคำสั่ง </span>SQL
+    <span lang=TH>ที่ไม่ต้องการค้นหาด้วยวันที</span>
+    </p>
+<p class=MsoNormal style='text-indent:36.0pt'><span lang=TH>ในการ กรอกคำสั่ง </span>SQL
+<span lang=TH>ที่ไม่ต้องการค้นหาด้วยวันที่ ห้ามใช้เครื่องหมาย </span>“?” <span
+lang=TH>โดยเด็ดขาด ตัวอย่าง ตารางที่ </span>2</p>
+
+<p class=MsoNormal style='text-indent:36.0pt'><![if !supportEmptyParas]>&nbsp;</p>
+
+<table border=1 cellspacing=0 cellpadding=0 style='border-collapse:collapse;
+ border:none;mso-border-alt:solid windowtext .5pt;mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>
+ <tr>
+  <td width=55 valign=top style='width:41.4pt;border:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><b><span lang=TH>บรรทัด</span><o:p></o:p></b></p>
+  </td>
+  <td width=513 valign=top style='width:384.7pt;border:solid windowtext .5pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><b><span lang=TH>คำสั่ง
+  </span>SQL<o:p></o:p></b></p>
+  </td>
+ </tr>
+ <tr style='height:17.25pt'>
+  <td width=55 valign=top style='width:41.4pt;border:solid windowtext .5pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:17.25pt'>
+  <p class=MsoNormal align=center style='text-align:center'>1</p>
+  </td>
+  <td width=513 valign=top style='width:384.7pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext .5pt;border-right:solid windowtext .5pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:17.25pt'>
+  <p class=MsoNormal>select * </p>
+  </td>
+ </tr>
+ <tr style='height:15.0pt'>
+  <td width=55 valign=top style='width:41.4pt;border:solid windowtext .5pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:15.0pt'>
+  <p class=MsoNormal align=center style='text-align:center'>2</p>
+  </td>
+  <td width=513 valign=top style='width:384.7pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext .5pt;border-right:solid windowtext .5pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
+  <p class=MsoNormal>from t_patient</p>
+  </td>
+ </tr>
+ <tr style='height:12.75pt'>
+  <td width=55 valign=top style='width:41.4pt;border:solid windowtext .5pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:12.75pt'>
+  <p class=MsoNormal align=center style='text-align:center'>3</p>
+  </td>
+  <td width=513 valign=top style='width:384.7pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext .5pt;border-right:solid windowtext .5pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:12.75pt'>
+  <p class=MsoNormal>where<span style="mso-spacerun: yes">&nbsp; </span></p>
+  </td>
+ </tr>
+ <tr style='height:20.25pt'>
+  <td width=55 valign=top style='width:41.4pt;border:solid windowtext .5pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:20.25pt'>
+  <p class=MsoNormal align=center style='text-align:center'>4</p>
+  </td>
+  <td width=513 valign=top style='width:384.7pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext .5pt;border-right:solid windowtext .5pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:20.25pt'>
+  <p class=MsoNormal>patient_hn = ‘000000001’;</p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal><b><span lang=TH>ตารางที่ </span>2</b> <span lang=TH>แสดง
+คำสั่ง </span>SQL <span lang=TH>ที่ไม่ต้องการค้นหาด้วยวันที่</span></p>
+
+<p class="style3"><span lang=TH>คำอธิบาย</span></p>
+
+<p class=MsoNormal><b><span lang=TH>บรรทัดที่ </span>1</b> <span lang=TH>เป็นการเลือก
+</span>Field <span lang=TH>ที่ต้องการจะแสดงบนหัวตาราง ในที่นี้ใช้เครื่องหมาย </span>*
+<span lang=TH>หมายความว่าให้แสดง </span>field <span lang=TH>ทั้งหมดที่มีอยู่ในตาราง</span></p>
+
+<p class=MsoNormal><b><span lang=TH>บรรทัดที่ </span>2</b> <span lang=TH>เป็นการกำหนดให้
+ใช้ตาราง </span>t_patient</p>
+
+<p class=MsoNormal><b><span lang=TH>บรรทัดที่ </span>3</b> <span lang=TH>เป็นการระบุว่ายังมีเงื่อนไขให้ตรวจสอบตาม
+หลัง </span>where</p>
+
+<p class=MsoNormal><b><span lang=TH>บรรทัดที่ </span>4 </b><span lang=TH>เป็นเงื่อนไขที่
+ที่ระบุให้แสดงถ้าเงื่อนไขเป็นจริง โดยระบุว่า </span>patient_hn <span lang=TH>จะต้องเป็น
+</span>000000001 <span lang=TH>เท่านั้น </span></p>
+
+<p class=MsoNormal><span lang=TH>ห้ามใช้ เครื่องหมาย </span>“ <span lang=TH>โดยเด็ดขาด
+เพราะโปรแกรมจะไม่รับ เครื่องหมายนี้ ให้ใช้ เครื่องหมาย </span>‘ <span lang=TH>และห้ามใช้คำสั่งดังนี้
+</span>insert, delete, update, alter <span lang=TH>และ </span>drop</p>
+
+<p class=MsoNormal><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></p>
+
+</div>
+
+</body>
+
+</html>

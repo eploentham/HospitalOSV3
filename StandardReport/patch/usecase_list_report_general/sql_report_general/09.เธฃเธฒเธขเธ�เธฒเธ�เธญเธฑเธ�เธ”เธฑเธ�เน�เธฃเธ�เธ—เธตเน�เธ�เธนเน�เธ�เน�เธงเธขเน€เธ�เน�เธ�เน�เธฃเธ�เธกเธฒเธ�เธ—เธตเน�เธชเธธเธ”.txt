@@ -1,0 +1,21 @@
+-- ทั่วไป (อันดับโรคที่ผู้ป่วยเป็นโรคมากที่สุด)
+SELECT 
+	b_icd10.icd10_number AS code
+	, b_icd10.icd10_description AS Description
+	, Count(t_visit.t_visit_id) AS CountVisit 
+FROM 
+	(t_visit INNER JOIN t_diag_icd10 
+		ON t_visit.t_visit_id = t_diag_icd10.diag_icd10_vn) 
+	INNER JOIN b_icd10 
+		ON t_diag_icd10.diag_icd10_number = b_icd10.icd10_number 
+WHERE
+	(t_visit.f_visit_status_id <> '4') 
+	AND (t_visit.f_visit_type_id = '0') 
+	AND t_diag_icd10.diag_icd10_active = '1'
+	AND (substring(visit_financial_discharge_time,0,11) 
+		Between '2549-01-01' And '2549-01-31') 
+GROUP BY 
+	b_icd10.icd10_number 
+	, b_icd10.icd10_description 
+ORDER BY
+	CountVisit DESC LIMIT 10

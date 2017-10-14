@@ -1,0 +1,1 @@
+/* * UpdateStatus.java * * Created on 31 ?????? 2546, 19:14 ?. */package com.hosv3.utility.connection;/** *  * @not deprecated ?????????????????????? com.hospital_os.usecase.connection.UpdateStatus */public interface UpdateStatus extends com.hospital_os.usecase.connection.UpdateStatus{    }

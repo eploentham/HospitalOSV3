@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="Untitled_report_1"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="date_to" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date_from" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT distinct
+case when length(t_health_village.village_moo) = 1 then '0' || t_health_village.village_moo
+                       else t_health_village.village_moo  end AS หมู่
+,t_health_village.village_name AS ชื่อหมู่บ้าน
+,t_health_home.health_home_house as บ้านเลขที่
+,f_patient_prefix.patient_prefix_description ||'' || t_health_family.patient_name ||' ' || t_health_family.patient_last_name as "ชื่อ-สกุล"
+
+,case when substring(t_visit.visit_begin_visit_time,6,2)  = '01'
+            then (t_diag_icd10.diag_icd10_number)
+            else NULL
+end as "ม.ค"
+,case when substring(t_visit.visit_begin_visit_time,6,2)  = '02'
+            then (t_diag_icd10.diag_icd10_number)
+            else NULL
+end as  "ก.พ"
+,case when substring(t_visit.visit_begin_visit_time,6,2)  = '03'
+            then (t_diag_icd10.diag_icd10_number)
+            else NULL
+end as "มี.ค"
+,case when substring(t_visit.visit_begin_visit_time,6,2)  = '04'
+            then (t_diag_icd10.diag_icd10_number)
+            else NULL
+end as "เม.ย"
+,case when substring(t_visit.visit_begin_visit_time,6,2)  = '05'
+            then (t_diag_icd10.diag_icd10_number)
+            else NULL
+end as "พ.ค"
+,case when substring(t_visit.visit_begin_visit_time,6,2)  = '06'
+            then (t_diag_icd10.diag_icd10_number)
+            else NULL
+end as "มิ.ย"
+,case when substring(t_visit.visit_begin_visit_time,6,2)  = '07'
+            then (t_diag_icd10.diag_icd10_number)
+            else NULL
+end as "ก.ค"
+,case when substring(t_visit.visit_begin_visit_time,6,2)  = '08'
+            then (t_diag_icd10.diag_icd10_number)
+            else NULL
+end as "ส.ค"
+,case when substring(t_visit.visit_begin_visit_time,6,2)  = '09'
+            then (t_diag_icd10.diag_icd10_number)
+            else NULL
+end as "ก.ย"
+,case when substring(t_visit.visit_begin_visit_time,6,2)  = '10'
+            then (t_diag_icd10.diag_icd10_number)
+            else NULL
+end as "ต.ค"
+,case when substring(t_visit.visit_begin_visit_time,6,2)  = '11'
+            then (t_diag_icd10.diag_icd10_number)
+            else NULL
+end as "พ.ย"
+,case when substring(t_visit.visit_begin_visit_time,6,2)  = '12'
+            then (t_diag_icd10.diag_icd10_number)
+            else NULL
+end as "ธ.ค"
+
+FROM
+t_diag_icd10 
+INNER JOIN t_visit ON (public.t_visit.t_visit_id = public.t_diag_icd10.diag_icd10_vn)
+INNER JOIN t_patient ON t_patient.t_patient_id = t_visit.t_patient_id
+        INNER JOIN t_health_family  ON t_patient.t_health_family_id = t_health_family.t_health_family_id  
+        INNER JOIN t_health_home  ON t_health_family.t_health_home_id = t_health_home.t_health_home_id  
+        INNER JOIN t_health_village  ON (t_health_home.t_health_village_id = t_health_village.t_health_village_id )
+        INNER JOIN f_patient_prefix ON t_health_family.f_prefix_id = f_patient_prefix.f_patient_prefix_id
+
+WHERE 
+t_diag_icd10.diag_icd10_active = '1'
+and t_visit.f_visit_status_id <> '4'
+and substring(t_visit.visit_begin_visit_time,1,4) = '2552'
+GROUP BY 
+t_health_village.village_moo
+,t_health_village.village_name
+,t_diag_icd10.diag_icd10_number
+,t_health_home.health_home_house
+,t_visit.visit_begin_visit_time
+,f_patient_prefix.patient_prefix_description,t_health_family.patient_name,t_health_family.patient_last_name]]></queryString>
+
+	<field name="หมู่" class="java.lang.String"/>
+	<field name="ชื่อหมู่บ้าน" class="java.lang.String"/>
+	<field name="บ้านเลขที่" class="java.lang.String"/>
+	<field name="ชื่อ-สกุล" class="java.lang.String"/>
+	<field name="ม.ค" class="java.lang.String"/>
+	<field name="ก.พ" class="java.lang.String"/>
+	<field name="มี.ค" class="java.lang.String"/>
+	<field name="เม.ย" class="java.lang.String"/>
+	<field name="พ.ค" class="java.lang.String"/>
+	<field name="มิ.ย" class="java.lang.String"/>
+	<field name="ก.ค" class="java.lang.String"/>
+	<field name="ส.ค" class="java.lang.String"/>
+	<field name="ก.ย" class="java.lang.String"/>
+	<field name="ต.ค" class="java.lang.String"/>
+	<field name="พ.ย" class="java.lang.String"/>
+	<field name="ธ.ค" class="java.lang.String"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="30"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="100"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="30"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<lastPageFooter>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</lastPageFooter>
+		<summary>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

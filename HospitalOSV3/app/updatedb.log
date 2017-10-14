@@ -1,0 +1,403 @@
+
+
+public void executeSQLFile database/updateV3_9_10.sql
+
+
+public void executeSQLFile database/updateV3_99.sql
+ ALTER TABLE t_patient_payment ADD COLUMN checkplan_date character varying(10) DEFAULT '';
+	ERROR: column "checkplan_date" of relation "t_patient_payment" already exists
+
+
+public void executeSQLFile database/updateV3_9_10.sql
+ CREATE TABLE b_ws_nhso_right (         b_ws_nhso_right_id varchar(255), 	ws_nhso_right_des varchar(255),         ws_nhso_right_active varchar(255), PRIMARY KEY (b_ws_nhso_right_id) );
+	ERROR: relation "b_ws_nhso_right" already exists
+ CREATE TABLE b_map_nhso_plan (         b_map_nhso_plan_id varchar(255), 	b_ws_nhso_right_id varchar(255), 	b_contract_plans_id varchar(255), PRIMARY KEY (b_map_nhso_plan_id) );
+	ERROR: relation "b_map_nhso_plan" already exists
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937599', 'สิทธิประกันสังคม', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937600', 'สิทธิข้าราชการ/สิทธิรัฐวิสาหกิจ', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937601', 'สถานะคนไทยในต่างประเทศ', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937602', 'สิทธิประกันสังคมและสิทธิข้าราชการ/สิทธิรัฐวิสาหกิจ', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937603', 'สิทธิข้าราชการการเมือง/นักการเมือง', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937604', 'ไม่มีสิทธิใดๆ', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937605', 'สถานะคนต่างด้าว', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937606', 'สิทธิครูเอกชน/สิทธิข้าราชการการเมือง', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937607', 'สิทธิทหารผ่านศึก', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937608', 'สิทธิประกันสังคม/สิทธิครูเอกชน/สิทธิข้าราชการ', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937609', 'สิทธิทหารผ่านศึก/สิทธิข้าราชการ', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937610', 'สิทธิประกันสังคม/สิทธิทหารผ่านศึก', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937611', 'สิทธิทหารผ่านศึก/สิทธิข้าราชการการเมือง', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937612', 'สิทธิประกันสังคม/สิทธิทหารผ่านศึก/สิทธิข้าราชการ', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937613', 'สิทธิประกันสังคม/สิทธิทหารผ่านศึก/สิทธิข้าราชการการเมือง', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937614', 'สิทธิครูเอกชน', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937615', 'สิทธิประกันสังคม/สิทธิครูเอกชน', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937616', 'สิทธิครูเอกชน/สิทธิข้าราชการ', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937617', 'สิทธิประกันสังคม/สิทธิครูเอกชน/สิทธิข้าราชการการเมือง', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937618', 'สิทธิครูเอกชน/สิทธิทหารผ่านศึก', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937619', 'สิทธิครูเอกชน/สิทธิประกันสังคม/สิทธิทหารผ่านศึก', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937620', 'สิทธิครูเอกชน/สิทธิทหารผ่านศึก/สิทธิข้าราชการ', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937621', 'สิทธิครูเอกชน/สิทธิทหารผ่านศึก/สิทธิข้าราชการการเมือง', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937622', 'สิทธิประกันสังคมและสิทธิข้าราชการการเมือง/นักการเมือง', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937623', 'สิทธิประกันสังคมกรณีทุพลภาพ', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937624', 'สิทธิประกันสังคมทุพลภาพและสิทธิข้าราชการ/สิทธิรัฐวิสาหกิจ', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937625', 'สิทธิครูเอกชน/สิทธิประกันสังคมแบบทุพพลภาพ', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937626', 'สิทธิประกันสังคมแบบทุพพลภาพ/สิทธิทหารผ่านศึก/สิทธิข้าราชการ', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937627', 'สิทธิประกันสังคมแบบทุพพลภาพ/สิทธิทหารผ่านศึก', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937628', 'อาสาสมัครมาเลเรีย', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937629', 'บุคคลในครอบครัวของอาสาสมัครมาเลเรีย', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937630', 'ช่างสุขภัณฑ์หมู่บ้าน', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937631', 'บุคคลในครอบครัวของช่างสุขภัณฑ์หมู่บ้าน', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937632', 'ผู้บริหารโรงเรียนและครูของโรงเรียนเอกชนที่สอนศาสนาอิสลาม', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937633', 'บุคคลในครอบครัวของผู้บริหารโรงเรียนและครูของโรงเรียนเอกชนที่สอนศาสนาอิสลาม', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937634', 'ผู้ได้รับพระราชทานเหรียญราชการชายแดน', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937635', 'ผู้ได้รับพระราชทานเหรียญพิทักษ์เสรีชน', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937636', 'สมาชิกผู้บริจาคโลหิตของสภากาชาดไทย ซึ่งบริจาคโลหิตตั้งแต่ 18 ครั้ง ขึ้นไป', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937637', 'หมออาสาหมู่บ้านตามโครงการของกระทรวงกลาโหม', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937638', 'อาสาสมัครคุมประพฤ กระทรวงยุติธรรม', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937639', 'เด็กอายุไม่เกิน 12 ปีบริบูรณ์', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937640', 'ผู้มีรายได้น้อย', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937641', 'นักเรียนมัธยมศึกษาตอนต้น', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937642', 'บุคคลผู้พิการ', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937643', 'ทหารผ่านศึกชั้น 1-3 ที่มีบัตรทหารผ่านศึก รวมถึงผู้ได้รับพระราชทาน', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937644', 'พระภิกษุ สามเณร และแม่ชีในพระพุทธศาสนาซึ่งหนังสือสุทธิรับรอง', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937645', 'ผู้มีอายุเกิน 60 ปีบริบูรณ์', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937646', 'อื่น ๆ', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937647', 'ว่างงาน', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937648', 'บุคคลในครอบครัวทหารผ่านศึกชั้น 1-3 รวมถึงผู้ได้รับพระราชทานเหรียญสมรภูมิ', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937649', 'ผู้นำชุมชน (กำนัน สารวัตรกำนัน ผู้ใหญ่บ้าน ผู้ช่วยผู้ใหญ่บ้านและแพทย์ประจำตำบล)', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937650', 'อาสาสมัครสาธารณสุขประจำหมู่บ้าน (อสม.) อาสาสมัครสาธารณสุข', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937651', 'ผู้นำศาสนาอิสลาม ( อิหม่าม คอเต็บ บิหลั่น)', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937652', 'บุคคลในครอบครัวของผู้นำศาสนาอิสลามของผู้นำศาสนาอิสลาม ( อิหม่าม คอเต็บ บิหลั่น)', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937653', 'ผู้ได้รับพระราชทานเหรียญงานสงครามในทวีปยุโรป', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937654', 'บุคคลในครอบครัวของผู้ได้รับพระราชทานเหรียญงานสงครามในทวีปยุโรป', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937655', 'บุคคลในครอบครัวของผู้นำชุมชน (กำนัน สารวัตรกำนัน ผู้ใหญ่บ้าน ผู้ช่วยผู้ใหญ่บ้านและแพทย์ประจำตำบล)', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937656', 'บุคคลในครอบครัวของอาสาสมัครสาธารณสุขประจำหมู่บ้าน (อสม.) อาสาสมัครสาธารณสุข', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937657', 'ช่วงอายุ 12-59 ปี', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937658', 'ทหารเกณฑ์', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937659', 'ผู้ที่พำนักในสถานที่ภายใต้การดูแลของส่วนราชการ(ราชทัณฑ์)', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937660', 'ผู้ที่พำนักในสถานที่ภายใต้การดูแลของส่วนราชการ    (สถานพินิจและสถานสงเคราะห์)', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937661', 'นักเรียนทหาร', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937662', 'ทหารผ่นศึกชั้น 4 ที่มีบัตรทหารผ่านศึก รวมถึงผู้ได้รับพระราชทาน', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937663', 'บุคคลในครอบครัวทหารผ่านศึกชั้น 4 รวมถึงผู้ได้รับพระราชทานเหรียญสมรภูมิ', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937664', 'ทหารพราน', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937665', 'บุคคลในครอบครัวทหารของกรมสวัสดิการ 3 เหล่าทัพ', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937666', 'บุคคลในครอบครัวทหารผ่านศึกนอกประจำการบัตรชั้นที่ 1', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+ INSERT INTO b_ws_nhso_right (b_ws_nhso_right_id, ws_nhso_right_des, ws_nhso_right_active) VALUES ('232204863937667', 'บุคคลที่มีปัญหาสถานะและสิทธิ', '1');
+	ERROR: duplicate key violates unique constraint "b_ws_nhso_right_pkey"
+
+
+public void executeSQLFile database/updateV3_92.sql
+ INSERT INTO b_icd10 (b_icd10_id, icd10_number, icd10_description, icd10_other_description, icd10_generate_code, active53) VALUES ('A91.0', 'A91.0','Dengue hemorrhagic fever  with shock', '', '', '1');
+	ERROR: duplicate key value violates unique constraint "b_icd10_pkey"
+ INSERT INTO b_icd10 (b_icd10_id, icd10_number, icd10_description, icd10_other_description, icd10_generate_code, active53) VALUES ('J09', 'J09','Influenza due to identified avian influenza virus', '', '', '1');
+	ERROR: duplicate key value violates unique constraint "b_icd10_pkey"
+
+
+public void executeSQLFile database/updateV3_93.sql
+ ALTER TABLE "r_rp1253_adpcode" 	ADD CONSTRAINT "id_pkey" 	PRIMARY KEY ("id");
+	ERROR: multiple primary keys for table "r_rp1253_adpcode" are not allowed
+ 	 ALTER TABLE t_visit ADD COLUMN visit_record_date_time varchar(255) NULL;
+	ERROR: column "visit_record_date_time" of relation "t_visit" already exists
+ ALTER TABLE t_visit ADD COLUMN visit_record_staff varchar(255) NULL;
+	ERROR: column "visit_record_staff" of relation "t_visit" already exists
+ ALTER TABLE t_visit ADD COLUMN visit_financial_record_date_time varchar(255) NULL;
+	ERROR: column "visit_financial_record_date_time" of relation "t_visit" already exists
+ ALTER TABLE t_visit ADD COLUMN visit_financial_record_staff varchar(255) NULL;
+	ERROR: column "visit_financial_record_staff" of relation "t_visit" already exists
+ ALTER TABLE r_rp1853_drugcompany 	ADD CONSTRAINT "company_pkey" 	PRIMARY KEY ("company");
+	ERROR: multiple primary keys for table "r_rp1853_drugcompany" are not allowed
+ ALTER TABLE f_health_abnormal 	ADD CONSTRAINT "f_health_abnormal_id_pkey" 	PRIMARY KEY ("f_health_abnormal_id");
+	ERROR: multiple primary keys for table "f_health_abnormal" are not allowed
+ create table temp_occu as select * from f_patient_occupation ;
+	ERROR: relation "temp_occu" already exists
+ ALTER TABLE f_patient_occupation 	ADD CONSTRAINT "f_patient_occupation_id_pkey" 	PRIMARY KEY ("f_patient_occupation_id");
+	ERROR: multiple primary keys for table "f_patient_occupation" are not allowed
+ CREATE SEQUENCE s_health_version_seq;
+	ERROR: relation "s_health_version_seq" already exists
+ ALTER TABLE s_health_version ADD COLUMN  id int DEFAULT NEXTVAL('s_health_version_seq');
+	ERROR: column "id" of relation "s_health_version" already exists
+ ALTER TABLE ONLY s_health_version      ADD CONSTRAINT s_health_version_pkey PRIMARY KEY (id);
+	ERROR: multiple primary keys for table "s_health_version" are not allowed
+ CREATE SEQUENCE t_print_drug_sticker_seq; 
+	ERROR: relation "t_print_drug_sticker_seq" already exists
+ ALTER TABLE t_print_drug_sticker ADD COLUMN  id int DEFAULT NEXTVAL('t_print_drug_sticker_seq');
+	ERROR: column "id" of relation "t_print_drug_sticker" already exists
+ ALTER TABLE ONLY t_print_drug_sticker       ADD CONSTRAINT t_print_drug_sticker_pkey PRIMARY KEY (id);
+	ERROR: multiple primary keys for table "t_print_drug_sticker" are not allowed
+ CREATE SEQUENCE t_print_point_seq;
+	ERROR: relation "t_print_point_seq" already exists
+ ALTER TABLE t_print_point ADD COLUMN  id int DEFAULT NEXTVAL('t_print_point_seq');
+	ERROR: column "id" of relation "t_print_point" already exists
+ ALTER TABLE ONLY t_print_point       ADD CONSTRAINT t_print_point_pkey PRIMARY KEY (id);
+	ERROR: multiple primary keys for table "t_print_point" are not allowed
+ CREATE SEQUENCE t_transfer_group_file_patient_seq;
+	ERROR: relation "t_transfer_group_file_patient_seq" already exists
+ ALTER TABLE t_transfer_group_file_patient ADD COLUMN  id int DEFAULT NEXTVAL('t_transfer_group_file_patient_seq');
+	ERROR: column "id" of relation "t_transfer_group_file_patient" already exists
+ ALTER TABLE ONLY t_transfer_group_file_patient       ADD CONSTRAINT t_transfer_group_file_patient_pkey PRIMARY KEY (id);
+	ERROR: multiple primary keys for table "t_transfer_group_file_patient" are not allowed
+ CREATE SEQUENCE s_script_update_log_seq;
+	ERROR: relation "s_script_update_log_seq" already exists
+ ALTER TABLE s_script_update_log ADD COLUMN  id int DEFAULT NEXTVAL('s_script_update_log_seq');
+	ERROR: column "id" of relation "s_script_update_log" already exists
+ ALTER TABLE ONLY s_script_update_log       ADD CONSTRAINT s_script_update_log_pkey PRIMARY KEY (id);
+	ERROR: multiple primary keys for table "s_script_update_log" are not allowed
+ ALTER TABLE t_diag_icd10 ADD primary_report varchar(255);
+	ERROR: column "primary_report" of relation "t_diag_icd10" already exists
+ ALTER TABLE t_diag_icd9 ADD primary_report varchar(255);
+	ERROR: column "primary_report" of relation "t_diag_icd9" already exists
+ CREATE TABLE t_hospitalos_log (         t_hospitalos_log_id varchar(255),         hospitalos_log_object_id varchar(255),         hospitalos_log_object_note varchar(255),         hospitalos_log_table_name varchar(255),         hospitalos_log_uc_name varchar(255),         hospitalos_log_ip_address varchar(255),         hospitalos_log_record_staff varchar(255),         hospitalos_log_record_date_time varchar(255),         hospitalos_log_status varchar(255), PRIMARY KEY (t_hospitalos_log_id) );
+	ERROR: relation "t_hospitalos_log" already exists
+
+
+public void executeSQLFile database/updateV3_94.sql
+
+
+public void executeSQLFile database/updateV3_95.sql
+
+
+public void executeSQLFile database/updateV3_96.sql
+
+
+public void executeSQLFile database/updateV3_97.sql
+
+
+public void executeSQLFile database/updateV3_98.sql
+
+
+public void executeSQLFile database/updateV3_99.sql
+
+
+public void executeSQLFile database/updateV3_9_10.sql
+
+
+public void executeSQLFile database/updateV3_9_11.sql
+ CREATE TABLE f_nhso_main_inscl ( f_nhso_main_inscl_id varchar(255) NOT NULL , nhso_main_inscl_name varchar(255) , nhso_main_seq varchar(255) , nhso_main_right_id varchar(255) , nhso_main_right_name varchar(255) , nhso_main_right_order varchar(255) , nhso_main_right_main varchar(255) , nhso_main_right_desc varchar(255) , nhso_main_used varchar(255) , PRIMARY KEY (f_nhso_main_inscl_id));
+	ERROR: relation "f_nhso_main_inscl" already exists
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('1', 'UCS', 'สิทธิประกันสุขภาพถ้วนหน้า(UCS)', '1', 'UCS', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('2', 'WEL', 'สิทธิประกันสุขภาพถ้วนหน้า ประเภทมีสิทธิย่อย(WEL)', '2', 'WEL', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('3', 'SSS', 'สิทธิประกันสังคม', '3', 'SSS', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('4', 'OFC', 'สิทธิข้าราชการ/สิทธิรัฐวิสาหกิจ', '4', 'OFC', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('5', 'FRG', 'สถานะคนไทยในต่างประเทศ', '5', 'FRG', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('12', 'SOF', 'สิทธิประกันสังคมและสิทธิข้าราชการ/สิทธิรัฐวิสาหกิจ', '12', 'SOF', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('13', 'BFC', 'สิทธิข้าราชการการเมือง/นักการเมือง', '13', 'BFC', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('14', '', 'ไม่มีสิทธิใดๆ', '14', '', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('20', 'NRD', 'สถานะคนต่างด้าว', '20', 'NRD', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('21', 'PBF', 'สิทธิครูเอกชน/สิทธิข้าราชการการเมือง', '21', 'PBF', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('22', 'VET', 'สิทธิทหารผ่านศึก', '22', 'VET', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('23', 'PSO', 'สิทธิประกันสังคม/สิทธิครูเอกชน/สิทธิข้าราชการ', '23', 'PSO', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('24', 'VOF', 'สิทธิทหารผ่านศึก/สิทธิข้าราชการ', '24', 'VOF', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('25', 'VSS', 'สิทธิประกันสังคม/สิทธิทหารผ่านศึก', '25', 'VSS', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('26', 'VBF', 'สิทธิทหารผ่านศึก/สิทธิข้าราชการการเมือง', '26', 'VBF', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('27', 'VSO', 'สิทธิประกันสังคม/สิทธิทหารผ่านศึก/สิทธิข้าราชการ', '27', 'VSO', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('28', 'VSB', 'สิทธิประกันสังคม/สิทธิทหารผ่านศึก/สิทธิข้าราชการการเมือง', '28', 'VSB', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('29', 'PVT', 'สิทธิครูเอกชน', '29', 'PVT', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('30', 'PSS', 'สิทธิประกันสังคม/สิทธิครูเอกชน', '30', 'PSS', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('31', 'POF', 'สิทธิครูเอกชน/สิทธิข้าราชการ', '31', 'POF', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('32', 'PSB', 'สิทธิประกันสังคม/สิทธิครูเอกชน/สิทธิข้าราชการการเมือง', '32', 'PSB', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('33', 'VPT', 'สิทธิครูเอกชน/สิทธิทหารผ่านศึก', '33', 'VPT', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('34', 'VPS', 'สิทธิครูเอกชน/สิทธิประกันสังคม/สิทธิทหารผ่านศึก', '34', 'VPS', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('35', 'VPO', 'สิทธิครูเอกชน/สิทธิทหารผ่านศึก/สิทธิข้าราชการ', '35', 'VPO', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('36', 'VPB', 'สิทธิครูเอกชน/สิทธิทหารผ่านศึก/สิทธิข้าราชการการเมือง', '36', 'VPB', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('37', 'SBF', 'สิทธิประกันสังคมและสิทธิข้าราชการการเมือง/นักการเมือง', '37', 'SBF', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('38', 'SSI', 'สิทธิประกันสังคมกรณีทุพลภาพ', '38', 'SSI', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('39', 'SIF', 'สิทธิประกันสังคมทุพลภาพและสิทธิข้าราชการ/สิทธิรัฐวิสาหกิจ', '39', 'SIF', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('41', 'PSI', 'สิทธิครูเอกชน/สิทธิประกันสังคมแบบทุพพลภาพ', '41', 'PSI', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('42', 'VIO', 'สิทธิประกันสังคมแบบทุพพลภาพ/สิทธิทหารผ่านศึก/สิทธิข้าราชการ', '42', 'VIO', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('43', 'VSI', 'สิทธิประกันสังคมแบบทุพพลภาพ/สิทธิทหารผ่านศึก', '43', 'VSI', '', 'Y', NULL, NULL);
+	ERROR: duplicate key value violates unique constraint "f_nhso_main_inscl_pkey"
+ CREATE TABLE f_nhso_sub_inscl (nhso_sub_inscl_seq varchar(255) , nhso_sub_inscl_id varchar(255) NOT NULL , nhso_sub_inscl_name varchar(255) , nhso_sub_inscl_dateexp varchar(255) , nhso_sub_main_inscl varchar(255) , PRIMARY KEY (nhso_sub_inscl_id));
+	ERROR: relation "f_nhso_sub_inscl" already exists
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('1', '60', 'อาสาสมัครมาเลเรีย', 'ตามวันหมดอายุของบัตรประจำตัว', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('2', '61', 'บุคคลในครอบครัวของอาสาสมัครมาเลเรีย', 'ตามวันหมดอายุของเจ้าของบัตรประจำตัว', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('3', '62', 'ช่างสุขภัณฑ์หมู่บ้าน', 'ตามวันหมดอายุของบัตรประจำตัว', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('4', '63', 'บุคคลในครอบครัวของช่างสุขภัณฑ์หมู่บ้าน', 'ตามวันหมดอายุของเจ้าของบัตรประจำตัว', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('5', '64', 'ผู้บริหารโรงเรียนและครูของโรงเรียนเอกชนที่สอนศาสนาอิสลาม', 'ตามวาระที่รับมอบหมาย', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('6', '65', 'บุคคลในครอบครัวของผู้บริหารโรงเรียนและครูของโรงเรียนเอกชนที่สอนศาสนาอิสลาม', 'ตามวันหมดอายุของเจ้าของบัตรประจำตัว', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('7', '66', 'ผู้ได้รับพระราชทานเหรียญราชการชายแดน', 'Noexp', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('8', '67', 'ผู้ได้รับพระราชทานเหรียญพิทักษ์เสรีชน', 'Noexp', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('9', '68', 'สมาชิกผู้บริจาคโลหิตของสภากาชาดไทย ซึ่งบริจาคโลหิตตั้งแต่ 18 ครั้ง ขึ้นไป', 'Noexp', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('10', '69', 'หมออาสาหมู่บ้านตามโครงการของกระทรวงกลาโหม', 'Noexp', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('11', '70', 'อาสาสมัครคุมประพฤ กระทรวงยุติธรรม', 'ตามวาระที่ได้รับมอบหมาย', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('12', '71', 'เด็กอายุไม่เกิน 12 ปีบริบูรณ์', 'ณ วันที่ ครบ 12 ปีบริบูรณ์', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('13', '72', 'ผู้มีรายได้น้อย', '3 ปี ', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('14', '73', 'นักเรียนมัธยมศึกษาตอนต้น', '3 ปี ', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('15', '74', 'บุคคลผู้พิการ', 'Noexp', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('16', '75', 'ทหารผ่านศึกชั้น 1-3 ที่มีบัตรทหารผ่านศึก รวมถึงผู้ได้รับพระราชทาน', 'Noexp', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('17', '76', 'พระภิกษุ สามเณร และแม่ชีในพระพุทธศาสนาซึ่งหนังสือสุทธิรับรอง', 'ตามสถานะภาพที่ปรากฎ', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('18', '77', 'ผู้มีอายุเกิน 60 ปีบริบูรณ์', 'Noexp', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('19', '78', 'อื่น ๆ', '1 ปี', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('20', '79', 'ว่างงาน', '1 ปี', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('21', '80', 'บุคคลในครอบครัวทหารผ่านศึกชั้น 1-3 รวมถึงผู้ได้รับพระราชทานเหรียญสมรภูมิ', 'Noexp', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('22', '81', 'ผู้นำชุมชน (กำนัน สารวัตรกำนัน ผู้ใหญ่บ้าน ผู้ช่วยผู้ใหญ่บ้านและแพทย์ประจำตำบล)', 'ตามวาระที่ได้รับมอบหมาย', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('23', '82', 'อาสาสมัครสาธารณสุขประจำหมู่บ้าน (อสม.) อาสาสมัครสาธารณสุข', 'ตามวันหมดอายุของบัตรประจำตัว', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('24', '83', 'ผู้นำศาสนาอิสลาม ( อิหม่าม คอเต็บ บิหลั่น)', 'ตามวันหมดอายุของบัตรประจำตัว', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('25', '84', 'บุคคลในครอบครัวของผู้นำศาสนาอิสลามของผู้นำศาสนาอิสลาม ( อิหม่าม คอเต็บ บิหลั่น)', 'ตามวันหมดอายุของเจ้าของบัตรประจำตัว', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('26', '85', 'ผู้ได้รับพระราชทานเหรียญงานสงครามในทวีปยุโรป', 'ตามวันหมดอายุของบัตรประจำตัว', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('27', '86', 'บุคคลในครอบครัวของผู้ได้รับพระราชทานเหรียญงานสงครามในทวีปยุโรป', 'ตามวันหมดอายุของเจ้าของบัตรประจำตัว', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('28', '87', 'บุคคลในครอบครัวของผู้นำชุมชน (กำนัน สารวัตรกำนัน ผู้ใหญ่บ้าน ผู้ช่วยผู้ใหญ่บ้านและแพทย์ประจำตำบล)', 'ตามวันหมดอายุของเจ้าของบัตรประจำตัว', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('29', '88', 'บุคคลในครอบครัวของอาสาสมัครสาธารณสุขประจำหมู่บ้าน (อสม.) อาสาสมัครสาธารณสุข', 'ตามวันหมดอายุของเจ้าของบัตรประจำตัว', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('30', '89', 'ช่วงอายุ 12-59 ปี', 'ระหว่างช่วงอายุ 12 - 59 ปี', 'UCS');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('31', '90', 'ทหารเกณฑ์', 'ตามวันที่ปลดประจำการ', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('32', '91', 'ผู้ที่พำนักในสถานที่ภายใต้การดูแลของส่วนราชการ(ราชทัณฑ์)', 'ตามวันที่พ้นโทษ', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('33', '92', 'ผู้ที่พำนักในสถานที่ภายใต้การดูแลของส่วนราชการ (สถานพินิจและสถานสงเคราะห์)', 'ตามช่วงเวลาที่อยู่ในความดูแล', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('34', '93', 'นักเรียนทหาร', 'ตามวันที่จบการศึกษา', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('35', '94', 'ทหารผ่นศึกชั้น 4 ที่มีบัตรทหารผ่านศึก รวมถึงผู้ได้รับพระราชทาน', 'Noexp', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('36', '95', 'บุคคลในครอบครัวทหารผ่านศึกชั้น 4 รวมถึงผู้ได้รับพระราชทานเหรียญสมรภูมิ', 'Noexp', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('37', '96', 'ทหารพราน', 'ตามวันหมดอายุของบัตรประจำตัว', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('38', 'PN', 'ผู้รับเบี้ยหวัดบำนาญ', 'NoExp', 'OFC');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('42', 'O1', 'สิทธิเบิกกรมบัญชีกลาง(ข้าราชการ)', '', 'OFC');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('43', 'O2', 'สิทธิเบิกกรมบัญชีกลาง(ลูกจ้างประจำ)', '', 'OFC');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('44', 'O3', 'สิทธิเบิกกรมบัญชีกลาง(ผู้รับเบี้ยหวัดบำนาญ)', '', 'OFC');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('45', 'O4', 'สิทธิเบิกกรมบัญชีกลาง(บุคคลในครอบครัว)', '', 'OFC');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('46', 'O5', 'สิทธิเบิกกรมบัญชีกลาง(บุคคลในครอบครัวผู้รับเบี้ยหวัดบำนาญ)', '', 'OFC');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('47', '97', 'บุคคลในครอบครัวทหารของกรมสวัสดิการ 3 เหล่าทัพ', 'Noexp', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+ INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('48', '98', 'บุคคลในครอบครัวทหารผ่านศึกนอกประจำการบัตรชั้นที่ 1', 'Noexp', 'WEL');
+	ERROR: duplicate key value violates unique constraint "f_nhso_sub_inscl_pkey"
+
+
+public void executeSQLFile database/updateV3_9_11.sql
+
+
+public void executeSQLFile database/updateV3_9_11.sql

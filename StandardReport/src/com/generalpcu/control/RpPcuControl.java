@@ -1,0 +1,71 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package com.generalpcu.control;
+ 
+import com.generalpcu.utility.ReportPcuName;
+import com.hospital_os.usecase.connection.ConnectionInf;
+import com.hosv3.control.HosControl;
+import com.hosv3.object.HosObject;
+import java.util.HashMap;
+import java.util.Map;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
+
+/**
+ *
+ * @author henbe
+ */
+public class RpPcuControl {
+    public ConnectionInf theConnectionInf;
+    private HosObject theHO;
+    public HosControl theHC;
+
+    public RpPcuControl(HosControl hc){
+        theHC = hc;
+        theConnectionInf = theHC.theConnectionInf;
+        theHO = theHC.theHO;
+    }
+    public void printReport(String datefrom, String dateto, int selectedRow)
+    {
+        if(selectedRow==-1)
+            return;
+        try {
+            theConnectionInf.open();
+            Map o = new HashMap();
+            o.put("date_from",datefrom);
+            o.put("date_to",dateto);
+            o.put("site_name",theHO.theSite.off_name + " " + theHO.theSite.address);
+            o.put("time",getDisplayDate(datefrom,dateto));
+            o.put("date_report",theHO.date_time);
+            o.put("date_query",getDisplayDate(datefrom,dateto));
+//            System.err.println("datefrom = " + datefrom);
+//            System.err.println("dateto = " + dateto);
+//            System.err.println(theHO.theSite.off_name + " " + theHO.theSite.address);
+//            System.err.println("getDisplayDate(datefrom,dateto) = " + getDisplayDate(datefrom,dateto));
+//            System.err.println("theHO.date_time = " + theHO.date_time);
+//            System.err.println("getDisplayDate(datefrom,dateto) = " + getDisplayDate(datefrom,dateto));
+            String filename = ReportPcuName.RP_PCU[selectedRow][2];
+            JasperReport jp = JasperCompileManager.compileReport("config/rp_pcu/" + filename);
+            JasperPrint jprint = JasperFillManager.fillReport(jp, o, theConnectionInf.getConnection());
+            JasperViewer.viewReport(jprint, false);
+            theConnectionInf.close();
+        }
+        catch (JRException ex) {
+            ex.printStackTrace();
+        }
+    }
+    public static String getDisplayDate(String datef,String datet){
+        String[] datefa = datef.split("-");
+        String[] dateta = datet.split("-");
+        StringBuffer sb = new StringBuffer(datefa[2]).append("/").append(datefa[1]).append("/").append(datefa[0]);
+        sb.append("-").append(dateta[2]).append("/").append(dateta[1]).append("/").append(dateta[0]);
+        return sb.toString();
+    }
+}

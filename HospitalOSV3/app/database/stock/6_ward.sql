@@ -1,0 +1,1 @@
+INSERT INTO imed.base_service_point (base_service_point_id, description, fix_service_point_type_id, fix_service_point_subtype_id, fix_service_point_group_id, ward_code, base_clinic_id, stock_id, max_waiting_time, setup_queue_column, sort_queue_type, active) VALUES ('2231139210212', 'หอผู้ป่วยใน', '', '', '', '', '', '', '', '', '', '1');

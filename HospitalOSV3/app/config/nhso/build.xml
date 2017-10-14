@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="../../" default="cronWS" name="StartRun">
+    <target name="cronWS">
+        <java classname="com.nhso_hosv3.NhsoModule" fork="true">
+            <classpath>
+                <pathelement location="./"/>
+                <fileset dir="lib">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+            <arg value="-cronWS"/>
+        </java>
+    </target >
+</project>

@@ -1,0 +1,195 @@
+CREATE TABLE f_nhso_main_inscl (
+f_nhso_main_inscl_id varchar(255) NOT NULL
+, nhso_main_inscl_name varchar(255)
+, nhso_main_seq varchar(255)
+, nhso_main_right_id varchar(255)
+, nhso_main_right_name varchar(255)
+, nhso_main_right_order varchar(255)
+, nhso_main_right_main varchar(255)
+, nhso_main_right_desc varchar(255)
+, nhso_main_used varchar(255)
+, PRIMARY KEY (f_nhso_main_inscl_id)
+);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('1', 'UCS', 'สิทธิประกันสุขภาพถ้วนหน้า(UCS)', '1', 'UCS', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('2', 'WEL', 'สิทธิประกันสุขภาพถ้วนหน้า ประเภทมีสิทธิย่อย(WEL)', '2', 'WEL', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('3', 'SSS', 'สิทธิประกันสังคม', '3', 'SSS', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('4', 'OFC', 'สิทธิข้าราชการ/สิทธิรัฐวิสาหกิจ', '4', 'OFC', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('5', 'FRG', 'สถานะคนไทยในต่างประเทศ', '5', 'FRG', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('12', 'SOF', 'สิทธิประกันสังคมและสิทธิข้าราชการ/สิทธิรัฐวิสาหกิจ', '12', 'SOF', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('13', 'BFC', 'สิทธิข้าราชการการเมือง/นักการเมือง', '13', 'BFC', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('14', '', 'ไม่มีสิทธิใดๆ', '14', '', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('20', 'NRD', 'สถานะคนต่างด้าว', '20', 'NRD', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('21', 'PBF', 'สิทธิครูเอกชน/สิทธิข้าราชการการเมือง', '21', 'PBF', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('22', 'VET', 'สิทธิทหารผ่านศึก', '22', 'VET', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('23', 'PSO', 'สิทธิประกันสังคม/สิทธิครูเอกชน/สิทธิข้าราชการ', '23', 'PSO', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('24', 'VOF', 'สิทธิทหารผ่านศึก/สิทธิข้าราชการ', '24', 'VOF', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('25', 'VSS', 'สิทธิประกันสังคม/สิทธิทหารผ่านศึก', '25', 'VSS', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('26', 'VBF', 'สิทธิทหารผ่านศึก/สิทธิข้าราชการการเมือง', '26', 'VBF', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('27', 'VSO', 'สิทธิประกันสังคม/สิทธิทหารผ่านศึก/สิทธิข้าราชการ', '27', 'VSO', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('28', 'VSB', 'สิทธิประกันสังคม/สิทธิทหารผ่านศึก/สิทธิข้าราชการการเมือง', '28', 'VSB', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('29', 'PVT', 'สิทธิครูเอกชน', '29', 'PVT', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('30', 'PSS', 'สิทธิประกันสังคม/สิทธิครูเอกชน', '30', 'PSS', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('31', 'POF', 'สิทธิครูเอกชน/สิทธิข้าราชการ', '31', 'POF', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('32', 'PSB', 'สิทธิประกันสังคม/สิทธิครูเอกชน/สิทธิข้าราชการการเมือง', '32', 'PSB', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('33', 'VPT', 'สิทธิครูเอกชน/สิทธิทหารผ่านศึก', '33', 'VPT', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('34', 'VPS', 'สิทธิครูเอกชน/สิทธิประกันสังคม/สิทธิทหารผ่านศึก', '34', 'VPS', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('35', 'VPO', 'สิทธิครูเอกชน/สิทธิทหารผ่านศึก/สิทธิข้าราชการ', '35', 'VPO', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('36', 'VPB', 'สิทธิครูเอกชน/สิทธิทหารผ่านศึก/สิทธิข้าราชการการเมือง', '36', 'VPB', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('37', 'SBF', 'สิทธิประกันสังคมและสิทธิข้าราชการการเมือง/นักการเมือง', '37', 'SBF', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('38', 'SSI', 'สิทธิประกันสังคมกรณีทุพลภาพ', '38', 'SSI', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('39', 'SIF', 'สิทธิประกันสังคมทุพลภาพและสิทธิข้าราชการ/สิทธิรัฐวิสาหกิจ', '39', 'SIF', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('41', 'PSI', 'สิทธิครูเอกชน/สิทธิประกันสังคมแบบทุพพลภาพ', '41', 'PSI', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('42', 'VIO', 'สิทธิประกันสังคมแบบทุพพลภาพ/สิทธิทหารผ่านศึก/สิทธิข้าราชการ', '42', 'VIO', '', 'Y', NULL, NULL);
+
+INSERT INTO f_nhso_main_inscl (f_nhso_main_inscl_id, nhso_main_inscl_name, nhso_main_seq, nhso_main_right_id, nhso_main_right_name, nhso_main_right_order, nhso_main_right_main, nhso_main_right_desc, nhso_main_used) VALUES ('43', 'VSI', 'สิทธิประกันสังคมแบบทุพพลภาพ/สิทธิทหารผ่านศึก', '43', 'VSI', '', 'Y', NULL, NULL);
+
+CREATE TABLE f_nhso_sub_inscl (
+nhso_sub_inscl_seq varchar(255)
+, nhso_sub_inscl_id varchar(255) NOT NULL
+, nhso_sub_inscl_name varchar(255)
+, nhso_sub_inscl_dateexp varchar(255)
+, nhso_sub_main_inscl varchar(255)
+, PRIMARY KEY (nhso_sub_inscl_id)
+);
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('1', '60', 'อาสาสมัครมาเลเรีย', 'ตามวันหมดอายุของบัตรประจำตัว', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('2', '61', 'บุคคลในครอบครัวของอาสาสมัครมาเลเรีย', 'ตามวันหมดอายุของเจ้าของบัตรประจำตัว', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('3', '62', 'ช่างสุขภัณฑ์หมู่บ้าน', 'ตามวันหมดอายุของบัตรประจำตัว', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('4', '63', 'บุคคลในครอบครัวของช่างสุขภัณฑ์หมู่บ้าน', 'ตามวันหมดอายุของเจ้าของบัตรประจำตัว', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('5', '64', 'ผู้บริหารโรงเรียนและครูของโรงเรียนเอกชนที่สอนศาสนาอิสลาม', 'ตามวาระที่รับมอบหมาย', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('6', '65', 'บุคคลในครอบครัวของผู้บริหารโรงเรียนและครูของโรงเรียนเอกชนที่สอนศาสนาอิสลาม', 'ตามวันหมดอายุของเจ้าของบัตรประจำตัว', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('7', '66', 'ผู้ได้รับพระราชทานเหรียญราชการชายแดน', 'Noexp', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('8', '67', 'ผู้ได้รับพระราชทานเหรียญพิทักษ์เสรีชน', 'Noexp', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('9', '68', 'สมาชิกผู้บริจาคโลหิตของสภากาชาดไทย ซึ่งบริจาคโลหิตตั้งแต่ 18 ครั้ง ขึ้นไป', 'Noexp', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('10', '69', 'หมออาสาหมู่บ้านตามโครงการของกระทรวงกลาโหม', 'Noexp', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('11', '70', 'อาสาสมัครคุมประพฤ กระทรวงยุติธรรม', 'ตามวาระที่ได้รับมอบหมาย', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('12', '71', 'เด็กอายุไม่เกิน 12 ปีบริบูรณ์', 'ณ วันที่ ครบ 12 ปีบริบูรณ์', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('13', '72', 'ผู้มีรายได้น้อย', '3 ปี ', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('14', '73', 'นักเรียนมัธยมศึกษาตอนต้น', '3 ปี ', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('15', '74', 'บุคคลผู้พิการ', 'Noexp', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('16', '75', 'ทหารผ่านศึกชั้น 1-3 ที่มีบัตรทหารผ่านศึก รวมถึงผู้ได้รับพระราชทาน', 'Noexp', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('17', '76', 'พระภิกษุ สามเณร และแม่ชีในพระพุทธศาสนาซึ่งหนังสือสุทธิรับรอง', 'ตามสถานะภาพที่ปรากฎ', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('18', '77', 'ผู้มีอายุเกิน 60 ปีบริบูรณ์', 'Noexp', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('19', '78', 'อื่น ๆ', '1 ปี', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('20', '79', 'ว่างงาน', '1 ปี', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('21', '80', 'บุคคลในครอบครัวทหารผ่านศึกชั้น 1-3 รวมถึงผู้ได้รับพระราชทานเหรียญสมรภูมิ', 'Noexp', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('22', '81', 'ผู้นำชุมชน (กำนัน สารวัตรกำนัน ผู้ใหญ่บ้าน ผู้ช่วยผู้ใหญ่บ้านและแพทย์ประจำตำบล)', 'ตามวาระที่ได้รับมอบหมาย', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('23', '82', 'อาสาสมัครสาธารณสุขประจำหมู่บ้าน (อสม.) อาสาสมัครสาธารณสุข', 'ตามวันหมดอายุของบัตรประจำตัว', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('24', '83', 'ผู้นำศาสนาอิสลาม ( อิหม่าม คอเต็บ บิหลั่น)', 'ตามวันหมดอายุของบัตรประจำตัว', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('25', '84', 'บุคคลในครอบครัวของผู้นำศาสนาอิสลามของผู้นำศาสนาอิสลาม ( อิหม่าม คอเต็บ บิหลั่น)', 'ตามวันหมดอายุของเจ้าของบัตรประจำตัว', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('26', '85', 'ผู้ได้รับพระราชทานเหรียญงานสงครามในทวีปยุโรป', 'ตามวันหมดอายุของบัตรประจำตัว', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('27', '86', 'บุคคลในครอบครัวของผู้ได้รับพระราชทานเหรียญงานสงครามในทวีปยุโรป', 'ตามวันหมดอายุของเจ้าของบัตรประจำตัว', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('28', '87', 'บุคคลในครอบครัวของผู้นำชุมชน (กำนัน สารวัตรกำนัน ผู้ใหญ่บ้าน ผู้ช่วยผู้ใหญ่บ้านและแพทย์ประจำตำบล)', 'ตามวันหมดอายุของเจ้าของบัตรประจำตัว', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('29', '88', 'บุคคลในครอบครัวของอาสาสมัครสาธารณสุขประจำหมู่บ้าน (อสม.) อาสาสมัครสาธารณสุข', 'ตามวันหมดอายุของเจ้าของบัตรประจำตัว', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('30', '89', 'ช่วงอายุ 12-59 ปี', 'ระหว่างช่วงอายุ 12 - 59 ปี', 'UCS');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('31', '90', 'ทหารเกณฑ์', 'ตามวันที่ปลดประจำการ', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('32', '91', 'ผู้ที่พำนักในสถานที่ภายใต้การดูแลของส่วนราชการ(ราชทัณฑ์)', 'ตามวันที่พ้นโทษ', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('33', '92', 'ผู้ที่พำนักในสถานที่ภายใต้การดูแลของส่วนราชการ (สถานพินิจและสถานสงเคราะห์)', 'ตามช่วงเวลาที่อยู่ในความดูแล', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('34', '93', 'นักเรียนทหาร', 'ตามวันที่จบการศึกษา', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('35', '94', 'ทหารผ่นศึกชั้น 4 ที่มีบัตรทหารผ่านศึก รวมถึงผู้ได้รับพระราชทาน', 'Noexp', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('36', '95', 'บุคคลในครอบครัวทหารผ่านศึกชั้น 4 รวมถึงผู้ได้รับพระราชทานเหรียญสมรภูมิ', 'Noexp', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('37', '96', 'ทหารพราน', 'ตามวันหมดอายุของบัตรประจำตัว', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('38', 'PN', 'ผู้รับเบี้ยหวัดบำนาญ', 'NoExp', 'OFC');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('42', 'O1', 'สิทธิเบิกกรมบัญชีกลาง(ข้าราชการ)', '', 'OFC');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('43', 'O2', 'สิทธิเบิกกรมบัญชีกลาง(ลูกจ้างประจำ)', '', 'OFC');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('44', 'O3', 'สิทธิเบิกกรมบัญชีกลาง(ผู้รับเบี้ยหวัดบำนาญ)', '', 'OFC');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('45', 'O4', 'สิทธิเบิกกรมบัญชีกลาง(บุคคลในครอบครัว)', '', 'OFC');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('46', 'O5', 'สิทธิเบิกกรมบัญชีกลาง(บุคคลในครอบครัวผู้รับเบี้ยหวัดบำนาญ)', '', 'OFC');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('47', '97', 'บุคคลในครอบครัวทหารของกรมสวัสดิการ 3 เหล่าทัพ', 'Noexp', 'WEL');
+
+INSERT INTO f_nhso_sub_inscl (nhso_sub_inscl_seq, nhso_sub_inscl_id, nhso_sub_inscl_name, nhso_sub_inscl_dateexp, nhso_sub_main_inscl) VALUES ('48', '98', 'บุคคลในครอบครัวทหารผ่านศึกนอกประจำการบัตรชั้นที่ 1', 'Noexp', 'WEL');
+
+CREATE TABLE b_map_nhso_sub_inscl (
+b_map_nhso_sub_inscl_id varchar(255) NOT NULL
+, f_nhso_sub_inscl_id varchar(255)
+, b_contract_plans_id varchar(255)
+, map_nhso_sub_inscl_type varchar(255)
+, PRIMARY KEY (b_map_nhso_sub_inscl_id)
+);
+
+CREATE TABLE b_map_nhso_main_inscl (
+b_map_nhso_main_inscl_id varchar(255) NOT NULL
+, f_nhso_main_inscl_id varchar(255)
+, b_contract_plans_id varchar(255)
+, map_nhso_main_inscl_type varchar(255)
+, PRIMARY KEY (b_map_nhso_main_inscl_id)
+);
+
+
+INSERT INTO s_version VALUES ('9701000000044', '44', 'Hospital OS, Community Edition', '3.9.11', '3.18.100311', '2554-03-11 15:28:00');
+
+INSERT INTO s_script_update_log VALUES ('hospitalOS','updateV3_9_11.sql',(select current_date) || ','|| (select current_time),'ปรับแก้สำหรับ hospitalOS3.9.11');
+

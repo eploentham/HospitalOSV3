@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="Untitled_report_1"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="date_to" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date_from" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[select 
+t_order.order_common_name as ชื่อยา
+,sum(order_qty) as จำนวนที่สั่ง
+,sum(order_qty * order_price) as มูลค่ารวม
+
+from t_patient
+inner join t_visit on t_patient.t_patient_id = t_visit.t_patient_id
+inner join t_order on t_visit.t_visit_id = t_order.t_visit_id
+left join f_sex on t_patient.f_sex_id = f_sex.f_sex_id
+where 
+ f_order_status_id <> '3'
+and f_visit_status_id <> '4'
+
+and substring(order_verify_date_time,1,10) between substring($P{date_from},1,10) and substring($P{date_to},1,10)
+
+and  
+(
+t_order.order_common_name LIKE 'ยาเพชรสังฆาต%' 
+or t_order.order_common_name LIKE 'ยาอมมะแว้ง%' 
+or t_order.order_common_name LIKE 'ยาแก้ไอมะแว้งน้ำเชื่อม%' 
+or t_order.order_common_name LIKE 'ยามะระขี้นก%'
+or t_order.order_common_name LIKE 'ยามะขามแขก%'
+or t_order.order_common_name LIKE 'พญายอ%'
+or t_order.order_common_name LIKE 'ชารางจืด%'
+or t_order.order_common_name LIKE 'ยาเถาวัลย์เปรียง%'
+or t_order.order_common_name LIKE 'ยาขมิ้นชัน%'
+or t_order.order_common_name LIKE 'ยาฟ้าทะลายโจร%'
+or t_order.order_common_name LIKE 'ครีมไพล%'
+or t_order.order_common_name LIKE 'ยาบอระเพ็ด%'
+or t_order.order_common_name LIKE 'ยาว่านชักมดลูก%'
+or t_order.order_common_name LIKE 'เจลว่านหางจรเข้%'
+----------------------
+or t_order.order_common_name LIKE 'กลีเซอรีน%' 
+or t_order.order_common_name LIKE 'พญายอ%' 
+or t_order.order_common_name LIKE 'ขมิ้นชันแคปซูล%'
+or t_order.order_common_name LIKE 'ครีมบัวบก%'
+or t_order.order_common_name LIKE '%พญายอ%'
+or t_order.order_common_name LIKE 'เจลพลูจีนอล%'
+or t_order.order_common_name LIKE 'ครีมไพลจีซาล%'
+or t_order.order_common_name LIKE 'เครื่องดื่มเห็ดหลินจือรสมะนาว%'
+or t_order.order_common_name LIKE 'เจลพริก%'
+or t_order.order_common_name LIKE 'เจลว่านหางจระเข้%'
+or t_order.order_common_name LIKE 'ยาเม็ดซิมิราฟ%'
+or t_order.order_common_name LIKE 'ฟ้าทะลายโจรแคปซูล%'
+or t_order.order_common_name LIKE 'ยาอมแก้ไอมะแว้ง%'
+-----------------------
+or t_order.order_common_name LIKE 'โลชั่นกันยุงตะไคร้หอม%'
+or t_order.order_common_name LIKE 'สเปรย์กันยังตะไคร้หอม%'
+or t_order.order_common_name LIKE 'เห็ดหลินจือสกัดชนิดผง%'
+or t_order.order_common_name LIKE 'โคไฟบรินแคปซูล%'
+or t_order.order_common_name LIKE 'ฟลาวาซอยแคปซูล%'
+or t_order.order_common_name LIKE 'ยาเม็ดเมมโอ-จี%'
+or t_order.order_common_name LIKE 'ยาอมมะแว้ง%'
+or t_order.order_common_name LIKE 'ยาชงชุมเห็ดเทศ%'
+or t_order.order_common_name LIKE 'ยาชงหญ้าหนวดแมว%'
+-----------------------
+or t_order.order_common_name LIKE 'อบสมุนไพร%'
+or t_order.order_common_name LIKE '%ประคบสมุนไพร%'
+or t_order.order_common_name LIKE '%ประคบเพื่อการรักษา%'
+)
+
+group by
+
+t_order.order_common_name]]></queryString>
+
+	<field name="ชื่อยา" class="java.lang.String"/>
+	<field name="จำนวนที่สั่ง" class="java.lang.Double"/>
+	<field name="มูลค่ารวม" class="java.lang.Double"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="30"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="100"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="30"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<lastPageFooter>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</lastPageFooter>
+		<summary>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

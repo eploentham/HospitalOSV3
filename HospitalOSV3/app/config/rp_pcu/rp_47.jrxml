@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="Untitled_report_1"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="date_to" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date_from" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[SELECT
+main.หมู่
+,main.หมู่บ้าน
+,main.บ้านเลขที่
+,main."ชื่อ-สกุล"
+,main.สถานภาพ
+,main.เลขบัตรประชาชน
+,main.วันเกิด ||'/'||main.เดือนเกิด||'/'||main.ปีเกิด as "วันเดือนปี เกิด"
+,case when (to_number(main.year,'999') is not null) and (to_number(main.month,'999') is not null) and (to_number(main.day,'9999') is null) then main.year ||'/'||main.month ||'/'||'0' 
+      when (to_number(main.year,'999') is not null) and (to_number(main.month,'999') is  null) and (to_number(main.day,'999') is not null) then main.year ||'/'||'0'||'/'||main.day 
+      when (to_number(main.year,'999') is not null) and (to_number(main.month,'999') is  null) and (to_number(main.day,'999') is null) then main.year ||'/'||'0'||'/'||'0'  
+      when (to_number(main.year,'999') is not null) and (to_number(main.month,'999') is not null) and (to_number(main.day,'999') is not null) then main.year ||'/'||main.month ||'/'||main.day else '' end as อายุปัจจุบัน
+,substring(main.วันที่บันทึกความดัน,9,2)||'/'||substring(main.วันที่บันทึกความดัน,6,2)||'/'||substring(main.วันที่บันทึกความดัน,1,4) as วันที่ตรวจ
+,case when (to_number(main.y2,'999') is not null) and (to_number(main.m2,'999') is not null) and (to_number(main.d2,'9999') is null) then main.y2 ||'/'||main.m2 ||'/'||'0' 
+      when (to_number(main.y2,'999') is not null) and (to_number(main.m2,'999') is  null) and (to_number(main.d2,'999') is not null) then main.y2 ||'/'||'0'||'/'||main.d2 
+      when (to_number(main.y2,'999') is not null) and (to_number(main.m2,'999') is  null) and (to_number(main.d2,'999') is null) then main.y2 ||'/'||'0'||'/'||'0'  
+      when (to_number(main.y2,'999') is not null) and (to_number(main.m2,'999') is not null) and (to_number(main.d2,'999') is not null) then main.y2 ||'/'||main.m2 ||'/'||main.d2 else '' end as อายุวันตรวจ
+,main.ความดัน
+
+,main."ปกติ-เสี่ยง-สูง"
+,main.รหัสโรค
+,main.plans as สิทธิ
+,main.cnumber as เลขที่สิทธิ
+FROM
+
+(SELECT
+ CASE WHEN length(t_health_village.village_moo) = 1 
+      THEN '0' || t_health_village.village_moo
+      ELSE t_health_village.village_moo  
+      END AS หมู่
+,t_health_village.village_name as หมู่บ้าน
+,t_health_home.health_home_house as บ้านเลขที่
+,f_patient_prefix.patient_prefix_description ||'' || t_health_family.patient_name ||' ' || t_health_family.patient_last_name as "ชื่อ-สกุล"
+,f_patient_marriage_status.patient_marriage_status_description as สถานภาพ
+,t_health_family.patient_pid as เลขบัตรประชาชน
+,substring(t_health_family.patient_birthday, 9, 2) as วันเกิด
+,substring(t_health_family.patient_birthday, 6, 2) as เดือนเกิด
+,substring(t_health_family.patient_birthday, 1, 4) as ปีเกิด
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(CURRENT_DATE, to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)year'), '999') end as year
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(CURRENT_DATE, to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)mons'), '999') end as month
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(CURRENT_DATE, to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)days'), '999') end as day
+
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(to_date(((to_number(substring(sub.date_record, 1, 4), '9999') -543) || substring(sub.date_record, 5, 6)), 'YYYY-MM-DD'), to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)year'), '999') end as y2
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(to_date(((to_number(substring(sub.date_record, 1, 4), '9999') -543) || substring(sub.date_record, 5, 6)), 'YYYY-MM-DD'), to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)mons'), '999') end as m2
+,  CASE WHEN t_health_family.patient_birthday <> '' then to_number(substring(' ' ||age(to_date(((to_number(substring(sub.date_record, 1, 4), '9999') -543) || substring(sub.date_record, 5, 6)), 'YYYY-MM-DD'), to_date(((to_number(substring(t_health_family.patient_birthday, 1, 4), '9999') -543) || substring(t_health_family.patient_birthday, 5, 6)), 'YYYY-MM-DD')) from '(...)days'), '999') end as d2
+,sub.presure as ความดัน
+,sub.record as วันที่บันทึกความดัน
+,case when ((to_number(substr(sub.presure,1,position('/' in sub.presure)-1),'9999.99') between 90 and 119))
+      then 'ปกติ'
+      when ((to_number(substr(sub.presure,1,position('/' in sub.presure)-1),'9999.99') < 90))
+      then 'ต่ำ'
+      when ((to_number(substr(sub.presure,1,position('/' in sub.presure)-1),'9999.99') between 120 and 139))
+      then 'เสี่ยง'
+      when ((to_number(substr(sub.presure,1,position('/' in sub.presure)-1),'9999.99') > 139 ))
+      then 'สูง'
+      else ''
+end as  "ปกติ-เสี่ยง-สูง"
+,t_diag_icd10.diag_icd10_number as รหัสโรค
+,b_contract_plans.contract_plans_description as plans
+,visit_payment_card_number as cnumber
+
+
+from   
+t_health_family  
+INNER JOIN t_health_home  ON t_health_family.t_health_home_id = t_health_home.t_health_home_id  
+INNER JOIN t_health_village ON t_health_home.t_health_village_id = t_health_village.t_health_village_id  
+INNER JOIN f_patient_marriage_status  ON f_patient_marriage_status.f_patient_marriage_status_id = t_health_family.f_patient_marriage_status_id 
+INNER JOIN f_patient_prefix ON t_health_family.f_prefix_id = f_patient_prefix.f_patient_prefix_id
+INNER JOIN t_patient ON t_patient.t_health_family_id = t_health_family.t_health_family_id
+INNER JOIN t_visit ON (t_patient.t_patient_id = t_visit.t_patient_id and f_visit_status_id <> '4')
+INNER JOIN t_visit_vital_sign ON (t_visit_vital_sign.t_visit_id = t_visit.t_visit_id and t_visit_vital_sign.visit_vital_sign_active = '1')
+INNER JOIN t_visit_payment ON (t_visit_payment.t_visit_id = t_visit.t_visit_id and visit_payment_active = '1' and visit_payment_priority = '0')
+INNER JOIN b_contract_plans ON b_contract_plans.b_contract_plans_id = t_visit_payment.b_contract_plans_id
+LEFT JOIN
+    (SELECT distinct
+            main.t_patient_id1 as t_patient_id
+            ,main.presure as presure
+            ,main.record_date2 as record
+            ,main.rc_date as date_record
+    FROM
+            ((select
+            t_visit_vital_sign.t_patient_id as t_patient_id1
+            ,max(substring(t_visit_vital_sign.record_date,1,10)) as record_date1
+            from
+            t_visit_vital_sign
+            group by
+            t_patient_id) as q1
+
+            inner join
+
+            (select t_visit_vital_sign.t_patient_id as t_patient_id2
+            ,t_visit_vital_sign.visit_vital_sign_blood_presure as presure
+            ,t_visit_vital_sign.record_date as rc_date
+            ,substring(t_visit_vital_sign.record_date,1,10) as record_date2
+                from t_visit_vital_sign
+                where t_visit_vital_sign.visit_vital_sign_blood_presure <> ''
+             ) as q2
+
+            ON
+            q1.t_patient_id1 = q2.t_patient_id2
+            and q1.record_date1 = q2.record_date2
+
+
+            ) as main) as sub
+ON sub.t_patient_id = t_visit_vital_sign.t_patient_id
+
+LEFT JOIN t_diag_icd10 ON (t_diag_icd10.diag_icd10_vn = t_visit.t_visit_id and f_diag_icd10_type_id = '1' and diag_icd10_active = '1')
+
+LEFT JOIN f_address as tambol ON t_health_home.health_home_tambon = tambol.f_address_id  
+LEFT JOIN f_address as amphur ON t_health_home.health_home_amphur = amphur.f_address_id  
+LEFT JOIN f_address ON t_health_home.health_home_changwat  = f_address.f_address_id  
+
+WHERE
+ ((to_number(substring(' ' || age(to_date('2552-01-01','YYYY-MM-DD')  
+    , to_date(t_health_family.patient_birthday,'YYYY-MM-DD')) from '(...)year'),'999') >= 35 )  
+    AND   (to_number(substring(' ' || age(to_date('2552-04-01','YYYY-MM-DD')  
+    , to_date(t_health_family.patient_birthday,'YYYY-MM-DD')) from '(...)year'),'999') <= 120 )) 
+AND substring(t_visit_vital_sign.record_date,1,10) between substring($P{date_from},1,10) and substring($P{date_to},1,10)
+group by   t_health_village.village_moo  
+,t_health_village.village_name  
+,t_health_family.patient_pid
+,f_patient_prefix.patient_prefix_description
+,t_health_family.patient_name
+,t_health_family.patient_last_name
+,f_patient_marriage_status.patient_marriage_status_description
+,  t_health_home.health_home_house 
+,t_health_village.village_moo
+,t_health_village.village_name
+,tambol.address_description
+,amphur.address_description
+,f_address.address_description
+,t_health_family.patient_birthday
+,sub.presure 
+,sub.record
+,t_diag_icd10.diag_icd10_number
+,t_visit.visit_begin_visit_time
+,sub.date_record
+,b_contract_plans.contract_plans_description
+,visit_payment_card_number
+ORDER BY
+หมู่) as main
+WHERE (main.รหัสโรค not like 'I10' or main.รหัสโรค is null or main.รหัสโรค = '')]]></queryString>
+
+	<field name="หมู่" class="java.lang.String"/>
+	<field name="หมู่บ้าน" class="java.lang.String"/>
+	<field name="บ้านเลขที่" class="java.lang.String"/>
+	<field name="ชื่อ-สกุล" class="java.lang.String"/>
+	<field name="สถานภาพ" class="java.lang.String"/>
+	<field name="เลขบัตรประชาชน" class="java.lang.String"/>
+	<field name="วันเดือนปี เกิด" class="java.lang.String"/>
+	<field name="อายุปัจจุบัน" class="java.lang.String"/>
+	<field name="วันที่ตรวจ" class="java.lang.String"/>
+	<field name="อายุวันตรวจ" class="java.lang.String"/>
+	<field name="ความดัน" class="java.lang.String"/>
+	<field name="ปกติ-เสี่ยง-สูง" class="java.lang.String"/>
+	<field name="รหัสโรค" class="java.lang.String"/>
+	<field name="สิทธิ" class="java.lang.String"/>
+	<field name="เลขที่สิทธิ" class="java.lang.String"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="30"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="100"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="30"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<lastPageFooter>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</lastPageFooter>
+		<summary>
+			<band height="50"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

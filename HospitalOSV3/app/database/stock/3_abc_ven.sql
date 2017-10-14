@@ -1,0 +1,9 @@
+INSERT INTO imed.abc_ven (abc_ven_id, fix_abc_id, fix_ven_id, range_of_day, range_re_order, range_max, range_min) VALUES ('AV', 'A', 'V', '15', '15', '60', '30');
+INSERT INTO imed.abc_ven (abc_ven_id, fix_abc_id, fix_ven_id, range_of_day, range_re_order, range_max, range_min) VALUES ('AE', 'A', 'E', '30', '30', '60', '30');
+INSERT INTO imed.abc_ven (abc_ven_id, fix_abc_id, fix_ven_id, range_of_day, range_re_order, range_max, range_min) VALUES ('AN', 'A', 'N', '45', '45', '60', '30');
+INSERT INTO imed.abc_ven (abc_ven_id, fix_abc_id, fix_ven_id, range_of_day, range_re_order, range_max, range_min) VALUES ('BV', 'B', 'V', '60', '60', '90', '30');
+INSERT INTO imed.abc_ven (abc_ven_id, fix_abc_id, fix_ven_id, range_of_day, range_re_order, range_max, range_min) VALUES ('BE', 'B', 'E', '75', '75', '90', '30');
+INSERT INTO imed.abc_ven (abc_ven_id, fix_abc_id, fix_ven_id, range_of_day, range_re_order, range_max, range_min) VALUES ('BN', 'B', 'N', '90', '90', '90', '30');
+INSERT INTO imed.abc_ven (abc_ven_id, fix_abc_id, fix_ven_id, range_of_day, range_re_order, range_max, range_min) VALUES ('CV', 'C', 'V', '105', '105', '120', '30');
+INSERT INTO imed.abc_ven (abc_ven_id, fix_abc_id, fix_ven_id, range_of_day, range_re_order, range_max, range_min) VALUES ('CE', 'C', 'E', '120', '120', '120', '30');
+INSERT INTO imed.abc_ven (abc_ven_id, fix_abc_id, fix_ven_id, range_of_day, range_re_order, range_max, range_min) VALUES ('CN', 'C', 'N', '135', '135', '120', '30');

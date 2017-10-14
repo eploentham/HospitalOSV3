@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE map
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/map_1_0.dtd">
+
+<map version="1.0">
+	<mapID target="toplevelfolder" url="gui/images/toplevel.gif" />
+	<mapID target="top" url="help18File/index.htm" />
+        <mapID target="intro" url="help18File/index.htm" />
+	<mapID target="start" url="help18File/index.htm" />
+
+
+        <mapID target="overview" url="help18File/index.htm" />
+            <mapID target="overview-1" url="help18File/chapter01Connection.htm" />
+            <mapID target="overview-2" url="help18File/chapter02SelectData.htm" />
+            <mapID target="overview-3" url="help18File/chapter03SelectDate.htm" />
+            <mapID target="overview-4" url="help18File/chapter04FormatType.htm" />
+            <mapID target="overview-5" url="help18File/chapter05SelectFolder.htm" />
+            <mapID target="overview-6" url="help18File/chapter06Exam.htm" />
+	
+        
+	
+     
+	
+</map>
