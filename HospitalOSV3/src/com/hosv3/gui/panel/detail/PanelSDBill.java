@@ -24,6 +24,12 @@ import java.util.Vector;
  *
  * @author  Administrator
  */
+/**
+ * 
+ * @author ekapop
+ * 60-10-15 1. เรื่อง แก้ไข กลุ่มใบเสร็จ ให้ออกตามแบบ บางนา
+ * Modify doc 2.
+ */
 public class PanelSDBill extends javax.swing.JPanel  implements PanelSetupImp  {
      Vector depPanelV = new Vector();
     LookupControl theLookupControl;
@@ -69,12 +75,18 @@ public class PanelSDBill extends javax.swing.JPanel  implements PanelSetupImp  {
         jLabel3 = new javax.swing.JLabel();
         jComboBoxBillGroup = new javax.swing.JComboBox();
         jCheckBox1 = new javax.swing.JCheckBox();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jTextFieldNameE = new javax.swing.JTextField();
+        jTextFieldItmCod = new javax.swing.JTextField();
+        jTextFieldItmAstCod = new javax.swing.JTextField();
 
         setLayout(new java.awt.GridBagLayout());
 
-        jPanel2.setMaximumSize(new java.awt.Dimension(300, 120));
-        jPanel2.setMinimumSize(new java.awt.Dimension(300, 120));
-        jPanel2.setPreferredSize(new java.awt.Dimension(300, 120));
+        jPanel2.setMaximumSize(new java.awt.Dimension(500, 320));
+        jPanel2.setMinimumSize(new java.awt.Dimension(500, 320));
+        jPanel2.setPreferredSize(new java.awt.Dimension(500, 320));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setFont(defaultFont1);
@@ -123,7 +135,7 @@ public class PanelSDBill extends javax.swing.JPanel  implements PanelSetupImp  {
         jLabel3.setText(bundle.getString("GROUP")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         jPanel2.add(jLabel3, gridBagConstraints);
@@ -134,7 +146,7 @@ public class PanelSDBill extends javax.swing.JPanel  implements PanelSetupImp  {
         jComboBoxBillGroup.setPreferredSize(new java.awt.Dimension(150, 24));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
         jPanel2.add(jComboBoxBillGroup, gridBagConstraints);
@@ -143,11 +155,63 @@ public class PanelSDBill extends javax.swing.JPanel  implements PanelSetupImp  {
         jCheckBox1.setText(bundle.getString("ACTIVE")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
         jPanel2.add(jCheckBox1, gridBagConstraints);
+
+        jLabel4.setText("name");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        jPanel2.add(jLabel4, gridBagConstraints);
+
+        jLabel5.setText("ItmCod");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        jPanel2.add(jLabel5, gridBagConstraints);
+
+        jLabel6.setText("ItmAstCod");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        jPanel2.add(jLabel6, gridBagConstraints);
+
+        jTextFieldNameE.setText("jTextField1");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        jPanel2.add(jTextFieldNameE, gridBagConstraints);
+
+        jTextFieldItmCod.setText("jTextField2");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        jPanel2.add(jTextFieldItmCod, gridBagConstraints);
+
+        jTextFieldItmAstCod.setText("jTextField3");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        jPanel2.add(jTextFieldItmAstCod, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -171,9 +235,15 @@ public class PanelSDBill extends javax.swing.JPanel  implements PanelSetupImp  {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextFieldCode;
+    private javax.swing.JTextField jTextFieldItmAstCod;
+    private javax.swing.JTextField jTextFieldItmCod;
     private javax.swing.JTextField jTextFieldName;
+    private javax.swing.JTextField jTextFieldNameE;
     // End of variables declaration//GEN-END:variables
 
     public void clearAll() {
@@ -253,6 +323,9 @@ public class PanelSDBill extends javax.swing.JPanel  implements PanelSetupImp  {
     public BillingGroupItem2 getTheBillingGroupItem() {
         theBillingGroupItem.billing_group_item_id = jTextFieldCode.getText();
         theBillingGroupItem.description = jTextFieldName.getText();
+        theBillingGroupItem.description_e = jTextFieldNameE.getText();  //+1
+        theBillingGroupItem.itmastcod = jTextFieldItmAstCod.getText();  //+1
+        theBillingGroupItem.itmcod = jTextFieldItmCod.getText();  //+1
         theBillingGroupItem.billing_group_code = Gutil.getGuiData(jComboBoxBillGroup);
         String active = "0";
         if(jCheckBox1.isSelected())
@@ -266,6 +339,9 @@ public class PanelSDBill extends javax.swing.JPanel  implements PanelSetupImp  {
         theBillingGroupItem = Item;
         jTextFieldCode.setText(theBillingGroupItem.billing_group_item_id);
         jTextFieldName.setText(theBillingGroupItem.description);
+        jTextFieldNameE.setText(theBillingGroupItem.description_e);     //+1
+        jTextFieldItmAstCod.setText(theBillingGroupItem.itmastcod);     //+1
+        jTextFieldItmCod.setText(theBillingGroupItem.itmcod);     //+1
         ComboboxModel.setCodeComboBox(jComboBoxBillGroup,theBillingGroupItem.billing_group_code);
         if((theBillingGroupItem.active)!=null&&(theBillingGroupItem.active).equals("1"))
         jCheckBox1.setSelected(true);

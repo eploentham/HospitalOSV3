@@ -61,3 +61,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+/standardHospitalOS/build/
+/HospitalOSV3/build/
+/standardHospitalOS/dist/

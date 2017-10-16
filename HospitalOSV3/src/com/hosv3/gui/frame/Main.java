@@ -28,6 +28,12 @@ import com.hosv3.object.HosObject;
  *
  * @author  Surachai Thowong
  */
+/**
+ * 
+ * @author ekapop
+ * 60-10-15 1. comment เรื่อง checkversion โปรแกรมกับdatabase
+ * Modify doc  1.
+ */
 public class Main implements ManageSystemResp
 {    
     /** ใช้ระบุว่าใน GUI ขณะนี้ มีสถานะอะไรเกิดขึ้น */
@@ -89,7 +95,7 @@ public class Main implements ManageSystemResp
             theHC.theSystemControl.setVersion(aFrameMain,false,theSplash);
             if(!theHC.theSystemControl.checkVersion(aFrameMain,false,setup_mode)){
                 theSplash.setVisible(false);
-                System.exit(0);
+//                System.exit(0);       //-1
             }
         }
         //////////////////////////////////////////////////////////////////////////////////////

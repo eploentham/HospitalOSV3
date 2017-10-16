@@ -11,17 +11,17 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import javax.imageio.ImageIO;
+import javax.imageio.ImageIO;        //+1
 import th.go.nhso.smartcard.appletmodel.MoiApplet1Info;
 import th.go.nhso.smartcard.appletmodel.NhsoAppletInfo;
 import th.go.nhso.smartcard.appletservice.SmartCardServices;
 import th.go.nhso.smartcard.appletservice.SmartcardServiceFactory;
 import th.go.nhso.smartcard.reader.ConnectionSession;
-//import com.sun.image.codec.jpeg.JPEGCodec;
-//import com.sun.image.codec.jpeg.JPEGEncodeParam;
-//import com.sun.image.codec.jpeg.JPEGImageEncoder;
-//import com.sun.image.codec.jpeg.JPEGEncodeParam;
-//import com.sun.image.codec.jpeg.JPEGImageEncoder;
+//import com.sun.image.codec.jpeg.JPEGCodec;        //-1
+//import com.sun.image.codec.jpeg.JPEGEncodeParam;        //-1
+//import com.sun.image.codec.jpeg.JPEGImageEncoder;        //-1
+//import com.sun.image.codec.jpeg.JPEGEncodeParam;        //-1
+//import com.sun.image.codec.jpeg.JPEGImageEncoder;        //-1
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.io.BufferedInputStream;
@@ -43,6 +43,14 @@ import javax.swing.JOptionPane;
  *
  * @author Somprasong
  */
+/**
+ * ekapop   60-10-14
+ * 1.   modify ไม่สามารถ build ได้เพราะติด com.sun.image.codec.jpeg.JPEGCodec;
+ *      ต้องเปลี่ยนไปใช้ แบบอื่นๆ เพราะ java 1.7 ให้ยกเลิกการใช้งาน
+ *      ยังไม่รู้ว่า ใช้งานได้เปลี่ยน modify เพื่อ ให้สามารถ build ได้
+ *      ใช้งานไม่ได้ ค่อยแก้กันอีก รอบ
+ * เลขที่เอกสาร 0.
+*/
 public class SmartCardControl {
 
     private final static String[] ADDR = new String[]{"หมู่ที่", "ซอย", "ถนน", "ตำบล", "อำเภอ", "จังหวัด"};
@@ -512,11 +520,11 @@ public class SmartCardControl {
 
         // Write the scaled image to the outputstream
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-//        JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
-//        JPEGEncodeParam param = encoder.getDefaultJPEGEncodeParam(thumbImage);
-        Iterator readers = ImageIO.getImageReadersByFormatName("gif");
-        ImageReader reader = (ImageReader)readers.next();
-        ImageReadParam param = reader.getDefaultReadParam();
+//        JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);        //-1
+//        JPEGEncodeParam param = encoder.getDefaultJPEGEncodeParam(thumbImage);        //-1
+        Iterator readers = ImageIO.getImageReadersByFormatName("jpg");        //+1
+        ImageReader reader = (ImageReader)readers.next();        //+1
+        ImageReadParam param = reader.getDefaultReadParam();        //+1
         int quality = 100; // Use between 1 and 100, with 100 being highest quality
         quality = Math.max(0, Math.min(quality, 100));
 //        param.setQuality((float) quality / 100.0f, false);

@@ -1,5 +1,5 @@
 delete from t_visit;
-delete from b_auto_payment;
+--delete from b_auto_payment;
 delete from t_accident;
 delete from t_billing;
 delete from t_billing_invoice;

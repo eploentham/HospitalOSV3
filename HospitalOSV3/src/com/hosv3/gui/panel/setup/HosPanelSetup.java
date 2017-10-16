@@ -158,6 +158,7 @@ import com.hosv3.gui.panel.detail.*;
         thePanelCard = new JPanel();
         thePanelCard.setSize(400,400);
         thePanelCard.setLayout(new CardLayout());
+        Constant.println("Ekapop setControl");
         initTreeModel();
     }
     

@@ -1,0 +1,787 @@
+
+setup_mod:
+     [java] --------End--------
+     [java] Default Filename Read : config/language/hospital_os/Thai.xml
+     [java] _____________________________public void readXML()config/language/hospital_os/Thai.xml
+     [java] Setup1 Theme :PlasticSkyBlue
+     [java] String name: font
+     [java] Path is Directory : font
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\ANGSA.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\ANGSAB.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\ANGSAI.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\ANGSAU.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\ANGSAUB.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\ANGSAUI.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\ANGSAUZ.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\ANGSAZ.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\BROWA.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\BROWAB.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\BROWAI.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\BROWAU.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\BROWAUB.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\BROWAUI.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\BROWAUZ.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\BROWAZ.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\CORDIA.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\CORDIAB.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\CORDIAI.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\CORDIAU.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\CORDIAUB.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\CORDIAUI.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\CORDIAUZ.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\CORDIAZ.TTF
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\IDAutomationHC39M_Free.ttf
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\Loma.ttf
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\Norasi.ttf
+     [java] Load File name : C:\source\orawan\HospitalOSV3\HospitalOSV3\app\font\Purisa.ttf
+     [java] update version start...
+     [java] proxy:null
+     [java] port:null
+     [java] user:null
+     [java] password:null
+     [java] LoadFile:...
+     [java] load database file:Fail
+     [java] LoadFile:...
+     [java] java.net.SocketTimeoutException: connect timed out
+     [java] 	at java.net.PlainSocketImpl.socketConnect(Native Method)
+     [java] 	at java.net.PlainSocketImpl.doConnect(Unknown Source)
+     [java] 	at java.net.PlainSocketImpl.connectToAddress(Unknown Source)
+     [java] 	at java.net.PlainSocketImpl.connect(Unknown Source)
+     [java] 	at java.net.SocksSocketImpl.connect(Unknown Source)
+     [java] 	at java.net.Socket.connect(Unknown Source)
+     [java] 	at sun.net.NetworkClient.doConnect(Unknown Source)
+     [java] 	at sun.net.www.http.HttpClient.openServer(Unknown Source)
+     [java] 	at sun.net.www.http.HttpClient.openServer(Unknown Source)
+     [java] 	at sun.net.www.http.HttpClient.<init>(Unknown Source)
+     [java] 	at sun.net.www.http.HttpClient.New(Unknown Source)
+     [java] 	at sun.net.www.http.HttpClient.New(Unknown Source)
+     [java] 	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(Unknown Source)
+     [java] 	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(Unknown Source)
+     [java] 	at sun.net.www.protocol.http.HttpURLConnection.connect(Unknown Source)
+     [java] 	at com.hosv3.HosUpdate.loadFile(HosUpdate.java:132)
+     [java] 	at com.hosv3.HosUpdate.checkUpdate(HosUpdate.java:217)
+     [java] 	at com.hosv3.gui.frame.Main.<init>(Main.java:57)
+     [java] 	at com.hosv3.HosSet.main(HosSet.java:37)
+     [java] 	select * from b_option_detail order by option_detail_name
+     [java] sql===================: select * from b_site order by site_name
+     [java] 	select * from b_site order by site_name
+     [java] 	select * from b_option_detail order by option_detail_name
+     [java] 	select * from s_version where version_update_time is not null  order by version_update_time DESC 
+     [java] *****************************************
+     [java]  Program Version : 3.9.11build01
+     [java]  Match Database Version: 3.18
+     [java]  Database Version: 3.18
+     [java]  Match Program Version: 3.9.11
+     [java]  Update Time      : 2554-03-11 15:28:00
+     [java] *****************************************
+     [java] 	select count(*) from ( select t_patient.patient_hn,t_patient.t_health_family_id from t_patient  left join t_health_family on t_health_family.t_health_family_id = t_patient.t_health_family_id where t_health_family.t_health_family_id is null) q 
+     [java] 	select count(*) from t_health_family where (health_family_hn_hcis = ''    or health_family_hn_hcis is null    or t_health_family.health_family_hn_hcis='000000')
+     [java] 	select count(t_health_family.health_family_hn_hcis)  from t_health_family  where t_health_family.health_family_hn_hcis  <> ''  group by t_health_family.health_family_hn_hcis  having count(t_health_family.health_family_hn_hcis)  > 1 
+     [java] 	select text from b_site_news order by date_time desc limit 1
+     [java] public Vector listServicePoint(String str) 
+     [java] 	select * from b_service_point where (service_point_number = '%%%' or UPPER(service_point_description) LIKE UPPER('%%%%%')) and service_point_active = '1' order by service_point_number
+     [java] 	select * from b_visit_ward where (visit_ward_number like '%' or visit_ward_description like '%') and visit_ward_active = '1' order by visit_ward_number
+     [java] if(typeLogin == 1) 2
+     [java] 	 select b_employee_id,employee_login,employee_password,f_employee_authentication_id,b_service_point_id from b_employee where employee_login = 'admin' and employee_active = '1'
+     [java] 	 select b_employee_id,employee_login,employee_password,f_employee_authentication_id,b_service_point_id from b_employee where employee_login = 'admin' and employee_active = '1'
+     [java] public boolean setVersion(javax.swing.JFrame frm,boolean show,Splash spl)
+     [java] 	select * from s_version where version_update_time is not null  order by version_update_time DESC 
+     [java] 	select * from t_health_diabetes
+     [java] test1false
+     [java] 	select * from s_health_version where version_health_update_time is not null  order by version_health_update_time DESC 
+     [java] test2false
+     [java] public String getCurrentVersion()
+     [java] 	select * from s_report_version where report_version_update_date_time is not null  order by report_version_update_date_time DESC 
+     [java] 1.7.200407
+     [java] 	select * from s_version where version_update_time is not null  order by version_update_time DESC 
+     [java] 	select * from s_version where version_update_time is not null  order by version_update_time DESC 
+     [java] *****************************************
+     [java]  Program Version : 3.9.11build01
+     [java]  Match Database Version: 3.18
+     [java]  Database Version: 3.18
+     [java]  Match Program Version: 3.9.11
+     [java]  Update Time      : 2554-03-11 15:28:00
+     [java] *****************************************
+     [java] 	select CURRENT_TIME
+     [java] 	select CURRENT_DATE
+     [java] 2560-10-15,17:20:18
+     [java] 	select * from b_service_point where b_service_point_id = '2064028169980'
+     [java] 1		update b_employee set employee_last_login='2560-10-15,17:20:18', employee_last_logout='' where b_employee_id='1578299109445'
+     [java] 	select * from b_employee where b_employee_id = '1578299109445'
+     [java] 	select f_gui_action_authen_id,f_gui_action.f_gui_action_id  as f_gui_action_id,gui_action_name as gui_action_authen_gui_name,f_authentication_id ,gui_action_authen_authentication_name,gui_action_authen_is_read,gui_action_authen_is_write,gui_action_authen_note from f_gui_action left join f_gui_action_authen on (f_gui_action.f_gui_action_id = f_gui_action_authen.f_gui_action_id and f_authentication_id = '9' )order by f_gui_action.f_gui_action_id
+     [java] ----SetStatus---- ???????????????????????
+     [java] sql===================: select * from b_site order by site_name
+     [java] 	select * from b_site order by site_name
+     [java] 	select * from b_option_detail order by option_detail_name
+     [java] 	select * from b_sequence_data where b_sequence_data_id = 'hn'
+     [java] 	select * from b_sequence_data where b_sequence_data_id = 'vn'
+     [java] 	select * from b_sequence_data where b_sequence_data_id = 'an'
+     [java] 	select * from b_visit_queue_setup where (visit_queue_setup_number like '%' or UPPER(visit_queue_setup_description) like UPPER('%%%')) and visit_queue_setup_active = '1' order by visit_queue_setup_number
+     [java] 	select * from b_visit_office where b_visit_office_id = '24036'
+     [java] 	select * from b_item_drug_dose_shortcut where UPPER(item_drug_dose_shortcut_description) like UPPER('%%%') and item_drug_dose_shortcut_active = '1'order by item_drug_dose_shortcut_description
+     [java] 	select * from f_address where address_tambon_type = '1'  order by address_description
+     [java] 	select * from f_employee_authentication order by employee_authentication_description
+     [java] 	select * from f_patient_blood_group order by patient_blood_group_description
+     [java] 	select * from f_item_group order by item_group_description
+     [java] 	select * from b_item_subgroup where item_subgroup_active = '1' order by item_subgroup_description
+     [java] 	select * from b_visit_clinic Where visit_clinic_active='1'
+     [java] 	select * from b_contract order by contract_description
+     [java] 	select * from f_diag_icd10_type order by f_diag_icd10_type_id
+     [java] 	select * from f_patient_education_type order by patient_education_type_sort_index
+     [java] 	select * from b_employee order by employee_firstname
+     [java] 	select * from b_employee where f_employee_authentication_id = '3' AND employee_active='1' order by employee_firstname
+     [java] 	select * from f_patient_family_status order by patient_family_status_description
+     [java] 	select * from f_sex order by f_sex_id
+     [java] 	select * from b_icd10_group_type order by icd10_group_type_name
+     [java] 	select * from f_patient_foreigner order by patient_foreigner_description
+     [java] 	select * from f_patient_marriage_status order by patient_marriage_status_description
+     [java] 	select * from f_patient_nation order by patient_nation_description
+     [java] 	select * from f_visit_nutrition_level where visit_nutrition_level_standard = '1' order by f_visit_nutrition_level_id
+     [java] 	select * from f_patient_occupation order by f_patient_occupation_id
+     [java] 	select * from f_diagnosis_operation_type order by f_diagnosis_operation_type_id
+     [java] 	select * from f_order_status order by order_status_description
+     [java] 	select * from b_contract_plans where UPPER(contract_plans_number) like UPPER('%')  or UPPER(contract_plans_description) like UPPER('%')  order by contract_plans_sort_index,contract_plans_description
+     [java] 	select * from b_contract_plans where (UPPER(contract_plans_number) like UPPER('%')  or UPPER(contract_plans_description) like UPPER('%')) and contract_plans_active='1' order by contract_plans_sort_index,contract_plans_description
+     [java] 	select * from f_patient_prefix where active='1' order by f_patient_prefix_id
+     [java] 	select * from f_patient_nation order by patient_nation_description
+     [java] 	select * from f_patient_relation order by patient_relation_description
+     [java] 	select * from f_patient_religion order by f_patient_religion_id
+     [java] 	select * from b_service_point where (service_point_number = '%' or UPPER(service_point_description) LIKE UPPER('%%%')) and service_point_active = '1' order by service_point_number
+     [java] 	select * from f_patient_area_status order by patient_area_status_description
+     [java] 	select * from b_visit_ward where (visit_ward_number like '%' or visit_ward_description like '%') and visit_ward_active = '1' order by visit_ward_number
+     [java] 	select * from b_contract_payer where (contract_payer_number like '%%%' or contract_payer_description like '%%%') and contract_payer_active = '1' order by contract_payer_number
+     [java] 	select * from b_item_billing_subgroup where (item_billing_subgroup_number like '%%%' or UPPER(item_billing_subgroup_description) like UPPER('%%%')) and item_billing_subgroup_active like '%1%'order by item_billing_subgroup_number
+     [java] 	select * from f_refer_cause order by f_refer_cause_id
+     [java] 	select * from b_icd9 order by icd9_number limit 300 
+     [java] 	select * from b_body_organ where body_organ_active = '1' order by body_organ_description
+     [java] 	select * from b_health_disease where health_disease_active = '1' order by health_disease_number
+     [java] 	SELECT b_nutrition_map.b_nutrition_map_id, b_nutrition_map.f_visit_nutrition_level_new, f_visit_nutrition_level.visit_nutrition_level_description AS nutrition_new_description, b_nutrition_map.f_visit_nutrition_level_old, f_visit_nutrition_level_1.visit_nutrition_level_description AS nutrition_old_description FROM f_visit_nutrition_level AS f_visit_nutrition_level_1 RIGHT JOIN (f_visit_nutrition_level RIGHT JOIN b_nutrition_map ON f_visit_nutrition_level.f_visit_nutrition_level_id = b_nutrition_map.f_visit_nutrition_level_new) ON f_visit_nutrition_level_1.f_visit_nutrition_level_id = b_nutrition_map.f_visit_nutrition_level_old ORDER BY b_nutrition_map.f_visit_nutrition_level_new 
+     [java] 	select * from b_item_16_group where item_16_group_active = '1'
+     [java] 	select * from b_ncd_group order by ncd_group_description
+     [java] 	select * from b_group_chronic
+     [java] 	select * from b_guide where guide_active = '1' order by guide_description
+     [java] 	select * from f_calculate_date_appointment
+     [java] 	select * from b_item_drug_dose where (item_drug_dose_value like '%%%'  or item_drug_dose_description like '%%%')  and item_drug_dose_active = '1' 
+     [java] 	select * from b_service_point order by service_point_description
+     [java] 	select * from f_visit_status order by visit_status_description
+     [java] 	select * from f_xray_film_size
+     [java] 	select * from f_visit_ipd_discharge_status order by f_visit_ipd_discharge_status_id
+     [java] 	select * from f_visit_opd_discharge_status order by f_visit_opd_discharge_status_id
+     [java] 	select * from b_item_drug_frequency  order by item_drug_frequency_description
+     [java] 	select * from b_item_drug_instruction order by item_drug_instruction_description
+     [java] 	select * from b_item_drug_instruction where (UPPER(item_drug_instruction_number) like UPPER('%')  or UPPER(item_drug_instruction_description) like UPPER('%')) and item_drug_instruction_active = '1' order by item_drug_instruction_description
+     [java] 	select * from b_item_drug_uom order by item_drug_uom_description
+     [java] 	select * from t_health_village where village_moo = '0'  and village_active = '1'
+     [java] 	select * from t_health_home where health_home_house = '0' and t_health_village_id = '7120000000000' and home_active = '1'
+     [java] Ekapop setControl
+     [java] sql===================: select * from b_site order by site_name
+     [java] 	select * from b_site order by site_name
+     [java] 	select * from b_option_detail order by option_detail_name
+     [java] ----SetStatus---- ?????????????????????????????
+     [java] sql===================: select * from b_site order by site_name
+     [java] 	select * from b_site order by site_name
+     [java] 	select * from b_option_detail order by option_detail_name
+     [java] ----SetStatus---- ?????????????????????????????
+     [java] 	select * from f_service_group order by service_group_description
+     [java] 	select * from f_service_subgroup order by service_subgroup_description
+     [java] 	select * from f_address where address_tambon_type = '2' and address_changwat_id = '810000' order by address_description
+     [java] 	select * from f_address where address_tambon_type = '3' and address_amphur_id = '810300' order by address_description
+     [java] 	select * from f_address where address_tambon_type = '2' and address_changwat_id = '810000' order by address_description
+     [java] 	select * from f_address where address_tambon_type = '3' and address_amphur_id = '810300' order by address_description
+     [java] 	select * from f_address where address_tambon_type = '2' and address_changwat_id = '810000' order by address_description
+     [java] 	select * from f_address where address_tambon_type = '3' and address_amphur_id = '810300' order by address_description
+     [java] 	select * from f_address where address_tambon_type = '2' and address_changwat_id = '810000' order by address_description
+     [java] 	select * from f_address where address_tambon_type = '3' and address_amphur_id = '810300' order by address_description
+     [java] 	select * from f_address where address_tambon_type = '2' and address_changwat_id = '810000' order by address_description
+     [java] 	select * from f_address where address_tambon_type = '3' and address_amphur_id = '810300' order by address_description
+     [java] 	select * from f_address where address_tambon_type = '2' and address_changwat_id = '810000' order by address_description
+     [java] 	select * from f_address where address_tambon_type = '3' and address_amphur_id = '810300' order by address_description
+     [java] 	select * from f_address where address_tambon_type = '2' and address_changwat_id = '810000' order by address_description
+     [java] 	select * from f_address where address_tambon_type = '3' and address_amphur_id = '810300' order by address_description
+     [java] 	select * from f_address where address_tambon_type = '2' and address_changwat_id = '810000' order by address_description
+     [java] 	select * from f_address where address_tambon_type = '3' and address_amphur_id = '810300' order by address_description
+     [java] 	select * from f_item_billing_group order by item_billing_group_description
+     [java] 	select * from b_lab_result_group order by lab_result_group_number
+     [java] 	select * from f_order_specified
+     [java] 	select * from b_item_subgroup where f_item_group_id = '1' order by item_subgroup_number
+     [java] 	select * from f_visit_nutrition_level where visit_nutrition_level_standard = '0' order by f_visit_nutrition_level_id
+     [java] 	SELECT b_nutrition_map.b_nutrition_map_id, b_nutrition_map.f_visit_nutrition_level_new, f_visit_nutrition_level.visit_nutrition_level_description AS nutrition_new_description, b_nutrition_map.f_visit_nutrition_level_old, f_visit_nutrition_level_1.visit_nutrition_level_description AS nutrition_old_description FROM f_visit_nutrition_level AS f_visit_nutrition_level_1 RIGHT JOIN (f_visit_nutrition_level RIGHT JOIN b_nutrition_map ON f_visit_nutrition_level.f_visit_nutrition_level_id = b_nutrition_map.f_visit_nutrition_level_new) ON f_visit_nutrition_level_1.f_visit_nutrition_level_id = b_nutrition_map.f_visit_nutrition_level_old ORDER BY b_nutrition_map.f_visit_nutrition_level_new 
+     [java] 	select * from b_group_chronic where UPPER(group_chronic_number) like UPPER('%%%')  or UPPER(group_chronic_description_en) like UPPER('%%%') order by group_chronic_description_en
+     [java] 	select * from b_group_chronic where UPPER(group_chronic_number) like UPPER('%%%')  or UPPER(group_chronic_description_en) like UPPER('%%%') order by group_chronic_description_en
+     [java] 	select * from b_group_chronic where UPPER(group_chronic_number) like UPPER('%%%')  or UPPER(group_chronic_description_en) like UPPER('%%%') order by group_chronic_description_en
+     [java] 	select * from f_group_rp504
+     [java] 	select * from f_group_rp505
+     [java] 	select * from f_group_rp506
+     [java] 	select * from (select id,inscl_name || ' '||maininscl as des  from r_rp1853_instype) instype where id ilike '%' or des ilike '%%%' order by des
+     [java] 	select * from (select id,inscl_name || ' '||maininscl as des  from r_rp1853_instype) instype where id ilike '%' or des ilike '%%%' order by des
+     [java] 	select * from (select id,inscl_name || ' '||maininscl as des  from r_rp1853_instype) instype where id ilike '%' or des ilike '%%%' order by des
+     [java] 	select * from f_employee_level order by employee_level_description
+     [java] 	select * from f_tab
+     [java] 	select * from f_opd_type order by opd_type_description
+     [java] 	select * from f_address where address_tambon_type = '2' and address_changwat_id = '110000' order by address_description
+     [java] 	select * from f_address where address_tambon_type = '3' and address_amphur_id = '110300' order by address_description
+     [java] dir_rp config/ext_module_rp
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] --------Start--------
+     [java] --------End--------
+     [java] _________________________module
+     [java] -module=com.dental.DentalModule;com.drugfund.DrugFundModule;com.viewemr.EMRModule;com.pcu.HealthyModule;com.history.HistoryModule;com.hrefer.HReferModule;com.image_hosv3.ImageModule;com.lab_hosv3.LabModule;com.nameless_clinic.NamelessClinicModule;com.nhso_hosv3.NhsoModule;com.pcu.PCUModule;com.print_hosv3.PrintModule;com.setupreport.SetupReport;com.stock.StockModule;com.welfare.WelfareModule;com.xray_hosv3.XrayModule;com.dental_report.DentalReport;com.nameless_clinic.NamelessReport;com.nhso_chpreport.NhsoCHPReport;com.nhso_hreport.NhsoReport;com.report12file.Report12File;com.report18file.Report18File;com.generalreport.GeneralReport;com.generalpcu.GeneralPCU;com.report_nk.ReportNK;com.reportnan.ReportNan;com.reportquery.QueryReport;com.standardReport.StandardReport;com.report_wing.ReportWing;
+     [java] 'com.dental.DentalModule'
+     [java] java.lang.ClassNotFoundException: com.dental.DentalModule
+     [java] 	at java.net.URLClassLoader$1.run(Unknown Source)
+     [java] 	at java.security.AccessController.doPrivileged(Native Method)
+     [java] 	at java.net.URLClassLoader.findClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at sun.misc.Launcher$AppClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClassInternal(Unknown Source)
+     [java] 	at java.lang.Class.forName0(Native Method)
+     [java] 	at java.lang.Class.forName(Unknown Source)
+     [java] 	at com.hosv3.utility.ReadModule.loadModule(ReadModule.java:81)
+     [java] 	at com.hosv3.gui.frame.Main.notifyLoginSetup(Main.java:201)
+     [java] 	at com.hosv3.subject.SystemSubject.notifyLoginSetup(SystemSubject.java:40)
+     [java] 	at com.hosv3.control.SystemControl.loginSetup(SystemControl.java:670)
+     [java] 	at com.hosv3.gui.frame.Main.<init>(Main.java:134)
+     [java] 	at com.hosv3.HosSet.main(HosSet.java:37)
+     [java] Cannot found external Module :com.dental.DentalModule
+     [java] 'com.drugfund.DrugFundModule'
+     [java] 'com.viewemr.EMRModule'
+     [java] 'com.pcu.HealthyModule'
+     [java] 'com.history.HistoryModule'
+     [java] 'com.hrefer.HReferModule'
+     [java] java.lang.ClassNotFoundException: com.hrefer.HReferModule
+     [java] 	at java.net.URLClassLoader$1.run(Unknown Source)
+     [java] 	at java.security.AccessController.doPrivileged(Native Method)
+     [java] 	at java.net.URLClassLoader.findClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at sun.misc.Launcher$AppClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClassInternal(Unknown Source)
+     [java] 	at java.lang.Class.forName0(Native Method)
+     [java] 	at java.lang.Class.forName(Unknown Source)
+     [java] 	at com.hosv3.utility.ReadModule.loadModule(ReadModule.java:81)
+     [java] 	at com.hosv3.gui.frame.Main.notifyLoginSetup(Main.java:201)
+     [java] 	at com.hosv3.subject.SystemSubject.notifyLoginSetup(SystemSubject.java:40)
+     [java] 	at com.hosv3.control.SystemControl.loginSetup(SystemControl.java:670)
+     [java] 	at com.hosv3.gui.frame.Main.<init>(Main.java:134)
+     [java] 	at com.hosv3.HosSet.main(HosSet.java:37)
+     [java] Cannot found external Module :com.hrefer.HReferModule
+     [java] 'com.image_hosv3.ImageModule'
+     [java] java.lang.ClassNotFoundException: com.image_hosv3.ImageModule
+     [java] 	at java.net.URLClassLoader$1.run(Unknown Source)
+     [java] 	at java.security.AccessController.doPrivileged(Native Method)
+     [java] 	at java.net.URLClassLoader.findClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at sun.misc.Launcher$AppClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClassInternal(Unknown Source)
+     [java] 	at java.lang.Class.forName0(Native Method)
+     [java] 	at java.lang.Class.forName(Unknown Source)
+     [java] 	at com.hosv3.utility.ReadModule.loadModule(ReadModule.java:81)
+     [java] 	at com.hosv3.gui.frame.Main.notifyLoginSetup(Main.java:201)
+     [java] 	at com.hosv3.subject.SystemSubject.notifyLoginSetup(SystemSubject.java:40)
+     [java] 	at com.hosv3.control.SystemControl.loginSetup(SystemControl.java:670)
+     [java] 	at com.hosv3.gui.frame.Main.<init>(Main.java:134)
+     [java] 	at com.hosv3.HosSet.main(HosSet.java:37)
+     [java] Cannot found external Module :com.image_hosv3.ImageModule
+     [java] 'com.lab_hosv3.LabModule'
+     [java] java.lang.ClassNotFoundException: com.lab_hosv3.LabModule
+     [java] 	at java.net.URLClassLoader$1.run(Unknown Source)
+     [java] 	at java.security.AccessController.doPrivileged(Native Method)
+     [java] 	at java.net.URLClassLoader.findClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at sun.misc.Launcher$AppClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClassInternal(Unknown Source)
+     [java] 	at java.lang.Class.forName0(Native Method)
+     [java] 	at java.lang.Class.forName(Unknown Source)
+     [java] 	at com.hosv3.utility.ReadModule.loadModule(ReadModule.java:81)
+     [java] 	at com.hosv3.gui.frame.Main.notifyLoginSetup(Main.java:201)
+     [java] 	at com.hosv3.subject.SystemSubject.notifyLoginSetup(SystemSubject.java:40)
+     [java] 	at com.hosv3.control.SystemControl.loginSetup(SystemControl.java:670)
+     [java] 	at com.hosv3.gui.frame.Main.<init>(Main.java:134)
+     [java] 	at com.hosv3.HosSet.main(HosSet.java:37)
+     [java] Cannot found external Module :com.lab_hosv3.LabModule
+     [java] 'com.nameless_clinic.NamelessClinicModule'
+     [java] java.lang.ClassNotFoundException: com.nameless_clinic.NamelessClinicModule
+     [java] 	at java.net.URLClassLoader$1.run(Unknown Source)
+     [java] 	at java.security.AccessController.doPrivileged(Native Method)
+     [java] 	at java.net.URLClassLoader.findClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at sun.misc.Launcher$AppClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClassInternal(Unknown Source)
+     [java] 	at java.lang.Class.forName0(Native Method)
+     [java] 	at java.lang.Class.forName(Unknown Source)
+     [java] 	at com.hosv3.utility.ReadModule.loadModule(ReadModule.java:81)
+     [java] 	at com.hosv3.gui.frame.Main.notifyLoginSetup(Main.java:201)
+     [java] 	at com.hosv3.subject.SystemSubject.notifyLoginSetup(SystemSubject.java:40)
+     [java] 	at com.hosv3.control.SystemControl.loginSetup(SystemControl.java:670)
+     [java] 	at com.hosv3.gui.frame.Main.<init>(Main.java:134)
+     [java] 	at com.hosv3.HosSet.main(HosSet.java:37)
+     [java] Cannot found external Module :com.nameless_clinic.NamelessClinicModule
+     [java] 'com.nhso_hosv3.NhsoModule'
+     [java] java.lang.ClassNotFoundException: com.nhso_hosv3.NhsoModule
+     [java] 	at java.net.URLClassLoader$1.run(Unknown Source)
+     [java] 	at java.security.AccessController.doPrivileged(Native Method)
+     [java] 	at java.net.URLClassLoader.findClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at sun.misc.Launcher$AppClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClassInternal(Unknown Source)
+     [java] 	at java.lang.Class.forName0(Native Method)
+     [java] 	at java.lang.Class.forName(Unknown Source)
+     [java] 	at com.hosv3.utility.ReadModule.loadModule(ReadModule.java:81)
+     [java] 	at com.hosv3.gui.frame.Main.notifyLoginSetup(Main.java:201)
+     [java] 	at com.hosv3.subject.SystemSubject.notifyLoginSetup(SystemSubject.java:40)
+     [java] 	at com.hosv3.control.SystemControl.loginSetup(SystemControl.java:670)
+     [java] 	at com.hosv3.gui.frame.Main.<init>(Main.java:134)
+     [java] 	at com.hosv3.HosSet.main(HosSet.java:37)
+     [java] Cannot found external Module :com.nhso_hosv3.NhsoModule
+     [java] 'com.pcu.PCUModule'
+     [java] 'com.print_hosv3.PrintModule'
+     [java] 'com.setupreport.SetupReport'
+     [java] 'com.stock.StockModule'
+     [java] 'com.welfare.WelfareModule'
+     [java] readDatabaseFile :jdbc:odbc:a
+     [java] ______________________dl.url:jdbc:odbc:a
+     [java] java.sql.SQLException: [Microsoft][ODBC Driver Manager] Data source name not found and no default driver specified
+     [java] 	at sun.jdbc.odbc.JdbcOdbc.createSQLException(Unknown Source)
+     [java] 	at sun.jdbc.odbc.JdbcOdbc.standardError(Unknown Source)
+     [java] 	at sun.jdbc.odbc.JdbcOdbc.SQLDriverConnect(Unknown Source)
+     [java] 	at sun.jdbc.odbc.JdbcOdbcConnection.initialize(Unknown Source)
+     [java] 	at sun.jdbc.odbc.JdbcOdbcDriver.connect(Unknown Source)
+     [java] 	at java.sql.DriverManager.getConnection(Unknown Source)
+     [java] 	at java.sql.DriverManager.getConnection(Unknown Source)
+     [java] 	at com.hospital_os.utility.DBConnection.open(DBConnection.java:57)
+     [java] 	at com.hospital_os.utility.ConnectionDBMgr.<init>(ConnectionDBMgr.java:62)
+     [java] 	at com.welfare.control.ManageControl.<init>(ManageControl.java:82)
+     [java] 	at com.welfare.WelfareModule.initModule(WelfareModule.java:50)
+     [java] 	at com.welfare.WelfareModule.<init>(WelfareModule.java:44)
+     [java] 	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+     [java] 	at sun.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+     [java] 	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+     [java] 	at java.lang.reflect.Constructor.newInstance(Unknown Source)
+     [java] 	at java.lang.Class.newInstance0(Unknown Source)
+     [java] 	at java.lang.Class.newInstance(Unknown Source)
+     [java] 	at com.hosv3.utility.ReadModule.loadModule(ReadModule.java:81)
+     [java] 	at com.hosv3.gui.frame.Main.notifyLoginSetup(Main.java:201)
+     [java] 	at com.hosv3.subject.SystemSubject.notifyLoginSetup(SystemSubject.java:40)
+     [java] 	at com.hosv3.control.SystemControl.loginSetup(SystemControl.java:670)
+     [java] 	at com.hosv3.gui.frame.Main.<init>(Main.java:134)
+     [java] 	at com.hosv3.HosSet.main(HosSet.java:37)
+     [java] --------End--------
+     [java] Default Filename Read : config/language/welfare/Thai.xml
+     [java] _____________________________public void readXML()config/language/welfare/Thai.xml
+     [java] 'com.xray_hosv3.XrayModule'
+     [java] java.lang.ClassNotFoundException: com.xray_hosv3.XrayModule
+     [java] 	at java.net.URLClassLoader$1.run(Unknown Source)
+     [java] 	at java.security.AccessController.doPrivileged(Native Method)
+     [java] 	at java.net.URLClassLoader.findClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at sun.misc.Launcher$AppClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClassInternal(Unknown Source)
+     [java] 	at java.lang.Class.forName0(Native Method)
+     [java] 	at java.lang.Class.forName(Unknown Source)
+     [java] 	at com.hosv3.utility.ReadModule.loadModule(ReadModule.java:81)
+     [java] 	at com.hosv3.gui.frame.Main.notifyLoginSetup(Main.java:201)
+     [java] 	at com.hosv3.subject.SystemSubject.notifyLoginSetup(SystemSubject.java:40)
+     [java] 	at com.hosv3.control.SystemControl.loginSetup(SystemControl.java:670)
+     [java] 	at com.hosv3.gui.frame.Main.<init>(Main.java:134)
+     [java] 	at com.hosv3.HosSet.main(HosSet.java:37)
+     [java] Cannot found external Module :com.xray_hosv3.XrayModule
+     [java] 'com.dental_report.DentalReport'
+     [java] java.lang.ClassNotFoundException: com.dental_report.DentalReport
+     [java] 	at java.net.URLClassLoader$1.run(Unknown Source)
+     [java] 	at java.security.AccessController.doPrivileged(Native Method)
+     [java] 	at java.net.URLClassLoader.findClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at sun.misc.Launcher$AppClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClassInternal(Unknown Source)
+     [java] 	at java.lang.Class.forName0(Native Method)
+     [java] 	at java.lang.Class.forName(Unknown Source)
+     [java] 	at com.hosv3.utility.ReadModule.loadModule(ReadModule.java:81)
+     [java] 	at com.hosv3.gui.frame.Main.notifyLoginSetup(Main.java:201)
+     [java] 	at com.hosv3.subject.SystemSubject.notifyLoginSetup(SystemSubject.java:40)
+     [java] 	at com.hosv3.control.SystemControl.loginSetup(SystemControl.java:670)
+     [java] 	at com.hosv3.gui.frame.Main.<init>(Main.java:134)
+     [java] 	at com.hosv3.HosSet.main(HosSet.java:37)
+     [java] Cannot found external Module :com.dental_report.DentalReport
+     [java] 'com.nameless_clinic.NamelessReport'
+     [java] java.lang.ClassNotFoundException: com.nameless_clinic.NamelessReport
+     [java] 	at java.net.URLClassLoader$1.run(Unknown Source)
+     [java] 	at java.security.AccessController.doPrivileged(Native Method)
+     [java] 	at java.net.URLClassLoader.findClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at sun.misc.Launcher$AppClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClassInternal(Unknown Source)
+     [java] 	at java.lang.Class.forName0(Native Method)
+     [java] 	at java.lang.Class.forName(Unknown Source)
+     [java] 	at com.hosv3.utility.ReadModule.loadModule(ReadModule.java:81)
+     [java] 	at com.hosv3.gui.frame.Main.notifyLoginSetup(Main.java:201)
+     [java] 	at com.hosv3.subject.SystemSubject.notifyLoginSetup(SystemSubject.java:40)
+     [java] 	at com.hosv3.control.SystemControl.loginSetup(SystemControl.java:670)
+     [java] 	at com.hosv3.gui.frame.Main.<init>(Main.java:134)
+     [java] 	at com.hosv3.HosSet.main(HosSet.java:37)
+     [java] Cannot found external Module :com.nameless_clinic.NamelessReport
+     [java] 'com.nhso_chpreport.NhsoCHPReport'
+     [java] java.lang.ClassNotFoundException: com.nhso_chpreport.NhsoCHPReport
+     [java] 	at java.net.URLClassLoader$1.run(Unknown Source)
+     [java] 	at java.security.AccessController.doPrivileged(Native Method)
+     [java] 	at java.net.URLClassLoader.findClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at sun.misc.Launcher$AppClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClassInternal(Unknown Source)
+     [java] 	at java.lang.Class.forName0(Native Method)
+     [java] 	at java.lang.Class.forName(Unknown Source)
+     [java] 	at com.hosv3.utility.ReadModule.loadModule(ReadModule.java:81)
+     [java] 	at com.hosv3.gui.frame.Main.notifyLoginSetup(Main.java:201)
+     [java] 	at com.hosv3.subject.SystemSubject.notifyLoginSetup(SystemSubject.java:40)
+     [java] 	at com.hosv3.control.SystemControl.loginSetup(SystemControl.java:670)
+     [java] 	at com.hosv3.gui.frame.Main.<init>(Main.java:134)
+     [java] 	at com.hosv3.HosSet.main(HosSet.java:37)
+     [java] Cannot found external Module :com.nhso_chpreport.NhsoCHPReport
+     [java] 'com.nhso_hreport.NhsoReport'
+     [java] java.lang.ClassNotFoundException: com.nhso_hreport.NhsoReport
+     [java] 	at java.net.URLClassLoader$1.run(Unknown Source)
+     [java] 	at java.security.AccessController.doPrivileged(Native Method)
+     [java] 	at java.net.URLClassLoader.findClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at sun.misc.Launcher$AppClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClassInternal(Unknown Source)
+     [java] 	at java.lang.Class.forName0(Native Method)
+     [java] 	at java.lang.Class.forName(Unknown Source)
+     [java] 	at com.hosv3.utility.ReadModule.loadModule(ReadModule.java:81)
+     [java] 	at com.hosv3.gui.frame.Main.notifyLoginSetup(Main.java:201)
+     [java] 	at com.hosv3.subject.SystemSubject.notifyLoginSetup(SystemSubject.java:40)
+     [java] 	at com.hosv3.control.SystemControl.loginSetup(SystemControl.java:670)
+     [java] 	at com.hosv3.gui.frame.Main.<init>(Main.java:134)
+     [java] 	at com.hosv3.HosSet.main(HosSet.java:37)
+     [java] Cannot found external Module :com.nhso_hreport.NhsoReport
+     [java] 'com.report12file.Report12File'
+     [java] 'com.report18file.Report18File'
+     [java] 'com.generalreport.GeneralReport'
+     [java] java.lang.ClassNotFoundException: com.generalreport.GeneralReport
+     [java] 	at java.net.URLClassLoader$1.run(Unknown Source)
+     [java] 	at java.security.AccessController.doPrivileged(Native Method)
+     [java] 	at java.net.URLClassLoader.findClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at sun.misc.Launcher$AppClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClassInternal(Unknown Source)
+     [java] 	at java.lang.Class.forName0(Native Method)
+     [java] 	at java.lang.Class.forName(Unknown Source)
+     [java] 	at com.hosv3.utility.ReadModule.loadModule(ReadModule.java:81)
+     [java] 	at com.hosv3.gui.frame.Main.notifyLoginSetup(Main.java:201)
+     [java] 	at com.hosv3.subject.SystemSubject.notifyLoginSetup(SystemSubject.java:40)
+     [java] 	at com.hosv3.control.SystemControl.loginSetup(SystemControl.java:670)
+     [java] 	at com.hosv3.gui.frame.Main.<init>(Main.java:134)
+     [java] 	at com.hosv3.HosSet.main(HosSet.java:37)
+     [java] Cannot found external Module :com.generalreport.GeneralReport
+     [java] 'com.generalpcu.GeneralPCU'
+     [java] java.lang.ClassNotFoundException: com.generalpcu.GeneralPCU
+     [java] 	at java.net.URLClassLoader$1.run(Unknown Source)
+     [java] 	at java.security.AccessController.doPrivileged(Native Method)
+     [java] 	at java.net.URLClassLoader.findClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at sun.misc.Launcher$AppClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClassInternal(Unknown Source)
+     [java] 	at java.lang.Class.forName0(Native Method)
+     [java] 	at java.lang.Class.forName(Unknown Source)
+     [java] 	at com.hosv3.utility.ReadModule.loadModule(ReadModule.java:81)
+     [java] 	at com.hosv3.gui.frame.Main.notifyLoginSetup(Main.java:201)
+     [java] 	at com.hosv3.subject.SystemSubject.notifyLoginSetup(SystemSubject.java:40)
+     [java] 	at com.hosv3.control.SystemControl.loginSetup(SystemControl.java:670)
+     [java] 	at com.hosv3.gui.frame.Main.<init>(Main.java:134)
+     [java] 	at com.hosv3.HosSet.main(HosSet.java:37)
+     [java] Cannot found external Module :com.generalpcu.GeneralPCU
+     [java] 'com.report_nk.ReportNK'
+     [java] java.lang.ClassNotFoundException: com.report_nk.ReportNK
+     [java] 	at java.net.URLClassLoader$1.run(Unknown Source)
+     [java] 	at java.security.AccessController.doPrivileged(Native Method)
+     [java] 	at java.net.URLClassLoader.findClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at sun.misc.Launcher$AppClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClassInternal(Unknown Source)
+     [java] 	at java.lang.Class.forName0(Native Method)
+     [java] 	at java.lang.Class.forName(Unknown Source)
+     [java] 	at com.hosv3.utility.ReadModule.loadModule(ReadModule.java:81)
+     [java] 	at com.hosv3.gui.frame.Main.notifyLoginSetup(Main.java:201)
+     [java] 	at com.hosv3.subject.SystemSubject.notifyLoginSetup(SystemSubject.java:40)
+     [java] 	at com.hosv3.control.SystemControl.loginSetup(SystemControl.java:670)
+     [java] 	at com.hosv3.gui.frame.Main.<init>(Main.java:134)
+     [java] 	at com.hosv3.HosSet.main(HosSet.java:37)
+     [java] Cannot found external Module :com.report_nk.ReportNK
+     [java] 'com.reportnan.ReportNan'
+     [java] 'com.reportquery.QueryReport'
+     [java] 'com.standardReport.StandardReport'
+     [java] 'com.report_wing.ReportWing'
+     [java] java.lang.ClassNotFoundException: com.report_wing.ReportWing
+     [java] 	at java.net.URLClassLoader$1.run(Unknown Source)
+     [java] 	at java.security.AccessController.doPrivileged(Native Method)
+     [java] 	at java.net.URLClassLoader.findClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at sun.misc.Launcher$AppClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClass(Unknown Source)
+     [java] 	at java.lang.ClassLoader.loadClassInternal(Unknown Source)
+     [java] 	at java.lang.Class.forName0(Native Method)
+     [java] 	at java.lang.Class.forName(Unknown Source)
+     [java] 	at com.hosv3.utility.ReadModule.loadModule(ReadModule.java:81)
+     [java] 	at com.hosv3.gui.frame.Main.notifyLoginSetup(Main.java:201)
+     [java] 	at com.hosv3.subject.SystemSubject.notifyLoginSetup(SystemSubject.java:40)
+     [java] 	at com.hosv3.control.SystemControl.loginSetup(SystemControl.java:670)
+     [java] 	at com.hosv3.gui.frame.Main.<init>(Main.java:134)
+     [java] 	at com.hosv3.HosSet.main(HosSet.java:37)
+     [java] Cannot found external Module :com.report_wing.ReportWing
+     [java] ''
+     [java] theSite com.hospital_os.object.Site@b6b2a5
+     [java] DrugControlDB Have Connection
+     [java] DrugFundLookupControl : Connection ,DB
+     [java] Read Site
+     [java] theSiteDB ::com.hospital_os.objdb.SiteDB@4d6b1a
+     [java] sql===================: select * from b_site order by site_name
+     [java] 	select * from b_site order by site_name
+     [java] Site Not Null
+     [java] SystemCon: connection,lookupControl
+     [java] theConnectionInf---------com.hosv3.utility.ConnectionDBMgr@1713b42
+     [java] sql===================: select * from b_site order by site_name
+     [java] 	select * from b_site order by site_name
+     [java] Test build
+     [java] Instance Manager
+     [java] InitSubject
+     [java] Instance GUISubject
+     [java] Instance ShowGUISubject
+     [java] 	Select * from b_contract_plans
+     [java] 	SELECT * FROM b_item_drug_frequency
+     [java] 	SELECT * FROM b_item_drug_frequency
+     [java] 	SELECT * FROM b_item_drug_instruction
+     [java] 	SELECT * FROM b_item_drug_uom
+     [java] 	SELECT * FROM b_item_drug_uom
+     [java] 	SELECT emr_version_database_number FROM s_emr_version Order by emr_version_database_number desc 
+     [java] SERVER : 192.168.1.151
+     [java] PORT : 12345
+     [java] PATH : /data/app/netbeans-5.0/enterprise2/jakarta-tomcat-5.5.9/webapps/testws.war
+     [java] --------End--------
+     [java] IconMenu
+     [java] /com/viewemr/images/Icon.gif
+     [java] --------End--------
+     [java] Default Filename Read : config/language/emr/Thai.xml
+     [java] _____________________________public void readXML()config/language/emr/Thai.xml
+     [java] 	Select * from f_order_status
+     [java] ShowOrderItemDrug
+     [java] ShowOrderItemLab
+     [java] ShowOrderItemXRay selected : false
+     [java] ClearDataGUI In Panel Show OrderItem All
+     [java] 	SELECT * FROM b_visit_clinic
+     [java] 	SELECT * FROM b_employee
+     [java] ShowVisitSlip in Show Panel :false
+     [java] IconMenu
+     [java] /com/viewemr/images/Icon.gif
+     [java] 	Select * from b_contract_plans
+     [java] >>>>>>>>>>>>>>hoscontrol<<<<<<<<<<<<<<<<
+     [java] com.hosv3.utility.ConnectionDBMgr@1713b42
+     [java] henbe_test_setupmodule vSetupModule.size():0
+     [java] henbe_test_setupmodule mi.getNamePanel():''
+     [java] listDLocation:4
+     [java] henbe_test_setupmodule vSetupModule.size():1
+     [java] henbe_test_setupmodule mi.getNamePanel():''
+     [java] 	select * from f_health_family_planing_method order by f_health_family_planing_method_id
+     [java] 	select * from f_health_pregnancy_pregnant_level order by f_health_pregnancy_pregnant_level_id
+     [java] 	select * from b_health_village_location where village_location_active = '1' order by village_location_number
+     [java] 	select * from f_health_home_water_type where health_home_water_type_drink = '1' order by f_health_home_water_type_id
+     [java] 	select * from f_health_home_water_type where health_home_water_type_use = '2' order by f_health_home_water_type_id
+     [java] 	select * from f_health_home_garbage_method
+     [java] 	select * from f_health_home_charactor
+     [java] 	select * from f_health_home_community_charac
+     [java] 	select * from f_health_home_dung_control
+     [java] 	select * from f_death_place_type
+     [java] 	select * from f_health_home_pet_sex
+     [java] 	select * from b_school_class where school_max_class_status = '1' and school_class_active = '1' order by school_class_number
+     [java] 	select * from b_health_company_type where company_type_active = '1' order by company_type_number
+     [java] 	select * from b_health_water_type where water_type_active = '1' order by water_type_number
+     [java] 	select * from f_visit_nutrition_level where visit_nutrition_level_standard = '1' order by f_visit_nutrition_level_id
+     [java] 	select * from f_health_gum_level order by f_health_gum_level_id
+     [java] 	select * from t_health_family_planing
+     [java] 	select * from f_health_postpartum_birth_place order by f_health_postpartum_birth_place_id
+     [java] 	select * from f_health_postpartum_status_result order by f_health_postpartum_status_result_id
+     [java] 	select * from f_health_family_planing order by f_health_family_planing_id
+     [java] 	select * from f_health_pregnancy_birth_high_risk order by f_health_pregnancy_birth_high_risk_id
+     [java] 	select * from f_health_anc_section order by f_health_anc_section_id
+     [java] 	select * from f_address where address_tambon_type = '1'  order by address_description
+     [java] 	select * from f_health_community_resorce_owner order by f_health_community_resorce_owner_id
+     [java] 	select * from f_health_school_service_type order by f_health_school_service_type_id
+     [java] 	select * from f_health_community_standard_type order by f_health_community_standard_type_id
+     [java] 	select * from f_health_community_standard order by f_health_community_standard_id
+     [java] 	select * from f_health_grow
+     [java] 	select * from f_health_check_result order by f_health_check_result_id
+     [java] 	select * from b_health_temple_type where temple_type_active = '1' order by temple_type_number
+     [java] 	select * from b_health_temple_personel where temple_personel_active = '1' order by temple_personel_number
+     [java] 	select * from f_health_pregnancy_uterus_level order by f_health_pregnancy_uterus_level_id
+     [java] 	select * from f_health_pregnancy_posture_baby_status Order by f_health_pregnancy_posture_baby_status_id
+     [java] 	select * from f_health_pregnancy_conduct order by f_health_pregnancy_conduct_id
+     [java] 	select * from f_health_abnormal
+     [java] 	select * from b_health_market_type where market_type_active = '1' order by market_type_number
+     [java] 	select * from b_health_market_type_lock where market_type_lock_active = '1' order by market_type_lock_number
+     [java] 	select * from b_health_agr_code where agr_code_active = '1' order by agr_code_number
+     [java] 	select * from b_health_agr_type where agr_type_active = '1' order by agr_type_number
+     [java] 	select * from f_health_family_planing_method WHERE f_health_family_planing_method_id<> '0' order by f_health_family_planing_method_id
+     [java] 	select * from f_health_family_planing_method order by f_health_family_planing_method_id
+     [java] 	select * from b_health_family_planing_group Where health_family_planning_group_active ='1'
+     [java] 	select * from f_health_family_planing order by health_family_planing_description
+     [java] 	select * from f_health_postpartum_episiotomy_type order by f_health_postpartum_episiotomy_type_id
+     [java] 	select * from f_health_postpartum_givebirth_result order by f_health_postpartum_givebirth_result_id
+     [java] 	select * from f_health_postpartum_status_result order by f_health_postpartum_status_result_id
+     [java] 	select * from f_health_pregnancy_birth_doctor_type order by health_pregnancy_birth_doctor_type_description
+     [java] 	select * from b_icd10 where ( icd10_number >= 'O00' and icd10_number <= 'O08' ) or  (icd10_number >= 'O80' and icd10_number <= 'O84') ORDER BY icd10_number ASC 
+     [java] 	select * from f_health_pp_breathing_time order by f_health_pp_breathing_time_id
+     [java] 	select * from f_health_pp_aspiration order by f_health_pp_aspiration_id
+     [java] 	select * from f_health_pp_eye_drug order by f_health_pp_eye_drug_id desc
+     [java] 	select * from f_health_birth_method order by f_health_birth_method_id
+     [java] 	select * from f_health_birth_method where f_health_birth_method_id <> '7' order by f_health_birth_method_id
+     [java] 	select * from f_health_pp_state order by f_health_pp_state_id
+     [java] 	select * from f_health_pp_dead_type order by f_health_pp_dead_type_id
+     [java] 	select * from f_health_pp_dead_cause order by f_health_pp_dead_cause_id
+     [java] 	select * from f_patient_area_status order by patient_area_status_description
+     [java] 	select * from f_patient_foreigner order by patient_foreigner_description
+     [java] 	select * from b_health_maim where health_maim_active = '1' order by health_maim_number
+     [java] sql===================: select * from b_site order by site_name
+     [java] 	select * from b_site order by site_name
+     [java] private void setObjectTransaction()
+     [java] com.hosv3.utility.ConnectionDBMgr@1713b42
+     [java] 	select * from b_health_disease where health_disease_active = '1' order by health_disease_number
+     [java] 	select * from b_health_survey where health_survey_active ='1' order by health_survey_description
+     [java] 	select * from b_health_epi_group where active = '1'  order by health_epi_group_description_particular
+     [java] henbe_test_setupmodule vSetupModule.size():20
+     [java] henbe_test_setupmodule mi.getNamePanel():'????????'
+     [java] 	select * from b_option_detail order by option_detail_name
+     [java] henbe_test_setupmodule vSetupModule.size():0
+     [java] henbe_test_setupmodule mi.getNamePanel():''
+     [java] HenbeTEst rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+     [java] 	 SELECT r_healthy_group_id, healthy_group_description  FROM r_healthy_group 
+     [java] 	 SELECT r_epi_age_group_type_id, epi_age_group_type_description  FROM r_epi_age_group_type 
+     [java] SQL AricGroup : selectByKeyID : SELECT * FROM  r_aric_group WHERE r_aric_group.aric_group_number like '%%'  OR r_aric_group.aric_group_description like '%%'  ORDER BY r_aric_group.aric_group_number
+     [java] 	SELECT * FROM  r_aric_group WHERE r_aric_group.aric_group_number like '%%'  OR r_aric_group.aric_group_description like '%%'  ORDER BY r_aric_group.aric_group_number
+     [java] SQL AricGroup : selectByKeyID : SELECT * FROM  r_aric_group WHERE r_aric_group.aric_group_number like '%%'  OR r_aric_group.aric_group_description like '%%'  ORDER BY r_aric_group.aric_group_number
+     [java] 	SELECT * FROM  r_aric_group WHERE r_aric_group.aric_group_number like '%%'  OR r_aric_group.aric_group_description like '%%'  ORDER BY r_aric_group.aric_group_number
+     [java] SQL AricSubGroup : selectByKeyID : SELECT * FROM  r_aric_subgroup WHERE r_aric_subgroup.aric_subgroup_number like '%%'  OR r_aric_subgroup.aric_subgroup_description like '%%'  ORDER BY r_aric_subgroup.aric_subgroup_number
+     [java] 	SELECT * FROM  r_aric_subgroup WHERE r_aric_subgroup.aric_subgroup_number like '%%'  OR r_aric_subgroup.aric_subgroup_description like '%%'  ORDER BY r_aric_subgroup.aric_subgroup_number
+     [java] SQL AricAntibioticItem : selectByKeyID : SELECT * FROM  r_aric_antibiotic WHERE r_aric_antibiotic.aric_antibiotic_code like '%%'  OR r_aric_antibiotic.aric_antibiotic_common_name like '%%'  ORDER BY r_aric_antibiotic.aric_antibiotic_code
+     [java] 	SELECT * FROM  r_aric_antibiotic WHERE r_aric_antibiotic.aric_antibiotic_code like '%%'  OR r_aric_antibiotic.aric_antibiotic_common_name like '%%'  ORDER BY r_aric_antibiotic.aric_antibiotic_code
+     [java] ++++++++*****+++++++++++ null
+     [java] +++++++++++++++++++ null
+     [java] SQL EyeGroup : selectBySearch : SELECT * FROM  r_eye_group WHERE (r_eye_group.eye_group_number like '%%'  OR r_eye_group.eye_group_description_th like '%%'  OR r_eye_group.eye_group_description_en like '%%')  AND r_eye_group.eye_group_active = '1' ORDER BY to_number(r_eye_group.eye_group_number,'99')
+     [java] 	SELECT * FROM  r_eye_group WHERE (r_eye_group.eye_group_number like '%%'  OR r_eye_group.eye_group_description_th like '%%'  OR r_eye_group.eye_group_description_en like '%%')  AND r_eye_group.eye_group_active = '1' ORDER BY to_number(r_eye_group.eye_group_number,'99')
+     [java] -------------SIZE---11
+     [java] SQL PlanGroupMapPtType : selectByKeyID : SELECT * FROM  r_uc_plan_group_pttype WHERE r_uc_plan_group_pttype.uc_plan_group_pttype_pttype like '%%'  ORDER BY to_number(r_uc_plan_group_pttype.uc_plan_group_pttype_number,'99')
+     [java] 	SELECT * FROM  r_uc_plan_group_pttype WHERE r_uc_plan_group_pttype.uc_plan_group_pttype_pttype like '%%'  ORDER BY to_number(r_uc_plan_group_pttype.uc_plan_group_pttype_number,'99')
+     [java] SQL PlanGroup : selectByKeyID : SELECT * FROM  r_plan_group WHERE (r_plan_group.plan_group_number like '%%'  OR r_plan_group.plan_group_description like '%%')  AND r_plan_group.plan_group_active = '1'  ORDER BY r_plan_group.plan_group_number
+     [java] 	SELECT * FROM  r_plan_group WHERE (r_plan_group.plan_group_number like '%%'  OR r_plan_group.plan_group_description like '%%')  AND r_plan_group.plan_group_active = '1'  ORDER BY r_plan_group.plan_group_number
+     [java] SQL PlanGroupMapPtType : selectByKeyID : SELECT * FROM  r_plan_group_map_pttype WHERE r_plan_group_map_pttype.plan_group_map_pttype_pttype like '%%'  ORDER BY r_plan_group_map_pttype.plan_group_map_pttype_pttype
+     [java] 	SELECT * FROM  r_plan_group_map_pttype WHERE r_plan_group_map_pttype.plan_group_map_pttype_pttype like '%%'  ORDER BY r_plan_group_map_pttype.plan_group_map_pttype_pttype
+     [java] SQL theResidentAgeGroup : selectBySearch : SELECT * FROM  r_resident_age_group WHERE r_resident_age_group.resident_age_group_number like '%%'  OR r_resident_age_group.resident_age_group_begin like '%%'  OR r_resident_age_group.resident_age_group_end like '%%'  ORDER BY r_resident_age_group.resident_age_group_number
+     [java] 	SELECT * FROM  r_resident_age_group WHERE r_resident_age_group.resident_age_group_number like '%%'  OR r_resident_age_group.resident_age_group_begin like '%%'  OR r_resident_age_group.resident_age_group_end like '%%'  ORDER BY r_resident_age_group.resident_age_group_number
+     [java] SQL theResidentAgeGroup : selectBySearch : SELECT * FROM  r_resident_age_group WHERE r_resident_age_group.resident_age_group_number like '%%'  OR r_resident_age_group.resident_age_group_begin like '%%'  OR r_resident_age_group.resident_age_group_end like '%%'  ORDER BY r_resident_age_group.resident_age_group_number
+     [java] 	SELECT * FROM  r_resident_age_group WHERE r_resident_age_group.resident_age_group_number like '%%'  OR r_resident_age_group.resident_age_group_begin like '%%'  OR r_resident_age_group.resident_age_group_end like '%%'  ORDER BY r_resident_age_group.resident_age_group_number
+     [java] 	 SELECT * FROM r_dental_protect_item 
+     [java] 	 SELECT * FROM r_epi_measles_item 
+     [java] 	 SELECT * FROM r_epi_group  WHERE UPPER(epi_group_number) like '%%'  OR UPPER(r_epi_group_description) like '%%' 
+     [java] 	 SELECT * FROM r_healthy_subgroup  WHERE UPPER(healthy_subgroup_number) like '%%'  OR UPPER(healthy_subgroup_description) like '%%' 
+     [java] SQL theResidentAgeGroup : selectBySearch : SELECT * FROM  r_rp11_disease WHERE r_rp11_disease.rp11_disease_number like '%%'  OR r_rp11_disease.rp11_disease_description like '%%'  ORDER BY r_rp11_disease.rp11_disease_number
+     [java] 	SELECT * FROM  r_rp11_disease WHERE r_rp11_disease.rp11_disease_number like '%%'  OR r_rp11_disease.rp11_disease_description like '%%'  ORDER BY r_rp11_disease.rp11_disease_number
+     [java] ---------------3333-------------BCS
+     [java] -------------4444---------------??????????? Breast Cancer Screening
+     [java] ---------------3333-------------IT1
+     [java] -------------4444---------------?????????????????????????????????????
+     [java] ---------------3333-------------IT2
+     [java] -------------4444---------------???????????????????????????????
+     [java] ---------------3333-------------PS
+     [java] -------------4444---------------?????????????????????????
+     [java] ---------------3333-------------Thalassemia1
+     [java] -------------4444---------------?????????????????????????????????
+     [java] ---------------3333-------------Thalassemia2
+     [java] -------------4444---------------?????????????????????????????????(???????????)
+     [java] 	 SELECT * FROM r_epi_tt_item 
+     [java] 	 SELECT *  FROM r_epi_age_group_type  WHERE r_epi_age_group_type_id = '8350000000001' 
+     [java] 	 SELECT * FROM r_epi_age_group  WHERE UPPER(epi_age_group_number) like '%%'  OR UPPER(epi_age_group_description) like '%%' 
+     [java] 	 SELECT *  FROM r_epi_age_group_type  WHERE r_epi_age_group_type_id = '' 
+     [java] 	 SELECT *  FROM r_epi_age_group_type  WHERE r_epi_age_group_type_id = '8350000000001' 
+     [java] -------> Size V Setup : 14
+     [java] henbe_test_setupmodule vSetupModule.size():14
+     [java] henbe_test_setupmodule mi.getNamePanel():'???????????'
+     [java] 	select * from b_option_detail order by option_detail_name
+     [java] 	select * from s_stock_version order by to_number(stock_version_number,'99D9S') DESC
+     [java] 	select * from s_stock_version order by to_number(stock_version_number,'99D9S') DESC
+     [java] 	select * from s_stock_version order by to_number(stock_version_number,'99D9S') DESC
+     [java] 	select * from b_option_detail order by option_detail_name
+     [java] Exception in thread "main" java.lang.NoSuchMethodError: com.stock.control.OrderStockControl.setDepControl(Lcom/hosv3/control/DiagnosisControl;Lcom/hosv3/control/VisitControl;Lcom/hosv3/control/LookupControl;)V
+     [java] 	at com.stock.StockModule.setHosControl(StockModule.java:166)
+     [java] 	at com.stock.StockModule.setHosControl(StockModule.java:136)
+     [java] 	at com.hosv3.gui.panel.setup.HosPanelSetup.showModule(HosPanelSetup.java:215)
+     [java] 	at com.hosv3.gui.frame.FrameSetup.setModule(FrameSetup.java:54)
+     [java] 	at com.hosv3.gui.frame.Main.notifyLoginSetup(Main.java:201)
+     [java] 	at com.hosv3.subject.SystemSubject.notifyLoginSetup(SystemSubject.java:40)
+     [java] 	at com.hosv3.control.SystemControl.loginSetup(SystemControl.java:670)
+     [java] 	at com.hosv3.gui.frame.Main.<init>(Main.java:134)
+     [java] 	at com.hosv3.HosSet.main(HosSet.java:37)
