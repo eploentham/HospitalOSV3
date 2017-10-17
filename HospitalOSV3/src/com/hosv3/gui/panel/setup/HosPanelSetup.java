@@ -84,6 +84,8 @@ import com.hosv3.gui.panel.detail.*;
     String PANEL_SETUP_VIEW_REPORT_RECEIP_ORDER = Constant.getTextBundle("PANEL_SETUP_VIEW_REPORT_RECEIP_ORDER");
     String PANEL_SETUP_VIEW_REPORT_RECEIP_CLINIC = Constant.getTextBundle("PANEL_SETUP_VIEW_REPORT_RECEIP_CLINIC");
     String PANEL_SETUP_VIEW_REPORT_PATIENT_CLINIC = Constant.getTextBundle("PANEL_SETUP_VIEW_REPORT_PATIENT_CLINIC");
+    String PANEL_SETUP_CONVERT = "PANEL_CONVERT";     //+1
+    
     String PANEL_SETUP_DRUG_STANDARD = Constant.getTextBundle("ชื่อสามัญทางยา"); //amp:14/03/2549 
     String PANEL_SETUP_DRUG_STANDARD_MAP_ITEM = Constant.getTextBundle("จัดกลุ่มยามาตรฐาน"); //amp:14/03/2549 
     String PANEL_SETUP_DRUG_INTERACTION = Constant.getTextBundle("ปฏิกิริยาต่อกันของยา"); //amp:14/03/2549
@@ -635,6 +637,12 @@ import com.hosv3.gui.panel.detail.*;
                     PanelNews psi = new PanelNews();
                     psi.setControl(theHC.theSystemControl,theUS);
                     initTreeNode(c_other,psi,PANEL_SETUP_NEWS);
+                }
+                
+                if(is_admin || theHO.theGActionAuthV.isReadTreeNews()){     //+1
+                    PanelConvertData psi = new PanelConvertData(theHC, theUS);
+                    //psi.setControl(theHC.theSystemControl,theUS);
+                    initTreeNode(c_other,psi,PANEL_SETUP_CONVERT);
                 }
             }
     }

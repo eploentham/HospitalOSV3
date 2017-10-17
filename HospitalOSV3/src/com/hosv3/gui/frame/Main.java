@@ -32,7 +32,10 @@ import com.hosv3.object.HosObject;
  * 
  * @author ekapop
  * 60-10-15 1. comment เรื่อง checkversion โปรแกรมกับdatabase
+ * 60-10-16 2. ปรับ screen ให้ใหญ่ขึ้น
+ * 
  * Modify doc  1.
+ * Modify doc  3.->2.
  */
 public class Main implements ManageSystemResp
 {    
@@ -203,7 +206,8 @@ public class Main implements ManageSystemResp
             aFrameSetup.confirmBox(Constant.getTextBundle("การแสดงผลของโมดูลเสริมผิดพลาด") + " " +
                     Constant.getTextBundle("กรุณาติดต่อผู้ดูแลระบบ")
                 , UpdateStatus.WARNING); 
-        aFrameSetup.setSize(800,600);
+        //aFrameSetup.setSize(800,600);     //-2
+        aFrameSetup.setSize(1024,768);       //+2
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         aFrameSetup.setLocation((screenSize.width-aFrameSetup.getSize().width)/2
            , (screenSize.height-aFrameSetup.getSize().height)/2);

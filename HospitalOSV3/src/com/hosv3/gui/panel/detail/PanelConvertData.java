@@ -3,14 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.hosv3.gui.frame;
+package com.hosv3.gui.panel.detail;
 
+import com.hospital_os.object.Drug;
+import com.hospital_os.object.Item;
+import com.hospital_os.object.ItemPrice;
+import com.hospital_os.object.LabGroup;
+import com.hospital_os.object.LabResultItem;
 import com.hospital_os.object.Patient;
-import com.hospital_os.usecase.connection.ConnectionInf;
+import com.hospital_os.utility.ComboboxModel;
+import com.hospital_os.utility.Gutil;
 import com.hosv3.control.HosControl;
+import com.hosv3.control.SetupControl;
 import com.hosv3.utility.Config;
-import com.hosv3.utility.Splash;
-
+import com.hosv3.utility.Constant;
+import com.hosv3.utility.DateUtil;
+import com.hosv3.utility.connection.UpdateStatus;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,22 +34,29 @@ import javax.swing.JFileChooser;
  *
  * @author ekapop
  */
-public class FrameConvert extends javax.swing.JFrame {
+public class PanelConvertData extends javax.swing.JPanel {
     Patient thePatient;
     HosControl theHC;
-//    Splash theSplash = new Splash();
+    UpdateStatus theUS;
+    SetupControl theSetupControl;
+    Item theItem;
+    ItemPrice theItemPrice;
+    Drug theDrug = new Drug();
+    LabResultItem theLabResultItem = new LabResultItem();
+    LabGroup theLabGroup = new LabGroup();
     /**
-     * Creates new form NewJFrame
+     * Creates new form PanelConvertData
      */
-    public FrameConvert(HosControl hc) {
+    public PanelConvertData(HosControl hc,UpdateStatus us) {
         initComponents();
         theHC = hc;
-        this.setSize(900, 400);
-        this.setLocationRelativeTo(null); 
+        theUS = us;
+        theSetupControl = hc.theSetupControl;
         initConfig();
     }
     private void initConfig(){
 //        theSplash.setVisible(false);
+        theItem = new Item();
         String[] aaa = {txtHostDBD.getText(),txtDatabaseD.getText(), txtUserDBD.getText(), txtPassDBD.getText()};
         Config config = new Config();
 //        ConnectionInf con_inf = config.getConnectionInfFromFile(aaa);        
@@ -57,60 +72,6 @@ public class FrameConvert extends javax.swing.JFrame {
         txtDatabaseS.setText("bitorw");
         txtDatabaseD.setText("front_bangna5");
     }
-    private void getPatient(Patient thePatient)
-    {
-        thePatient.hn="";
-        thePatient.couple_id = "";
-        thePatient.father_pid = "";
-        thePatient.mother_pid = "";
-        thePatient.patient_birthday = "";
-        thePatient.ampur = "";
-        thePatient.changwat = "";
-        thePatient.tambon =  "";
-        thePatient.blood_group_id = "1";
-        thePatient.education_type_id = "11";
-        thePatient.status_id =  "2";
-        thePatient.f_sex_id =  "1";
-        thePatient.labor =  "1";
-        thePatient.marriage_status_id = "1";
-        thePatient.nation_id =  "99";
-        thePatient.occupation_id =  "000";
-        thePatient.f_prefix_id =  "000";
-        thePatient.race_id =  "99";
-        thePatient.religion_id =  "1";
-//        thePatient.typearea =  "1";
-        thePatient.couple_firstname =  "";
-        thePatient.couple_lastname =  "";
-        thePatient.father_firstname =  "";
-        thePatient.father_lastname =  "";
-        thePatient.patient_name =  "";
-        thePatient.house =  "";
-        thePatient.patient_last_name =  "";
-        thePatient.mother_firstname =  "";
-        thePatient.mother_lastname =  "";
-        thePatient.private_doc =  "";
-        thePatient.p_type =  "";
-        thePatient.road =  "";
-        thePatient.village =  "";
-        thePatient.pid =  "";
-        thePatient.phone =  "";
-        thePatient.relation =  "00";
-        thePatient.sex_contact =  "1";
-        thePatient.house_contact =  "";
-        thePatient.village_contact =  "";
-        thePatient.road_contact =  "";
-        thePatient.phone_contact =  "";
-        thePatient.ampur_contact = "";
-        thePatient.changwat_contact = "";
-        thePatient.tambon_contact =  "";
-        thePatient.xn =  "";
-        thePatient.pid =  "";
-        thePatient.contact_fname =  "";
-        thePatient.contact_lname =  "";
-        thePatient.patient_birthday_true = "0";
-        thePatient.record_date_time =  "";
-        thePatient.staff_record = "";
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -122,44 +83,204 @@ public class FrameConvert extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jButtonOpenFile = new javax.swing.JButton();
-        jButtonConvert = new javax.swing.JButton();
-        txtHostDBS = new javax.swing.JTextField();
-        txtUserDBS = new javax.swing.JTextField();
-        txtPassDBS = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        txtHostDBS = new javax.swing.JTextField();
+        txtDatabaseS = new javax.swing.JTextField();
+        txtUserDBS = new javax.swing.JTextField();
+        txtPassDBS = new javax.swing.JTextField();
         txtPortDBS = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txtHostDBD = new javax.swing.JTextField();
+        txtDatabaseD = new javax.swing.JTextField();
         txtUserDBD = new javax.swing.JTextField();
         txtPassDBD = new javax.swing.JTextField();
         txtPortDBD = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        txtDatabaseS = new javax.swing.JTextField();
-        txtDatabaseD = new javax.swing.JTextField();
+        jButtonConvert = new javax.swing.JButton();
+        jButtonOpenFile = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new java.awt.GridBagLayout());
+        setLayout(new java.awt.GridBagLayout());
 
-        jButtonOpenFile.setText("Convert drug");
-        jButtonOpenFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonOpenFileActionPerformed(evt);
-            }
-        });
+        jLabel1.setText("Host DB[source]");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        add(jLabel1, gridBagConstraints);
+
+        jLabel9.setText("Database[source]");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        add(jLabel9, gridBagConstraints);
+
+        jLabel2.setText("User DB[source]");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        add(jLabel2, gridBagConstraints);
+
+        jLabel3.setText("Pass DB[source]");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        add(jLabel3, gridBagConstraints);
+
+        jLabel4.setText("Port[Dest]");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        getContentPane().add(jButtonOpenFile, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        add(jLabel4, gridBagConstraints);
+
+        txtHostDBS.setText("jTextField1");
+        txtHostDBS.setMinimumSize(new java.awt.Dimension(200, 24));
+        txtHostDBS.setPreferredSize(new java.awt.Dimension(200, 24));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        add(txtHostDBS, gridBagConstraints);
+
+        txtDatabaseS.setText("jTextField1");
+        txtDatabaseS.setMinimumSize(new java.awt.Dimension(200, 24));
+        txtDatabaseS.setPreferredSize(new java.awt.Dimension(200, 24));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        add(txtDatabaseS, gridBagConstraints);
+
+        txtUserDBS.setText("jTextField2");
+        txtUserDBS.setMinimumSize(new java.awt.Dimension(200, 24));
+        txtUserDBS.setPreferredSize(new java.awt.Dimension(200, 24));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        add(txtUserDBS, gridBagConstraints);
+
+        txtPassDBS.setText("jTextField3");
+        txtPassDBS.setMinimumSize(new java.awt.Dimension(200, 24));
+        txtPassDBS.setPreferredSize(new java.awt.Dimension(200, 24));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        add(txtPassDBS, gridBagConstraints);
+
+        txtPortDBS.setText("jTextField4");
+        txtPortDBS.setMinimumSize(new java.awt.Dimension(200, 24));
+        txtPortDBS.setPreferredSize(new java.awt.Dimension(200, 24));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        add(txtPortDBS, gridBagConstraints);
+
+        jLabel5.setText("Host DB[Dest]");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 50, 0, 10);
+        add(jLabel5, gridBagConstraints);
+
+        jLabel10.setText("Database[Dest]");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 50, 0, 10);
+        add(jLabel10, gridBagConstraints);
+
+        jLabel6.setText("User DB[Dest]");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 50, 0, 10);
+        add(jLabel6, gridBagConstraints);
+
+        jLabel7.setText("Pass DB[Dest]");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 50, 0, 10);
+        add(jLabel7, gridBagConstraints);
+
+        jLabel8.setText("Port [Dest]");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 50, 0, 10);
+        add(jLabel8, gridBagConstraints);
+
+        txtHostDBD.setText("jTextField5");
+        txtHostDBD.setMinimumSize(new java.awt.Dimension(200, 24));
+        txtHostDBD.setPreferredSize(new java.awt.Dimension(200, 24));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        add(txtHostDBD, gridBagConstraints);
+
+        txtDatabaseD.setText("jTextField2");
+        txtDatabaseD.setMinimumSize(new java.awt.Dimension(200, 24));
+        txtDatabaseD.setPreferredSize(new java.awt.Dimension(200, 24));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        add(txtDatabaseD, gridBagConstraints);
+
+        txtUserDBD.setText("jTextField6");
+        txtUserDBD.setMinimumSize(new java.awt.Dimension(200, 24));
+        txtUserDBD.setPreferredSize(new java.awt.Dimension(200, 24));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        add(txtUserDBD, gridBagConstraints);
+
+        txtPassDBD.setText("jTextField7");
+        txtPassDBD.setMinimumSize(new java.awt.Dimension(200, 24));
+        txtPassDBD.setPreferredSize(new java.awt.Dimension(200, 24));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        add(txtPassDBD, gridBagConstraints);
+
+        txtPortDBD.setText("jTextField8");
+        txtPortDBD.setMinimumSize(new java.awt.Dimension(200, 24));
+        txtPortDBD.setPreferredSize(new java.awt.Dimension(200, 24));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        add(txtPortDBD, gridBagConstraints);
 
         jButtonConvert.setText("Convert Patient");
         jButtonConvert.addActionListener(new java.awt.event.ActionListener() {
@@ -168,197 +289,58 @@ public class FrameConvert extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        getContentPane().add(jButtonConvert, gridBagConstraints);
+        add(jButtonConvert, gridBagConstraints);
 
-        txtHostDBS.setText("jTextField1");
-        txtHostDBS.setMinimumSize(new java.awt.Dimension(200, 24));
-        txtHostDBS.setPreferredSize(new java.awt.Dimension(200, 24));
+        jButtonOpenFile.setText("Convert drug");
+        jButtonOpenFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonOpenFileActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
-        getContentPane().add(txtHostDBS, gridBagConstraints);
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(jButtonOpenFile, gridBagConstraints);
 
-        txtUserDBS.setText("jTextField2");
-        txtUserDBS.setMinimumSize(new java.awt.Dimension(200, 24));
-        txtUserDBS.setPreferredSize(new java.awt.Dimension(200, 24));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
-        getContentPane().add(txtUserDBS, gridBagConstraints);
-
-        txtPassDBS.setText("jTextField3");
-        txtPassDBS.setMinimumSize(new java.awt.Dimension(200, 24));
-        txtPassDBS.setPreferredSize(new java.awt.Dimension(200, 24));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
-        getContentPane().add(txtPassDBS, gridBagConstraints);
-
-        jLabel1.setText("Host DB[source]");
+        jLabel11.setText("Source");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        getContentPane().add(jLabel1, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        add(jLabel11, gridBagConstraints);
 
-        jLabel2.setText("User DB[source]");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        getContentPane().add(jLabel2, gridBagConstraints);
-
-        jLabel3.setText("Pass DB[source]");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        getContentPane().add(jLabel3, gridBagConstraints);
-
-        jLabel4.setText("Port[Dest]");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        getContentPane().add(jLabel4, gridBagConstraints);
-
-        txtPortDBS.setText("jTextField4");
-        txtPortDBS.setMinimumSize(new java.awt.Dimension(200, 24));
-        txtPortDBS.setPreferredSize(new java.awt.Dimension(200, 24));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
-        getContentPane().add(txtPortDBS, gridBagConstraints);
-
-        jLabel5.setText("Host DB[Dest]");
+        jLabel12.setText("Destination");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 50, 0, 10);
-        getContentPane().add(jLabel5, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        add(jLabel12, gridBagConstraints);
 
-        jLabel6.setText("User DB[Dest]");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 50, 0, 10);
-        getContentPane().add(jLabel6, gridBagConstraints);
-
-        jLabel7.setText("Pass DB[Dest]");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 50, 0, 10);
-        getContentPane().add(jLabel7, gridBagConstraints);
-
-        jLabel8.setText("Port [Dest]");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 50, 0, 10);
-        getContentPane().add(jLabel8, gridBagConstraints);
-
-        txtHostDBD.setText("jTextField5");
-        txtHostDBD.setMinimumSize(new java.awt.Dimension(200, 24));
-        txtHostDBD.setPreferredSize(new java.awt.Dimension(200, 24));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
-        getContentPane().add(txtHostDBD, gridBagConstraints);
-
-        txtUserDBD.setText("jTextField6");
-        txtUserDBD.setMinimumSize(new java.awt.Dimension(200, 24));
-        txtUserDBD.setPreferredSize(new java.awt.Dimension(200, 24));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
-        getContentPane().add(txtUserDBD, gridBagConstraints);
-
-        txtPassDBD.setText("jTextField7");
-        txtPassDBD.setMinimumSize(new java.awt.Dimension(200, 24));
-        txtPassDBD.setPreferredSize(new java.awt.Dimension(200, 24));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
-        getContentPane().add(txtPassDBD, gridBagConstraints);
-
-        txtPortDBD.setText("jTextField8");
-        txtPortDBD.setMinimumSize(new java.awt.Dimension(200, 24));
-        txtPortDBD.setPreferredSize(new java.awt.Dimension(200, 24));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
-        getContentPane().add(txtPortDBD, gridBagConstraints);
-
-        jLabel9.setText("Database[source]");
+        jLabel13.setText("jLabel13");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        getContentPane().add(jLabel9, gridBagConstraints);
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 10);
+        add(jLabel13, gridBagConstraints);
 
-        jLabel10.setText("Database[Dest]");
+        jLabel14.setText("jLabel14");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 50, 0, 10);
-        getContentPane().add(jLabel10, gridBagConstraints);
-
-        txtDatabaseS.setText("jTextField1");
-        txtDatabaseS.setMinimumSize(new java.awt.Dimension(200, 24));
-        txtDatabaseS.setPreferredSize(new java.awt.Dimension(200, 24));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
-        getContentPane().add(txtDatabaseS, gridBagConstraints);
-
-        txtDatabaseD.setText("jTextField2");
-        txtDatabaseD.setMinimumSize(new java.awt.Dimension(200, 24));
-        txtDatabaseD.setPreferredSize(new java.awt.Dimension(200, 24));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
-        getContentPane().add(txtDatabaseD, gridBagConstraints);
-
-        pack();
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        add(jLabel14, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButtonOpenFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOpenFileActionPerformed
-        // TODO add your handling code here:
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-        int result = fileChooser.showOpenDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
-        }
-    }//GEN-LAST:event_jButtonOpenFileActionPerformed
 
     private void jButtonConvertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConvertActionPerformed
         Vector vNCD = new Vector();
+        Integer i=0, cnt=0;
         try {
             // TODO add your handling code here:
             String userDB="sa",passDB="Ekartc2c5", hostDB="DESKTOP-H18GJTN", portDB="", database="";
@@ -368,14 +350,24 @@ public class FrameConvert extends javax.swing.JFrame {
             passDB = txtPassDBS.getText();
             portDB = txtPortDBS.getText();
             database = txtDatabaseS.getText();
-            
+
             Class.forName( "com.microsoft.sqlserver.jdbc.SQLServerDriver" );
             Connection con = DriverManager.getConnection( "jdbc:sqlserver://"+hostDB+":"+portDB+";databasename="+database, userDB, passDB );
             //Connection con = DriverManager.getConnection( "jdbc:sqlserver://"+hostDB+";databasename="+database, userDB, passDB );
-            Statement stmt = con.createStatement();
+            Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet rs = stmt.executeQuery(sql);
+            rs.last();
+            jLabel14.setText(String.valueOf(rs.getRow()));
+//            rs.beforeFirst();
+//            while(rs.next()){
+//                cnt++;
+//            }
+//            jLabel14.setText(String.valueOf(cnt));
+            rs.beforeFirst();
             while (rs.next()) {
-//                dbtime = rs.getString(1);
+                //                dbtime = rs.getString(1);
+                i++;
+                jLabel13.setText(String.valueOf(i));
                 Patient pat = new Patient();
                 pat.hn = rs.getString("pbschtnum").trim();
                 pat.couple_id = "";
@@ -394,7 +386,7 @@ public class FrameConvert extends javax.swing.JFrame {
                 if (rs.getString("pbssextyp").trim().equals("M")){
                     pat.f_sex_id =  "1";
                 }else if (rs.getString("pbssextyp").trim().equals("F")){
-                     pat.f_sex_id =  "2";
+                    pat.f_sex_id =  "2";
                 }else{
                     pat.f_sex_id =  "3";
                 }
@@ -430,7 +422,7 @@ public class FrameConvert extends javax.swing.JFrame {
                 }
                 pat.race_id =  "99";
                 pat.religion_id =  "1";
-        //        pat.typearea =  "1";
+                //        pat.typearea =  "1";
                 pat.couple_firstname =  "";
                 pat.couple_lastname =  "";
                 pat.father_firstname =  "";
@@ -461,30 +453,85 @@ public class FrameConvert extends javax.swing.JFrame {
                 pat.patient_birthday_true = "0";
                 pat.record_date_time =  "";
                 pat.staff_record = "";
-                int ret=theHC.thePatientControl.savePatient(thePatient,null,"",vNCD);
+                int ret=theHC.thePatientControl.savePatient(pat,null,"",vNCD);
                 sql = "";
-//                System.out.println(dbtime);
-                
+                //                System.out.println(dbtime);
+
             } //end while
 
             con.close();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FrameConvert.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PanelConvertData.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(FrameConvert.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PanelConvertData.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_jButtonConvertActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private Item getItem() {
+        // set Item
+//        theItem.item_id = Gutil.CheckReservedWords(jTextFieldCode.getText());
+////        theItem.item_id = theItem.item_id.replace("'", "\\'");
+//        theItem.common_name = Gutil.CheckReservedWords(jTextAreaCommonName.getText());
+////        theItem.common_name = theItem.item_id.replace("'", "\\'");
+//        theItem.nick_name = Gutil.CheckReservedWords(jTextAreaNickName.getText());
+////        theItem.nick_name = theItem.nick_name.replace("\\\'", "\'");
+////        theItem.nick_name = theItem.nick_name.replace("\'", "\\\'");
+////        theItem.nick_name = theItem.item_id.replace("'", "\\'");
+//        theItem.trade_name = Gutil.CheckReservedWords(jTextAreaTradeName.getText());
+////        theItem.trade_name = theItem.trade_name.replace("\\", "");
+////        theItem.trade_name = theItem.trade_name.replace("\'", "\\\'");
+////        theItem.trade_name = theItem.item_id.replace("'", "\\'");
+//        theItem.item_group_code_billing = ComboboxModel.getCodeComboBox(jComboBoxReceiptList);
+//        theItem.item_group_code_category = ComboboxModel.getCodeComboBox(jComboBoxOrderList);
+//        theItem.item_16_group = ComboboxModel.getCodeComboBox(jComboBoxStandardGroup);
+//        theItem.setSecret(jCheckBoxSecret.isSelected());
+//        theItem.setActive(jCheckBox1.isSelected());
+//        theItem.unit_pack53 = jPanelDrugDescription.getUnitPack();
+//        theItem.rp_lab_type = String.valueOf(jComboBoxLabRpGroup.getSelectedIndex() + 1);
+//        theItem.specified = Gutil.getGuiData(jComboBoxSpecified);
+        return theItem;
+    }
+    private ItemPrice getItemPrice() {
+        //pu:25/08/2549 : เก็บเวลาในการบันทึกใช้งานราคา Item ด้วย เพื่อให้ sort ได้ถูกต้องตอนแสดงในตาราง
+//        if (jTextFieldPrice.getText().equals("")) {
+//            return null;
+//        }
+//        theItemPrice = new ItemPrice();
+//        if (this.jCheckBoxPlan.isSelected()) {
+//            theItemPrice.item_price_id = jComboBoxPlan.getText();
+//        }
+//
+//        theItemPrice.active_date = dateTextField.getText() + "," + DateUtil.getTextCurrentTime(this.theHC.theConnectionInf);
+//        theItemPrice.price = Constant.dicimalMoney(jTextFieldPrice.getText());
+//        theItemPrice.price_cost = Constant.dicimalMoney(doubleTextFieldPriceCost.getText());
+//
+        return theItemPrice;
+    }
+    private void jButtonOpenFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOpenFileActionPerformed
+        // TODO add your handling code here:
+//        JFileChooser fileChooser = new JFileChooser();
+//        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+//        int result = fileChooser.showOpenDialog(this);
+//        if (result == JFileChooser.APPROVE_OPTION) {
+//            File selectedFile = fileChooser.getSelectedFile();
+//            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+//        }
+
+
+//        int ret = theSetupControl.saveItem(getItem(), getItemPrice(), jPanelDrugDescription.getDrug(), getLabResultItem(), getLabGroup(), getLabSetV(), jRadioButtonLabGroup.isSelected(), getItemService());
+    }//GEN-LAST:event_jButtonOpenFileActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonConvert;
     private javax.swing.JButton jButtonOpenFile;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

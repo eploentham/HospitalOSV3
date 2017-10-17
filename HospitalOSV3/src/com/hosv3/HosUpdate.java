@@ -117,7 +117,7 @@ public class HosUpdate {
     }
     public static void loadFile(String surl,String file) throws MalformedURLException, IOException{
 
-        Constant.print("LoadFile:...");
+        Constant.print("LoadFile:..."+surl);
         URL url = new URL(surl);
         URLConnection urlConnection = url.openConnection();
         if(proxy!=null){

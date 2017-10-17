@@ -60,7 +60,7 @@ public class ReadModule {
                 modules = argc[i];
         }
         //ใช้การเช็ค argrument จากการ run โปรแกรม
-        Constant.println("_________________________module");
+        Constant.println("_________________________module "+dir);
         Constant.println(modules);
         // -module=com.XModule;com.YModule;com.ZModule 
         int index = modules.indexOf('=');
