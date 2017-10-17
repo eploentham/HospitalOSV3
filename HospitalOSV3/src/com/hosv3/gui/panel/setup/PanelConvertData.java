@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.hosv3.gui.panel.detail;
+package com.hosv3.gui.panel.setup;
 
 import com.hospital_os.object.Drug;
 import com.hospital_os.object.Item;
@@ -365,20 +365,36 @@ public class PanelConvertData extends javax.swing.JPanel {
 //            jLabel14.setText(String.valueOf(cnt));
             rs.beforeFirst();
             while (rs.next()) {
+                Integer aa=0;
+                String addr=rs.getString("pbsdtladr").trim();
+                String addr1=addr;
+                String tambon="", hn="";
+                aa = addr.indexOf("ต.");
+                if(aa>0){
+                    tambon = rs.getString("pbsdtladr").trim().substring(aa);
+                    addr1 = rs.getString("pbsdtladr").trim().substring(0,aa);
+                }
+                if(rs.getString("pbschtnum").trim().length()>=2){
+                    hn = rs.getString("pbschtnum").trim().substring(0,2)+ rs.getString("pbschtnum").trim().substring(2).trim();
+                    //String[] bb = hn.split(" ");
+                }else{
+                    hn = rs.getString("pbschtnum").trim();
+                }
                 //                dbtime = rs.getString(1);
                 i++;
                 jLabel13.setText(String.valueOf(i));
                 Patient pat = new Patient();
-                pat.hn = rs.getString("pbschtnum").trim();
+                pat.hn = hn;
                 pat.couple_id = "";
                 pat.father_pid = "";
                 pat.mother_pid = "";
                 pat.patient_birthday = "";
                 if(rs.getString("pbsbirdte").trim().length()>=8){
-                    pat.patient_birthday = rs.getString("pbsbirdte").trim().substring(0, 4)+"-"+rs.getString("pbsbirdte").trim().substring(4, 6)+"-"+rs.getString("pbsbirdte").trim().substring(6, 8);
+                    pat.patient_birthday = (Integer.parseInt(rs.getString("pbsbirdte").trim().substring(0, 4))+543)+"-"+rs.getString("pbsbirdte").trim().substring(4, 6)+"-"+rs.getString("pbsbirdte").trim().substring(6, 8);
                 }
                 pat.ampur = "";
-                pat.changwat = "";
+                
+                pat.changwat = getChangwat(rs.getString("pbsadrpro").trim());
                 pat.tambon =  "";
                 pat.blood_group_id = "1";
                 pat.education_type_id = "11";
@@ -434,7 +450,7 @@ public class PanelConvertData extends javax.swing.JPanel {
                 pat.mother_lastname =  "";
                 pat.private_doc =  "";
                 pat.p_type =  "";
-                pat.road =  rs.getString("pbsdtladr").trim();
+                pat.road =  addr1.trim();
                 pat.village =  "";
                 pat.pid =  rs.getString("pbsresnum").trim();
                 pat.phone =  rs.getString("pbsphnnum").trim();
@@ -468,6 +484,73 @@ public class PanelConvertData extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButtonConvertActionPerformed
 
+    private String getChangwat(String changwat){
+        String id="";
+        if(changwat.equals("ร้อยเอ็ด")){
+            id="450000";
+        }else if(changwat.equals("บุรีรัมย์")){
+            id="310000";
+        }else if(changwat.equals("พระนครศรีอยุธยา")){
+            id="140000";
+        }else if(changwat.equals("มหาสารคาม")){
+            id="440000";
+        }else if(changwat.equals("สระบุรี")){
+            id="190000";
+        }else if(changwat.equals("นครสวรรค์")){
+            id="600000";
+        }else if(changwat.equals("นครราชสีมา")){
+            id="300000";
+        }else if(changwat.equals("กาฬสินธุ์")){
+            id="460000";
+        }else if(changwat.equals("พัทลุง")){
+            id="930000";
+        }else if(changwat.equals("อำนาจเจริญ")){
+            id="370000";
+        }else if(changwat.equals("พิษณุโลก")){
+            id="650000";
+        }else if(changwat.equals("สระแก้ว")){
+            id="270000";
+        }else if(changwat.equals("นครนายก")){
+            id="260000";
+        }else if(changwat.equals("ฉะเชิงเทรา")){
+            id="240000";
+        }else if(changwat.equals("กำแพงเพชร")){
+            id="620000";
+        }else if(changwat.equals("นนทบุรี")){
+            id="120000";
+        }else if(changwat.equals("กรุงเทพ ฯ")){
+            id="100000";
+        }else if(changwat.equals("สมุทรปราการ")){
+            id="110000";
+        }else if(changwat.equals("พิจิตร")){
+            id="660000";
+        }else if(changwat.equals("กรุงเทพมหานคร")){
+            id="100000";
+        }else if(changwat.equals("ยโสธร")){
+            id="350000";
+        }else if(changwat.equals("นครพนม")){
+            id="480000";
+        }else if(changwat.equals("สุรินทร์")){
+            id="320000";
+        }else if(changwat.equals("อุดรธานี")){
+            id="410000";
+        }else if(changwat.equals("เพชรบูรณ์")){
+            id="670000";
+        }else if(changwat.equals("สกลนคร")){
+            id="470000";
+        }else if(changwat.equals("Phuket")){
+            id="830000";
+        }else if(changwat.equals("เลย")){
+            id="420000";
+        }else if(changwat.equals("ศรีสะเกษ")){
+            id="330000";
+//        }else if(changwat.equals("บุรีรัมย์")){
+//            
+//        }else if(changwat.equals("บุรีรัมย์")){
+            
+        }
+        return id;
+    }
     private Item getItem() {
         // set Item
 //        theItem.item_id = Gutil.CheckReservedWords(jTextFieldCode.getText());
@@ -519,6 +602,7 @@ public class PanelConvertData extends javax.swing.JPanel {
 //        }
         String userDB="sa",passDB="Ekartc2c5", hostDB="DESKTOP-H18GJTN", portDB="", database="";
         String sql = "select * from GrpMst where GrpTrnDep = 'PHA' ";
+        sql = "select * from SeeMst Where SeeTrnDep = 'PHA' ";
         userDB = txtUserDBS.getText();
         hostDB = txtHostDBS.getText();
         passDB = txtPassDBS.getText();
@@ -541,26 +625,27 @@ public class PanelConvertData extends javax.swing.JPanel {
             rs.beforeFirst();
             while (rs.next()) {
                 theItem = new Item();
-                theItem.item_id = Gutil.CheckReservedWords(rs.getString("pbschtnum").trim());
+                theItem.item_id = Gutil.CheckReservedWords(rs.getString("SeeOdrCod").trim());
     //        theItem.item_id = theItem.item_id.replace("'", "\\'");
-                theItem.common_name = Gutil.CheckReservedWords(jTextAreaCommonName.getText());
-    //        theItem.common_name = theItem.item_id.replace("'", "\\'");
-                theItem.nick_name = Gutil.CheckReservedWords(jTextAreaNickName.getText());
-    //        theItem.nick_name = theItem.nick_name.replace("\\\'", "\'");
-    //        theItem.nick_name = theItem.nick_name.replace("\'", "\\\'");
-    //        theItem.nick_name = theItem.item_id.replace("'", "\\'");
-                theItem.trade_name = Gutil.CheckReservedWords(jTextAreaTradeName.getText());
-    //        theItem.trade_name = theItem.trade_name.replace("\\", "");
-    //        theItem.trade_name = theItem.trade_name.replace("\'", "\\\'");
-    //        theItem.trade_name = theItem.item_id.replace("'", "\\'");
-                theItem.item_group_code_billing = ComboboxModel.getCodeComboBox(jComboBoxReceiptList);
-                theItem.item_group_code_category = ComboboxModel.getCodeComboBox(jComboBoxOrderList);
-                theItem.item_16_group = ComboboxModel.getCodeComboBox(jComboBoxStandardGroup);
-                theItem.setSecret(jCheckBoxSecret.isSelected());
-                theItem.setActive(jCheckBox1.isSelected());
-                theItem.unit_pack53 = jPanelDrugDescription.getUnitPack();
-                theItem.rp_lab_type = String.valueOf(jComboBoxLabRpGroup.getSelectedIndex() + 1);
-                theItem.specified = Gutil.getGuiData(jComboBoxSpecified);
+                theItem.common_name = Gutil.CheckReservedWords(rs.getString("SeeKorNam").trim());
+                theItem.nick_name = Gutil.CheckReservedWords(rs.getString("SeeEngNam").trim());
+                theItem.trade_name = Gutil.CheckReservedWords(rs.getString("SeeEngNam").trim());
+                theItem.item_group_code_billing = "";
+                theItem.item_group_code_category = "";
+                theItem.item_16_group = "";
+                theItem.setSecret(false);
+                theItem.setActive(true);
+                theItem.unit_pack53 = "";
+                theItem.rp_lab_type = "";
+                theItem.specified = "";
+                
+                Statement stmtP = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                sql = "Select FeeAmt from FeeMst Where FeeLvl = 'O' and FeeAdpDte and FeeElcCod = '"+rs.getString("SeeOdrCod").trim();
+                ResultSet rsP = stmt.executeQuery(sql);
+                theItemPrice = new ItemPrice();
+                theItemPrice.active_date = "2017-01-01," + DateUtil.getTextCurrentTime(this.theHC.theConnectionInf);
+//                theItemPrice.price = Constant.dicimalMoney(jTextFieldPrice.getText());
+//                theItemPrice.price_cost = Constant.dicimalMoney(doubleTextFieldPriceCost.getText());
             }
             con.close();
         } catch (ClassNotFoundException ex) {
