@@ -517,7 +517,58 @@ public class PanelConvertData extends javax.swing.JPanel {
 //            File selectedFile = fileChooser.getSelectedFile();
 //            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
 //        }
+        String userDB="sa",passDB="Ekartc2c5", hostDB="DESKTOP-H18GJTN", portDB="", database="";
+        String sql = "select * from GrpMst where GrpTrnDep = 'PHA' ";
+        userDB = txtUserDBS.getText();
+        hostDB = txtHostDBS.getText();
+        passDB = txtPassDBS.getText();
+        portDB = txtPortDBS.getText();
+        database = txtDatabaseS.getText();
 
+        try {
+            Class.forName( "com.microsoft.sqlserver.jdbc.SQLServerDriver" );
+            Connection con = DriverManager.getConnection( "jdbc:sqlserver://"+hostDB+":"+portDB+";databasename="+database, userDB, passDB );
+            //Connection con = DriverManager.getConnection( "jdbc:sqlserver://"+hostDB+";databasename="+database, userDB, passDB );
+            Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ResultSet rs = stmt.executeQuery(sql);
+            rs.last();
+            jLabel14.setText(String.valueOf(rs.getRow()));
+    //            rs.beforeFirst();
+    //            while(rs.next()){
+    //                cnt++;
+    //            }
+    //            jLabel14.setText(String.valueOf(cnt));
+            rs.beforeFirst();
+            while (rs.next()) {
+                theItem = new Item();
+                theItem.item_id = Gutil.CheckReservedWords(rs.getString("pbschtnum").trim());
+    //        theItem.item_id = theItem.item_id.replace("'", "\\'");
+                theItem.common_name = Gutil.CheckReservedWords(jTextAreaCommonName.getText());
+    //        theItem.common_name = theItem.item_id.replace("'", "\\'");
+                theItem.nick_name = Gutil.CheckReservedWords(jTextAreaNickName.getText());
+    //        theItem.nick_name = theItem.nick_name.replace("\\\'", "\'");
+    //        theItem.nick_name = theItem.nick_name.replace("\'", "\\\'");
+    //        theItem.nick_name = theItem.item_id.replace("'", "\\'");
+                theItem.trade_name = Gutil.CheckReservedWords(jTextAreaTradeName.getText());
+    //        theItem.trade_name = theItem.trade_name.replace("\\", "");
+    //        theItem.trade_name = theItem.trade_name.replace("\'", "\\\'");
+    //        theItem.trade_name = theItem.item_id.replace("'", "\\'");
+                theItem.item_group_code_billing = ComboboxModel.getCodeComboBox(jComboBoxReceiptList);
+                theItem.item_group_code_category = ComboboxModel.getCodeComboBox(jComboBoxOrderList);
+                theItem.item_16_group = ComboboxModel.getCodeComboBox(jComboBoxStandardGroup);
+                theItem.setSecret(jCheckBoxSecret.isSelected());
+                theItem.setActive(jCheckBox1.isSelected());
+                theItem.unit_pack53 = jPanelDrugDescription.getUnitPack();
+                theItem.rp_lab_type = String.valueOf(jComboBoxLabRpGroup.getSelectedIndex() + 1);
+                theItem.specified = Gutil.getGuiData(jComboBoxSpecified);
+            }
+            con.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PanelConvertData.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(PanelConvertData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
 
 //        int ret = theSetupControl.saveItem(getItem(), getItemPrice(), jPanelDrugDescription.getDrug(), getLabResultItem(), getLabGroup(), getLabSetV(), jRadioButtonLabGroup.isSelected(), getItemService());
     }//GEN-LAST:event_jButtonOpenFileActionPerformed
