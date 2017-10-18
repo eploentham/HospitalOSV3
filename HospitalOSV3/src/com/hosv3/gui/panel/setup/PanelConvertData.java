@@ -61,16 +61,17 @@ public class PanelConvertData extends javax.swing.JPanel {
         Config config = new Config();
 //        ConnectionInf con_inf = config.getConnectionInfFromFile(aaa);        
         
-        txtHostDBS.setText("localhost");
+        txtHostDBS.setText("172.25.1.5");
         txtUserDBS.setText("sa");
-        txtPassDBS.setText("Ekartc2c5");
+        txtPassDBS.setText("Orawanhospital1*");
         txtPortDBS.setText("1433");
-        txtHostDBD.setText("localhost");
+        txtHostDBD.setText("172.25.1.5");
         txtUserDBD.setText("postgres");
-        txtPassDBD.setText("Ekartc2c5");
+        txtPassDBD.setText("orawanhospital");
         txtPortDBD.setText("5432");
-        txtDatabaseS.setText("bitorw");
-        txtDatabaseD.setText("front_bangna5");
+        txtDatabaseS.setText("bithis");
+        txtDatabaseD.setText("hospital_os_orc1");
+        jLabel11.setText("Source 60-10-18");
     }
 
     /**
