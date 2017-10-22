@@ -369,14 +369,16 @@ public class PanelConvertData extends javax.swing.JPanel {
                 Integer aa=0;
                 String addr=rs.getString("pbsdtladr").trim();
                 String addr1=addr;
-                String tambon="", hn="";
+                String tambon="", hn="",hny="";
                 aa = addr.indexOf("µ.");
                 if(aa>0){
                     tambon = rs.getString("pbsdtladr").trim().substring(aa);
                     addr1 = rs.getString("pbsdtladr").trim().substring(0,aa);
                 }
                 if(rs.getString("pbschtnum").trim().length()>=2){
-                    hn = rs.getString("pbschtnum").trim().substring(0,2)+ rs.getString("pbschtnum").trim().substring(2).trim();
+                    hny = rs.getString("pbschtnum").trim().substring(0,2);
+                    hn = "00000"+ rs.getString("pbschtnum").trim().substring(2).trim();
+                    hn = hny+hn.substring(hn.length()-5);
                     //String[] bb = hn.split(" ");
                 }else{
                     hn = rs.getString("pbschtnum").trim();
