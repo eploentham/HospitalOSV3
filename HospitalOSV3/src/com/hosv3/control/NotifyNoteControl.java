@@ -21,6 +21,14 @@ import sd.comp.idandcombobox.KeyValue;
  *
  * @author Somprasong
  */
+/**
+ * 
+ * @author ekapop
+ * 1. เรื่อง AttachNote  60-10-22
+ * 
+ * Modify doc 5.
+
+ */
 public class NotifyNoteControl {
 
     protected ConnectionInf theConnectionInf;
@@ -83,6 +91,31 @@ public class NotifyNoteControl {
             theConnectionInf.close();
         }
         return list;
+    }
+    public String listNotifyNoteFirst(String hn) {      //+1
+        List<NotifyNote> list = new ArrayList<NotifyNote>();
+        NotifyNote nn = new NotifyNote();
+        String aa = "";
+        theConnectionInf.open();
+        try {
+//            theConnectionInf.getConnection().setAutoCommit(false);
+            list = theHosDB.theNotifyNoteDB.listByHnFirst(hn);
+            if(list.size()>0){
+                nn = list.get(0);
+                aa = nn.note_subject+""+nn.note_detail;
+            }
+//            theConnectionInf.getConnection().commit();
+        } catch (Exception ex) {
+            ex.printStackTrace(Constant.getPrintStream());
+//            try {
+//                theConnectionInf.getConnection().rollback();
+//            } catch (SQLException ex1) {
+//                Logger.getLogger(NotifyNoteControl.class.getName()).log(Level.SEVERE, null, ex1);
+//            }
+        } finally {
+            theConnectionInf.close();
+        }
+        return aa;
     }
 
     public NotifyNote getNotifyNote(String id) {

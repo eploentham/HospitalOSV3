@@ -14,6 +14,14 @@ import java.util.List;
  *
  * @author Somprasong
  */
+/**
+ * 
+ * @author ekapop
+ * 1. เรื่อง AttachNote  60-10-22
+ * 
+ * Modify doc 5.
+
+ */
 public class NotifyNoteDB {
 
     private ConnectionInf theConnectionInf;
@@ -223,6 +231,37 @@ public class NotifyNoteDB {
                 + "Where t_notify_note.t_patient_hn = '" + hn + "' "
                 + "and t_notify_note.active = '1' "
                 + "Order by t_notify_note.f_notify_type_id, t_notify_note.rec_datetime desc";
+        ResultSet rs = theConnectionInf.eQuery(sql.toString());
+        List<NotifyNote> list = new ArrayList<NotifyNote>();
+        while (rs.next()) {
+            NotifyNote object = new NotifyNote();
+            object.setObjectId(rs.getString(dbObj.pk_field));
+            object.patient_hn = rs.getString(dbObj.patient_hn);
+            object.visit_id_rec = rs.getString(dbObj.visit_id_rec);
+            object.visit_id_last_view = rs.getString(dbObj.visit_id_last_view);
+            object.notify_type_id = rs.getString(dbObj.notify_type_id);
+            object.note_subject = rs.getString(dbObj.note_subject);
+            object.note_detail = rs.getString(dbObj.note_detail);
+            object.active = rs.getString(dbObj.active);
+            object.rec_staff = rs.getString(dbObj.rec_staff);
+            object.rec_datetime = rs.getString(dbObj.rec_datetime);
+            object.mod_datetime = rs.getString(dbObj.mod_datetime);
+            object.del_datetime = rs.getString(dbObj.del_datetime);
+            object.noter = rs.getString(dbObj.noter);
+            list.add(object);
+        }
+        rs.close();
+
+        return list;
+    }
+    public List<NotifyNote> listByHnFirst(String hn) throws Exception {     //+1
+        String sql = "select t_notify_note.* "
+                + ",b_employee.employee_firstname || ' ' || b_employee.employee_lastname as noter "
+                + "from t_notify_note "
+                + "inner join b_employee on b_employee.b_employee_id = t_notify_note.rec_staff "
+                + "Where t_notify_note.t_patient_hn = '" + hn + "' "
+                + "and t_notify_note.active = '1' and t_notify_note.f_notify_type_id = '2' "
+                + "Order by  t_notify_note.rec_datetime Limit 1";
         ResultSet rs = theConnectionInf.eQuery(sql.toString());
         List<NotifyNote> list = new ArrayList<NotifyNote>();
         while (rs.next()) {

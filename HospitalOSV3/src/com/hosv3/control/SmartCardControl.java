@@ -32,12 +32,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
+import javax.smartcardio.Card;
+import javax.smartcardio.CardChannel;
+import javax.smartcardio.CardTerminal;
+import javax.smartcardio.CommandAPDU;
+import javax.smartcardio.ResponseAPDU;
+import javax.smartcardio.TerminalFactory;
 import javax.swing.JOptionPane;
+import javax.xml.bind.DatatypeConverter;
 
 /**
  *
@@ -89,6 +98,25 @@ public class SmartCardControl {
                 Constant.getTextBundle("..."), UpdateStatus.NORMAL);
         addressHashMap.clear();
         try {
+            
+            TerminalFactory tf = TerminalFactory.getDefault();
+            List< CardTerminal> terminals = tf.terminals().list();
+            System.out.println("Available Readers:");
+            System.out.println(terminals + "\n");
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Which reader do you want to send your commands to? (0 or 1 or ...): ");
+//            String input = scanner.nextLine();
+//            int readerNum = Integer.parseInt(input);
+            CardTerminal cardTerminal = (CardTerminal) terminals.get(0);
+            Card connection = cardTerminal.connect("*");
+            CardChannel cardChannel = connection.getBasicChannel();
+            
+
+            
+            
+            
+            connection.disconnect(true);
+        
             session.open("");
 
             theMOI = service.getMoiApplet1Info(isGetPic);
@@ -107,6 +135,7 @@ public class SmartCardControl {
             return false;
         }
     }
+    
 
     // Thai name
     public String getFullThaiName() {

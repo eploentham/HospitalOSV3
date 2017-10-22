@@ -41,6 +41,12 @@ import org.postgresql.util.PSQLException;
  *
  * @author  tong
  */
+/**
+ * 60-10-21
+ * @author ekapop
+ * 1.   60-10-21     เรื่อง ราคา IPD
+ * Modify doc 4.
+ */
 public class SetupControl {
 
     ConnectionInf theConnectionInf;

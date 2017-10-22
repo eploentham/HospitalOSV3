@@ -27,6 +27,14 @@ import java.util.*;
  *
   * @author  administrator
  */
+/**
+ * 
+ * @author ekapop
+ * 1. เรื่อง AttachNote  60-10-22
+ * 
+ * Modify doc 5.
+
+ */
 public class PanelCurrentVisit extends javax.swing.JPanel 
 implements ManagePatientResp,ManageVisitResp,ManageVitalResp
 ,ManageOrderResp,ManageBillingResp,ManageLabXrayResp,ManageVPaymentResp
@@ -70,6 +78,7 @@ implements ManagePatientResp,ManageVisitResp,ManageVitalResp
         jLabelPersonalDisease.setVisible(false);
         jLabelAppointment.setVisible(false);
         btnNote.setEnabled(false);
+        jLabelAttachNote.setText("");       //+1
     }
     public void setControl(HosControl hc,UpdateStatus us)
     {
@@ -509,6 +518,8 @@ implements ManagePatientResp,ManageVisitResp,ManageVitalResp
             setEnabled(false);
             return;
         }
+        
+        jLabelAttachNote.setText(theHC.theNotifyNoteControl.listNotifyNoteFirst(visit.hn));     //+1
         setEnabled(true);
     }
     
@@ -628,9 +639,10 @@ implements ManagePatientResp,ManageVisitResp,ManageVitalResp
         jButtonPrev = new javax.swing.JButton();
         jLabelAppointment = new javax.swing.JLabel();
         btnNote = new javax.swing.JButton();
+        jLabelAttachNote = new javax.swing.JLabel();
 
-        setMinimumSize(new java.awt.Dimension(896, 85));
-        setPreferredSize(new java.awt.Dimension(896, 85));
+        setMinimumSize(new java.awt.Dimension(896, 95));
+        setPreferredSize(new java.awt.Dimension(896, 95));
         setLayout(new java.awt.GridBagLayout());
 
         jPanelPatientInfo1.setMinimumSize(new java.awt.Dimension(358, 26));
@@ -756,7 +768,7 @@ implements ManagePatientResp,ManageVisitResp,ManageVitalResp
         gridBagConstraints.gridy = 0;
         jPanelPatientInfo1.add(jTextFieldDDoctor, gridBagConstraints);
 
-        jLabelVisitDate.setFont(new java.awt.Font("Tahoma", 1, 14));
+        jLabelVisitDate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelVisitDate.setForeground(java.awt.Color.blue);
         jLabelVisitDate.setText("วันที่รับบริการ");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -832,7 +844,7 @@ implements ManagePatientResp,ManageVisitResp,ManageVitalResp
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanelPatientInfo2.add(jLabelDx, gridBagConstraints);
 
-        jLabelPtAllergyValue.setFont(new java.awt.Font("Tahoma", 1, 18));
+        jLabelPtAllergyValue.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabelPtAllergyValue.setForeground(java.awt.Color.red);
         jLabelPtAllergyValue.setText("แพ้ยา");
         jLabelPtAllergyValue.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -909,7 +921,7 @@ implements ManagePatientResp,ManageVisitResp,ManageVitalResp
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanelPatientInfo2.add(jLabelDoctor, gridBagConstraints);
 
-        jLabelPersonalDisease.setFont(new java.awt.Font("Tahoma", 1, 14));
+        jLabelPersonalDisease.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelPersonalDisease.setForeground(new java.awt.Color(255, 0, 0));
         jLabelPersonalDisease.setText("โรคประจำตัว");
         jLabelPersonalDisease.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1007,7 +1019,7 @@ implements ManagePatientResp,ManageVisitResp,ManageVitalResp
         jPanelLine.add(jButtonUnlock, gridBagConstraints);
 
         jLabelLockUser.setBackground(java.awt.Color.white);
-        jLabelLockUser.setFont(new java.awt.Font("Tahoma", 1, 14));
+        jLabelLockUser.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelLockUser.setForeground(java.awt.Color.red);
         jLabelLockUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelLockUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hospital_os/images/lock.gif"))); // NOI18N
@@ -1020,7 +1032,7 @@ implements ManagePatientResp,ManageVisitResp,ManageVitalResp
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         jPanelLine.add(jLabelLockUser, gridBagConstraints);
 
-        jLabelRemain.setFont(new java.awt.Font("Tahoma", 1, 14));
+        jLabelRemain.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelRemain.setForeground(java.awt.Color.red);
         jLabelRemain.setText("ค้างชำระ");
         jLabelRemain.setToolTipText("ค้างชำระ");
@@ -1049,7 +1061,7 @@ implements ManagePatientResp,ManageVisitResp,ManageVitalResp
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         jPanelLine.add(jComboBoxSendToLocation, gridBagConstraints);
 
-        jLabelRefer.setFont(new java.awt.Font("Tahoma", 1, 14));
+        jLabelRefer.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelRefer.setForeground(new java.awt.Color(102, 102, 0));
         jLabelRefer.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabelRefer.setText("Refer");
@@ -1145,6 +1157,14 @@ implements ManagePatientResp,ManageVisitResp,ManageVitalResp
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 2, 1, 2);
         add(jPanelLine, gridBagConstraints);
+
+        jLabelAttachNote.setText("jLabel1");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
+        add(jLabelAttachNote, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabelDischargeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelDischargeMouseReleased
@@ -1281,6 +1301,7 @@ implements ManagePatientResp,ManageVisitResp,ManageVitalResp
     private javax.swing.JLabel jLabelAN;
     private javax.swing.JLabel jLabelAge;
     private javax.swing.JLabel jLabelAppointment;
+    private javax.swing.JLabel jLabelAttachNote;
     private javax.swing.JLabel jLabelDischarge;
     private javax.swing.JLabel jLabelDoctor;
     private javax.swing.JLabel jLabelDx;
@@ -1649,6 +1670,7 @@ implements ManagePatientResp,ManageVisitResp,ManageVitalResp
         GuiLang.setLanguage(jLabelRemain);
         GuiLang.setLanguage(jButtonNext);
         GuiLang.setLanguage(jButtonPrev);
+        GuiLang.setLanguage(jLabelAttachNote);
         Font font = jLabelPatientNameValue.getFont();
         jLabelPatientNameValue.setFont(new Font(font.getFontName(),Font.BOLD,font.getSize()));
     }

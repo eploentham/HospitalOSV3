@@ -29,6 +29,13 @@ import java.util.logging.Logger;
  *
  * @author  tong
  */
+/**
+ * 
+ * @author ekapop
+ * 1. 60-10-21  เรื่อง ราคา IPD
+ *Modify doc 4.
+
+ */
 public class OrderControl {
 
     public static final int ReadLabResultItem_Call_LIMIT = 200;
@@ -370,6 +377,60 @@ public class OrderControl {
         return intReadItemPriceByItem(item,pm.plan_kid);
     }
     public ItemPrice intReadItemPriceByItem(String item,String plan) throws Exception
+    {
+        Vector v = theHosDB.theItemPriceDB.selectByItem(item);
+        if(v == null || v.isEmpty() ){
+            throw new Exception("Price Not Found in item");
+        }
+        ItemPrice iprice = null;
+        for(int i=v.size()-1;i>=0;i--)
+        {
+            // ถ้าวันที่ใข้ราคา เป็นวันในอนาคต ให้ remove ออกจาก vector เลย
+            ItemPrice ip = (ItemPrice)v.get(i);
+            if(ip.item_price_id!=null && ip.item_price_id.equals(plan)){
+                if(theHO.theVisit.visit_type.equals("1")){      //+1
+                    ip.price = ip.price_ipd;
+                }
+                Constant.println("ip.item_price_id" + ip.item_price_id + " " + plan);
+                Constant.println("item_price="+ ip.price);
+                return ip;
+            }
+            if(DateUtil.countDateDiff(ip.active_date,theHO.date_time)>0)
+                v.remove(i);
+
+            else if(ip.item_price_id!=null && ip.item_price_id.startsWith("212"))
+                v.remove(i);
+        }
+        iprice = (ItemPrice)v.get(0);
+        if(theHO.theVisit.visit_type.equals("1")){      //+1
+            iprice.price = iprice.price_ipd;
+        }
+        try{   
+            Double.parseDouble(iprice.price);   
+        }
+        catch(Exception e){
+            throw new Exception("ItemPrice Item_id "+ item +" Not Set " + iprice.price);
+        }
+        try{ 
+            Double.parseDouble(iprice.price_cost);  
+        }
+        catch(Exception e){
+            iprice.price_cost = "0";
+            //throw new Exception("ItemPriceCost Not Set");
+        }
+        Constant.println("item_price="+ iprice.price);
+        return iprice;
+    }
+    /**
+     * 
+     * @param item
+     * @param plan
+     * @return
+     * @throws Exception 
+     *      +1
+     * copy จาก Method intReadItemPriceByItem
+     */
+    public ItemPrice intReadItemPriceByItemOld(String item,String plan) throws Exception
     {
         Vector v = theHosDB.theItemPriceDB.selectByItem(item);
         if(v == null || v.isEmpty() ){

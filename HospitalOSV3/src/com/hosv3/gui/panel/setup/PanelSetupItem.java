@@ -28,6 +28,14 @@ import javax.swing.JFrame;
  *
  * @Panel author : amp 
  */
+/**
+ * 
+ * @author ekapop
+ * 1. เรื่อง ราคา IPD    60-10-21
+ * 
+ * Modify doc 4.
+
+ */
 public class PanelSetupItem extends javax.swing.JPanel implements ManageOptionReq {
 
     LookupControl theLookupControl;
@@ -205,6 +213,10 @@ public class PanelSetupItem extends javax.swing.JPanel implements ManageOptionRe
         dateTextField = new com.hospital_os.utility.DateComboBox();
         jCheckBoxPlan = new javax.swing.JCheckBox();
         jComboBoxPlan = new com.hosv3.gui.component.HosComboBox();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        doubleTextFieldPriceIPD = new com.hospital_os.utility.DoubleTextField();
+        doubleTextFieldPrice1 = new com.hospital_os.utility.DoubleTextField();
         jPanel7 = new javax.swing.JPanel();
         jPanelBlank = new javax.swing.JPanel();
         jPanelLabDescription = new javax.swing.JPanel();
@@ -841,7 +853,7 @@ public class PanelSetupItem extends javax.swing.JPanel implements ManageOptionRe
         doubleTextFieldPriceCost.setText("0");
         doubleTextFieldPriceCost.setFont(defaultFont1);
         doubleTextFieldPriceCost.setMinimumSize(new java.awt.Dimension(40, 21));
-        doubleTextFieldPriceCost.setPreferredSize(new java.awt.Dimension(40, 21));
+        doubleTextFieldPriceCost.setPreferredSize(new java.awt.Dimension(80, 24));
         doubleTextFieldPriceCost.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 doubleTextFieldPriceCostKeyReleased(evt);
@@ -850,14 +862,13 @@ public class PanelSetupItem extends javax.swing.JPanel implements ManageOptionRe
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel26.add(doubleTextFieldPriceCost, gridBagConstraints);
 
         jTextFieldPrice.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         jTextFieldPrice.setFont(defaultFont1);
         jTextFieldPrice.setMinimumSize(new java.awt.Dimension(40, 21));
-        jTextFieldPrice.setPreferredSize(new java.awt.Dimension(40, 21));
+        jTextFieldPrice.setPreferredSize(new java.awt.Dimension(80, 24));
         jTextFieldPrice.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextFieldPriceKeyReleased(evt);
@@ -897,7 +908,7 @@ public class PanelSetupItem extends javax.swing.JPanel implements ManageOptionRe
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         jPanel26.add(jCheckBoxPlan, gridBagConstraints);
@@ -908,12 +919,59 @@ public class PanelSetupItem extends javax.swing.JPanel implements ManageOptionRe
         jComboBoxPlan.setPreferredSize(new java.awt.Dimension(121, 24));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         jPanel26.add(jComboBoxPlan, gridBagConstraints);
+
+        jLabel8.setText("Price1");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel26.add(jLabel8, gridBagConstraints);
+
+        jLabel14.setText("Price IPD");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel26.add(jLabel14, gridBagConstraints);
+
+        doubleTextFieldPriceIPD.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        doubleTextFieldPriceIPD.setText("0");
+        doubleTextFieldPriceIPD.setFont(defaultFont1);
+        doubleTextFieldPriceIPD.setMinimumSize(new java.awt.Dimension(40, 21));
+        doubleTextFieldPriceIPD.setPreferredSize(new java.awt.Dimension(80, 24));
+        doubleTextFieldPriceIPD.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                doubleTextFieldPriceIPDKeyReleased(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel26.add(doubleTextFieldPriceIPD, gridBagConstraints);
+
+        doubleTextFieldPrice1.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        doubleTextFieldPrice1.setText("0");
+        doubleTextFieldPrice1.setFont(defaultFont1);
+        doubleTextFieldPrice1.setMinimumSize(new java.awt.Dimension(40, 21));
+        doubleTextFieldPrice1.setPreferredSize(new java.awt.Dimension(80, 24));
+        doubleTextFieldPrice1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                doubleTextFieldPrice1KeyReleased(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
+        jPanel26.add(doubleTextFieldPrice1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -1855,6 +1913,8 @@ public class PanelSetupItem extends javax.swing.JPanel implements ManageOptionRe
             this.dateTextField.setEnabled(!jCheckBoxPlan.isSelected());
             jTextFieldPrice.setText(theItemPrice.price);
             doubleTextFieldPriceCost.setText(theItemPrice.price_cost);
+            doubleTextFieldPrice1.setText(theItemPrice.price_1);        //+1
+            doubleTextFieldPriceIPD.setText(theItemPrice.price_ipd);        //+1
         }
     }//GEN-LAST:event_jTable2MouseReleased
 
@@ -2193,6 +2253,14 @@ public class PanelSetupItem extends javax.swing.JPanel implements ManageOptionRe
         }
 }//GEN-LAST:event_jRadioButtonInPeriodActionPerformed
 
+    private void doubleTextFieldPriceIPDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_doubleTextFieldPriceIPDKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_doubleTextFieldPriceIPDKeyReleased
+
+    private void doubleTextFieldPrice1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_doubleTextFieldPrice1KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_doubleTextFieldPrice1KeyReleased
+
     private void nextItemGroup() {
         setItemV(vItem, 1);
     }
@@ -2277,6 +2345,8 @@ public class PanelSetupItem extends javax.swing.JPanel implements ManageOptionRe
         theItemPrice.active_date = dateTextField.getText() + "," + DateUtil.getTextCurrentTime(this.theHC.theConnectionInf);
         theItemPrice.price = Constant.dicimalMoney(jTextFieldPrice.getText());
         theItemPrice.price_cost = Constant.dicimalMoney(doubleTextFieldPriceCost.getText());
+        theItemPrice.price_1 = Constant.dicimalMoney(doubleTextFieldPrice1.getText());        //+1
+        theItemPrice.price_ipd = Constant.dicimalMoney(doubleTextFieldPriceIPD.getText());        //+1
 
         return theItemPrice;
     }
@@ -2348,6 +2418,9 @@ public class PanelSetupItem extends javax.swing.JPanel implements ManageOptionRe
         doubleTextFieldPriceCost.setEnabled(true);
         jTextFieldPrice.setText(theItemPrice.price);
         doubleTextFieldPriceCost.setText(theItemPrice.price_cost);
+        doubleTextFieldPrice1.setText(theItemPrice.price_1);      //+1
+        doubleTextFieldPriceIPD.setText(theItemPrice.price_ipd);      //+1
+        
         jTextFieldPrice.requestFocus();
         jCheckBoxPlan.setSelected(false);
         jComboBoxPlan.setText(theItemPrice.item_price_id);
@@ -2921,7 +2994,9 @@ public class PanelSetupItem extends javax.swing.JPanel implements ManageOptionRe
     private javax.swing.ButtonGroup buttonGroupNormalValue;
     private com.hospital_os.utility.DateComboBox dateTextField;
     private com.hospital_os.gui.font.DefaultFont defaultFont1;
+    private com.hospital_os.utility.DoubleTextField doubleTextFieldPrice1;
     private com.hospital_os.utility.DoubleTextField doubleTextFieldPriceCost;
+    private com.hospital_os.utility.DoubleTextField doubleTextFieldPriceIPD;
     private com.hospital_os.gui.font.FontFormatTitle fontFormatTitle1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButtonAdd;
@@ -2958,6 +3033,7 @@ public class PanelSetupItem extends javax.swing.JPanel implements ManageOptionRe
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -2981,6 +3057,7 @@ public class PanelSetupItem extends javax.swing.JPanel implements ManageOptionRe
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
