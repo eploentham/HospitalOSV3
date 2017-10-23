@@ -27,7 +27,10 @@ import java.util.StringTokenizer;
 /**
  *
  * @author  tong
- */
+ * @author ekapop
+    * 1.  60-10-23 เรื่อง ห้อง     Hospital OS เข้าใจว่า ไม่มีห้อง
+    * Modify doc 6.
+    */
 public class LookupControl {
     
     public ConnectionInf theConnectionInf;
@@ -4564,7 +4567,25 @@ public class LookupControl {
 //        }
 //        return null;
 //    }
-
+    public String readWardById2(String pk) //+1
+    {
+            Vector vp = theLO.theWard;
+            for(int j=0;j<vp.size();j++){
+                if(vp.get(j) instanceof ComboFix)
+                {
+                    ComboFix cf = (ComboFix) vp.get(j);
+                    if(cf.getCode().equals(pk))
+                        return cf.getName();
+                }
+                else if(vp.get(j) instanceof Ward)
+                {
+                    Ward p = (Ward)vp.get(j);
+                    if(p.getObjectId().equals(pk))
+                        return p.description;
+                }
+            }
+            return null;
+    }
 }
 
 

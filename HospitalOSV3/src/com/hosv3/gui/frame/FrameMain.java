@@ -2067,7 +2067,7 @@ public class FrameMain extends javax.swing.JFrame implements UpdateStatus
             return;
         }
         //amp:5/8/2549 : รวมการแสดงหมาย AN ที่ถูกยกเลิก และรายละเอียดการ Admit เข้าด้วยกัน
-        theHD.showDialogAdmit(theHO.theVisit);
+        theHD.showDialogAdmit(theHO.theVisit, theHD);
     }//GEN-LAST:event_jMenuItemAdmitActionPerformed
    
     private void jMenuItemQuitActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemQuitActionPerformed

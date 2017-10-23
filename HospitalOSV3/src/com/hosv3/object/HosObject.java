@@ -12,6 +12,7 @@ import com.hospital_os.object.QueueLabStatus;
 import com.hospital_os.object.specialQuery.*;
 
 import com.hospital_os.usecase.connection.Persistent;
+import com.hosv3.gui.component.PanelRoom2;
 import com.hosv3.utility.*;
 import com.hosv3.object.printobject.PrintSelectDrugList;
 
@@ -19,7 +20,10 @@ import com.pcu.object.*;
 /**
  *
  * @author  administrator
- */
+ * @author ekapop
+    * 1.  60-10-23 เรื่อง ห้อง     Hospital OS เข้าใจว่า ไม่มีห้อง
+    * Modify doc 6.
+    */
 public class HosObject {
     
     public static String DATE_VERIFY = GuiLang.setLanguage("วันที่ยืนยัน") ;
@@ -207,6 +211,11 @@ public class HosObject {
     public QueueVisit theQV;
     public String objectid;
     public WSConfig theWSConfig;
+    
+    public Vector thePanelRoom2V = new Vector();        //+1
+    public Room theRoomSelected;        //+1
+    public Bed theBedSelected;        //+1
+    public PanelRoom2 thePanelRoom2;        //+1
     /*
      * การรัดครั้งล่าสุด
      */

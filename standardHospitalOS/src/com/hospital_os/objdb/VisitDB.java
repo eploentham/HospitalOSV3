@@ -14,7 +14,11 @@ public class VisitDB
     /**
      * @param ConnectionInf db
      * @roseuid 3F65897F0326
-     */
+      * 
+    * @author ekapop
+    * 1.  60-10-23 เรื่อง ห้อง     Hospital OS เข้าใจว่า ไม่มีห้อง
+    * Modify doc 6.
+    */
     public VisitDB(ConnectionInf db)
     {   
 
@@ -93,6 +97,8 @@ public class VisitDB
         dbObj.visit_financial_record_date_time = "visit_financial_record_date_time";
         dbObj.visit_financial_record_staff = "visit_financial_record_staff";
         dbObj.service_location = "service_location";
+        dbObj.bVisitBedId="b_visit_bed_id";     //+1
+        dbObj.bVisitRoomId="b_visit_room_id";     //+1
         return dbObj;
     }
     /*////////////////////////////////////////////////////////////////////////////////////*/
@@ -507,6 +513,22 @@ public class VisitDB
         else
             return (Visit)v.get(0);
     }
+    public Visit selectByBedId(String pk) throws Exception
+    {   /*amp:30/04/48*/        
+        StringBuffer sql = new StringBuffer("select * from " )
+	.append( dbObj.table        )
+	.append( " where " )
+	.append( dbObj.bVisitBedId        )
+	.append( " = '" )
+	.append( pk )
+	.append( "'");
+
+        Vector v=eQuery(sql.toString());
+        if(v.size()==0)
+            return null;
+        else
+            return (Visit)v.get(0);
+    }
     /*///////////////////////////////////////////////////////////////////////////////////////////////*/
     public Vector selectVisitInTransAfternoon() throws Exception
     {
@@ -636,6 +658,8 @@ public class VisitDB
             p.visit_record_date_time = rs.getString(dbObj.visit_record_date_time);
             p.visit_record_staff = rs.getString(dbObj.visit_record_staff);
             p.service_location = rs.getString(dbObj.service_location);
+            p.bVisitBedId = rs.getString(dbObj.bVisitBedId);    //+1
+            p.bVisitRoomId = rs.getString(dbObj.bVisitRoomId);  //+1
 //            p.visit_financial_record_date_time = rs.getString(dbObj.visit_financial_record_date_time);
 //            p.visit_financial_record_staff = rs.getString(dbObj.visit_financial_record_staff);
             return true;
@@ -1470,6 +1494,8 @@ public class VisitDB
 	.append( dbObj.service_location  )
 	.append( "='" )
 	.append( p.service_location
+        ).append( "', " ).append( dbObj.bVisitBedId  ).append( "='" ).append( p.bVisitBedId//  +1
+        ).append( "', " ).append( dbObj.bVisitRoomId  ).append( "='" ).append( p.bVisitRoomId//  +1
         )
 	.append( "' where " )
 	.append( dbObj.pk_field )

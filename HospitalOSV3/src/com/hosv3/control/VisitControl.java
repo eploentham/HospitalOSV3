@@ -35,6 +35,12 @@ import th.go.nhso.rightsearch.RightData;
  *f
  * @author  tong
  */
+/**
+ * 
+ * @author ekapop
+ * 1.   60-10-22 เรื่อง การออกVisit 2vn
+ * Modify doc 6.
+ */
 public class VisitControl {
     ConnectionInf theConnectionInf;
     HosDB theHosDB;
@@ -603,9 +609,9 @@ public class VisitControl {
         if(patient.active.equals(Active.isDisable()))  {
             throw new Exception("UC:ข้อมูลผู้ป่วยถูกยกเลิกแล้วไม่สามารถนำผู้ป่วยเข้าสู่กระบวนการได้");
         }
-        if(thePatientControl.intReadVisitRet(patient.getObjectId())!=null){
-            throw new Exception("UC:ข้อมูลผู้ป่วยอยู่ในกระบวนการแล้วไม่สามารถนำผู้ป่วยเข้าสู่กระบวนการอีกได้");
-        }
+//        if(thePatientControl.intReadVisitRet(patient.getObjectId())!=null){     //-1
+//            throw new Exception("UC:ข้อมูลผู้ป่วยอยู่ในกระบวนการแล้วไม่สามารถนำผู้ป่วยเข้าสู่กระบวนการอีกได้");
+//        }
         
     //VISIT /////////////////////////////////////////////////////////////////
         if(patient.hn.length()==0)  {

@@ -46,6 +46,9 @@ import org.postgresql.util.PSQLException;
  * @author ekapop
  * 1.   60-10-21     เรื่อง ราคา IPD
  * Modify doc 4.
+  
+ * 2.  60-10-23 เรื่อง ห้อง     Hospital OS เข้าใจว่า ไม่มีห้อง
+ * Modify doc 6.
  */
 public class SetupControl {
 
@@ -9198,5 +9201,139 @@ public class SetupControl {
         } finally {
             theConnectionInf.close();
         }
+    }
+    public Vector listSingleRoom()      //+2
+    {
+        Vector v = null;
+        try
+        {
+            v = theHosDB.theRoomDB.selectSingleRoom();
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        return v;
+    }
+    public Vector listPublicRoom()
+    {
+        Vector v = null;
+        try
+        {
+            v = theHosDB.theRoomDB.selectPublicRoom();
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        return v;
+    }
+    public Vector listRoomByWard(String ward_id)
+    {
+        Vector v = null;
+        try
+        {
+            v = theHosDB.theRoomDB.selectByWardId(ward_id);
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        return v;
+    }
+    public int saveRoom(Room room)
+    {
+        int res = 0;
+        try
+        {
+            if(room.visit_room_number.equals(""))
+                return 3;
+            if(room.getObjectId() == null)
+                res = theHosDB.theRoomDB.insert(room);
+            else
+                res = theHosDB.theRoomDB.update(room);
+            theUS.setStatus("บันทึกเสร็จสิ้น",UpdateStatus.COMPLETE);
+        }
+        catch(Exception ex)
+        {
+            theUS.setStatus("บันทึกล้มเหลว",UpdateStatus.ERROR);
+            ex.printStackTrace();
+        }
+        return res;
+    }
+    public boolean isBedAvailable(String bed_id)
+    {
+        boolean b=false;
+        try
+        {
+            String res = theHosDB.theBedDB.selectAvailable(bed_id);
+            if(Integer.parseInt(res)>0)
+                return false;
+            else
+                return true;
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        return b;
+    }
+    public Vector listBedByRoom(String room_id)
+    {
+        Vector v = null;
+        try
+        {
+            v = theHosDB.theBedDB.selectByRoomId(room_id);
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        return v;
+    }
+    public Bed readBed(String id)
+    {
+        Bed bed = null;
+        try
+        {
+            bed = theHosDB.theBedDB.selectByID(id);
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        return bed;
+    }
+    public int saveBed(Bed bed)
+    {
+        int res = 0;
+        try
+        {
+            if(bed.getObjectId()==null)
+                theHosDB.theBedDB.insert(bed);
+            else
+                theHosDB.theBedDB.update(bed);
+            theUS.setStatus("บันทึกเสร็จสิ้น", UpdateStatus.COMPLETE);
+        }
+        catch(Exception ex)
+        {
+            theUS.setStatus("บันทึกผิดพลาด",UpdateStatus.ERROR);
+            ex.printStackTrace();
+        }
+        return res;
+    }
+    public int deleteBed(Bed bed)
+    {
+        int res = 0;
+        try
+        {
+            res = theHosDB.theBedDB.delete(bed);
+            theUS.setStatus("บันทึกเสร็จสิ้น", UpdateStatus.COMPLETE);
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        return res;
     }
 }

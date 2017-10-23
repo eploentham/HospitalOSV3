@@ -14,7 +14,10 @@ public class EmployeeDB
     /**
      * @param ConnectionInf db
      * @roseuid 3F65897F0326
-     */
+     * @author ekapop
+    * 1.  60-10-23 เรื่อง ห้อง     Hospital OS เข้าใจว่า ไม่มีห้อง
+    * Modify doc 6.
+    */
     public EmployeeDB(ConnectionInf db)
     {
         theConnectionInf=db;
@@ -46,6 +49,7 @@ public class EmployeeDB
         dbObj.authentication_id ="f_employee_authentication_id";
         dbObj.warning_dx ="employee_warning_dx";  
         dbObj.default_tab = "b_employee_default_tab";
+        dbObj.status_admission   ="status_admission";       //+1
         return true;
     }
     
@@ -76,6 +80,7 @@ public class EmployeeDB
         ).append( " ,"	).append( dbObj.authentication_id
         ).append( " ,"	).append( dbObj.warning_dx
         ).append( " ,"	).append( dbObj.default_tab
+                ).append( " ,"	).append( dbObj.status_admission
         ).append( " ) values ('"
         ).append( p.getObjectId()
         ).append( "','" ).append( p.employee_id
@@ -92,6 +97,7 @@ public class EmployeeDB
         ).append( "','" ).append( p.authentication_id
         ).append( "','" ).append( p.warning_dx
         ).append( "','" ).append( p.default_tab
+                ).append( "','" ).append( p.status_admission
         ).append( "')");
         return theConnectionInf.eUpdate(sql.toString());
     }
@@ -113,6 +119,7 @@ public class EmployeeDB
         ).append( "', " ).append( dbObj.authentication_id ).append( "='" ).append( p.authentication_id
         ).append( "', " ).append( dbObj.warning_dx ).append( "='" ).append( p.warning_dx
         ).append( "', " ).append( dbObj.default_tab ).append( "='" ).append( p.default_tab
+                ).append( "', " ).append( dbObj.status_admission ).append( "='" ).append( p.status_admission
         ).append( "' where " ).append( dbObj.pk_field ).append( "='" ).append( p.getObjectId() ).append("'");
         return theConnectionInf.eUpdate(sql.toString());
     }
@@ -339,6 +346,7 @@ public class EmployeeDB
             p.authentication_id = rs.getString(dbObj.authentication_id);
             p.warning_dx = rs.getString(dbObj.warning_dx);
             p.default_tab = rs.getString(dbObj.default_tab);
+            p.status_admission = rs.getString(dbObj.status_admission);
             list.add(p);            
         }
         rs.close();

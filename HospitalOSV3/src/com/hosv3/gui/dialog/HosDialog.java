@@ -103,6 +103,9 @@ public class HosDialog {
      PanelServiceLocation thePanelServiceLocation;
      PanelMapPlan thePanelMapPlan;
      PanelSetupMapNhsoPlan thePanelSetupMapNhsoPlan;
+     
+     private PanelAllRoom thePanelAllRoom;
+    private PanelAllRoom2 thePanelAllRoom2;
     public HosDialog(HosControl hc,UpdateStatus us) {
         setControl(hc,us);
     }
@@ -388,6 +391,14 @@ public class HosDialog {
         if(theDialogAdmit == null) 
             theDialogAdmit = new DialogAdmit(theHC,theUS);
         theDialogAdmit.showDialog(theVisit);  
+        theDialogAdmit.setDialog(this);     //+1
+    }
+    public void showDialogAdmit(Visit theVisit, HosDialog hd)
+    {
+        if(theDialogAdmit == null) 
+            theDialogAdmit = new DialogAdmit(theHC,theUS);
+        theDialogAdmit.showDialog(theVisit, hd);  
+        theDialogAdmit.setDialog(hd);     //+1
     }
     
     public void showDialogHistoryBilling(Patient thePatient){
@@ -827,6 +838,34 @@ public class HosDialog {
              Constant.print("1");
          }
          Constant.println(System.currentTimeMillis()-time);
+     }
+     public void showPanelAllRoom()
+     {
+         if(thePanelAllRoom == null)
+         {
+             thePanelAllRoom = new PanelAllRoom();
+             thePanelAllRoom.setHosControl(theHC);
+             Vector v = theHC.theSetupControl.listSingleRoom();
+             thePanelAllRoom.setRoomV(v, 4);
+         }
+         thePanelAllRoom.showDialog();
+     }
+     public void showPanelAllRoom2()
+     {
+         if(thePanelAllRoom2 == null)
+         {
+             thePanelAllRoom2 = new PanelAllRoom2();
+             thePanelAllRoom2.setControl(theHC);
+             Vector v = theHC.theSetupControl.listSingleRoom();
+             thePanelAllRoom2.setRoomV(v, 6);
+             Vector v2 = theHC.theSetupControl.listPublicRoom();
+             thePanelAllRoom2.setPublicRoomV(v2, 1);
+         }
+         else
+         {
+             thePanelAllRoom2.refresh();
+         }
+         thePanelAllRoom2.showDialog();
      }
 }
 

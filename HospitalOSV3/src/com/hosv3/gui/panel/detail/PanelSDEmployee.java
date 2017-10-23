@@ -100,6 +100,9 @@ public class PanelSDEmployee extends javax.swing.JPanel implements PanelSetupImp
         jTextFieldEmCode = new javax.swing.JTextField();
         jCheckBoxDefaultTab = new javax.swing.JCheckBox();
         jCheckBoxWarningDx = new javax.swing.JCheckBox();
+        jCheckBoxStatusAdmission = new javax.swing.JCheckBox();
+        jLabel10 = new javax.swing.JLabel();
+        jComboBoxSend = new javax.swing.JComboBox();
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -145,7 +148,7 @@ public class PanelSDEmployee extends javax.swing.JPanel implements PanelSetupImp
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 2);
@@ -211,7 +214,7 @@ public class PanelSDEmployee extends javax.swing.JPanel implements PanelSetupImp
         jLabel7.setText("จุดบริการประจำ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 10, 2, 2);
         jPanel2.add(jLabel7, gridBagConstraints);
@@ -222,7 +225,7 @@ public class PanelSDEmployee extends javax.swing.JPanel implements PanelSetupImp
         jComboBoxClinic.setPreferredSize(new java.awt.Dimension(150, 24));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
@@ -288,7 +291,7 @@ public class PanelSDEmployee extends javax.swing.JPanel implements PanelSetupImp
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 13;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
@@ -300,7 +303,7 @@ public class PanelSDEmployee extends javax.swing.JPanel implements PanelSetupImp
         jComboBoxTab.setPreferredSize(new java.awt.Dimension(150, 24));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 10);
@@ -348,7 +351,7 @@ public class PanelSDEmployee extends javax.swing.JPanel implements PanelSetupImp
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 2);
         jPanel2.add(jCheckBoxDefaultTab, gridBagConstraints);
@@ -357,12 +360,39 @@ public class PanelSDEmployee extends javax.swing.JPanel implements PanelSetupImp
         jCheckBoxWarningDx.setText("เตือนแพทย์ให้ลง  Dx ก่อนส่งผู้ป่วย");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(3, 5, 0, 10);
         jPanel2.add(jCheckBoxWarningDx, gridBagConstraints);
+
+        jCheckBoxStatusAdmission.setText("admission");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        jPanel2.add(jCheckBoxStatusAdmission, gridBagConstraints);
+
+        jLabel10.setText("จุดบริการส่งต่อ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(2, 10, 2, 2);
+        jPanel2.add(jLabel10, gridBagConstraints);
+
+        jComboBoxSend.setMaximumSize(new java.awt.Dimension(150, 24));
+        jComboBoxSend.setMinimumSize(new java.awt.Dimension(150, 24));
+        jComboBoxSend.setPreferredSize(new java.awt.Dimension(150, 24));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 10);
+        jPanel2.add(jComboBoxSend, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -398,11 +428,14 @@ public class PanelSDEmployee extends javax.swing.JPanel implements PanelSetupImp
     private javax.swing.JButton jButtonEditPasswd;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBoxDefaultTab;
+    private javax.swing.JCheckBox jCheckBoxStatusAdmission;
     private javax.swing.JCheckBox jCheckBoxWarningDx;
     private javax.swing.JComboBox jComboBoxAuthen;
     private javax.swing.JComboBox jComboBoxClinic;
+    private javax.swing.JComboBox jComboBoxSend;
     private javax.swing.JComboBox jComboBoxTab;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
@@ -537,6 +570,10 @@ public class PanelSDEmployee extends javax.swing.JPanel implements PanelSetupImp
         if(jCheckBox1.isSelected())
                 theEmployee2.active = "1";
         else    theEmployee2.active = "0"; 
+        if(jCheckBoxStatusAdmission.isSelected())   //+1
+            theEmployee2.status_admission = "1";
+        else
+            theEmployee2.status_admission = "0";
         return theEmployee2;
     }
 
@@ -583,6 +620,10 @@ public class PanelSDEmployee extends javax.swing.JPanel implements PanelSetupImp
         if(item.active.equals("1"))
                 jCheckBox1.setSelected(true);
         else    jCheckBox1.setSelected(false);
+        if(theEmployee2.status_admission.equals("1"))       //+1
+            jCheckBoxStatusAdmission.setSelected(true);
+        else
+            jCheckBoxStatusAdmission.setSelected(false);
     }
     
     public boolean isStartVisible() {

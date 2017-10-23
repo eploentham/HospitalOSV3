@@ -1,6 +1,11 @@
 package com.hospital_os.object;
 import com.hospital_os.usecase.connection.Persistent;
 /* Modify Sumo 08/08/2549*/
+/**
+ * @author ekapop
+ * 1.  60-10-23 เรื่อง ห้อง     Hospital OS เข้าใจว่า ไม่มีห้อง
+ * Modify doc 6.
+ */
 public class Visit extends Persistent 
 {
         /**เลข hn*/
@@ -144,6 +149,9 @@ public class Visit extends Persistent
          * 1= ให้บริการในหน่วย
            2= ให้บริการนอกหน่วย*/
         public String service_location;
+        
+        public String bVisitRoomId="";      //+1
+        public String bVisitBedId="";      //+1
    /**
     * @roseuid 3F658BBB036E
     */

@@ -19,9 +19,16 @@ import com.hospital_os.object.*;
 import com.hospital_os.utility.Gutil;
 import com.hospital_os.utility.TaBleModel;
 import com.hosv3.gui.component.CellRendererTooltip;
+import javax.swing.JOptionPane;
 /**
  *
  * @author  Administrator
+ */
+/**
+ * 
+ * @author ekapop
+ * 1.   60-10-22 เรื่อง การออกVisit 2vn
+ * Modify doc 6.
  */
 public class PanelVisit extends javax.swing.JPanel implements ManageVisitResp, ManagePatientResp, ManageVPaymentResp
 {
@@ -1467,8 +1474,13 @@ public class PanelVisit extends javax.swing.JPanel implements ManageVisitResp, M
         Constant.println(theHO.vPatientPayment==null);
         if(theHO.theVisit != null)
         {
-           theUS.setStatus("ผู้ป่วยเข้าสู่กระบวนการแล้ว",UpdateStatus.WARNING);
-           return;
+            theUS.setStatus("ผู้ป่วยเข้าสู่กระบวนการแล้ว",UpdateStatus.WARNING);
+           //return;        //-1
+            int dialogButton = JOptionPane.YES_NO_OPTION;       //+1
+            JOptionPane.showConfirmDialog (null, "ผู้ป่วยเข้าสู่กระบวนการแล้ว ต้องการออก VN ใหม่ ","Warning",dialogButton);       //+1
+            if(dialogButton == JOptionPane.NO_OPTION){ //+1
+                return;
+            }
         }
         //สำหรับประชากรที่ยังไม่ได้เป็นผู้ป่วย
         if(theHO.thePatient!=null && theHO.thePatient.discharge_status_id.equals(Dischar.DEATH))  {

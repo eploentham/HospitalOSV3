@@ -25,6 +25,8 @@ import com.hosv3.gui.panel.detail.*;
 /**
  *
  * @author  administrator
+ * 1.  60-10-23 เรื่อง ห้อง     Hospital OS เข้าใจว่า ไม่มีห้อง
+ * Modify doc 6.
  */
  public class HosPanelSetup {
     
@@ -58,6 +60,7 @@ import com.hosv3.gui.panel.detail.*;
     public String PANEL_SETUP_EMPLOYEE = Constant.getTextBundle("PANEL_SETUP_EMPLOYEE");
     String PANEL_SETUP_ITEM_SET = Constant.getTextBundle("PANEL_SETUP_ITEM_SET");
     String PANEL_SETUP_OFFICE_INCUP = Constant.getTextBundle("PANEL_SETUP_OFFICE_INCUP");
+    String PANEL_SETUP_ROOM = Constant.getTextBundle("ตั้งค่าห้อง");    //+1
     String PANEL_SETUP_OPTION = Constant.getTextBundle("PANEL_SETUP_OPTION");
     String PANEL_SETUP_ORDER = Constant.getTextBundle("PANEL_SETUP_ORDER");
     String PANEL_SETUP_ORDER_ITEM = Constant.getTextBundle("PANEL_SETUP_ORDER_ITEM");
@@ -320,6 +323,16 @@ import com.hosv3.gui.panel.detail.*;
 
                     PanelSetupOfficeInCup panelSetupOfficeInCup = new PanelSetupOfficeInCup(theHC,theUS);
                     initTreeNodePS(c_serv,panelSetupOfficeInCup,PANEL_SETUP_OFFICE_INCUP);
+                }
+                if(is_admin){       //+1
+//                    PanelSDOfficeInCup psi = new PanelSDOfficeInCup(theHC,theUS,theHD);
+//                    PanelSetupXPer panelSetupOfficeInCup = new PanelSetupXPer(theHC,theUS,psi);
+//                    panelSetupOfficeInCup.setActiveVisible();
+//                    initTreeNode(c_serv,panelSetupOfficeInCup,PanelSDOfficeInCup.TITLE);
+
+                    PanelSetupRoom panelSetupRoom = new PanelSetupRoom();
+                    panelSetupRoom.setControl(theHC);
+                    initTreeNode(c_serv,panelSetupRoom,PANEL_SETUP_ROOM);
                 }
                 if(is_admin || theHO.theGActionAuthV.isReadTreeServicePointQueue()){
                     PanelSDQueueVisit psi = new PanelSDQueueVisit(theHC,theUS);
