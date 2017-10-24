@@ -960,7 +960,8 @@ public class PrintControl {
             o.put("visit_id",theHO.theVisit.getObjectId());
             o.put("curr_date",theLookupControl.intReadDateTime());
             o.put("recommend",theVitalSign.note);
-            o.put("vital_sign","น้ำหนัก "+theVitalSign.weight+" กิโลกรัม ความสูง "+theVitalSign.height+" เซนติเมตร ความดันโลหิต "+theVitalSign.pressure + " ชีพจร "+theVitalSign.puls+" ครั้ง/นาที BMI "+ theVitalSign.bmi);
+            o.put("vital_sign","น้ำหนัก "+theVitalSign.weight+" Kgs. ความสูง "+theVitalSign.height+" Cms");
+            o.put("vital_sign1","ความดันโลหิต "+theVitalSign.pressure + " ชีพจร "+theVitalSign.puls+" ครั้ง/นาที BMI "+ theVitalSign.bmi);
             ret = intPrintConJR("Med7Cert", 1,o);
             theSystemControl.setStatus(UseCase.TH_printMedicalCert,UpdateStatus.COMPLETE,null);
             theSystemControl.saveLog(UseCase.UCID_printMedicalCert,objectid,null,UpdateStatus.COMPLETE);
