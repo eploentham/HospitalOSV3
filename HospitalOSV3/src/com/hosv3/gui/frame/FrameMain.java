@@ -401,6 +401,7 @@ public class FrameMain extends javax.swing.JFrame implements UpdateStatus
         jMenuPrintMedCert = new javax.swing.JMenu();
         jMenuItemPrintMedCertIll = new javax.swing.JMenuItem();
         jMenuItemPrintMedCertInterview = new javax.swing.JMenuItem();
+        jMenuItemPrint7Cert = new javax.swing.JMenuItem();
         jMenuReverse = new javax.swing.JMenu();
         jMenuItemReverseFinancial = new javax.swing.JMenuItem();
         jMenuItemReverseDoctor = new javax.swing.JMenuItem();
@@ -1344,6 +1345,14 @@ public class FrameMain extends javax.swing.JFrame implements UpdateStatus
         });
         jMenuPrintMedCert.add(jMenuItemPrintMedCertInterview);
 
+        jMenuItemPrint7Cert.setText("ใบรับรองแพทย์ 7 โรค");
+        jMenuItemPrint7Cert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPrint7CertActionPerformed(evt);
+            }
+        });
+        jMenuPrintMedCert.add(jMenuItemPrint7Cert);
+
         jMenuPrintAll.add(jMenuPrintMedCert);
 
         jMenuBar.add(jMenuPrintAll);
@@ -2113,6 +2122,11 @@ public class FrameMain extends javax.swing.JFrame implements UpdateStatus
         theHD.showPanelSetupMapNhsoPlan();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void jMenuItemPrint7CertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPrint7CertActionPerformed
+        // TODO add your handling code here:
+        theHC.thePrintControl.printMed7Cert();
+    }//GEN-LAST:event_jMenuItemPrint7CertActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.hospital_os.utility.ClockLabel clockLabel1;
     private com.hospital_os.gui.font.DefaultFont defaultFont1;
@@ -2164,6 +2178,7 @@ public class FrameMain extends javax.swing.JFrame implements UpdateStatus
     private javax.swing.JMenuItem jMenuItemPreviewSelectDrugList;
     private javax.swing.JMenuItem jMenuItemPreviewSummaryDischarge;
     private javax.swing.JMenuItem jMenuItemPreviewVisitSlip;
+    private javax.swing.JMenuItem jMenuItemPrint7Cert;
     private javax.swing.JMenuItem jMenuItemPrintAllPatientInWard;
     private javax.swing.JMenuItem jMenuItemPrintDrugRx;
     private javax.swing.JMenuItem jMenuItemPrintDrugSticker;

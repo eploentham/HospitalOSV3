@@ -40,6 +40,9 @@ import th.go.nhso.rightsearch.RightData;
  * @author ekapop
  * 1.   60-10-22 เรื่อง การออกVisit 2vn
  * Modify doc 6.
+ * 2.   60-10-24 เรื่อง ปลด Lock user
+ * Modify doc 8.
+
  */
 public class VisitControl {
     ConnectionInf theConnectionInf;
@@ -1299,7 +1302,7 @@ public class VisitControl {
             thePatientControl.intReadPatientSuit(patient);
             theLookupControl.intReadDateTime();
             thePatientControl.intReadVisitSuit(visit);
-            thePatientControl.intLockVisit(theHO.date_time);
+//            thePatientControl.intLockVisit(theHO.date_time);      //-2
             //intConfirmDoctorTreatment(true,date_time);
             
             intSaveTransferCatch(theHO.theEmployee, theHO.date_time);
@@ -1393,7 +1396,7 @@ public class VisitControl {
             in_visit = theHosDB.theVisitDB.selectByPK(in_visit.getObjectId());
             theLookupControl.intReadDateTime();
             thePatientControl.intReadVisitSuit(in_visit);
-            intLockVisit(theHO.date_time);
+//            intLockVisit(theHO.date_time);        //-2
             intSaveTransferCatch(theHO.theEmployee, theHO.date_time);
             theHS.theVisitSubject.notifyReadVisit(Constant.getTextBundle("เรียกดูข้อมูลการรับบริการของผู้ป่วยเสร็จสิ้น"),UpdateStatus.COMPLETE);
             if(theHO.theVisit != null)
@@ -1457,7 +1460,7 @@ public class VisitControl {
                 in_visit = theHosDB.theVisitDB.selectByPK(in_visit.getObjectId());
                 theLookupControl.intReadDateTime();
                 thePatientControl.intReadVisitSuit(in_visit);
-                intLockVisit(theHO.date_time);
+//                intLockVisit(theHO.date_time);        //-2
                 intSaveTransferCatch(theHO.theEmployee, theHO.date_time);
                 theHS.theVisitSubject.notifyReadVisit(Constant.getTextBundle("เรียกดูข้อมูลการรับบริการของผู้ป่วยเสร็จสิ้น"),UpdateStatus.COMPLETE);
                 if(theHO.theVisit != null)
@@ -1506,7 +1509,7 @@ public class VisitControl {
             thePatientControl.intReadFamilySuit(patient.getFamily(),patient);
             thePatientControl.intReadPatientSuit(patient); 
             thePatientControl.intReadVisitSuit(visit);
-            intLockVisit(theHO.date_time);
+//            intLockVisit(theHO.date_time);        //-2
             intSaveTransferCatch(theHO.theEmployee, theHO.date_time);
             theHS.theVisitSubject.notifyReadVisit(Constant.getTextBundle("เรียกดูข้อมูลการรับบริการของผู้ป่วยเสร็จสิ้น"),UpdateStatus.COMPLETE);
             if(theHO.theVisit != null)
@@ -5375,7 +5378,7 @@ public class VisitControl {
     {
         theLookupControl.intReadDateTime();
         thePatientControl.intReadVisitSuit(visit);
-        intLockVisit(theHO.date_time);
+//        intLockVisit(theHO.date_time);        //-2
         intSaveTransferCatch(theHO.theEmployee, theHO.date_time);
      }
     

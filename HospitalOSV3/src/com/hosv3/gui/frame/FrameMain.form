@@ -1298,6 +1298,14 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemPrintMedCertInterviewActionPerformed"/>
                   </Events>
                 </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemPrint7Cert">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&#xe43;&#xe1a;&#xe23;&#xe31;&#xe1a;&#xe23;&#xe2d;&#xe07;&#xe41;&#xe1e;&#xe17;&#xe22;&#xe4c; 7 &#xe42;&#xe23;&#xe04;"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemPrint7CertActionPerformed"/>
+                  </Events>
+                </MenuItem>
               </SubComponents>
             </Menu>
           </SubComponents>

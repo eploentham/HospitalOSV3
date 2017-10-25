@@ -47,6 +47,12 @@ import net.sf.jasperreports.view.*;
  *
  * @author  henbe
  */
+/**
+ * 
+ * @author ekapop
+ * 1.  60-10-24 เรื่อง รายงาน ใบรับรองแพทย์ 7 โรค
+ * Modify doc 7.
+ */
 public class PrintControl {
 
     public static int MODE_PREVIEW = 1;
@@ -333,6 +339,10 @@ public class PrintControl {
    {
         return initPrint(filename,valuePrint,o,null,true);
    }
+   public boolean intPrintConJR(String filename,int valuePrint,Map o) throws Exception        //+1
+   {
+        return initPrintJR(filename,valuePrint,o,null,true);
+   }
    /**
     *@deprecated henbe unused
     */
@@ -393,6 +403,37 @@ public class PrintControl {
 //	exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG, Boolean.FALSE);
 //	exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG, Boolean.FALSE);
 //	exporter.exportReport();
+        return true;
+   }
+   protected boolean initPrintJR(String filename,int valuePrint,Map o,JRDataSource ds,boolean mode_con) throws Exception     //+1
+   {
+       System.out.println("PrintMode:"+this.choosePrinter);
+       JasperReport jp=null;
+       String file_name = theLO.path_print + "/"+filename+".jrxml";
+       File file = new File(file_name);
+       if(!file.isFile()){
+           theUS.setStatus(Constant.getTextBundle("ไม่พบไฟล์ที่ทำการสั่งพิมพ์") +
+                   " "+file_name,UpdateStatus.ERROR);
+           return false;
+       }
+        jp = JasperCompileManager.compileReport(theLO.path_print + "/"+filename+".jrxml");
+        JasperPrint jprint = null;
+        if(mode_con)
+            jprint = JasperFillManager.fillReport(jp,o, theConnectionInf.getConnection());
+        else{
+            if(ds!=null)
+                jprint = JasperFillManager.fillReport(jp,o, ds);
+            else
+                jprint = JasperFillManager.fillReport(jp,o, new JREmptyDataSource());
+        }
+        if(valuePrint == MODE_PREVIEW){
+            JasperViewer.viewReport(jprint,false);
+            return true;
+        }
+        else if(valuePrint == MODE_PRINT){
+            //ยังมีปัญหาเรื่องการพิมพ์ sticker ยามีการฟีด กระดาษผิดพลาด
+            JasperPrintManager.printReport(jprint, choosePrinter);
+        }
         return true;
    }
    /////////////////////////////////////////////////////////////////////////////////////
@@ -882,6 +923,50 @@ public class PrintControl {
                 theSystemControl.saveLog(UseCase.UCID_printMedicalCert,objectid,null,UpdateStatus.COMPLETE);
                 theUS.setStatus("พิมพ์ใบรับรองแพทย์เสร็จสิ้น", UpdateStatus.COMPLETE);
         } 
+        catch(Exception ex){
+            ex.printStackTrace(Constant.getPrintStream());
+            theSystemControl.setStatus(UseCase.TH_printMedicalCert,UpdateStatus.ERROR,ex);
+            theSystemControl.saveLog(UseCase.UCID_printMedicalCert,objectid,ex,UpdateStatus.ERROR);
+                theUS.setStatus("พิมพ์ใบรับรองแพทย์ผิดพลาด", UpdateStatus.ERROR);
+        }
+        finally {
+            theConnectionInf.close();
+        }
+    }
+    
+    public void printMed7Cert()     //+1
+    {
+        Constant.println(UseCase.UCID_printMedicalCert);
+        String objectid =   null;
+        theConnectionInf.open();
+        try {
+            Vector vc; 
+            VitalSign theVitalSign = new VitalSign();
+            theVitalSign.bmi="";
+            theVitalSign.height="";
+            theVitalSign.weight="";
+            theVitalSign.pressure="";
+            theVitalSign.puls="";
+            vc = theHosDB.theVitalSignDB.selectByVisitDesc(theHO.theVisit.getObjectId());
+            if(vc!=null && !vc.isEmpty())
+            {
+                theVitalSign = (VitalSign)vc.get(0);                        
+//                rowDatas[0] = theHosDB.theNutritionTypeDB.selectByPK(theVitalSign.nutrition).description;
+//                rowDatas[1] = theVitalSign.pressure; 
+//                rowDatas[2] = theVitalSign.puls;
+            }
+            boolean ret = false;
+            Map o = new HashMap();
+            o.put("visit_id",theHO.theVisit.getObjectId());
+            o.put("curr_date",theLookupControl.intReadDateTime());
+            o.put("recommend",theVitalSign.note);
+            o.put("vital_sign","น้ำหนัก "+theVitalSign.weight+" Kgs. ความสูง "+theVitalSign.height+" Cms");
+            o.put("vital_sign1","ความดันโลหิต "+theVitalSign.pressure + " ชีพจร "+theVitalSign.puls+" ครั้ง/นาที BMI "+ theVitalSign.bmi);
+            ret = intPrintConJR("Med7Cert", 1,o);
+            theSystemControl.setStatus(UseCase.TH_printMedicalCert,UpdateStatus.COMPLETE,null);
+            theSystemControl.saveLog(UseCase.UCID_printMedicalCert,objectid,null,UpdateStatus.COMPLETE);
+            theUS.setStatus("พิมพ์ใบรับรองแพทย์เสร็จสิ้น", UpdateStatus.COMPLETE);
+        }
         catch(Exception ex){
             ex.printStackTrace(Constant.getPrintStream());
             theSystemControl.setStatus(UseCase.TH_printMedicalCert,UpdateStatus.ERROR,ex);
