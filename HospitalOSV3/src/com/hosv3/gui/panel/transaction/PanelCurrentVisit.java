@@ -33,7 +33,8 @@ import java.util.*;
  * 1. เรื่อง AttachNote  60-10-22
  * 
  * Modify doc 5.
-
+ * 9. 60-10-25 เรื่อง แสดงอายุ ผู้ป่วย ให้แสดงเป็น ปี เดือน วัน
+ * Modify doc 9.
  */
 public class PanelCurrentVisit extends javax.swing.JPanel 
 implements ManagePatientResp,ManageVisitResp,ManageVitalResp
