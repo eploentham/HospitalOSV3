@@ -368,20 +368,6 @@ public class FrameMain extends javax.swing.JFrame implements UpdateStatus
         jMenuItemPrintSummaryDischarge = new javax.swing.JMenuItem();
         jMenuItemPreviewSummaryDischarge = new javax.swing.JMenuItem();
         jCheckBoxMenuItemCalDayByHour = new javax.swing.JCheckBoxMenuItem();
-        jMenuReportSumGroupItem = new javax.swing.JMenu();
-        jMenuItemPrintReportOrder = new javax.swing.JMenuItem();
-        jMenuItemPreviewReportOrder = new javax.swing.JMenuItem();
-        jMenuReportSumGroupBilling = new javax.swing.JMenu();
-        jMenuItemPrintReportBilling = new javax.swing.JMenuItem();
-        jMenuItemPreveiwReportBilling = new javax.swing.JMenuItem();
-        jMenuReportSum16Group = new javax.swing.JMenu();
-        jMenuItemPrintReport16Group = new javax.swing.JMenuItem();
-        jMenuItemPreveiwReport16Group = new javax.swing.JMenuItem();
-        jMenuReportSumItem = new javax.swing.JMenu();
-        jMenuItemPrintReportItem = new javax.swing.JMenuItem();
-        jMenuItemPreviewReportItem = new javax.swing.JMenuItem();
-        jMenuItemPrintReportItemByItemName = new javax.swing.JMenuItem();
-        jMenuItemPreviewReportItemByItemName = new javax.swing.JMenuItem();
         jMenuSelectDrugList = new javax.swing.JMenu();
         jMenuItemPrintSelectDrugList = new javax.swing.JMenuItem();
         jMenuItemPreviewSelectDrugList = new javax.swing.JMenuItem();
@@ -402,6 +388,21 @@ public class FrameMain extends javax.swing.JFrame implements UpdateStatus
         jMenuItemPrintMedCertIll = new javax.swing.JMenuItem();
         jMenuItemPrintMedCertInterview = new javax.swing.JMenuItem();
         jMenuItemPrint7Cert = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuReportSumItem = new javax.swing.JMenu();
+        jMenuItemPrintReportItem = new javax.swing.JMenuItem();
+        jMenuItemPreviewReportItem = new javax.swing.JMenuItem();
+        jMenuItemPrintReportItemByItemName = new javax.swing.JMenuItem();
+        jMenuItemPreviewReportItemByItemName = new javax.swing.JMenuItem();
+        jMenuReportSum16Group = new javax.swing.JMenu();
+        jMenuItemPrintReport16Group = new javax.swing.JMenuItem();
+        jMenuItemPreveiwReport16Group = new javax.swing.JMenuItem();
+        jMenuReportSumGroupBilling = new javax.swing.JMenu();
+        jMenuItemPrintReportBilling = new javax.swing.JMenuItem();
+        jMenuItemPreveiwReportBilling = new javax.swing.JMenuItem();
+        jMenuReportSumGroupItem = new javax.swing.JMenu();
+        jMenuItemPrintReportOrder = new javax.swing.JMenuItem();
+        jMenuItemPreviewReportOrder = new javax.swing.JMenuItem();
         jMenuReverse = new javax.swing.JMenu();
         jMenuItemReverseFinancial = new javax.swing.JMenuItem();
         jMenuItemReverseDoctor = new javax.swing.JMenuItem();
@@ -1065,123 +1066,6 @@ public class FrameMain extends javax.swing.JFrame implements UpdateStatus
 
         jMenuPrintAll.add(jMenuPrintSummary);
 
-        jMenuReportSumGroupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hosv3/gui/images/expenses.gif"))); // NOI18N
-        jMenuReportSumGroupItem.setText("ใบสรุปค่าใช้จ่ายตามกลุ่มรายการ");
-        jMenuReportSumGroupItem.setFont(defaultFont1);
-
-        jMenuItemPrintReportOrder.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.ALT_MASK));
-        jMenuItemPrintReportOrder.setFont(defaultFont1);
-        jMenuItemPrintReportOrder.setText("พิมพ์");
-        jMenuItemPrintReportOrder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemPrintReportOrderActionPerformed(evt);
-            }
-        });
-        jMenuReportSumGroupItem.add(jMenuItemPrintReportOrder);
-
-        jMenuItemPreviewReportOrder.setFont(defaultFont1);
-        jMenuItemPreviewReportOrder.setText("ภาพก่อนพิมพ์");
-        jMenuItemPreviewReportOrder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemPreviewReportOrderActionPerformed(evt);
-            }
-        });
-        jMenuReportSumGroupItem.add(jMenuItemPreviewReportOrder);
-
-        jMenuPrintAll.add(jMenuReportSumGroupItem);
-
-        jMenuReportSumGroupBilling.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hosv3/gui/images/Billing.gif"))); // NOI18N
-        jMenuReportSumGroupBilling.setText("ใบสรุปค่าใช้จ่ายตามกลุ่มใบเสร็จ");
-        jMenuReportSumGroupBilling.setFont(defaultFont1);
-
-        jMenuItemPrintReportBilling.setFont(defaultFont1);
-        jMenuItemPrintReportBilling.setText("พิมพ์");
-        jMenuItemPrintReportBilling.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemPrintReportBillingActionPerformed(evt);
-            }
-        });
-        jMenuReportSumGroupBilling.add(jMenuItemPrintReportBilling);
-
-        jMenuItemPreveiwReportBilling.setFont(defaultFont1);
-        jMenuItemPreveiwReportBilling.setText("ภาพก่อนพิมพ์");
-        jMenuItemPreveiwReportBilling.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemPreveiwReportBillingActionPerformed(evt);
-            }
-        });
-        jMenuReportSumGroupBilling.add(jMenuItemPreveiwReportBilling);
-
-        jMenuPrintAll.add(jMenuReportSumGroupBilling);
-
-        jMenuReportSum16Group.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hosv3/gui/images/16Group.gif"))); // NOI18N
-        jMenuReportSum16Group.setText("ใบสรุปค่าใช้จ่ายตาม 16 กลุ่ม");
-        jMenuReportSum16Group.setFont(defaultFont1);
-
-        jMenuItemPrintReport16Group.setFont(defaultFont1);
-        jMenuItemPrintReport16Group.setText("พิมพ์");
-        jMenuItemPrintReport16Group.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemPrintReport16GroupActionPerformed(evt);
-            }
-        });
-        jMenuReportSum16Group.add(jMenuItemPrintReport16Group);
-
-        jMenuItemPreveiwReport16Group.setFont(defaultFont1);
-        jMenuItemPreveiwReport16Group.setText("ภาพก่อนพิมพ์");
-        jMenuItemPreveiwReport16Group.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemPreveiwReport16GroupActionPerformed(evt);
-            }
-        });
-        jMenuReportSum16Group.add(jMenuItemPreveiwReport16Group);
-
-        jMenuPrintAll.add(jMenuReportSum16Group);
-
-        jMenuReportSumItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hosv3/gui/images/Item.gif"))); // NOI18N
-        jMenuReportSumItem.setText("ใบสรุปค่าใช้จ่ายตามรายการ");
-        jMenuReportSumItem.setFont(defaultFont1);
-
-        jMenuItemPrintReportItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.ALT_MASK));
-        jMenuItemPrintReportItem.setFont(defaultFont1);
-        jMenuItemPrintReportItem.setText("พิมพ์ (แยก)");
-        jMenuItemPrintReportItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemPrintReportItemActionPerformed(evt);
-            }
-        });
-        jMenuReportSumItem.add(jMenuItemPrintReportItem);
-
-        jMenuItemPreviewReportItem.setFont(defaultFont1);
-        jMenuItemPreviewReportItem.setText("ภาพก่อนพิมพ์ (แยก)");
-        jMenuItemPreviewReportItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemPreviewReportItemActionPerformed(evt);
-            }
-        });
-        jMenuReportSumItem.add(jMenuItemPreviewReportItem);
-
-        jMenuItemPrintReportItemByItemName.setFont(defaultFont1);
-        jMenuItemPrintReportItemByItemName.setText("พิมพ์ (รวม)");
-        jMenuItemPrintReportItemByItemName.setAutoscrolls(true);
-        jMenuItemPrintReportItemByItemName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemPrintReportItemByItemNameActionPerformed(evt);
-            }
-        });
-        jMenuReportSumItem.add(jMenuItemPrintReportItemByItemName);
-
-        jMenuItemPreviewReportItemByItemName.setFont(defaultFont1);
-        jMenuItemPreviewReportItemByItemName.setText("ภาพก่อนพิมพ์ (รวม)");
-        jMenuItemPreviewReportItemByItemName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemPreviewReportItemByItemNameActionPerformed(evt);
-            }
-        });
-        jMenuReportSumItem.add(jMenuItemPreviewReportItemByItemName);
-
-        jMenuPrintAll.add(jMenuReportSumItem);
-
         jMenuSelectDrugList.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hospital_os/images/drugrx.gif"))); // NOI18N
         jMenuSelectDrugList.setText("พิมพ์ใบสั่งยา");
         jMenuSelectDrugList.setFont(defaultFont1);
@@ -1354,6 +1238,127 @@ public class FrameMain extends javax.swing.JFrame implements UpdateStatus
         jMenuPrintMedCert.add(jMenuItemPrint7Cert);
 
         jMenuPrintAll.add(jMenuPrintMedCert);
+
+        jMenu1.setText("การเงิน");
+
+        jMenuReportSumItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hosv3/gui/images/Item.gif"))); // NOI18N
+        jMenuReportSumItem.setText("ใบสรุปค่าใช้จ่ายตามรายการ");
+        jMenuReportSumItem.setFont(defaultFont1);
+
+        jMenuItemPrintReportItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItemPrintReportItem.setFont(defaultFont1);
+        jMenuItemPrintReportItem.setText("พิมพ์ (แยก)");
+        jMenuItemPrintReportItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPrintReportItemActionPerformed(evt);
+            }
+        });
+        jMenuReportSumItem.add(jMenuItemPrintReportItem);
+
+        jMenuItemPreviewReportItem.setFont(defaultFont1);
+        jMenuItemPreviewReportItem.setText("ภาพก่อนพิมพ์ (แยก)");
+        jMenuItemPreviewReportItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPreviewReportItemActionPerformed(evt);
+            }
+        });
+        jMenuReportSumItem.add(jMenuItemPreviewReportItem);
+
+        jMenuItemPrintReportItemByItemName.setFont(defaultFont1);
+        jMenuItemPrintReportItemByItemName.setText("พิมพ์ (รวม)");
+        jMenuItemPrintReportItemByItemName.setAutoscrolls(true);
+        jMenuItemPrintReportItemByItemName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPrintReportItemByItemNameActionPerformed(evt);
+            }
+        });
+        jMenuReportSumItem.add(jMenuItemPrintReportItemByItemName);
+
+        jMenuItemPreviewReportItemByItemName.setFont(defaultFont1);
+        jMenuItemPreviewReportItemByItemName.setText("ภาพก่อนพิมพ์ (รวม)");
+        jMenuItemPreviewReportItemByItemName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPreviewReportItemByItemNameActionPerformed(evt);
+            }
+        });
+        jMenuReportSumItem.add(jMenuItemPreviewReportItemByItemName);
+
+        jMenu1.add(jMenuReportSumItem);
+
+        jMenuReportSum16Group.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hosv3/gui/images/16Group.gif"))); // NOI18N
+        jMenuReportSum16Group.setText("ใบสรุปค่าใช้จ่ายตาม 16 กลุ่ม");
+        jMenuReportSum16Group.setFont(defaultFont1);
+
+        jMenuItemPrintReport16Group.setFont(defaultFont1);
+        jMenuItemPrintReport16Group.setText("พิมพ์");
+        jMenuItemPrintReport16Group.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPrintReport16GroupActionPerformed(evt);
+            }
+        });
+        jMenuReportSum16Group.add(jMenuItemPrintReport16Group);
+
+        jMenuItemPreveiwReport16Group.setFont(defaultFont1);
+        jMenuItemPreveiwReport16Group.setText("ภาพก่อนพิมพ์");
+        jMenuItemPreveiwReport16Group.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPreveiwReport16GroupActionPerformed(evt);
+            }
+        });
+        jMenuReportSum16Group.add(jMenuItemPreveiwReport16Group);
+
+        jMenu1.add(jMenuReportSum16Group);
+
+        jMenuReportSumGroupBilling.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hosv3/gui/images/Billing.gif"))); // NOI18N
+        jMenuReportSumGroupBilling.setText("ใบสรุปค่าใช้จ่ายตามกลุ่มใบเสร็จ");
+        jMenuReportSumGroupBilling.setFont(defaultFont1);
+
+        jMenuItemPrintReportBilling.setFont(defaultFont1);
+        jMenuItemPrintReportBilling.setText("พิมพ์");
+        jMenuItemPrintReportBilling.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPrintReportBillingActionPerformed(evt);
+            }
+        });
+        jMenuReportSumGroupBilling.add(jMenuItemPrintReportBilling);
+
+        jMenuItemPreveiwReportBilling.setFont(defaultFont1);
+        jMenuItemPreveiwReportBilling.setText("ภาพก่อนพิมพ์");
+        jMenuItemPreveiwReportBilling.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPreveiwReportBillingActionPerformed(evt);
+            }
+        });
+        jMenuReportSumGroupBilling.add(jMenuItemPreveiwReportBilling);
+
+        jMenu1.add(jMenuReportSumGroupBilling);
+
+        jMenuReportSumGroupItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hosv3/gui/images/expenses.gif"))); // NOI18N
+        jMenuReportSumGroupItem.setText("ใบสรุปค่าใช้จ่ายตามกลุ่มรายการ");
+        jMenuReportSumGroupItem.setFont(defaultFont1);
+
+        jMenuItemPrintReportOrder.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItemPrintReportOrder.setFont(defaultFont1);
+        jMenuItemPrintReportOrder.setText("พิมพ์");
+        jMenuItemPrintReportOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPrintReportOrderActionPerformed(evt);
+            }
+        });
+        jMenuReportSumGroupItem.add(jMenuItemPrintReportOrder);
+
+        jMenuItemPreviewReportOrder.setFont(defaultFont1);
+        jMenuItemPreviewReportOrder.setText("ภาพก่อนพิมพ์");
+        jMenuItemPreviewReportOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPreviewReportOrderActionPerformed(evt);
+            }
+        });
+        jMenuReportSumGroupItem.add(jMenuItemPreviewReportOrder);
+
+        jMenu1.add(jMenuReportSumGroupItem);
+
+        jMenuPrintAll.add(jMenu1);
 
         jMenuBar.add(jMenuPrintAll);
 
@@ -2133,6 +2138,7 @@ public class FrameMain extends javax.swing.JFrame implements UpdateStatus
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemCalDayByHour;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemReportBug;
     private javax.swing.JLabel jLabelStatus;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenu jMenuFile;
     private javax.swing.JMenu jMenuHelp;

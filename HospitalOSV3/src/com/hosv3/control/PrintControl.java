@@ -1801,7 +1801,7 @@ public class PrintControl {
        }
        finally{
             theConnectionInf.close();
-       }        
+       }
    }
     
     public void intPrintBilling(Visit theVisit,Receipt receipt,int valuePrint
@@ -1954,7 +1954,8 @@ public class PrintControl {
         
             checkPathPrint(theUS.getJFrame());
             String file = "receipt";
-            JasperReport jr = JasperCompileManager.compileReport(theLO.path_print + "/" + file + ".xml");
+            //JasperReport jr = JasperCompileManager.compileReport(theLO.path_print + "/" + file + ".xml");     //-2
+            JasperReport jr = JasperCompileManager.compileReport(theLO.path_print + "/" + file + ".jrxml");       //+2
             //ป้องกันการพิมพ์ใบเสร็จซ้ำ
             preceipt.setRn(receipt.receipt_no + " สำเนา");
             Map parm = (Map)preceipt.getData();
@@ -2894,6 +2895,7 @@ public class PrintControl {
             rsoi.setPidN12("");
             rsoi.setPidN13("");
         }
+        
         //เบอร์โทรศัพท์
         rsoi.setTelephoneNumber(thePatient.phone);
         if(pm != null) {
@@ -2911,7 +2913,8 @@ public class PrintControl {
         rsoi.setAgeMonth(theHO.getMonthAge(thePatient));
         rsoi.setAgeDay(theHO.getDayAge(thePatient));
         
-        rsoi.setDate(Gutil.getDateToString(Gutil.getDateFromText(theHO.date_time),false));
+        //rsoi.setDate(Gutil.getDateToString(Gutil.getDateFromText(theHO.date_time),false));        //-2
+        rsoi.setDate(Gutil.getDateToString(Gutil.getDateFromText(theHO.date_time),false));          //+2
         rsoi.setHN(theVisit.hn);
         rsoi.setHospital(theHO.theSite.off_name);
         rsoi.setPayment( plan.description );
@@ -2980,7 +2983,11 @@ public class PrintControl {
         rsoi.setSum(Constant.calculateDecimal(String.valueOf(sum)));
         com.printing.object.Report_Order.DataSourceReportSumOrderItem dsrsoi = new com.printing.object.Report_Order.DataSourceReportSumOrderItem(vReportSumOrderItem);
         //new com.printing.gui.PrintingFrm(theUS.getJFrame(),2,rsoi.getData(),valuePrint,0,dsrsoi,true);
-        boolean retp = initPrint(PrintFileName.getFileName(2),valuePrint,rsoi.getData(),dsrsoi); 
+        rsoi.setPidN11(Gutil.convertFieldDate(Gutil.getTextCurrentDateTime(theConnectionInf)));//+2
+        rsoi.setPidN12(Gutil.convertFieldDate(theVisit.begin_visit_time));//+2
+        rsoi.setPidN13(Gutil.convertFieldDate(theVisit.financial_discharge_time));//+2
+        //boolean retp = initPrint(PrintFileName.getFileName(2),valuePrint,rsoi.getData(),dsrsoi);        //-2
+        boolean retp = initPrintJR(PrintFileName.getFileName(2),valuePrint,rsoi.getData(),dsrsoi, false);        //+2
         return retp;
     }
     
@@ -3154,7 +3161,8 @@ public class PrintControl {
                 dsrsoig = new com.printing.object.Report_OrderGroup.
                 DataSourceReportSumOrderItemGroup(vReportSumOrderItemGroup);
 //        new com.printing.gui.PrintingFrm(theUS.getJFrame(),12,rsoig.getData(),valuePrint,0,dsrsoig,true);
-            boolean retp = initPrint(PrintFileName.getFileName(12),valuePrint,rsoig.getData(),dsrsoig);
+            //boolean retp = initPrint(PrintFileName.getFileName(12),valuePrint,rsoig.getData(),dsrsoig);       //-10
+            boolean retp = initPrintJR(PrintFileName.getFileName(12),valuePrint,rsoig.getData(),dsrsoig, false);         //+10
             if(!retp) return;
         
         
@@ -5087,7 +5095,11 @@ public class PrintControl {
         com.printing.object.Report_OrderGroupByItemName.DataSourceReportSumOrderByItemName dsrsoi
                 = new com.printing.object.Report_OrderGroupByItemName.DataSourceReportSumOrderByItemName(vReportSumOrderItem);
             //new com.printing.gui.PrintingFrm(theUS.getJFrame(),22,rsoi.getData(),valuePrint,0,dsrsoi,true);
-            boolean retp = initPrint(PrintFileName.getFileName(22),valuePrint,rsoi.getData(),dsrsoi);
+            //boolean retp = initPrint(PrintFileName.getFileName(22),valuePrint,rsoi.getData(),dsrsoi);     //-2
+            rsoi.setPidN11(Gutil.convertFieldDate(Gutil.getTextCurrentDateTime(theConnectionInf)));//+2
+            rsoi.setPidN12(Gutil.convertFieldDate(theVisit.begin_visit_time));//+2
+            rsoi.setPidN13(Gutil.convertFieldDate(theVisit.financial_discharge_time));//+2
+            boolean retp = initPrintJR(PrintFileName.getFileName(22),valuePrint,rsoi.getData(),dsrsoi,false);     //+2
             if(!retp) return;
             if(this.theHO.theVisit != null)
                 objectid = theHO.theVisit.getObjectId();
