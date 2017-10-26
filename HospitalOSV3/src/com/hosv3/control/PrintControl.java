@@ -305,7 +305,8 @@ public class PrintControl {
                 checkPathPrint(frm);
                 Map o = new HashMap();
                 o.put("patient_id",theHO.thePatient.getObjectId());
-                boolean ret = intPrintCon("OPD_Card_con",printPreview,o);
+                //boolean ret = intPrintCon("OPD_Card_con",printPreview,o);     //-2
+                boolean ret = intPrintConJR("OPD_Card_con",printPreview,o);     //+2
                 if(!ret) return ;
             }
             else
@@ -351,6 +352,10 @@ public class PrintControl {
     *@deprecated henbe unused
     */
    protected boolean initPrint(String filename,int valuePrint,Map o,JRDataSource ds) throws Exception
+   {
+       return initPrint(filename,valuePrint,o,ds,false);
+   }
+   protected boolean initPrintJR(String filename,int valuePrint,Map o,JRDataSource ds) throws Exception
    {
        return initPrint(filename,valuePrint,o,ds,false);
    }
@@ -1302,7 +1307,8 @@ public class PrintControl {
             com.printing.object.DrugRx.DataSourcePrintDrugRx dspsrx
                     = new com.printing.object.DrugRx.DataSourcePrintDrugRx(vDrug);
             //new PrintingFrm(theUS.getJFrame(),11,ppdrx.getData(),valuePrint,0,dspsrx,true);
-            boolean retp = initPrint(PrintFileName.getFileName(11),valuePrint,ppdrx.getData(),dspsrx);
+            //boolean retp = initPrint(PrintFileName.getFileName(11),valuePrint,ppdrx.getData(),dspsrx);        //-2
+            boolean retp = initPrintJR(PrintFileName.getFileName(11),valuePrint,ppdrx.getData(),dspsrx);      //+2
             if(!retp) return false;
             return true;
 
@@ -1751,9 +1757,9 @@ public class PrintControl {
                 o.put("billing_receipt_id",receipt.getObjectId());
                 o.put("remain",String.valueOf(remain));
                 o.put("disease_th",dx_th);
-                o.put("PidN11",Gutil.convertFieldDate(Gutil.getTextCurrentDateTime(theConnectionInf)));//+2
-                o.put("PidN12",Gutil.convertFieldDate(theHO.theVisit.begin_visit_time));//+2
-                o.put("PidN13",Gutil.convertFieldDate(billing.receipt_date));//+2
+                o.put("PidN11",Gutil.convertFieldDate(Gutil.getTextCurrentDateTime(theConnectionInf)).replace(",", " "));//+2
+                o.put("PidN12",Gutil.convertFieldDate(theHO.theVisit.begin_visit_time).replace(",", " "));//+2
+                o.put("PidN13",Gutil.convertFieldDate(billing.receipt_date).replace(",", " "));//+2
                 //boolean ret = intPrintCon("receipt_con", valuePrint, o);      //-2
                 boolean ret = intPrintConJR("receipt_con", valuePrint, o);        //+2
                 if(!ret) return ;
@@ -3229,7 +3235,7 @@ public class PrintControl {
             printData.put("contact_relate",cr!=null?cr.description:"");
         }
         //new PrintingFrm(theUS.getJFrame(),17,ppsr.getData(),checkSummary,0,null,true);
-        boolean retp = initPrint(PrintFileName.getFileName(17),valuePrint,printData,null);
+        boolean retp = initPrintJR(PrintFileName.getFileName(17),valuePrint,printData,null);
         if(!retp) return;
         if(this.theHO.theVisit != null)
             objectid = theHO.theVisit.getObjectId();
@@ -3785,7 +3791,8 @@ public class PrintControl {
                 drug_allergy += da.common_name;
             }
             mdata.put("patient_allergy_drug",drug_allergy);
-            boolean retp = initPrint(PrintFileName.getFileName(8),valuePrint,mdata,dpvsn,false);
+            //boolean retp = initPrint(PrintFileName.getFileName(8),valuePrint,mdata,dpvsn,false);      //-2
+            boolean retp = initPrintJR(PrintFileName.getFileName(8),valuePrint,mdata,dpvsn,false);        //+2
             if(!retp) return;
             if(this.theHO.theVisit != null)
                 objectid = theHO.theVisit.getObjectId();
