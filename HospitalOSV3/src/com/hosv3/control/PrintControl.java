@@ -1751,7 +1751,11 @@ public class PrintControl {
                 o.put("billing_receipt_id",receipt.getObjectId());
                 o.put("remain",String.valueOf(remain));
                 o.put("disease_th",dx_th);
-                boolean ret = intPrintCon("receipt_con", valuePrint, o);
+                o.put("PidN11",Gutil.convertFieldDate(Gutil.getTextCurrentDateTime(theConnectionInf)));//+2
+                o.put("PidN12",Gutil.convertFieldDate(theHO.theVisit.begin_visit_time));//+2
+                o.put("PidN13",Gutil.convertFieldDate(billing.receipt_date));//+2
+                //boolean ret = intPrintCon("receipt_con", valuePrint, o);      //-2
+                boolean ret = intPrintConJR("receipt_con", valuePrint, o);        //+2
                 if(!ret) return ;
             }
             else
@@ -2980,12 +2984,17 @@ public class PrintControl {
                     Constant.getTextBundle("กรุณาตรวจสอบการยืนยันรายการตรวจรักษา"), UpdateStatus.WARNING);
             return false;
         }
+        Vector vBill = theHosDB.theBillingDB.selectByVisitId(theVisit.getObjectId());
+        Billing billing = new Billing();
+        if(vBill.size()>0){
+            billing = (Billing)vBill.get(0);
+        }  
         rsoi.setSum(Constant.calculateDecimal(String.valueOf(sum)));
         com.printing.object.Report_Order.DataSourceReportSumOrderItem dsrsoi = new com.printing.object.Report_Order.DataSourceReportSumOrderItem(vReportSumOrderItem);
         //new com.printing.gui.PrintingFrm(theUS.getJFrame(),2,rsoi.getData(),valuePrint,0,dsrsoi,true);
         rsoi.setPidN11(Gutil.convertFieldDate(Gutil.getTextCurrentDateTime(theConnectionInf)));//+2
         rsoi.setPidN12(Gutil.convertFieldDate(theVisit.begin_visit_time));//+2
-        rsoi.setPidN13(Gutil.convertFieldDate(theVisit.financial_discharge_time));//+2
+        rsoi.setPidN13(Gutil.convertFieldDate(billing.receipt_date));//+2
         //boolean retp = initPrint(PrintFileName.getFileName(2),valuePrint,rsoi.getData(),dsrsoi);        //-2
         boolean retp = initPrintJR(PrintFileName.getFileName(2),valuePrint,rsoi.getData(),dsrsoi, false);        //+2
         return retp;
@@ -4968,6 +4977,11 @@ public class PrintControl {
         Vector vVisitPayment = theHosDB.thePaymentDB.selectByVisitId(theVisit.getObjectId());
         Plan plan = theHosDB.thePlanDB.selectByPK(((Payment)vVisitPayment.get(0)).plan_kid);
         Payment pm = (Payment)vVisitPayment.get(0);
+        Vector vBill = theHosDB.theBillingDB.selectByVisitId(theVisit.getObjectId());
+        Billing billing = new Billing();
+        if(vBill.size()>0){
+            billing = (Billing)vBill.get(0);
+        }        
         //หมายเลขบัตรประชาชน
         if(!thePatient.pid.equalsIgnoreCase("null") && !thePatient.pid.equals("")) {
             rsoi.setPid(thePatient.pid);
@@ -5098,7 +5112,8 @@ public class PrintControl {
             //boolean retp = initPrint(PrintFileName.getFileName(22),valuePrint,rsoi.getData(),dsrsoi);     //-2
             rsoi.setPidN11(Gutil.convertFieldDate(Gutil.getTextCurrentDateTime(theConnectionInf)));//+2
             rsoi.setPidN12(Gutil.convertFieldDate(theVisit.begin_visit_time));//+2
-            rsoi.setPidN13(Gutil.convertFieldDate(theVisit.financial_discharge_time));//+2
+            rsoi.setPidN13(Gutil.convertFieldDate(billing.receipt_date));//+2
+            
             boolean retp = initPrintJR(PrintFileName.getFileName(22),valuePrint,rsoi.getData(),dsrsoi,false);     //+2
             if(!retp) return;
             if(this.theHO.theVisit != null)

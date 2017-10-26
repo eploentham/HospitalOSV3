@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="receipt" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b3e45fda-2a26-4e77-b22f-7b1a4a0d29ad">
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<style name="AngsanaUPC14" fontName="AngsanaUPC" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+	<style name="AngsanaUPC16" fontName="AngsanaUPC" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+	<style name="AngsanaUPC12" fontName="Angsana New" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+	<parameter name="hospital" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="hn" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="patient_name" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="disease" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="date" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="vn" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="plan" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="sumReceive" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="sumOpen" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="sumClose" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="sumDetail" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="receiver" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="position" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="remain" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="disease_th" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="rn" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="Pid" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="Payment_ID" class="java.lang.String"/>
+	<parameter name="MainHospital" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="SubHospital" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="PidN1" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="PidN2" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="PidN3" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="PidN4" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="PidN5" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="PidN6" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="PidN7" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="PidN8" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="PidN9" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="PidN10" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="PidN11" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="PidN12" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="PidN13" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="TelephoneNumber" class="java.lang.String" isForPrompting="false"/>
+	<field name="order" class="java.lang.String"/>
+	<field name="open" class="java.lang.String"/>
+	<field name="close" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="191" splitType="Stretch">
+			<staticText>
+				<reportElement x="90" y="11" width="278" height="34" uuid="6dc66b7a-823e-4990-b88f-a8f697a82ef9"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="22"/>
+				</textElement>
+				<text><![CDATA[โรงพยาบาล อรวรรณ  ORAWAN HOSPITAL]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="88" height="71" uuid="94afa7d8-2e18-43d1-a38c-2466456964db"/>
+				<imageExpression><![CDATA["D:\\orc\\app\\hprinting\\logo.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="372" y="0" width="184" height="20" uuid="502a2e5a-69e7-4ad8-b88b-94fff2805e5e"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขประจำตัวผู้เสียภาษี 0115555011261]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="72" width="555" height="28" uuid="468287e6-9625-409c-b61d-be52cb0220bf"/>
+				<textElement textAlignment="Center">
+					<font fontName="TH Sarabun New" size="20"/>
+				</textElement>
+				<text><![CDATA[ใบเสร็จรับเงิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="107" width="84" height="20" uuid="f56d3f0c-c42b-41ed-8568-0a33adab4323"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="147" width="84" height="20" uuid="9dfca378-d83a-4f89-9189-326d5886e55e"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<text><![CDATA[วันที่รับผู้ป่วย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="127" width="84" height="20" uuid="e2579b7e-1307-4111-9152-49db763bb5af"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<text><![CDATA[ชื่อ-นามสกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="372" y="129" width="84" height="20" uuid="3f3559b5-dd96-4fce-b57f-0d2d2c0aeda2"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขที่ประจำตัวผู้ป่วย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="372" y="109" width="38" height="20" uuid="3d297838-5210-4c2a-8519-305b852fd65f"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<text><![CDATA[วันที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="372" y="149" width="84" height="20" uuid="e7ad3f22-aeda-4948-b689-f997dafd33be"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<text><![CDATA[วันที่จำหน่ายผู้ป่วย]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" mode="Opaque" x="90" y="167" width="199" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="80c15faa-08ac-48ff-97ae-1da4ee2b602f"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="CP1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{plan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText" mode="Opaque" x="4" y="167" width="60" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="60dd6e78-1306-43e8-9cf3-ecd7db487514"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="TH Sarabun New" size="14" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="CP1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[สิทธิการรักษา]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" style="AngsanaUPC14" mode="Opaque" x="91" y="129" width="225" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="4361f8b9-1db5-403e-a0bd-33adc48f1fa4"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="SansSerif"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{patient_name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField-3" mode="Opaque" x="91" y="111" width="138" height="18" forecolor="#000000" backcolor="#FFFFFF" uuid="b009c09e-1eb0-424a-8b8c-2e0c1a960f4a"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="CP1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rn}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" style="AngsanaUPC14" mode="Opaque" x="464" y="129" width="91" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="c4619de6-6e35-44b0-a660-9bcbff4d293e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="SansSerif"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{hn}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText" style="AngsanaUPC14" mode="Opaque" x="238" y="167" width="19" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="fa7bd82a-8d06-4ad2-86ea-3097bfa141e8"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="TH Sarabun New" size="14"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[โรค]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" style="AngsanaUPC14" mode="Opaque" x="265" y="167" width="290" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="6cb7777f-04f9-41f1-926c-69b3d4a1fb9a"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="SansSerif"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{disease_th}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="90" y="51" width="467" height="20" uuid="e764bf1e-0a48-468f-b832-422b6c0cb871"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<text><![CDATA[8/8 m.6 phraeksa. Amphur Muang, samutprakarn 10280 tel 02 344-2555 ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="38" width="467" height="20" uuid="65fb0d7e-45aa-483d-bbb2-c4df5753eb77"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<text><![CDATA[8/8 หมู่ 6 ต.แพรกษา อ.เมืองสมุทรปราการ จ.สมุปราการ 10280 เบอร์ติดต่อ 02 334-2555]]></text>
+			</staticText>
+			<line>
+				<reportElement x="90" y="35" width="254" height="1" uuid="6bc3f184-2c9c-49c8-a218-67ffa75966b4"/>
+			</line>
+			<textField>
+				<reportElement x="91" y="149" width="131" height="20" uuid="03e5ae88-8c79-42d7-9c40-7f74c4b0b338"/>
+				<textFieldExpression><![CDATA[$P{PidN12}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="461" y="149" width="93" height="20" uuid="555df4f0-322a-4a3c-8f04-d9fef3fef9f1"/>
+				<textFieldExpression><![CDATA[$P{PidN13}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="464" y="107" width="93" height="20" uuid="1a2604a0-def6-4b11-b6c4-d1b8dd126e72"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PidN11}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement key="staticText" style="AngsanaUPC16" mode="Opaque" x="17" y="4" width="349" height="25" forecolor="#000000" backcolor="#FFFFFF" uuid="17b9303b-2b8e-4b9f-a406-586d7e4ff6b8"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="TH Sarabun New" size="14" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[รายการ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" style="AngsanaUPC16" mode="Opaque" x="429" y="3" width="123" height="26" forecolor="#000000" backcolor="#FFFFFF" uuid="00266c98-bcfb-4f8c-bce5-51825c7f59aa"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="TH Sarabun New" size="14" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[จำนวนเงิน(บาท)]]></text>
+			</staticText>
+			<line>
+				<reportElement key="line-1" mode="Opaque" x="4" y="3" width="547" height="1" forecolor="#000000" backcolor="#FFFFFF" uuid="2ad11857-ade4-4c40-b0bd-7d2db46adab9"/>
+				<graphicElement fill="Solid">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement key="line-1" mode="Opaque" x="4" y="28" width="547" height="1" forecolor="#000000" backcolor="#FFFFFF" uuid="16cace1c-57d9-49b6-a719-307ab7cbed8b"/>
+				<graphicElement fill="Solid">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" mode="Opaque" x="23" y="1" width="234" height="19" forecolor="#000000" backcolor="#FFFFFF" uuid="f55b0679-6515-4062-a562-767e7de5b2cc"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="AngsanaUPC" size="14" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="CP1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{order}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" mode="Opaque" x="481" y="1" width="59" height="19" forecolor="#000000" backcolor="#FFFFFF" uuid="0e1ffc2e-75ad-473b-9ca0-7cf8cf3d0d75"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="AngsanaUPC" size="14" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="CP1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{open}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" mode="Opaque" x="461" y="2" width="88" height="19" forecolor="#000000" backcolor="#FFFFFF" uuid="209b1952-cfc6-4b3b-bc48-b5ca5eb9d488"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None">
+					<font fontName="AngsanaUPC" size="14" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="CP1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{close}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="160" splitType="Stretch">
+			<staticText>
+				<reportElement key="staticText" style="AngsanaUPC12" mode="Opaque" x="295" y="92" width="96" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="6edc1405-29e2-4d4a-b6a8-79aacb927807"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="TH Sarabun New" size="14"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[ได้รับเงินเป็นการถูกต้องแล้ว]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" style="AngsanaUPC12" isPrintRepeatedValues="false" mode="Opaque" x="376" y="133" width="142" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="423c511b-19c7-4e62-93a4-0f5febd49f7e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="TH Sarabun New" size="14"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[ตำแหน่ง เจ้าหน้าที่การเงิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" style="AngsanaUPC12" mode="Opaque" x="336" y="31" width="35" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="18bfeb77-f49e-40c6-9efd-fb0f222cad10"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="AngsanaUPC" size="14"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[รวมเงิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" style="AngsanaUPC12" mode="Opaque" x="387" y="92" width="164" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="28e9f969-b058-4e50-8b62-facb309e1f7f"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="TH Sarabun New" size="14"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[ลงชื่อ .......................................... ผู้รับเงิน]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" mode="Opaque" x="425" y="31" width="124" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="de30b2b6-1dc4-4b03-961b-386bfd27b423"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None">
+					<font fontName="AngsanaUPC" size="14" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="CP1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{sumReceive}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" mode="Opaque" x="481" y="7" width="59" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="2f3af44f-3bf2-4dd6-9f86-b1fd9bcc164e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="AngsanaUPC" size="14" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="CP1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{sumOpen}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" mode="Opaque" x="461" y="5" width="88" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="331e5540-8306-4d4c-9cf8-08cd228d0a19"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None">
+					<font fontName="AngsanaUPC" size="14" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="CP1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{sumClose}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" mode="Opaque" x="68" y="32" width="263" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="ca415645-a4a9-430a-b12b-33325083ee3d"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="CP1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{sumDetail}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" mode="Opaque" x="376" y="112" width="142" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="40ddc70f-eeae-4e2d-9eb8-e153d5cec27a"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="CP1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{receiver}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" mode="Opaque" x="189" y="132" width="199" height="18" forecolor="#000000" backcolor="#FFFFFF" uuid="346cbfea-0829-4811-9271-ac04c5027105"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Angsana New" size="14" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="CP1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ค้างชำระ "+$P{remain}+" บาท"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement key="line-1" mode="Opaque" x="5" y="2" width="547" height="1" forecolor="#000000" backcolor="#FFFFFF" uuid="e5f74ec4-5f5b-4e82-b7c3-d7d757597fbc"/>
+				<graphicElement fill="Solid">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement key="line-2" mode="Opaque" x="4" y="27" width="548" height="1" forecolor="#000000" backcolor="#FFFFFF" uuid="c7c0ecb4-6649-46fd-89c3-689722a84c15"/>
+				<graphicElement fill="Solid">
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField-9" mode="Opaque" x="69" y="51" width="262" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="e56452a4-414e-4643-984d-26e358d3f81b"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="CP1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{sumDetailEng}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="32" width="59" height="20" uuid="b6a67d7c-c2a8-4447-81b6-ead6a8419d8b"/>
+				<text><![CDATA[จำนวนเงิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="64" width="541" height="20" uuid="f386f0fe-e536-42ce-b004-63278c8dd687"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="10"/>
+				</textElement>
+				<text><![CDATA[โรงพยาบาลอาจมีการเรียกเก็บค่าใช้จ่ยบางรายการ  ในกรณีที่บริษัทประกันหรือหน่วยงานต้นสังกัดของท่าน ปฏิเสธการคุ้มครอง]]></text>
+			</staticText>
+			<line>
+				<reportElement x="5" y="125" width="141" height="1" uuid="ba60452d-cfeb-49eb-ba9d-cd99808ba9f4"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="5" y="130" width="141" height="20" uuid="6220ce55-2b35-45da-afeb-2e95aa7a9b91"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[ลายเซ็น ผู้ป่วย]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
