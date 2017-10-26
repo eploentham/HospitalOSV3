@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recript_con" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4b8e4ba6-9bf6-4173-8688-460598b4fcdb">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="480"/>
+	<parameter name="copy" class="java.lang.String"/>
+	<parameter name="billing_receipt_id" class="java.lang.String"/>
+	<parameter name="curr_date" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select
+--//////////////////////////////////////////////////////////////
+ b_site.site_full_name as site_full_name
+,b_site.site_phone_number as site_phone_number
+
+,f_patient_prefix.patient_prefix_description as prefix_patient
+,t_patient.patient_firstname as firstname
+,t_patient.patient_lastname as lastname
+,f_sex.sex_description as sex
+,t_patient.patient_hn as hn
+,t_patient.patient_pid as pid
+,t_patient.patient_house as house
+,t_patient.patient_moo as moo
+,t_patient.patient_road as road
+,changwat.address_description as province
+,amphur.address_description as amphur
+,tambon.address_description as tambon
+
+,t_visit.visit_patient_age as patient_age
+,t_visit.visit_vn as an
+,b_contract_plans.contract_plans_description as plan
+,t_visit_payment.visit_payment_card_number as card_no
+,hos_main.visit_office_name as hos_main
+,hos_sub.visit_office_name as hos_sub
+,t_visit.visit_dx as diagnosis
+--///////////////////////////////////////////////////////////////////////
+,item_billing_subgroup_description  as billing_subgroup
+,billing_receipt_billing_subgroup_paid as patient_share
+,billing_receipt_billing_subgroup_draw as draw
+,b_employee.employee_firstname || ' ' || b_employee.employee_lastname as staff_record
+,t_billing_invoice.t_billing_invoice_date_time as date, billing_receipt_number
+,t_visit.visit_begin_visit_time,t_billing_deduct_subgroup.billing_deduct_subgroup_baht
+--//////////////////////////////////////////////////////////////
+from t_billing_receipt_billing_subgroup
+left join t_billing_invoice_billing_subgroup on t_billing_receipt_billing_subgroup.t_billing_invoice_billing_subgroup_id = t_billing_invoice_billing_subgroup.t_billing_invoice_billing_subgroup_id
+left join b_item_billing_subgroup on b_item_billing_subgroup.b_item_billing_subgroup_id = t_billing_receipt_billing_subgroup.b_item_billing_subgroup_id
+left join t_billing_invoice on t_billing_invoice.t_billing_invoice_id = t_billing_invoice_billing_subgroup.t_billing_invoice_id
+left join t_visit on t_billing_receipt_billing_subgroup.t_visit_id = t_visit.t_visit_id
+left join t_billing_deduct_subgroup on t_billing_invoice_billing_subgroup.t_billing_invoice_billing_subgroup_id = t_billing_deduct_subgroup.t_billing_deduct_subgroup_id
+--///////////////////////
+ ----------------------------------------------------------------------------------
+left join t_patient on t_visit.t_patient_id = t_patient.t_patient_id
+left join f_patient_prefix on t_patient.f_patient_prefix_id = f_patient_prefix.f_patient_prefix_id
+left join f_sex on t_patient.f_sex_id = f_sex.f_sex_id
+left join (select * from f_address) as changwat on changwat.f_address_id = t_patient.patient_changwat
+left join (select * from f_address) as amphur on amphur.f_address_id = t_patient.patient_amphur
+left join (select * from f_address) as tambon on tambon.f_address_id = t_patient.patient_tambon
+left join t_visit_payment on t_visit_payment.t_visit_payment_id = t_billing_invoice_billing_subgroup.t_payment_id
+left join b_contract_plans on b_contract_plans.b_contract_plans_id = t_visit_payment.b_contract_plans_id
+left join (select * from b_visit_office) as hos_main on hos_main.b_visit_office_id = t_visit_payment.visit_payment_main_hospital
+left join (select * from b_visit_office) as hos_sub on hos_sub.b_visit_office_id = t_visit_payment.visit_payment_sub_hospital
+left join b_employee on t_billing_invoice.billing_invoice_staff_record = b_employee.b_employee_id
+left join t_billing_receipt on t_billing_receipt.t_billing_receipt_id = t_billing_receipt_billing_subgroup.t_billing_receipt_id
+ ,b_site
+
+----------------------------------------------------------------------------------
+--///////////////////////
+where t_billing_receipt_billing_subgroup.t_billing_receipt_id = $P{billing_receipt_id}]]>
+	</queryString>
+	<field name="site_full_name" class="java.lang.String"/>
+	<field name="site_phone_number" class="java.lang.String"/>
+	<field name="prefix_patient" class="java.lang.String"/>
+	<field name="firstname" class="java.lang.String"/>
+	<field name="lastname" class="java.lang.String"/>
+	<field name="sex" class="java.lang.String"/>
+	<field name="hn" class="java.lang.String"/>
+	<field name="pid" class="java.lang.String"/>
+	<field name="house" class="java.lang.String"/>
+	<field name="moo" class="java.lang.String"/>
+	<field name="road" class="java.lang.String"/>
+	<field name="province" class="java.lang.String"/>
+	<field name="amphur" class="java.lang.String"/>
+	<field name="tambon" class="java.lang.String"/>
+	<field name="patient_age" class="java.lang.String"/>
+	<field name="an" class="java.lang.String"/>
+	<field name="plan" class="java.lang.String"/>
+	<field name="card_no" class="java.lang.String"/>
+	<field name="hos_main" class="java.lang.String"/>
+	<field name="hos_sub" class="java.lang.String"/>
+	<field name="diagnosis" class="java.lang.String"/>
+	<field name="billing_subgroup" class="java.lang.String"/>
+	<field name="patient_share" class="java.lang.Double"/>
+	<field name="draw" class="java.lang.String"/>
+	<field name="staff_record" class="java.lang.String"/>
+	<field name="date" class="java.lang.String"/>
+	<field name="billing_receipt_number" class="java.lang.String"/>
+	<field name="visit_begin_visit_time" class="java.lang.String"/>
+	<field name="billing_deduct_subgroup_baht" class="java.lang.String"/>
+	<variable name="sum_patient_share" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{patient_share}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="215" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="72" width="555" height="28" uuid="e681b968-e438-440d-9cbd-81998ca65cf9"/>
+				<textElement textAlignment="Center">
+					<font fontName="TH Sarabun New" size="20"/>
+				</textElement>
+				<text><![CDATA[ใบเสร็จรับเงิน]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="88" height="71" uuid="553df48e-793a-4b9f-8899-fa67dc5a6a23"/>
+				<imageExpression><![CDATA["D:\\orc\\app\\hprinting\\logo.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="88" y="11" width="196" height="34" uuid="5b4e3b30-3145-4c9e-9251-6f3a7be3f9d1"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="22"/>
+				</textElement>
+				<text><![CDATA[โรงพยาบาล อรวรรณ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="88" y="36" width="196" height="36" uuid="23b9f4a9-be75-4134-ae01-91eed9e3ea7f"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="20"/>
+				</textElement>
+				<text><![CDATA[ORAWAN HOSPITAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="219" y="20" width="336" height="20" uuid="e329e745-000a-4340-96e4-552b99061be0"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<text><![CDATA[8/8 หมู่ 6 ต.แพรกษา อ.เมืองสมุทรปราการ จ.สมุปราการ 10280 เบอร์ติดต่อ 02 334-2555]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="219" y="42" width="336" height="20" uuid="cf36824f-fa32-46e2-9881-489236625d8e"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<text><![CDATA[8/8 m.6 phraeksa. Amphur Muang, samutprakarn 10280 tel 02 344-2555 ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="378" y="107" width="38" height="20" uuid="5c818ced-61a0-4a2b-ac8f-1f22971ba190"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<text><![CDATA[วันที่]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="462" y="107" width="93" height="20" uuid="703a2674-36dc-4753-b186-c6f4a7938c89"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="443" y="72" width="112" height="20" uuid="6940c782-acb8-48b3-932d-35b2fe1b36d6"/>
+				<textElement textAlignment="Center">
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{copy}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="127" width="84" height="20" uuid="9cea1976-911a-4839-b847-b83d4390c907"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<text><![CDATA[ชื่อ-นามสกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="372" y="0" width="183" height="20" uuid="dd32a838-7b3a-4f86-9ed8-2e807da02f6c"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขประจำตัวผู้เสียภาษี 0115555011261]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="107" width="84" height="20" uuid="32a71f56-1b8d-4354-aeeb-71cf1d001386"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="147" width="84" height="20" uuid="dec8602c-c996-494c-9f00-019399269943"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<text><![CDATA[วันที่รับผู้ป่วย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="378" y="127" width="84" height="20" uuid="5c495c72-5ffe-429d-a15f-f342a1a28cbe"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขที่ประจำตัวผู้ป่วย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="378" y="147" width="84" height="20" uuid="a76a7494-6988-419a-9acf-0fde873881b2"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<text><![CDATA[วันที่จำหน่ายผู้ป่วย]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="88" y="127" width="253" height="20" uuid="024d9cf3-b32a-4c23-bf64-1367621fe4e0"/>
+				<textFieldExpression><![CDATA[$F{prefix_patient}+ " " + $F{firstname}+ " "+ $F{lastname}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="88" y="107" width="131" height="20" uuid="da6131b5-6577-44ba-af6c-2a2873a33686"/>
+				<textFieldExpression><![CDATA[$F{billing_receipt_number}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="462" y="127" width="93" height="20" uuid="791befc6-9410-4f07-9f79-8d5804e3ea23"/>
+				<textFieldExpression><![CDATA[$F{hn}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="462" y="147" width="93" height="20" uuid="fa4da2a5-ab98-452d-9afd-b6514a37e08d"/>
+				<textFieldExpression><![CDATA[]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="88" y="147" width="131" height="20" uuid="a8614d78-8c55-4e52-95fb-c09d22518850"/>
+				<textFieldExpression><![CDATA[]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="214" width="555" height="1" uuid="fbd29bf5-d727-4e45-bc60-bd0bc7ad52a8"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="343" y="1" width="70" height="20" uuid="659bea49-1f7c-4a7e-ad97-0e5250f81194"/>
+				<textElement textAlignment="Center">
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<text><![CDATA[จำนวนเงิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="415" y="1" width="60" height="20" uuid="01b77c00-2f5f-47d9-9158-ceff00b5b1d2"/>
+				<textElement textAlignment="Center">
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<text><![CDATA[ส่วนลด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="482" y="3" width="67" height="20" uuid="f796c489-518b-4b3c-abc5-38260608ec4f"/>
+				<textElement textAlignment="Center">
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<text><![CDATA[คงเหลือ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="3" width="337" height="20" uuid="433ccf1c-e700-4fbd-8242-6ca8b2148d65"/>
+				<textElement textAlignment="Center">
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<text><![CDATA[รายการ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="4" y="2" width="337" height="20" uuid="c737ae7e-47fb-473b-b1db-3223200fa676"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{billing_subgroup}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="485" y="2" width="67" height="20" uuid="43d21815-f452-4fa6-9bc3-fe577d17e97c"/>
+				<textElement textAlignment="Right">
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{patient_share}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="423" y="2" width="57" height="20" uuid="ab937291-e667-4c9d-ba9b-b11f2b091148"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{billing_deduct_subgroup_baht}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="134" splitType="Stretch">
+			<textField>
+				<reportElement x="478" y="12" width="74" height="20" uuid="d6d201d1-b3ec-4c29-8bcc-639ac7ac139c"/>
+				<textFieldExpression><![CDATA[$V{sum_patient_share}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="63" y="12" width="342" height="20" uuid="5f11abbe-edb5-4a68-9504-0ec21bbb8b22"/>
+				<textFieldExpression><![CDATA[com.hospital_os.utility.Gutil.readCurrencyInThai(
+$V{sum_patient_share}.doubleValue(),"บาทถ้วน", "สตางค์")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="12" width="59" height="20" uuid="93d2b33a-8ba4-4e97-99da-ec98e41b1bbb"/>
+				<text><![CDATA[จำนวนเงิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="409" y="104" width="136" height="20" uuid="45ae6599-a391-4146-822d-e5b98db82a0e"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[เจ้าหน้าที่การเงิน]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="409" y="84" width="136" height="20" uuid="71db8c84-cdd9-4e27-a2f6-2b379cf9416c"/>
+				<textElement textAlignment="Center">
+					<font fontName="TH Sarabun New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{staff_record}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="416" y="12" width="84" height="20" uuid="dad4d661-cbee-44eb-bd69-68be04450468"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[รวมทั้งสิ้น]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="104" width="141" height="20" uuid="7fd16c34-0a8a-472f-ba29-6e5cb8fc6315"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[ลายเซ็น ผู้ป่วย]]></text>
+			</staticText>
+			<line>
+				<reportElement x="21" y="99" width="141" height="1" uuid="2d2e2196-bf66-44b5-a7ba-b205d16249f8"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="4" y="57" width="541" height="20" uuid="ccc6ebf1-0c73-4cc9-9695-c9d88ac47645"/>
+				<textElement>
+					<font fontName="TH Sarabun New" size="12"/>
+				</textElement>
+				<text><![CDATA[โรงพยาบาลอาจมีการเรียกเก็บค่าใช้จ่ยบางรายการ  ในกรณีที่บริษัทประกันหรือหน่วยงานต้นสังกัดของท่าน ปฏิเสธการคุ้มครอง]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="-49" width="1" height="93" uuid="ab9a7931-a28c-4b2a-a6f6-bc25cae2870f"/>
+			</line>
+			<line>
+				<reportElement x="1" y="43" width="554" height="1" uuid="3ff925a7-e08a-48de-ae83-dae08dc15f45"/>
+			</line>
+			<line>
+				<reportElement x="554" y="-49" width="1" height="93" uuid="c5f68636-3b97-4884-a0fe-7f4ba2175cec"/>
+			</line>
+			<line>
+				<reportElement x="341" y="-50" width="1" height="53" uuid="778aa13c-281e-4e40-b96d-43889a5bca34"/>
+			</line>
+			<line>
+				<reportElement x="413" y="-49" width="1" height="93" uuid="58355500-b718-4995-86ad-e3d1bb6deeea"/>
+			</line>
+			<line>
+				<reportElement x="1" y="2" width="554" height="1" uuid="8708c714-c49b-404d-bfca-778c56cd22b4"/>
+			</line>
+			<line>
+				<reportElement x="481" y="-49" width="1" height="51" uuid="97e35ffd-5cec-4ce8-8e52-3d7693fc62d8"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

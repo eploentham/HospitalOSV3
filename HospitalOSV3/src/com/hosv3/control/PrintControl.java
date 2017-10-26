@@ -52,6 +52,10 @@ import net.sf.jasperreports.view.*;
  * @author ekapop
  * 1.  60-10-24 เรื่อง รายงาน ใบรับรองแพทย์ 7 โรค
  * Modify doc 7.
+ * 
+ * 2. 60-10-25 เรื่อง ใบเสร็จรับเงิน
+ * Modify doc 10.
+
  */
 public class PrintControl {
 
@@ -1784,9 +1788,9 @@ public class PrintControl {
                 o.put("billing_receipt_id",receipt.getObjectId());
                 o.put("remain",String.valueOf(remain));
                 o.put("disease_th",dx_th);
-                boolean ret = intPrintCon("receipt_con", valuePrint, o);
-                if(!ret) return ;
-                
+                //boolean ret = intPrintCon("receipt_con", valuePrint, o);      //-2
+                boolean ret = intPrintConJR("receipt_con", valuePrint, o);      //+2
+                if(!ret) return ;                
                 
             }
             else

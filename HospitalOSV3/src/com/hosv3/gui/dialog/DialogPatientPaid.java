@@ -49,11 +49,13 @@ public class DialogPatientPaid extends javax.swing.JDialog implements UpdateStat
     ,Billing billing,Visit visit) {
         super(theUS.getJFrame(),true);
         initComponents();
-        setSize(500, 400);
+        //setSize(500, 400);
+        
 	setControl(hc,theUS,billing,visit);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();//thekit.getScreenSize();
         setLocation((screenSize.width-getSize().width)/2, (screenSize.height-getSize().height)/2);
         setTitle(Constant.getTextBundle("การรับชำระเงิน"));
+        setSize(1000, 800);      //pop
     }
 
     public void setControl(HosControl hc,UpdateStatus theUS
@@ -127,6 +129,8 @@ public class DialogPatientPaid extends javax.swing.JDialog implements UpdateStat
         jLabel4 = new javax.swing.JLabel();
         jTextThaiDx = new javax.swing.JTextField();
 
+        setMinimumSize(new java.awt.Dimension(808, 661));
+        setPreferredSize(new java.awt.Dimension(808, 661));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel3.setLayout(new java.awt.GridBagLayout());
@@ -204,7 +208,7 @@ public class DialogPatientPaid extends javax.swing.JDialog implements UpdateStat
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         jPanel9.add(jLabelAge, gridBagConstraints);
 
-        jTextFieldPtName.setFont(new java.awt.Font("Tahoma", 1, 16));
+        jTextFieldPtName.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jTextFieldPtName.setText("jLabel5");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -214,7 +218,7 @@ public class DialogPatientPaid extends javax.swing.JDialog implements UpdateStat
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         jPanel9.add(jTextFieldPtName, gridBagConstraints);
 
-        jLabelName.setFont(new java.awt.Font("Tahoma", 1, 16));
+        jLabelName.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabelName.setText("Name");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -274,7 +278,7 @@ public class DialogPatientPaid extends javax.swing.JDialog implements UpdateStat
         doubleTextFieldTotalAll.setEditable(false);
         doubleTextFieldTotalAll.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         doubleTextFieldTotalAll.setText("0");
-        doubleTextFieldTotalAll.setFont(new java.awt.Font("MS Sans Serif", 0, 18));
+        doubleTextFieldTotalAll.setFont(new java.awt.Font("MS Sans Serif", 0, 18)); // NOI18N
         doubleTextFieldTotalAll.setMinimumSize(new java.awt.Dimension(50, 32));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -282,7 +286,7 @@ public class DialogPatientPaid extends javax.swing.JDialog implements UpdateStat
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel8.add(doubleTextFieldTotalAll, gridBagConstraints);
 
-        jLabelSum.setFont(new java.awt.Font("MS Sans Serif", 0, 18));
+        jLabelSum.setFont(new java.awt.Font("MS Sans Serif", 0, 18)); // NOI18N
         jLabelSum.setText("TotalAll");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -313,14 +317,14 @@ public class DialogPatientPaid extends javax.swing.JDialog implements UpdateStat
 
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
-        jLabelPatientPay.setFont(new java.awt.Font("Tahoma", 0, 18));
+        jLabelPatientPay.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabelPatientPay.setText("ชำระแล้ว");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(1, 5, 1, 5);
         jPanel4.add(jLabelPatientPay, gridBagConstraints);
 
-        jLabelPaid.setFont(new java.awt.Font("Tahoma", 0, 18));
+        jLabelPaid.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabelPaid.setForeground(new java.awt.Color(0, 0, 255));
         jLabelPaid.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelPaid.setText("รับชำระ");
@@ -329,7 +333,7 @@ public class DialogPatientPaid extends javax.swing.JDialog implements UpdateStat
         gridBagConstraints.insets = new java.awt.Insets(1, 5, 1, 5);
         jPanel4.add(jLabelPaid, gridBagConstraints);
 
-        jLabelPatientRemain.setFont(new java.awt.Font("Tahoma", 0, 18));
+        jLabelPatientRemain.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabelPatientRemain.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelPatientRemain.setText("คงค้าง");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -338,7 +342,7 @@ public class DialogPatientPaid extends javax.swing.JDialog implements UpdateStat
         jPanel4.add(jLabelPatientRemain, gridBagConstraints);
 
         jTextFieldPatientRemain.setEditable(false);
-        jTextFieldPatientRemain.setFont(new java.awt.Font("MS Sans Serif", 0, 18));
+        jTextFieldPatientRemain.setFont(new java.awt.Font("MS Sans Serif", 0, 18)); // NOI18N
         jTextFieldPatientRemain.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextFieldPatientRemain.setText("0");
         jTextFieldPatientRemain.setBorder(null);
@@ -352,7 +356,7 @@ public class DialogPatientPaid extends javax.swing.JDialog implements UpdateStat
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel4.add(jTextFieldPatientRemain, gridBagConstraints);
 
-        jLabelReduce.setFont(new java.awt.Font("Tahoma", 0, 18));
+        jLabelReduce.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabelReduce.setText("ทอน");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
@@ -360,7 +364,7 @@ public class DialogPatientPaid extends javax.swing.JDialog implements UpdateStat
         jPanel4.add(jLabelReduce, gridBagConstraints);
 
         jTextFieldReduce.setEditable(false);
-        jTextFieldReduce.setFont(new java.awt.Font("MS Sans Serif", 0, 18));
+        jTextFieldReduce.setFont(new java.awt.Font("MS Sans Serif", 0, 18)); // NOI18N
         jTextFieldReduce.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextFieldReduce.setText("0");
         jTextFieldReduce.setBorder(null);
@@ -377,7 +381,7 @@ public class DialogPatientPaid extends javax.swing.JDialog implements UpdateStat
         doubleTextFieldPaid.setColumns(6);
         doubleTextFieldPaid.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         doubleTextFieldPaid.setText("0");
-        doubleTextFieldPaid.setFont(new java.awt.Font("MS Sans Serif", 0, 18));
+        doubleTextFieldPaid.setFont(new java.awt.Font("MS Sans Serif", 0, 18)); // NOI18N
         doubleTextFieldPaid.setMaximumSize(new java.awt.Dimension(82, 32));
         doubleTextFieldPaid.setMinimumSize(new java.awt.Dimension(82, 32));
         doubleTextFieldPaid.addActionListener(new java.awt.event.ActionListener() {
@@ -401,7 +405,7 @@ public class DialogPatientPaid extends javax.swing.JDialog implements UpdateStat
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel4.add(doubleTextFieldPaid, gridBagConstraints);
 
-        doubleTextFieldPay.setFont(new java.awt.Font("MS Sans Serif", 0, 18));
+        doubleTextFieldPay.setFont(new java.awt.Font("MS Sans Serif", 0, 18)); // NOI18N
         doubleTextFieldPay.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         doubleTextFieldPay.setText("0");
         doubleTextFieldPay.setBorder(null);
@@ -445,7 +449,7 @@ public class DialogPatientPaid extends javax.swing.JDialog implements UpdateStat
         gridBagConstraints.insets = new java.awt.Insets(1, 0, 0, 0);
         jPanel1.add(jComboBoxEmployee, gridBagConstraints);
 
-        jLabelPaidModel.setFont(new java.awt.Font("Tahoma", 0, 18));
+        jLabelPaidModel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabelPaidModel.setText("วิธีการชำระเงิน");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -567,8 +571,7 @@ public class DialogPatientPaid extends javax.swing.JDialog implements UpdateStat
 
      private void jButtonPreviewBillingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPreviewBillingActionPerformed
          //doubleTextFieldPaid.requestFocus();
-        theHC.thePrintControl.printBilling(theVisit,theHO.thePrintReceipt,
-                PrintControl.MODE_PREVIEW,jTextThaiDx.getText(),this);
+        theHC.thePrintControl.printBilling(theVisit,theHO.thePrintReceipt, PrintControl.MODE_PREVIEW,jTextThaiDx.getText(),this);
     }//GEN-LAST:event_jButtonPreviewBillingActionPerformed
 
   private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed

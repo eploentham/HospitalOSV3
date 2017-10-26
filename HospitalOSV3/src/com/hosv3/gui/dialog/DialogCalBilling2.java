@@ -53,7 +53,8 @@ public class DialogCalBilling2 extends javax.swing.JFrame implements UpdateStatu
         this.jTablePayment.setGuiMode(true);
         setLanguage("");
         setDefaultDateDischage();
-        setSize(640,480);
+        //setSize(640,480);
+        setSize(1000,800);       // pop
         setTitle(Constant.getTextBundle("รายการคำนวณค่าใช้จ่าย")); 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();//thekit.getScreenSize();
         setLocation((screenSize.width-getSize().width)/2, (screenSize.height-getSize().height)/2);
