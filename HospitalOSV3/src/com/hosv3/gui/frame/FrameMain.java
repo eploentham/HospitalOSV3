@@ -32,6 +32,8 @@ import com.hosv3.gui.dialog.HosDialog;
 /**
  *
  * @author  Administrator
+ * * 1.  60-10-27 เรื่อง FTP scan เอกสารเก็บเข้า server
+ *  Modify doc 10.
  */
 public class FrameMain extends javax.swing.JFrame implements UpdateStatus
 ,ManageVisitResp,ManageVitalResp,ManagePatientResp,ManageDiagnosisResp
@@ -335,6 +337,7 @@ public class FrameMain extends javax.swing.JFrame implements UpdateStatus
         jMenuItemLabreferin = new javax.swing.JMenuItem();
         jMenuItemReferPatient = new javax.swing.JMenuItem();
         jMenuItemReport = new javax.swing.JMenuItem();
+        jMenuItemScanOPDRecord = new javax.swing.JMenuItem();
         jMenuPatientGeneral = new javax.swing.JMenu();
         jMenuItemWaitDoctorDischarge = new javax.swing.JMenuItem();
         jMenuItemDropVisit = new javax.swing.JMenuItem();
@@ -788,6 +791,14 @@ public class FrameMain extends javax.swing.JFrame implements UpdateStatus
             }
         });
         jMenuTool.add(jMenuItemReport);
+
+        jMenuItemScanOPDRecord.setText("Scan OPD Record");
+        jMenuItemScanOPDRecord.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemScanOPDRecordActionPerformed(evt);
+            }
+        });
+        jMenuTool.add(jMenuItemScanOPDRecord);
 
         jMenuBar.add(jMenuTool);
 
@@ -2132,6 +2143,11 @@ public class FrameMain extends javax.swing.JFrame implements UpdateStatus
         theHC.thePrintControl.printMed7Cert();
     }//GEN-LAST:event_jMenuItemPrint7CertActionPerformed
 
+    private void jMenuItemScanOPDRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemScanOPDRecordActionPerformed
+        // TODO add your handling code here:
+        theHD.showPanelScanOPDRecord();//+1
+    }//GEN-LAST:event_jMenuItemScanOPDRecordActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.hospital_os.utility.ClockLabel clockLabel1;
     private com.hospital_os.gui.font.DefaultFont defaultFont1;
@@ -2212,6 +2228,7 @@ public class FrameMain extends javax.swing.JFrame implements UpdateStatus
     private javax.swing.JMenuItem jMenuItemReverseDoctor;
     private javax.swing.JMenuItem jMenuItemReverseFinancial;
     private javax.swing.JMenuItem jMenuItemReverseObserve;
+    private javax.swing.JMenuItem jMenuItemScanOPDRecord;
     private javax.swing.JMenuItem jMenuItemSearchPatient;
     private javax.swing.JMenuItem jMenuItemSendBackWard;
     private javax.swing.JMenuItem jMenuItemServeil;

@@ -24,6 +24,7 @@ import th.go.nhso.rightsearch.RightData;
 /**
  *
  * @author  administrator
+ * 
  */
 public class HosDialog {
     
@@ -103,6 +104,7 @@ public class HosDialog {
      PanelServiceLocation thePanelServiceLocation;
      PanelMapPlan thePanelMapPlan;
      PanelSetupMapNhsoPlan thePanelSetupMapNhsoPlan;
+    PanelScanOPDRecord thePanelScanOPDRecord;   //+1
      
      private PanelAllRoom thePanelAllRoom;
     private PanelAllRoom2 thePanelAllRoom2;
@@ -519,6 +521,13 @@ public class HosDialog {
             thePanelSetupMapNhsoPlan= new PanelSetupMapNhsoPlan();
         thePanelSetupMapNhsoPlan.setControl(theHC, theUS);
         thePanelSetupMapNhsoPlan.showDialog();
+    }
+    public void showPanelScanOPDRecord() //+1
+    {
+        if(thePanelScanOPDRecord == null)
+            thePanelScanOPDRecord= new PanelScanOPDRecord();
+        thePanelScanOPDRecord.setControl(theHC, theUS);
+        thePanelScanOPDRecord.showDialog();
     }
     public int showPanelMapPlan(RightData rightData,Payment paymentNow)
     {
