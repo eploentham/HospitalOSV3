@@ -26,6 +26,7 @@ public class Site extends Persistent
         public String receipt_option;
         public String hn_for_drug_fund;
         public String server_image_reserve_name;        //+1
+        public String local_folder_image_reserve_name;        //+1
    
    /**
     * @roseuid 3F658BBB036E
