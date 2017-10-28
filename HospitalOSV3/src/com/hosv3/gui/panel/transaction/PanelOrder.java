@@ -124,6 +124,7 @@ public class PanelOrder extends javax.swing.JPanel implements ManageVisitResp
         this.jTableItemList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         dateComboBoxStart.setEnabled(false);
         dateComboBoxEnd.setEnabled(false);
+        jSplitPane2.setDividerLocation(575);
     }
     public void setControl(HosControl hc, UpdateStatus us)
     {

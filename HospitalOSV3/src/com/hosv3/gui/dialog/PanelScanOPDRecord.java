@@ -15,6 +15,7 @@ import com.hosv3.subject.HosSubject;
 import com.hosv3.usecase.transaction.ManagePatientResp;
 import com.hosv3.usecase.transaction.ManageVPaymentResp;
 import com.hosv3.usecase.transaction.ManageVisitResp;
+import com.hosv3.utility.Constant;
 import com.hosv3.utility.GuiLang;
 import com.hosv3.utility.connection.UpdateStatus;
 import java.awt.Dimension;
@@ -54,6 +55,8 @@ public class PanelScanOPDRecord extends javax.swing.JPanel {
     
     public PanelScanOPDRecord() {
         initComponents();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setSize(screenSize);
         setLanguage(null);
     }
     public void setControl(HosControl hc, UpdateStatus us){
@@ -74,10 +77,12 @@ public class PanelScanOPDRecord extends javax.swing.JPanel {
         if(theJD==null)
             theJD = new JDialog(theUS.getJFrame());
         theJD.add(this);
-        theJD.setSize(1024,768);
+//        theJD.setSize(1024,768);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        theJD.setLocation((screenSize.width - theJD.getSize().width) / 2, (screenSize.height - theJD.getSize().height) / 2);
+        theJD.setSize(screenSize.width,screenSize.height-200);
+        theJD.setLocation((screenSize.width - theJD.getSize().width) / 2, ((screenSize.height - theJD.getSize().height) / 2) +60);
         theJD.setTitle("ตั้งค่าการจับคู่สิทธิ์ของ สปสช กับสิทธิ์ของโรงพยาบาล");
+        
         theJD.setModal(true);
         theJD.setVisible(true);
     }
@@ -92,23 +97,19 @@ public class PanelScanOPDRecord extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jButtonScan = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jToggleButtonScanOPDRecord1 = new javax.swing.JToggleButton();
+        jToggleButtonMedCert = new javax.swing.JToggleButton();
+        jToggleButtonDoc1 = new javax.swing.JToggleButton();
+        jToggleButtonDoc2 = new javax.swing.JToggleButton();
+        jToggleButtonDoc3 = new javax.swing.JToggleButton();
+        jToggleButtonDoc4 = new javax.swing.JToggleButton();
+        jToggleButtonDoc5 = new javax.swing.JToggleButton();
+        jToggleButtonDoc6 = new javax.swing.JToggleButton();
+        jToggleButtonDoc7 = new javax.swing.JToggleButton();
+        jToggleButtonAll = new javax.swing.JToggleButton();
 
         setLayout(new java.awt.GridBagLayout());
-
-        jButtonScan.setText("Scan OPD Record");
-        jButtonScan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonScanActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 5, 10, 5);
-        add(jButtonScan, gridBagConstraints);
 
         jLabel1.setText("jLabel1");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -119,29 +120,109 @@ public class PanelScanOPDRecord extends javax.swing.JPanel {
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         add(jLabel1, gridBagConstraints);
+
+        jToggleButtonScanOPDRecord1.setText("OPD Record");
+        jToggleButtonScanOPDRecord1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButtonScanOPDRecord1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+        add(jToggleButtonScanOPDRecord1, gridBagConstraints);
+
+        jToggleButtonMedCert.setText("ใบรับรองแพทย์");
+        jToggleButtonMedCert.setName(""); // NOI18N
+        add(jToggleButtonMedCert, new java.awt.GridBagConstraints());
+
+        jToggleButtonDoc1.setText("เอกสาร1");
+        add(jToggleButtonDoc1, new java.awt.GridBagConstraints());
+
+        jToggleButtonDoc2.setText("เอกสาร2");
+        add(jToggleButtonDoc2, new java.awt.GridBagConstraints());
+
+        jToggleButtonDoc3.setText("เอกสาร3");
+        add(jToggleButtonDoc3, new java.awt.GridBagConstraints());
+
+        jToggleButtonDoc4.setText("เอกสาร4");
+        add(jToggleButtonDoc4, new java.awt.GridBagConstraints());
+
+        jToggleButtonDoc5.setText("เอกสาร5");
+        add(jToggleButtonDoc5, new java.awt.GridBagConstraints());
+
+        jToggleButtonDoc6.setText("เอกสาร6");
+        add(jToggleButtonDoc6, new java.awt.GridBagConstraints());
+
+        jToggleButtonDoc7.setText("เอกสาร7");
+        add(jToggleButtonDoc7, new java.awt.GridBagConstraints());
+
+        jToggleButtonAll.setText("ทั้งหมด");
+        add(jToggleButtonAll, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonScanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonScanActionPerformed
+    private void jToggleButtonScanOPDRecord1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonScanOPDRecord1ActionPerformed
         try {
             // TODO add your handling code here:
             FtpImage ftpc = new FtpImage(theUS);
-            FileInputStream in = null;
-            in = new FileInputStream("c:\\intern136.jpg");
-            ftpc.appendFileToServer("localhost", "pop", "pop", "opd", "intern136.jpg", in);
-            
+            String path="D:\\images";
+            String filename1="", filename="med_cert";
             BufferedImage img=null;
-            img = ftpc.retriveFileFromServer("localhost", "pop", "pop", "opd", "intern136");
-            ImageIcon icon= new ImageIcon(img);
-            //JLabel lbl=new JLabel();
-            jLabel1.setIcon(icon);
+            img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd", filename+"_"+theHO.theVisit.vn);
+            ImageIcon icon= null;
+            if(img!=null){
+                icon = new ImageIcon(img);
+                //JLabel lbl=new JLabel();
+                jLabel1.setIcon(icon);
+            }
+            if(icon!=null){
+                FileInputStream in = null;
+                File file = new File(path);
+                File[] list = file.listFiles();
+                if(list!=null){
+                    for (File fil : list){
+                        if (!fil.isDirectory()){
+                            filename1 = fil.getName();
+                        }
+                        
+                    }
+                }
+                
+                if(list.length>=1){
+                    boolean rs = theUS.confirmBox(Constant.getTextBundle("คุณต้องการพิมพ์สติ๊กเกอร์ยาหรือไม่"),UpdateStatus.WARNING);
+                    if(rs){
+                        in = new FileInputStream(path+"\\"+filename1);
+                        ftpc.appendFileToServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd", filename+"_"+theHO.theVisit.vn+".jpg", in);
+                        img=null;
+                        img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd", filename+"_"+theHO.theVisit.vn);
+                        icon= new ImageIcon(img);
+                        //JLabel lbl=new JLabel();
+                        jLabel1.setIcon(icon);
+                        File file1 = new File(path+"\\"+filename1);
+                        file1.delete();
+                    }                    
+                }
+            }
+            
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PanelScanOPDRecord.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButtonScanActionPerformed
+    }//GEN-LAST:event_jToggleButtonScanOPDRecord1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonScan;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JToggleButton jToggleButtonAll;
+    private javax.swing.JToggleButton jToggleButtonDoc1;
+    private javax.swing.JToggleButton jToggleButtonDoc2;
+    private javax.swing.JToggleButton jToggleButtonDoc3;
+    private javax.swing.JToggleButton jToggleButtonDoc4;
+    private javax.swing.JToggleButton jToggleButtonDoc5;
+    private javax.swing.JToggleButton jToggleButtonDoc6;
+    private javax.swing.JToggleButton jToggleButtonDoc7;
+    private javax.swing.JToggleButton jToggleButtonMedCert;
+    private javax.swing.JToggleButton jToggleButtonScanOPDRecord1;
     // End of variables declaration//GEN-END:variables
 }
