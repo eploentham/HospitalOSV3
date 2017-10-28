@@ -38,6 +38,9 @@ import com.hospital_os.utility.TaBleModel;
  * กฏของ table 
  * เมื่อค้นเจอจะต้องเลือกตัวแรกให้เสมอ
  * 
+ * 1.  60-10-28 เรื่อง ยกเลิก จำหน่ายทางการเงิน
+ * Modify doc 11.
+ * 
  */
 public class PanelBilling extends javax.swing.JPanel
 implements ManagePatientResp,ManageVisitResp,ManageVPaymentResp
@@ -109,6 +112,7 @@ implements ManagePatientResp,ManageVisitResp,ManageVPaymentResp
         thePaymentNow = new Payment();
         setVisit(null);
         initAuthen(theHO.theEmployee);
+        
 //        setLanguage(null);
     }
     public void initAuthen(Employee e)
@@ -1887,6 +1891,11 @@ private void jButtonDeleteBillInvoiceActionPerformed(java.awt.event.ActionEvent 
         jCheckBoxDateDischarge.setEnabled(b);
         dateComboBoxCheck.setEnabled(jCheckBoxDateDischarge.isSelected() && b);
         timeTextFieldCheck.setEnabled(jCheckBoxDateDischarge.isSelected() && b);
+        if(theHC.theHO.theVisit != null){       //+1
+            if(theHC.theHO.theVisit.statusPOP.equals("1")){
+                jButtonPreviewBilling.setEnabled(true);
+            }
+        }
     }
     
     /**

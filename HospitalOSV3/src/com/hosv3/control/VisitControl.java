@@ -28,6 +28,7 @@ import java.util.*;
 import com.hospital_os.object.AppointmentStatus;
 import com.hosv3.gui.dialog.HosDialog;
 import java.net.URL;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import th.go.nhso.rightsearch.RightData;
 
@@ -42,7 +43,8 @@ import th.go.nhso.rightsearch.RightData;
  * Modify doc 6.
  * 2.   60-10-24 เรื่อง ปลด Lock user
  * Modify doc 8.
-
+ * 3.  60-10-28 เรื่อง ยกเลิก จำหน่ายทางการเงิน
+ * Modify doc 11.
  */
 public class VisitControl {
     ConnectionInf theConnectionInf;
@@ -1278,6 +1280,64 @@ public class VisitControl {
             ex.printStackTrace();
         }
     }
+    public void readVisitPatientByVidPOP(String vid,String remain,ListTransfer t2)//+1
+    {
+        Constant.println("private void readVisitPatient(String vid,int mode)");
+        theConnectionInf.open();
+        try{
+            checkFamily();
+            intUnlockVisit(theHO.theVisit);
+            theHO.clearFamily();
+            Visit visit = theHosDB.theVisitDB.selectByPK(vid);
+            if(visit==null)
+            {
+                theUS.setStatus(("ไม่พบข้อมูลการรับบริการของผู้ป่วยในฐานข้อมูล"),UpdateStatus.WARNING);
+                return;
+            }
+            Patient patient = theHosDB.thePatientDB.selectByPK(visit.patient_id);
+            if(patient==null)
+            {
+                theUS.setStatus(("ไม่พบข้อมูลผู้ป่วยในฐานข้อมูล"),UpdateStatus.WARNING);
+                return;
+            }
+            thePatientControl.intReadFamilySuit(patient.getFamily(),patient);
+            thePatientControl.intReadPatientSuit(patient);
+            theLookupControl.intReadDateTime();
+            thePatientControl.intReadVisitSuit(visit);
+            theHO.theVisit.statusPOP = "1";
+//            thePatientControl.intLockVisit(theHO.date_time);      //-2
+            //intConfirmDoctorTreatment(true,date_time);
+            
+            intSaveTransferCatch(theHO.theEmployee, theHO.date_time);
+            
+            if(t2!=null)
+            {
+                if("".equals(t2.order_id))
+                {
+                    theHO.orderSecret = "";
+                    theHO.specimenCode = "";
+                }
+                else
+                {
+                    theHO.orderSecret = t2.order_id;
+                    theHO.specimenCode = t2.specimen_code;
+                    theHO.vOrderItem = theHosDB.theOrderItemDB.selectOrderItemByVNAndOrderNotSecret(
+                            visit.getObjectId(),CategoryGroup.isLab(),true,true,false);
+                }                 
+            }
+
+            //ตรวจสอบว่าเป็นผู้ป่วยที่มีแลบปกปิดหรือไม่
+            theHO.labQueueRemain = remain;               
+            theHS.theVisitSubject.notifyReadVisit(Constant.getTextBundle("เรียกดูข้อมูลการรับบริการของผู้ป่วยเสร็จสิ้น"),UpdateStatus.COMPLETE);
+        }
+        catch(Exception ex){
+            ex.printStackTrace(Constant.getPrintStream());
+            theUS.setStatus(("เรียกดูข้อมูลการรับบริการของผู้ป่วยเกิดความผิดพลาด"),UpdateStatus.ERROR);
+        }        
+        finally{
+            theConnectionInf.close();
+        }     
+    }
     public void readVisitPatientByVid(String vid,String remain,ListTransfer t2)
     {
         Constant.println("private void readVisitPatient(String vid,int mode)");
@@ -2296,6 +2356,26 @@ public class VisitControl {
             }
         }
         theConnectionInf.close();
+    }
+    public void voidDischargeFinnalcial(){
+        try {
+            Visit v = theHO.theVisit;
+            v.is_discharge_money = "";
+            theHosDB.theVisitDB.updateDischargeFinancial(v);
+            theUS.setStatus(("ได้ทำการ ยกเลิกจำหน่ายทางการเงิน เรียบร้อยแล้ว"),UpdateStatus.WARNING);
+        } catch (Exception ex) {
+            Logger.getLogger(VisitControl.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }
+    public void voidDischargeFinnalcial(Visit v){//+3
+        try {
+//            Visit v = theHO.theVisit;
+            v.is_discharge_money = "";
+            theHosDB.theVisitDB.updateDischargeFinancial(v);
+            theUS.setStatus(("ได้ทำการ ยกเลิกจำหน่ายทางการเงิน เรียบร้อยแล้ว"),UpdateStatus.WARNING);
+        } catch (Exception ex) {
+            Logger.getLogger(VisitControl.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
     }
  
 /**
