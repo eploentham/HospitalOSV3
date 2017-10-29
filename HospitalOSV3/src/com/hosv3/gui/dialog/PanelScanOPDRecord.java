@@ -86,9 +86,9 @@ public class PanelScanOPDRecord extends javax.swing.JPanel {
         theJD.add(this);
 //        theJD.setSize(1024,768);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        theJD.setSize(screenSize.width,screenSize.height-200);
+        theJD.setSize(screenSize.width,screenSize.height-220);
         theJD.setLocation((screenSize.width - theJD.getSize().width) / 2, ((screenSize.height - theJD.getSize().height) / 2) +60);
-        theJD.setTitle("ตั้งค่าการจับคู่สิทธิ์ของ สปสช กับสิทธิ์ของโรงพยาบาล");
+        theJD.setTitle("Scan File");
         
         theJD.setModal(true);
         theJD.setVisible(true);
@@ -449,9 +449,11 @@ public class PanelScanOPDRecord extends javax.swing.JPanel {
             // TODO add your handling code here:
             FtpImage ftpc = new FtpImage(theUS);
             String path=theHO.theSite.local_folder_image_reserve_name;
-            
+            String pathFIle = "//"+theHC.theHO.theVisit.begin_visit_time.substring(0, 4)
+                    +"//"+theHC.theHO.theVisit.begin_visit_time.substring(5, 7)
+                    +"//"+theHC.theHO.theVisit.begin_visit_time.substring(8, 10);
             BufferedImage img=null;
-            img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd", filename+"_"+theHO.theVisit.vn);
+            img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop",  "opd"+pathFIle,filename+"_"+theHO.theVisit.vn);
             ImageIcon icon= null;
             if(img!=null){
                 icon = new ImageIcon(img);
@@ -475,7 +477,7 @@ public class PanelScanOPDRecord extends javax.swing.JPanel {
                         boolean rs = theUS.confirmBox(Constant.getTextBundle("คุณต้องการ up รูปใหม่ ใช่หรือไม่"),UpdateStatus.WARNING);
                         if(rs){
                             in = new FileInputStream(path+"\\"+filename1);
-                            ftpc.appendFileToServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd", filename+"_"+theHO.theVisit.vn+".jpg", in);
+                            ftpc.appendFileToServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd"+pathFIle, filename+"_"+theHO.theVisit.vn+".jpg", in);
                             try {
                                 in.close();
 
@@ -483,7 +485,7 @@ public class PanelScanOPDRecord extends javax.swing.JPanel {
                                 Logger.getLogger(PanelScanOPDRecord.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             img=null;
-                            img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd", filename+"_"+theHO.theVisit.vn);
+                            img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd"+pathFIle, filename+"_"+theHO.theVisit.vn);
                             icon= new ImageIcon(img);
                             //JLabel lbl=new JLabel();
                             jLabel1.setIcon(icon);
@@ -508,9 +510,9 @@ public class PanelScanOPDRecord extends javax.swing.JPanel {
                     }
                 }
 
-                if(list.length>=1){                    
+                if(list.length>=1){
                     in = new FileInputStream(path+"\\"+filename1);
-                    ftpc.appendFileToServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd", filename+"_"+theHO.theVisit.vn+".jpg", in);
+                    ftpc.appendFileToServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd"+pathFIle, filename+"_"+theHO.theVisit.vn+".jpg", in);
                     try {
                         in.close();
 
@@ -518,7 +520,7 @@ public class PanelScanOPDRecord extends javax.swing.JPanel {
                         Logger.getLogger(PanelScanOPDRecord.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     img=null;
-                    img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd", filename+"_"+theHO.theVisit.vn);
+                    img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd"+pathFIle, filename+"_"+theHO.theVisit.vn);
                     icon= new ImageIcon(img);
                     //JLabel lbl=new JLabel();
                     jLabel1.setIcon(icon);
@@ -528,6 +530,8 @@ public class PanelScanOPDRecord extends javax.swing.JPanel {
                     }else{
                         System.out.println("File not deleted");
                     }
+                }else{
+                    theUS.setStatus("ไม่พบ file รูป "+path, UpdateStatus.WARNING);
                 }
             }
             
@@ -612,20 +616,24 @@ public class PanelScanOPDRecord extends javax.swing.JPanel {
 
     private void jToggleButtonDoc7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonDoc7ActionPerformed
         // TODO add your handling code here:
-        setDisSelectDoc7();
+//        setDisSelectDoc7();
         String filename="doc7";
         showImageFtp(filename);
     }//GEN-LAST:event_jToggleButtonDoc7ActionPerformed
 
     private void jToggleButtonAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonAllActionPerformed
         // TODO add your handling code here:
+        String pathFIle = "//"+theHC.theHO.theVisit.begin_visit_time.substring(0, 4)
+                    +"//"+theHC.theHO.theVisit.begin_visit_time.substring(5, 7)
+                    +"//"+theHC.theHO.theVisit.begin_visit_time.substring(8, 10);
+        
         setDisSelectAll();
         String filename="opd_re";
         BufferedImage img = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
         FtpImage ftpc = new FtpImage(theUS);
         String path=theHO.theSite.local_folder_image_reserve_name;
 //        BufferedImage img=null;
-        img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd", filename+"_"+theHO.theVisit.vn);
+        img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd"+pathFIle, filename+"_"+theHO.theVisit.vn);
         img = scale(img,0.05);
         ImageIcon icon= null;
         if(img!=null){
@@ -636,7 +644,7 @@ public class PanelScanOPDRecord extends javax.swing.JPanel {
         }
         
         filename = "med_cert";
-        img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd", filename+"_"+theHO.theVisit.vn);
+        img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd"+pathFIle, filename+"_"+theHO.theVisit.vn);
         img = scale(img,0.05);
         icon= null;
         if(img!=null){
@@ -647,7 +655,7 @@ public class PanelScanOPDRecord extends javax.swing.JPanel {
         }
         
         filename = "doc1";
-        img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd", filename+"_"+theHO.theVisit.vn);
+        img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd"+pathFIle, filename+"_"+theHO.theVisit.vn);
         img = scale(img,0.05);
         icon= null;
         if(img!=null){
@@ -658,7 +666,7 @@ public class PanelScanOPDRecord extends javax.swing.JPanel {
         }
         
         filename = "doc2";
-        img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd", filename+"_"+theHO.theVisit.vn);
+        img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd"+pathFIle, filename+"_"+theHO.theVisit.vn);
         img = scale(img,0.05);
         icon= null;
         if(img!=null){
@@ -669,7 +677,7 @@ public class PanelScanOPDRecord extends javax.swing.JPanel {
         }
         
         filename = "doc3";
-        img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd", filename+"_"+theHO.theVisit.vn);
+        img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd"+pathFIle, filename+"_"+theHO.theVisit.vn);
         img = scale(img,0.05);
         icon= null;
         if(img!=null){
@@ -680,7 +688,7 @@ public class PanelScanOPDRecord extends javax.swing.JPanel {
         }
         
         filename = "doc4";
-        img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd", filename+"_"+theHO.theVisit.vn);
+        img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd"+pathFIle, filename+"_"+theHO.theVisit.vn);
         img = scale(img,0.05);
         icon= null;
         if(img!=null){
@@ -691,7 +699,7 @@ public class PanelScanOPDRecord extends javax.swing.JPanel {
         }
         
         filename = "doc5";
-        img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd", filename+"_"+theHO.theVisit.vn);
+        img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd"+pathFIle, filename+"_"+theHO.theVisit.vn);
         img = scale(img,0.05);
         icon= null;
         if(img!=null){
@@ -702,7 +710,7 @@ public class PanelScanOPDRecord extends javax.swing.JPanel {
         }
         
         filename = "doc6";
-        img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd", filename+"_"+theHO.theVisit.vn);
+        img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd"+pathFIle, filename+"_"+theHO.theVisit.vn);
         img = scale(img,0.05);
         icon= null;
         if(img!=null){
@@ -712,7 +720,7 @@ public class PanelScanOPDRecord extends javax.swing.JPanel {
             jLabel8.setIcon(icon);
         }
         filename = "doc7";
-        img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd", filename+"_"+theHO.theVisit.vn);
+        img = ftpc.retriveFileFromServer(theHO.theSite.server_image_reserve_name, "pop", "pop", "opd"+pathFIle, filename+"_"+theHO.theVisit.vn);
         img = scale(img,0.05);
         icon= null;
         if(img!=null){

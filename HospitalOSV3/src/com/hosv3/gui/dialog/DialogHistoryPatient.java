@@ -372,7 +372,7 @@ public class DialogHistoryPatient extends javax.swing.JDialog
     }
     private void setDialog()
     {
-        setSize(600,400);
+        setSize(800,640);
         setTitle(Constant.getTextBundle("Diag_VisitHist_Title"));      
         setLanguage("");
         Toolkit thekit = getToolkit();

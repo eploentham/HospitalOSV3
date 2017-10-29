@@ -5,6 +5,7 @@
  */
 package com.hosv3.object;
 
+import com.hosv3.utility.Constant;
 import com.hosv3.utility.connection.UpdateStatus;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
@@ -44,7 +45,9 @@ public class FtpImage {
     }
     public boolean appendFileToServer(String address, String user, String password, String pathFile, String filename, InputStream fis){
         boolean chk = false;
+        Constant.println("appendFileToServer " );
         FTPClientConfig conf = new FTPClientConfig(FTPClientConfig.SYST_UNIX);
+        Constant.println("appendFileToServer FTPClientConfig conf" );
         try {
             ftpc.configure(conf);
             ftpc.connect(address);
@@ -91,6 +94,7 @@ public class FtpImage {
         InputStream fis = null;
         BufferedImage image = null;
         try {
+            Constant.println("retriveFileFromServer " );
             ftpc.connect(address);
             int reply = ftpc.getReplyCode();
             if(!FTPReply.isPositiveCompletion(reply)){//check ???????????????????????
@@ -98,6 +102,7 @@ public class FtpImage {
                 return null;
             }
             boolean login = ftpc.login(user, password);
+            Constant.println("retriveFileFromServer ftpc.login" );
             if(login){
                 String[] path = pathFile.split("\\//");
                 for(int i=0;i<=path.length-1;i++){
@@ -107,12 +112,22 @@ public class FtpImage {
                     boolean chkpath= ftpc.changeWorkingDirectory(ftpc.printWorkingDirectory()+"//"+path[i]);
                     if(!chkpath){
                         return null;
+//                        boolean chkmkpath = ftpc.makeDirectory(ftpc.printWorkingDirectory()+"//"+path[i]);
+//                        if(!chkmkpath){
+//                            return null;
+//                        }else{
+//                            ftpc.changeWorkingDirectory(ftpc.printWorkingDirectory()+"//"+path[i]);
+//                        }
+//                        return null;
                     }
                 }
                 ftpc.setFileType(FTP.BINARY_FILE_TYPE);
+                Constant.println("retriveFileFromServer retrieveFileStream" );
                 fis = ftpc.retrieveFileStream(filename+".jpg");
+                Constant.println("retriveFileFromServer retrieveFileStream success" );
                 int reply1 = ftpc.getReplyCode();
                 if(fis!=null){
+                    Constant.println("retriveFileFromServer ImageIO.read(fis)" );
                     image = ImageIO.read(fis);// ??????? ????? close fis ??? ???????????????? image ?????????? error ????????? ???????? fis ?????? image ?? error
                     fis.close();
                 }
@@ -122,6 +137,7 @@ public class FtpImage {
             ftpc.disconnect();
         } catch (IOException ex) {
             Logger.getLogger(FtpImage.class.getName()).log(Level.SEVERE, null, ex);
+            Constant.println("retriveFileFromServer Error" );
         }
         return image;
     }
