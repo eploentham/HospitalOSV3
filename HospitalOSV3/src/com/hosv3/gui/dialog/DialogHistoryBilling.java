@@ -287,7 +287,7 @@ implements UpdateStatus,ManageBillingResp
         gridBagConstraints.insets = new java.awt.Insets(3, 4, 3, 3);
         jPanel4.add(jButtonClose, gridBagConstraints);
 
-        jButtonVoidDischarge.setText("ยกเลิก จำหน่ายทางการเงิน");
+        jButtonVoidDischarge.setText("เปิด ข้อมูล จำหน่ายทางการเงิน");
         jButtonVoidDischarge.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonVoidDischargeActionPerformed(evt);

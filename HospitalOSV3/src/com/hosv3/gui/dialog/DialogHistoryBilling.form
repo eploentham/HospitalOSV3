@@ -251,7 +251,7 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="jButtonVoidDischarge">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="&#xe22;&#xe01;&#xe40;&#xe25;&#xe34;&#xe01; &#xe08;&#xe33;&#xe2b;&#xe19;&#xe48;&#xe32;&#xe22;&#xe17;&#xe32;&#xe07;&#xe01;&#xe32;&#xe23;&#xe40;&#xe07;&#xe34;&#xe19;"/>
+                    <Property name="text" type="java.lang.String" value="&#xe40;&#xe1b;&#xe34;&#xe14; &#xe02;&#xe49;&#xe2d;&#xe21;&#xe39;&#xe25; &#xe08;&#xe33;&#xe2b;&#xe19;&#xe48;&#xe32;&#xe22;&#xe17;&#xe32;&#xe07;&#xe01;&#xe32;&#xe23;&#xe40;&#xe07;&#xe34;&#xe19;"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonVoidDischargeActionPerformed"/>
